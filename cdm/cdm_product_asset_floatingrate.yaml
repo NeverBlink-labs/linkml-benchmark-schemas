@@ -1,0 +1,350 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_product_asset_floatingrate
+name: cdm_product_asset_floatingrate
+description: 'Product-related, asset class-specific floating-rate index concepts, such as rate definitions '
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_math
+  - ./cdm_observable_asset
+  - ./cdm_observable_asset_calculatedrate
+  - ./cdm_product_asset
+  - ./cdm_product_common_schedule
+  - ./cdm_observable_event
+  - ./cdm_event_common
+  - ./cdm_base_datetime
+
+comments:
+  - 'Rosetta func: DetermineFloatingRateReset — Get the value of a floating rate by either observing it directly or performing
+    a rate calculation.  This function works differently depending on the rate category and style, as described in the 2021
+    ISDA Definitions, Section 6.6. | inputs(interestRatePayout: InterestRatePayout (1..1), calcPeriod: CalculationPeriodBase
+    (1..1)) | output(floatingRate: FloatingRateSettingDetails (1..1))'
+  - 'Rosetta func: GetFloatingRateProcessingType — Get a classification of  the floating rate is processed. This is based
+    on FRO category, style, and calculation method, as described in the 2021 ISDA Definitions Section 6.6.  The categorization
+    information is obtained from the FRO metadata. . | inputs(rateDef: FloatingRateSpecification (1..1)) | output(processingType:
+    FloatingRateIndexProcessingTypeEnum (1..1))'
+  - 'Rosetta func: ProcessFloatingRateReset — Entry point for the function that performs the floating rate resetting operation.  There
+    are different variations depending on the processing type (e.g. screen rate, OIS, modular calculated rate. . | inputs(interestRatePayout:
+    InterestRatePayout (1..1), calcPeriod: CalculationPeriodBase (1..1), processingType: FloatingRateIndexProcessingTypeEnum
+    (1..1)) | output(floatingRate: FloatingRateSettingDetails (1..1))'
+  - 'Rosetta func: GetCalculatedFROCalculationParameters — Initialize a calculation parameters block for an OIS or a daily
+    average rate. Used to support FROs that include an embedded calculation. | inputs(resetDates: ResetDates (1..1), calcMethod:
+    CalculationMethodEnum (1..1)) | output(calcParams: FloatingRateCalculationParameters (1..1))'
+  - 'Rosetta func: EvaluateScreenRate — Evaluate/lookup the value of a screen rate. | inputs(rateDef: FloatingRate (1..1),
+    resetDates: ResetDates (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(details: FloatingRateSettingDetails
+    (1..1))'
+  - 'Rosetta func: DetermineResetDate — Determine the value of the reset date given a reset dates structure and a calculation
+    paeriod for which it''s needed. Reset dates are defined in the 2021 ISDA Definition in Section 6.5.5. | inputs(resetDates:
+    ResetDates (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(resetDate: date (1..1))'
+  - 'Rosetta func: DetermineFixingDate — Determine the observation (fixing) date needed given a reset dates structure and
+    a reset date. | inputs(resetDates: ResetDates (1..1), resetDate: date (1..1)) | output(fixingDate: date (1..1))'
+  - 'Rosetta func: GetFloatingRateProcessingParameters — Determine the processing parameters to use from the InterestRatePayout
+    by looking them up if necessary from the corresponding schedules in the interest rate stream. | inputs(interestRatePayout:
+    InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(processingParameters: FloatingRateProcessingParameters
+    (1..1))'
+  - 'Rosetta func: SpreadAmount — Look up the spread amount for a calculation period. | inputs(interestRatePayout: InterestRatePayout
+    (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(spread: number (0..1))'
+  - 'Rosetta func: MultiplierAmount — Look up the multiplier amount for a calculation period. | inputs(interestRatePayout:
+    InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(multiplier: number (0..1))'
+  - 'Rosetta func: CapRateAmount — Look up the cap rate amount for a calculation period. | inputs(interestRatePayout: InterestRatePayout
+    (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(capRate: number (0..1))'
+  - 'Rosetta func: FloorRateAmount — Look up the floor rate amount for a calculation period. | inputs(interestRatePayout:
+    InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(floorRate: number (0..1))'
+  - 'Rosetta func: GetRateScheduleAmount — Get the rate for the period start date. | inputs(schedule: RateSchedule (1..1),
+    periodStartDate: date (1..1)) | output(amount: number (1..1))'
+  - 'Rosetta func: GetRateScheduleStepValues — Get all rate schedule step values whose stepDate is before or equal to the
+    supplied periodStartDate.  Returns a list of step values starting from the initial rate. | inputs(schedule: RateSchedule
+    (1..1), periodStartDate: date (1..1)) | output(stepValues: number (0..*))'
+  - 'Rosetta func: ApplyFloatingRateProcessing — Perform rate treatments on floating rates, such as applying spreads, multipliers,
+    caps and floors, rounding, and negative interest treatment. TODO: initialRate needs to be supported.  Also, to support
+    compounding methods, it may be necessary to split the before spread and after spread values and return both, so that cashflows
+    can be computed both ways. This may require this function to be redesigned or split into pieces (e.g. factor out the post-spread
+    processing).  Rate treatments are described in Section 6 of the 2021 ISDA Definitions.  Negative treatment does not correctly
+    support the case where compounded periods are applicable and will need to be enhanced for that case when compounding calculations
+    are developed. | inputs(processing: FloatingRateProcessingParameters (1..1), rawRate: number (1..1), calculationPeriod:
+    CalculationPeriodBase (1..1), isInitialPeriod: boolean (1..1)) | output(details: FloatingRateProcessingDetails (1..1))'
+  - 'Rosetta func: ApplyFloatingRatePostSpreadProcessing — Perform post-spread rate treatments on floating rates, such as
+    applying caps and floors, rounding, and negative interest treatment.  TODOO:  initialRate needs to be supported.  Also,
+    to support compounding methods, it may be necessary to split the before spread and after spread values and return both,
+    so that cashflows can be computed both ways.  This may require this function to be redesigned or split into pieces (e.g.
+    factor out the post-spread processing). | inputs(inputRate: number (1..1), processing: FloatingRateProcessingParameters
+    (1..1)) | output(processedRate: number (1..1))'
+  - 'Rosetta func: ApplyCapsAndFloors — Apply any cap or floor rate as a constraint on a regular swap rate, as discussed in
+    the 2021 ISDA Definitions, section 6.5.8 and 6.5.9. | inputs(processing: FloatingRateProcessingParameters (1..1), inputRate:
+    number (1..1)) | output(cappedAndFlooredRate: number (1..1))'
+  - 'Rosetta func: ApplyUSRateTreatment — Apply the US rate treatment logic where applicable (Bond Equivalent Yield, Money
+    Market Yield, as described in the 2021 ISDA Definitions, section 6.9. | inputs(baseRate: number (1..1), rateTreatment:
+    RateTreatmentEnum (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(treatedRate: number (1..1))'
+  - 'Rosetta func: ApplyFinalRateRounding — Apply the final rate rounding treatment logic as described in the 2021 ISDA Definitions,
+    section 4.8.1. | inputs(baseRate: number (1..1), finalRateRounding: Rounding (0..1)) | output(roundedRate: number (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"DetermineFloatingRateReset","description":"Get the value of a floating rate by either observing
+    it directly or performing a rate calculation.  This function works differently depending on the rate category and style,
+    as described in the 2021 ISDA Definitions, Section 6.6.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calcPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"floatingRate","type":"FloatingRateSettingDetails","cardinality":"1..1"}},{"name":"GetFloatingRateProcessingType","description":"Get
+    a classification of  the floating rate is processed. This is based on FRO category, style, and calculation method, as
+    described in the 2021 ISDA Definitions Section 6.6.  The categorization information is obtained from the FRO metadata.
+    .","inputs":[{"name":"rateDef","type":"FloatingRateSpecification","cardinality":"1..1"}],"output":{"name":"processingType","type":"FloatingRateIndexProcessingTypeEnum","cardinality":"1..1"}},{"name":"ProcessFloatingRateReset","description":"Entry
+    point for the function that performs the floating rate resetting operation.  There are different variations depending
+    on the processing type (e.g. screen rate, OIS, modular calculated rate. .","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calcPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"processingType","type":"FloatingRateIndexProcessingTypeEnum","cardinality":"1..1"}],"output":{"name":"floatingRate","type":"FloatingRateSettingDetails","cardinality":"1..1"},"code_implementation":true},{"name":"GetCalculatedFROCalculationParameters","description":"Initialize
+    a calculation parameters block for an OIS or a daily average rate. Used to support FROs that include an embedded calculation.","inputs":[{"name":"resetDates","type":"ResetDates","cardinality":"1..1"},{"name":"calcMethod","type":"CalculationMethodEnum","cardinality":"1..1"}],"output":{"name":"calcParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"}},{"name":"EvaluateScreenRate","description":"Evaluate/lookup
+    the value of a screen rate.","inputs":[{"name":"rateDef","type":"FloatingRate","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"details","type":"FloatingRateSettingDetails","cardinality":"1..1"}},{"name":"DetermineResetDate","description":"Determine
+    the value of the reset date given a reset dates structure and a calculation paeriod for which it''s needed. Reset dates
+    are defined in the 2021 ISDA Definition in Section 6.5.5.","inputs":[{"name":"resetDates","type":"ResetDates","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"resetDate","type":"date","cardinality":"1..1"}},{"name":"DetermineFixingDate","description":"Determine
+    the observation (fixing) date needed given a reset dates structure and a reset date.","inputs":[{"name":"resetDates","type":"ResetDates","cardinality":"1..1"},{"name":"resetDate","type":"date","cardinality":"1..1"}],"output":{"name":"fixingDate","type":"date","cardinality":"1..1"}},{"name":"GetFloatingRateProcessingParameters","description":"Determine
+    the processing parameters to use from the InterestRatePayout by looking them up if necessary from the corresponding schedules
+    in the interest rate stream.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"processingParameters","type":"FloatingRateProcessingParameters","cardinality":"1..1"}},{"name":"SpreadAmount","description":"Look
+    up the spread amount for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"spread","type":"number","cardinality":"0..1"}},{"name":"MultiplierAmount","description":"Look
+    up the multiplier amount for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"multiplier","type":"number","cardinality":"0..1"}},{"name":"CapRateAmount","description":"Look
+    up the cap rate amount for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"capRate","type":"number","cardinality":"0..1"}},{"name":"FloorRateAmount","description":"Look
+    up the floor rate amount for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"floorRate","type":"number","cardinality":"0..1"}},{"name":"GetRateScheduleAmount","description":"Get
+    the rate for the period start date.","inputs":[{"name":"schedule","type":"RateSchedule","cardinality":"1..1"},{"name":"periodStartDate","type":"date","cardinality":"1..1"}],"output":{"name":"amount","type":"number","cardinality":"1..1"}},{"name":"GetRateScheduleStepValues","description":"Get
+    all rate schedule step values whose stepDate is before or equal to the supplied periodStartDate.  Returns a list of step
+    values starting from the initial rate.","inputs":[{"name":"schedule","type":"RateSchedule","cardinality":"1..1"},{"name":"periodStartDate","type":"date","cardinality":"1..1"}],"output":{"name":"stepValues","type":"number","cardinality":"0..*"}},{"name":"ApplyFloatingRateProcessing","description":"Perform
+    rate treatments on floating rates, such as applying spreads, multipliers, caps and floors, rounding, and negative interest
+    treatment. TODO: initialRate needs to be supported.  Also, to support compounding methods, it may be necessary to split
+    the before spread and after spread values and return both, so that cashflows can be computed both ways. This may require
+    this function to be redesigned or split into pieces (e.g. factor out the post-spread processing).  Rate treatments are
+    described in Section 6 of the 2021 ISDA Definitions.  Negative treatment does not correctly support the case where compounded
+    periods are applicable and will need to be enhanced for that case when compounding calculations are developed.","inputs":[{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"},{"name":"rawRate","type":"number","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"}],"output":{"name":"details","type":"FloatingRateProcessingDetails","cardinality":"1..1"}},{"name":"ApplyFloatingRatePostSpreadProcessing","description":"Perform
+    post-spread rate treatments on floating rates, such as applying caps and floors, rounding, and negative interest treatment.  TODOO:  initialRate
+    needs to be supported.  Also, to support compounding methods, it may be necessary to split the before spread and after
+    spread values and return both, so that cashflows can be computed both ways.  This may require this function to be redesigned
+    or split into pieces (e.g. factor out the post-spread processing).","inputs":[{"name":"inputRate","type":"number","cardinality":"1..1"},{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"}],"output":{"name":"processedRate","type":"number","cardinality":"1..1"}},{"name":"ApplyCapsAndFloors","description":"Apply
+    any cap or floor rate as a constraint on a regular swap rate, as discussed in the 2021 ISDA Definitions, section 6.5.8
+    and 6.5.9.","inputs":[{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"},{"name":"inputRate","type":"number","cardinality":"1..1"}],"output":{"name":"cappedAndFlooredRate","type":"number","cardinality":"1..1"}},{"name":"ApplyUSRateTreatment","description":"Apply
+    the US rate treatment logic where applicable (Bond Equivalent Yield, Money Market Yield, as described in the 2021 ISDA
+    Definitions, section 6.9.","inputs":[{"name":"baseRate","type":"number","cardinality":"1..1"},{"name":"rateTreatment","type":"RateTreatmentEnum","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"treatedRate","type":"number","cardinality":"1..1"}},{"name":"ApplyFinalRateRounding","description":"Apply
+    the final rate rounding treatment logic as described in the 2021 ISDA Definitions, section 4.8.1.","inputs":[{"name":"baseRate","type":"number","cardinality":"1..1"},{"name":"finalRateRounding","type":"Rounding","cardinality":"0..1"}],"output":{"name":"roundedRate","type":"number","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_product_asset_floatingrate:
+    description: Classes defined in the cdm_product_asset_floatingrate module.
+
+enums:
+  FloatingRateIndexProcessingTypeEnum:
+    description: 'This enumeration provides guidance on how to process a given floating rate index.  It''s based on the ISDA
+      Floating Rate Index information, but transforms it into the specific categories needed for calculation '
+    permissible_values:
+      Screen:
+        description: These values are just looked up from the screen and applied.
+      CompoundIndex:
+        description: A published index calculated using compounding; the implied rate must be backed out.
+      OIS:
+        description: These are calculated by the calculation agent based on a standard OIS FRO definition.
+      OvernightAvg:
+        description: These are calculated by the calculation agent based on a standard overnight averaging FRO definition.
+      Modular:
+        description: These are calculated by the calculation agent based on deal-specific parameters (e.g. lookback compound
+          based on an RFR).
+      RefBanks:
+        description: These must be looked up using a manual process
+
+slots:
+  processingDetails:
+    range: FloatingRateProcessingDetails
+    description: Details fo the floating rate treatment after the rate is observed or calculated.  This will include details
+      of things like multipliers, spreads, caps and floors, and the raw and treated rates.
+
+  appliedRate:
+    range: decimal
+    description: The rate that was actually applied, after all calculations and treatments.
+    required: true
+
+  spreadExclusiveCalculatedAMount:
+    range: decimal
+    description: The amount of the cash flow excluding any spread, for subsequent processing.
+    required: true
+
+  calculationDetails:
+    range: CalculatedRateDetails
+    description: Calculated rate details (observation dates, values, and weights).
+
+  rawRate:
+    range: decimal
+    description: The raw or untreated rate, prior to any of the rate treatments.
+    required: true
+
+  processingParameters:
+    range: FloatingRateProcessingParameters
+
+  processedRate:
+    range: decimal
+    description: The value of the rate after processing.
+    required: true
+
+  spreadExclusiveRate:
+    range: decimal
+    description: The value of the processed rate without the spread applied, for subsequent compounding, etc.
+    required: true
+
+  negativeTreatment:
+    range: NegativeInterestRateTreatmentEnum
+    description: How to handle negative interest rates.
+
+classes:
+  FloatingAmountCalculationDetails:
+    description: Type for reporting the detailed results of calculating a cash flow for a calculation period.  This is enhanced
+      relative to the FpML-based cashflows structure to allow more information to be returned about daily compounded rates.
+    slots:
+      - calculationPeriod
+      - calculationPeriodNotionalAmount
+      - floatingRate
+      - processingDetails
+      - appliedRate
+      - yearFraction
+      - calculatedAmount
+      - spreadExclusiveCalculatedAMount
+    slot_usage:
+      floatingRate:
+        range: FloatingRateSettingDetails
+        description: The details of the floating rate setting.  (If it is a calculated rate, details of that calculation will
+          be inside that.
+        multivalued: false
+    in_subset:
+      - cdm_product_asset_floatingrate
+
+  FloatingRateSettingDetails:
+    description: Type for reporting the raw (untreated) observed or calculated rate for a calculation period.  If this is
+      a calculated rate, it allows details of the observations and the resulting rate to be returned.
+    comments:
+      - 'Rosetta func: DetermineFloatingRateReset — Get the value of a floating rate by either observing it directly or performing
+        a rate calculation.  This function works differently depending on the rate category and style, as described in the
+        2021 ISDA Definitions, Section 6.6.'
+      - 'Rosetta func: ProcessFloatingRateReset — Entry point for the function that performs the floating rate resetting operation.  There
+        are different variations depending on the processing type (e.g. screen rate, OIS, modular calculated rate. .'
+      - 'Rosetta func: EvaluateScreenRate — Evaluate/lookup the value of a screen rate.'
+    annotations:
+      rosetta_functions: '[{"name":"DetermineFloatingRateReset","description":"Get the value of a floating rate by either
+        observing it directly or performing a rate calculation.  This function works differently depending on the rate category
+        and style, as described in the 2021 ISDA Definitions, Section 6.6.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calcPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"floatingRate","type":"FloatingRateSettingDetails","cardinality":"1..1"}},{"name":"ProcessFloatingRateReset","description":"Entry
+        point for the function that performs the floating rate resetting operation.  There are different variations depending
+        on the processing type (e.g. screen rate, OIS, modular calculated rate. .","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calcPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"processingType","type":"FloatingRateIndexProcessingTypeEnum","cardinality":"1..1"}],"output":{"name":"floatingRate","type":"FloatingRateSettingDetails","cardinality":"1..1"},"code_implementation":true},{"name":"EvaluateScreenRate","description":"Evaluate/lookup
+        the value of a screen rate.","inputs":[{"name":"rateDef","type":"FloatingRate","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"details","type":"FloatingRateSettingDetails","cardinality":"1..1"}}]'
+    slots:
+      - calculationDetails
+      - observationDate
+      - resetDate
+      - floatingRate
+    slot_usage:
+      observationDate:
+        description: The day upon which the rate was observed (for term rates).
+        required: false
+      resetDate:
+        description: The day for which the rate is needed (e.g. period beginning or end date).
+        required: false
+      floatingRate:
+        range: decimal
+        description: The resulting rate that was observed or calculated.
+        required: true
+        multivalued: false
+    in_subset:
+      - cdm_product_asset_floatingrate
+
+  FloatingRateProcessingDetails:
+    description: Type for reporting the details of the rate treatment.  This could potentially be replaced by the existing
+      FloatingRateDefinition type , but this is slightly more detailed.
+    comments:
+      - 'Rosetta func: ApplyFloatingRateProcessing — Perform rate treatments on floating rates, such as applying spreads,
+        multipliers, caps and floors, rounding, and negative interest treatment. TODO: initialRate needs to be supported.  Also,
+        to support compounding methods, it may be necessary to split the before spread and after spread values and return
+        both, so that cashflows can be computed both ways. This may require this function to be redesigned or split into pieces
+        (e.g. factor out the post-spread processing).  Rate treatments are described in Section 6 of the 2021 ISDA Definitions.  Negative
+        treatment does not correctly support the case where compounded periods are applicable and will need to be enhanced
+        for that case when compounding calculations are developed.'
+    annotations:
+      rosetta_functions: '[{"name":"ApplyFloatingRateProcessing","description":"Perform rate treatments on floating rates,
+        such as applying spreads, multipliers, caps and floors, rounding, and negative interest treatment. TODO: initialRate
+        needs to be supported.  Also, to support compounding methods, it may be necessary to split the before spread and after
+        spread values and return both, so that cashflows can be computed both ways. This may require this function to be redesigned
+        or split into pieces (e.g. factor out the post-spread processing).  Rate treatments are described in Section 6 of
+        the 2021 ISDA Definitions.  Negative treatment does not correctly support the case where compounded periods are applicable
+        and will need to be enhanced for that case when compounding calculations are developed.","inputs":[{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"},{"name":"rawRate","type":"number","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"}],"output":{"name":"details","type":"FloatingRateProcessingDetails","cardinality":"1..1"}}]'
+    slots:
+      - rawRate
+      - processingParameters
+      - processedRate
+      - spreadExclusiveRate
+    in_subset:
+      - cdm_product_asset_floatingrate
+
+  FloatingRateProcessingParameters:
+    description: Type to hold the processing parameters that should be or were used to calculate a floating amount.  These
+      parameters can vary over a schedule so this type holds the acutal values applicable to this calculation.
+    comments:
+      - 'Rosetta func: GetFloatingRateProcessingParameters — Determine the processing parameters to use from the InterestRatePayout
+        by looking them up if necessary from the corresponding schedules in the interest rate stream.'
+      - 'Rosetta func: ApplyFloatingRateProcessing — Perform rate treatments on floating rates, such as applying spreads,
+        multipliers, caps and floors, rounding, and negative interest treatment. TODO: initialRate needs to be supported.  Also,
+        to support compounding methods, it may be necessary to split the before spread and after spread values and return
+        both, so that cashflows can be computed both ways. This may require this function to be redesigned or split into pieces
+        (e.g. factor out the post-spread processing).  Rate treatments are described in Section 6 of the 2021 ISDA Definitions.  Negative
+        treatment does not correctly support the case where compounded periods are applicable and will need to be enhanced
+        for that case when compounding calculations are developed.'
+      - 'Rosetta func: ApplyFloatingRatePostSpreadProcessing — Perform post-spread rate treatments on floating rates, such
+        as applying caps and floors, rounding, and negative interest treatment.  TODOO:  initialRate needs to be supported.  Also,
+        to support compounding methods, it may be necessary to split the before spread and after spread values and return
+        both, so that cashflows can be computed both ways.  This may require this function to be redesigned or split into
+        pieces (e.g. factor out the post-spread processing).'
+      - 'Rosetta func: ApplyCapsAndFloors — Apply any cap or floor rate as a constraint on a regular swap rate, as discussed
+        in the 2021 ISDA Definitions, section 6.5.8 and 6.5.9.'
+    annotations:
+      rosetta_functions: '[{"name":"GetFloatingRateProcessingParameters","description":"Determine the processing parameters
+        to use from the InterestRatePayout by looking them up if necessary from the corresponding schedules in the interest
+        rate stream.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"processingParameters","type":"FloatingRateProcessingParameters","cardinality":"1..1"}},{"name":"ApplyFloatingRateProcessing","description":"Perform
+        rate treatments on floating rates, such as applying spreads, multipliers, caps and floors, rounding, and negative
+        interest treatment. TODO: initialRate needs to be supported.  Also, to support compounding methods, it may be necessary
+        to split the before spread and after spread values and return both, so that cashflows can be computed both ways. This
+        may require this function to be redesigned or split into pieces (e.g. factor out the post-spread processing).  Rate
+        treatments are described in Section 6 of the 2021 ISDA Definitions.  Negative treatment does not correctly support
+        the case where compounded periods are applicable and will need to be enhanced for that case when compounding calculations
+        are developed.","inputs":[{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"},{"name":"rawRate","type":"number","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"}],"output":{"name":"details","type":"FloatingRateProcessingDetails","cardinality":"1..1"}},{"name":"ApplyFloatingRatePostSpreadProcessing","description":"Perform
+        post-spread rate treatments on floating rates, such as applying caps and floors, rounding, and negative interest treatment.  TODOO:  initialRate
+        needs to be supported.  Also, to support compounding methods, it may be necessary to split the before spread and after
+        spread values and return both, so that cashflows can be computed both ways.  This may require this function to be
+        redesigned or split into pieces (e.g. factor out the post-spread processing).","inputs":[{"name":"inputRate","type":"number","cardinality":"1..1"},{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"}],"output":{"name":"processedRate","type":"number","cardinality":"1..1"}},{"name":"ApplyCapsAndFloors","description":"Apply
+        any cap or floor rate as a constraint on a regular swap rate, as discussed in the 2021 ISDA Definitions, section 6.5.8
+        and 6.5.9.","inputs":[{"name":"processing","type":"FloatingRateProcessingParameters","cardinality":"1..1"},{"name":"inputRate","type":"number","cardinality":"1..1"}],"output":{"name":"cappedAndFlooredRate","type":"number","cardinality":"1..1"}}]'
+    slots:
+      - initialRate
+      - multiplier
+      - spread
+      - treatment
+      - capRate
+      - floorRate
+      - rounding
+      - negativeTreatment
+    slot_usage:
+      initialRate:
+        description: The rate to be applied for the initial period.
+      multiplier:
+        range: decimal
+        description: floating rate multiplier.
+      spread:
+        description: spread to be added to the floating rate.
+        required: false
+      treatment:
+        range: RateTreatmentEnum
+        description: US rate treatment (Bond Equivalent Yield or Money Market Yield, if applicable.
+      capRate:
+        range: decimal
+        description: capt to be applied to the floating rate.
+        multivalued: false
+      floorRate:
+        range: decimal
+        description: floor to be applied to the floating rate.
+        multivalued: false
+      rounding:
+        range: Rounding
+        description: THe final rate rounding to be applied.
+    in_subset:
+      - cdm_product_asset_floatingrate

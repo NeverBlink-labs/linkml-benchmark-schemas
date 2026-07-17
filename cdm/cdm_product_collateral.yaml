@@ -1,0 +1,2925 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_product_collateral
+name: cdm_product_collateral
+description: LinkML schema for cdm.product.collateral
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  icma: https://www.icmagroup.org/market-practice-and-regulatory-policy/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+  gist: https://w3id.org/lmodel/gist/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_datetime
+  - ./cdm_base_datetime_daycount
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_event_common
+  - ./cdm_observable_asset
+  - ./cdm_product_asset
+  - ./cdm_product_common_settlement
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_observable_event
+
+comments:
+  - 'Rosetta func: CloneEligibleCollateralWithChangedTreatment — Creates a new Eligible Collateral Specification based on
+    an input specification but with one changed criteria and with one changed treatment. | inputs(inputSpecification: EligibleCollateralSpecification
+    (1..1), changedCriteria: CollateralCriteria (1..1), changedTreatment: CollateralTreatment (1..1)) | output(outputSpecification:
+    EligibleCollateralSpecification (1..1))'
+  - 'Rosetta func: CreateAndCriteria — Combines multiple CollateralCriteria together using AND logic. | inputs(inputCriteria:
+    CollateralCriteria (2..*)) | output(outputCriteria: CollateralCriteria (1..1))'
+  - 'Rosetta func: CreateOrCriteria — Combines multiple CollateralCriteria together using OR logic. | inputs(inputCriteria:
+    CollateralCriteria (2..*)) | output(outputCriteria: CollateralCriteria (1..1))'
+  - 'Rosetta func: CheckEligibilityForProduct | inputs(specifications: EligibleCollateralSpecification (1..*), product: TransferableProduct
+    (0..1)) | output(eligibilityResult: CheckEligibilityResult (0..1))'
+  - 'Rosetta func: CheckEligibilityByDetails — This function when presented with a set of Asset and Issuer details to be potentially
+    posted as collateral, will check against a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification)
+    to determine which collateral meets the eligibility and can be used/posted for delivery. | inputs(specification: EligibleCollateralSpecification
+    (1..1), query: EligibilityQuery (1..1)) | output(eligibilityResult: CheckEligibilityResult (1..1))'
+  - 'Rosetta func: CheckCriteria — This function takes a single criteria and evaluates it against the criteria.  This function
+    handles the recursive use of AND and OR logic. | inputs(inputCriteria: CollateralCriteria (1..1), query: EligibilityQuery
+    (1..1)) | output(isEligible: boolean (1..1))'
+  - 'Rosetta func: CheckCountryOfOrigin | inputs(countryOfOrigin: ISOCountryCodeEnum (0..1), query: EligibilityQuery (1..1))
+    | output(isEqual: boolean (1..1))'
+  - 'Rosetta func: CheckAgencyRating | inputs(agencyRatings: AgencyRatingCriteria (0..1), query: EligibilityQuery (1..1))
+    | output(isEqual: boolean (1..1))'
+  - 'Rosetta func: CheckAssetType | inputs(collateralAssetTypes: AssetType (0..1), query: EligibilityQuery (1..1)) | output(isEqual:
+    boolean (1..1))'
+  - 'Rosetta func: CheckDebtType | inputs(collateralDebtTypes: DebtType (0..1), query: EligibilityQuery (1..1)) | output(isEqual:
+    boolean (1..1))'
+  - 'Rosetta func: CheckDenominatedCurrency | inputs(denominatedCurrency: CurrencyCodeEnum (0..1), query: EligibilityQuery
+    (1..1)) | output(isEqual: boolean (1..1))'
+  - 'Rosetta func: CheckMaturity | inputs(maturityRange: AssetMaturity (0..1), query: EligibilityQuery (1..1)) | output(isEqual:
+    boolean (1..1))'
+  - 'Rosetta func: CheckIssuerName | inputs(issuerName: IssuerName (0..1), query: EligibilityQuery (1..1)) | output(isEqual:
+    boolean (1..1))'
+  - 'Rosetta func: CheckIssuerType | inputs(issuerType: CollateralIssuerType (0..1), query: EligibilityQuery (1..1)) | output(isEqual:
+    boolean (1..1))'
+  - 'Rosetta func: CriteriaMatchesSecurityType | inputs(inputCriteria: CollateralCriteria (0..1), securityType: SecurityTypeEnum
+    (0..1)) | output(matches: boolean (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"CloneEligibleCollateralWithChangedTreatment","description":"Creates a new Eligible Collateral
+    Specification based on an input specification but with one changed criteria and with one changed treatment.","inputs":[{"name":"inputSpecification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"changedCriteria","type":"CollateralCriteria","cardinality":"1..1"},{"name":"changedTreatment","type":"CollateralTreatment","cardinality":"1..1"}],"output":{"name":"outputSpecification","type":"EligibleCollateralSpecification","cardinality":"1..1"}},{"name":"CreateAndCriteria","description":"Combines
+    multiple CollateralCriteria together using AND logic.","inputs":[{"name":"inputCriteria","type":"CollateralCriteria","cardinality":"2..*"}],"output":{"name":"outputCriteria","type":"CollateralCriteria","cardinality":"1..1"}},{"name":"CreateOrCriteria","description":"Combines
+    multiple CollateralCriteria together using OR logic.","inputs":[{"name":"inputCriteria","type":"CollateralCriteria","cardinality":"2..*"}],"output":{"name":"outputCriteria","type":"CollateralCriteria","cardinality":"1..1"}},{"name":"CheckEligibilityForProduct","inputs":[{"name":"specifications","type":"EligibleCollateralSpecification","cardinality":"1..*"},{"name":"product","type":"TransferableProduct","cardinality":"0..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"0..1"},"code_implementation":true},{"name":"CheckEligibilityByDetails","description":"This
+    function when presented with a set of Asset and Issuer details to be potentially posted as collateral, will check against
+    a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification) to determine which collateral meets the
+    eligibility and can be used/posted for delivery.","inputs":[{"name":"specification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"1..1"}},{"name":"CheckCriteria","description":"This
+    function takes a single criteria and evaluates it against the criteria.  This function handles the recursive use of AND
+    and OR logic.","inputs":[{"name":"inputCriteria","type":"CollateralCriteria","cardinality":"1..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEligible","type":"boolean","cardinality":"1..1"}},{"name":"CheckCountryOfOrigin","inputs":[{"name":"countryOfOrigin","type":"ISOCountryCodeEnum","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckAgencyRating","inputs":[{"name":"agencyRatings","type":"AgencyRatingCriteria","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckAssetType","inputs":[{"name":"collateralAssetTypes","type":"AssetType","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckDebtType","inputs":[{"name":"collateralDebtTypes","type":"DebtType","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckDenominatedCurrency","inputs":[{"name":"denominatedCurrency","type":"CurrencyCodeEnum","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckMaturity","inputs":[{"name":"maturityRange","type":"AssetMaturity","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckIssuerName","inputs":[{"name":"issuerName","type":"IssuerName","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckIssuerType","inputs":[{"name":"issuerType","type":"CollateralIssuerType","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CriteriaMatchesSecurityType","inputs":[{"name":"inputCriteria","type":"CollateralCriteria","cardinality":"0..1"},{"name":"securityType","type":"SecurityTypeEnum","cardinality":"0..1"}],"output":{"name":"matches","type":"boolean","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_product_collateral:
+    description: Classes defined in the cdm_product_collateral module.
+
+enums:
+  CollateralTypeEnum:
+    description: Specifies the types of collateral that are accepted by the Lender
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/collateral-type
+    permissible_values:
+      Cash:
+        description: Security Lending Trades against Cash collateral
+      NonCash:
+        description: Security Lending Trades against NonCash collateral
+      CashPool:
+        description: Security Lending Trades against CashPool collateral
+
+  ConcentrationLimitTypeEnum:
+    description: Represents the enumerated values to identify where a concentration limit is applied in the eligible collateral
+      schedule.
+    permissible_values:
+      Asset:
+        description: Specifies a limit on a single asset in the eligible collateral schedule
+      BaseCurrencyEquivalent:
+        description: Specifies a limit on all cash valued in the base currency of the eligible collateral schedule.
+      Issuer:
+        description: Specifies a limit on a single issuer in the eligible collateral schedule.
+      PrimaryExchange:
+        description: Specifies a limit on a single exchange in the eligible collateral schedule.
+      IndustrySector:
+        description: Specifies a limit on a single industry sector in the eligible collateral schedule.
+      UltimateParentInstitution:
+        description: Specifies a limit on a single issuer in the eligible collateral schedule at the ultimate parent institution
+          level.
+      IssueOutstandingAmount:
+        description: Specifies a limit of the issue compared to the outstanding amount of the asset on the market.
+      MarketCapitalisation:
+        description: Specifies a limit of the issue calculated as a percentage of the market capitalisation of the asset on
+          the market.
+      OutstandingBalance:
+        description: Specifies a limit on the total outstanding balance for an asset in the portfolio.
+
+  AverageTradingVolumeMethodologyEnum:
+    description: Indicates the type of equity average trading volume (single) the highest amount on one exchange, or (consolidated)
+      volumes across more than one exchange.
+    permissible_values:
+      Single:
+        description: Single, the highest amount on one exchange.
+      Consolidated:
+        description: Consolidated volume across more than one exchange.
+
+  CreditSupportAgreementTypeEnum:
+    description: The enumerated values to specify the type of Credit Support Agreement governing the transaction.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/credit-support-agreement-type
+    permissible_values:
+      CreditSupportDeed:
+        description: A Credit Support Deed legal agreement.
+      CreditSupportAnnex:
+        description: A Credit Support Annex legal agreement.
+      CollateralTransferAgreement:
+        description: A Collateral Transfer Agreement
+
+  AlternativeToInterestAmountEnum:
+    description: If there is an alternative to interest amounts, how is it specified?
+    permissible_values:
+      Standard:
+        description: Interest amount is not transferred if transfer would create or increase a delivery amount.
+      ActualAmountReceived:
+        description: The standard calculation of the Interest Amount is replaced with the amount of interest the secured party
+          actually receives in relation to the Cash collateral.
+      TransferIfDeliveryAmountBelowMTA:
+        description: Interest amount is not transferred if transfer would create or increase a delivery amount. (This is the
+          'Standard' provision). However, interest Amount will be transferred if Delivery Amount is below Minimum Transfer
+          Amount.
+      Other:
+        description: An other alternative option outside these choices that can be described as an alternative provision.
+
+  CollateralInterestHandlingEnum:
+    description: How is collateral interest to be handled?
+    permissible_values:
+      Transfer:
+        description: ' Transfer the interest each period '
+      Adjust:
+        description: ' Adjust the collateral balance to include the interest amount '
+      Transfer_or_Adjust:
+        description: ' Transfer the interest if it meets certain criteria, or otherwise adjust the collateral balance to reflect
+          the interest amount  '
+
+  DeliveryAmountElectionEnum:
+    description: The enumerated values to specify the application of Interest Amount with respect to the Delivery Amount through
+      standard language.
+    permissible_values:
+      LastLocalBusinessDay:
+        description: The delivery only includes `Transfer on last Local Business Day.
+      LastAndAnyLocalBusinessDay:
+        description: The delivery includes both `Transfer on last Local Business Day` and `Transfer a Delivery Amount (IM)
+          consisting of cash on any Local Business Day.`
+
+  CollateralMarginTypeEnum:
+    description: The enumerated values to specify the type of margin for which a legal agreement is named.
+    permissible_values:
+      VariationMargin:
+        description: Denotes a margin agreement that is identified for use with Variation Margin/VM.
+      InitialMargin:
+        description: Denotes a margin agreement that is identified for use with Initial Margin/IM.
+
+  RatingPriorityResolutionEnum:
+    description: Represents an enumeration list to identify which Collateral Criteria type should have priority over others.
+      If set to 'Issuer', the rating in the  Issuer Criteria has priority or is used if there is no Asset criteria. If set
+      to 'Asset', the rating in the Asset Criteria has priority or is used if there is no Issuer rating.
+    permissible_values:
+      Issuer:
+        description: Denotes that the Issuer Criteria has priority.
+      Asset:
+        description: Denotes that the Asset Criteria has priority.
+      Lowest:
+        description: Denotes that lowest rating should be used if several criteria apply.
+      Highest:
+        description: Denotes that highest rating should be used if several criteria apply.
+      Average:
+        description: Denotes that average rating should be used if several criteria apply.
+
+  CollateralEquityIndexEnum:
+    description: The enumerated values to specify an Equity index.
+    permissible_values:
+      AEX:
+        description: AEX INDEX (AEX)
+        aliases:
+          - AEX
+      ALLORD:
+        description: ALL ORDINARIES INDEX
+        aliases:
+          - ALL ORDINARIES
+      AMSMID:
+        description: AMSTERDAM MIDKAP INDEX
+        aliases:
+          - AMSTERDAM MIDKAP
+      AASHR:
+        description: AMSTERDAM SE ALL SHARE INDEX
+        aliases:
+          - AEX ALL-SHARE
+      ASCIX:
+        description: AMSTERDAM SMALL CAP INDEX
+        aliases:
+          - AMSTERDAM SMALL CAP
+      ARBG:
+        description: ARGENTINA BOLSA-G (NEW) INDEX
+        aliases:
+          - S&P/BYMA ARGENTINA GENERAL
+      ARGMI:
+        description: ARGENTINA MERVAL INDEX
+        aliases:
+          - S&P MERVAL
+      ATHEX:
+        description: ATHEX COMPOSITE INDEX
+        aliases:
+          - ATHEX COMPOSITE
+      ATX50:
+        description: ATX PRIME INDEX
+        aliases:
+          - ATX PRIME
+      ATX:
+        description: AUSTRIAN TRADED INDEX
+        aliases:
+          - AUSTRIAN TRADED ATX
+      BEL20:
+        description: BEL 20 INDEX
+        aliases:
+          - BEL 20
+      BELAS:
+        description: BEL ALL SHARE INDEX
+        aliases:
+          - BEL ALL-SHARE
+      BELMD:
+        description: BEL MID INDEX
+        aliases:
+          - BEL MID
+      BGBEL:
+        description: BEL SMALL INDEX
+        aliases:
+          - BEL SMALL
+      BELSM:
+        description: BELGIUM-DS MARKET INDEX
+        aliases:
+          - BELGIUM-DS MARKET
+      BGREIT:
+        description: BG REIT INDEX
+        aliases:
+          - BG REIT
+      BULG30:
+        description: BG TR30 INDEX
+        aliases:
+          - BG TR30
+      BGBX40:
+        description: BGBX40 INDEX
+        aliases:
+          - BGBX40
+      TRKSTN:
+        description: BIST NATIONAL 100 INDEX
+        aliases:
+          - BIST 100
+      TIN30:
+        description: BIST NATIONAL 30 INDEX
+        aliases:
+          - BIST 30
+      BKADR:
+        description: BNY MELLON ADR INDEX
+        aliases:
+          - BNY MELLON ADR
+      BKBRIC:
+        description: BNY MELLON BRIC SELECT ADR INDEX
+        aliases:
+          - BNY MELLON BRIC SELECT ADR
+      BUMIX:
+        description: BUMIX INDEX
+        aliases:
+          - BUMIX
+      BUDPES:
+        description: BUX INDEX
+        aliases:
+          - BUX
+      PBVGEN:
+        description: BVL GENERAL INDEX
+        aliases:
+          - BVL GENERAL LISBON
+      CAC40:
+        description: CAC 40 INDEX
+        aliases:
+          - CAC 40
+      FCASH:
+        description: CAC ALL SHARES INDEX
+        aliases:
+          - CAC ALL-SHARE
+      SBF250:
+        description: CAC ALL TRADABLE INDEX
+        aliases:
+          - CAC ALL-TRADABLE
+      CACL60:
+        description: CAC LARGE 60 INDEX
+        aliases:
+          - CAC LARGE 60
+      CAC190:
+        description: CAC MID & SMALL INDEX
+        aliases:
+          - CAC MID & SMALL
+      FCAM:
+        description: CAC MID 60 INDEX
+        aliases:
+          - CAC MID 60
+      CAC20:
+        description: CAC NEXT 20 INDEX
+        aliases:
+          - CAC NEXT 20
+      CSM90:
+        description: CAC SMALL INDEX
+        aliases:
+          - CAC SMALL
+      CDAX:
+        description: CDAX PERFORMANCE INDEX
+        aliases:
+          - CDAX PERFORMANCE
+      CECE:
+        description: CENTRAL & EAST. EUROP.FIN.CECE INDEX
+        aliases:
+          - CECE COMPOSITE OTOB
+      CINT10:
+        description: CHILE INTER 10 INDEX
+        aliases:
+          - S&P/CLX INTER-10
+      CSMGL:
+        description: CHILE SANTIAGO SE GENERAL (IGPA) INDEX
+        aliases:
+          - S&P/CLX IGPA
+      CSMST:
+        description: CHILE SANTIAGO SE SELECTIVE (IPSA) INDEX
+        aliases:
+          - S&P IPSA
+      CNX100:
+        description: CNX 100 INDEX
+        aliases:
+          - CNX 100
+      MILBCI:
+        description: COMIT GLOBAL INDEX
+        aliases:
+          - COMIT GLOBALE MILAN
+      CZSEC:
+        description: CROATIA ZAGREB STOCK EXCHANGE CROBEX INDEX
+        aliases:
+          - CROBEX
+      CSI500:
+        description: CSI 500
+        aliases:
+          - CSI 500
+      CZT:
+        description: CZECH TRADED INDEX
+        aliases:
+          - CZECH TRADED
+      DAX:
+        description: DAX INDEX
+        aliases:
+          - DAX
+      DJTB30:
+        description: DOW JONES BASIC RESOURCES TITANS 30 INDEX
+        aliases:
+          - DOW JONES BASIC RESOURCES TITANS 30
+      DOWCOM:
+        description: DOW JONES COMPOSITE INDEX
+        aliases:
+          - DOW JONES COMPOSITE AVERAGE
+      DOWI:
+        description: DOW JONES INDUSTRIAL AVERAGE INDEX
+        aliases:
+          - DOW JONES INDUSTRIAL AVERAGE
+      DJT30:
+        description: DOW JONES ITALY TITANS 30 INDEX
+        aliases:
+          - DOW JONES ITALY TITANS 30
+      DJTCOM:
+        description: DOW JONES SECTOR TITANS COMPOSITE INDEX
+        aliases:
+          - DOW JONES SECTOR TITANS COMPOSITE
+      DOWTRA:
+        description: DOW JONES TRANSPORTATION AVERAGE INDEX
+        aliases:
+          - DOW JONES TRANSPORTATION AVERAGE
+      DOWUTI:
+        description: DOW JONES UTILITY AVERAGE INDEX
+        aliases:
+          - DOW JONES UTILITY AVERAGE
+      DJES50:
+        description: EURO STOXX 50 INDEX
+        aliases:
+          - EURO STOXX 50
+      DJEUR:
+        description: EURO STOXX INDEX
+        aliases:
+          - EURO STOXX
+      DJESTX:
+        description: EURO STOXX LARGE INDEX
+        aliases:
+          - EURO STOXX LARGE
+      EURNXT:
+        description: EURONEXT 100 INDEX
+        aliases:
+          - EURONEXT 100
+      TSEFSI:
+        description: EX-TSE FIRST SECTION INDEX
+        aliases:
+          - EX-TSE FIRST SECTION
+      FT100:
+        description: FTSE 100 INDEX
+        aliases:
+          - FTSE 100
+      FTSE25:
+        description: FTSE 250 INDEX
+        aliases:
+          - FTSE 250
+      FT350:
+        description: FTSE 350 INDEX
+        aliases:
+          - FTSE 350
+      FTAIM:
+        description: FTSE AIM ALL-SHARE INDEX
+        aliases:
+          - FTSE AIM ALL-SHARE
+      FTSEAL:
+        description: FTSE ALL SHARE INDEX
+        aliases:
+          - FTSE ALL-SHARE
+      FALLW:
+        description: FTSE ALL WORLD INDEX
+        aliases:
+          - FTSE ALL WORLD
+      BEMAS:
+        description: FTSE BURSA MALAYSIA EMAS SHARIAH INDEX
+        aliases:
+          - FTSE BURSA MALAYSIA EMAS SHARIAH
+      BHSH:
+        description: FTSE BURSA MALAYSIA HIJRAH SHARIAH INDEX
+        aliases:
+          - FTSE BURSA MALAYSIA HIJRAH SHARIAH
+      KLCOMP:
+        description: FTSE BURSA MALAYSIA KLCI INDEX
+        aliases:
+          - FTSE BURSA MALAYSIA KLCI
+      FCHA50:
+        description: FTSE CHINA A50
+        aliases:
+          - FTSE CHINA A50
+      FTE100:
+        description: FTSE EURO 100 INDEX
+        aliases:
+          - FTSE EURO 100
+      EURTP1:
+        description: FTSE EUROTOP 100 INDEX
+        aliases:
+          - FTSE EUROTOP 100
+      FTSFLG:
+        description: FTSE FLEDGLING INDEX
+        aliases:
+          - FTSE FLEDGLING
+      GWADV:
+        description: FTSE GWA SHARIAH DEVELOPED INDEX
+        aliases:
+          - FTSE GWA SHARIAH DEVELOPED
+      FTIASI:
+        description: FTSE ITALIA ALL SHARE INDEX
+        aliases:
+          - FTSE ITALIA ALL-SHARE
+      FTIMCI:
+        description: FTSE ITALIA MID CAP INDEX
+        aliases:
+          - FTSE ITALIA MID CAP
+      FITSMC:
+        description: FTSE ITALIA SMALL CAP INDEX
+        aliases:
+          - FTSE ITALIA SMALL CAP
+      ALLSTR:
+        description: FTSE ITALIA STAR INDEX
+        aliases:
+          - FTSE ITALIA STAR
+      SPMIB:
+        description: FTSE MIB INDEX
+        aliases:
+          - FTSE MIB
+      FTSMCA:
+        description: FTSE SMALL CAP INDEX
+        aliases:
+          - FTSE SMALLCAP
+      SNGSES:
+        description: FTSE ST ALL SHARE INDEX
+        aliases:
+          - FTSE ST ALL SHARE
+      FTSE:
+        description: FTSE TECHMARK FOCUS INDEX
+        aliases:
+          - FTSE TECHMARK FOCUS
+      TAI50:
+        description: FTSE TWSE TAIWAN 50 INDEX
+        aliases:
+          - FTSE TWSE TAIWAN 50
+      FSA20:
+        description: FTSE/ATHEX LARGE CAP INDEX
+        aliases:
+          - FTSE/ATHEX LARGE CAP
+      FTS40:
+        description: FTSE/ATHEX MID CAP INDEX
+        aliases:
+          - FTSE/ATHEX MID CAP
+      JSEAS:
+        description: FTSE/JSE ALL SHARE INDEX
+        aliases:
+          - FTSE/JSE ALL SHARE
+      JOHT25:
+        description: FTSE/JSE INDUSTRIAL 25 INDEX
+        aliases:
+          - FTSE/JSE INDUSTRIAL 25
+      FTJAS:
+        description: FTSE/JSE SHARIAH ALL SHARE INDEX
+        aliases:
+          - FTSE/JSE SHARIAH ALL SHARE
+      FTJ40:
+        description: FTSE/JSE SHARIAH TOP 40 INDEX
+        aliases:
+          - FTSE/JSE SHARIAH TOP 40
+      JOHT40:
+        description: FTSE/JSE TOP 40 INDEX
+        aliases:
+          - FTSE/JSE TOP 40
+      EUR300:
+        description: FTSEUROFIRST 300 INDEX
+        aliases:
+          - FTSEUROFIRST 300
+      XDAX:
+        description: GERMANY X-DAX INDEX
+        aliases:
+          - GERMANY X-DAX
+      HKHS:
+        description: HANG SENG CHINA AFFILIATED CORP INDEX
+        aliases:
+          - HANG SENG CHINA-AFFILIATED CORPORATIONS
+      HSCEI:
+        description: HANG SENG CHINA ENTERPRISES INDEX
+        aliases:
+          - HANG SENG CHINA ENTERPRISES
+      HSCI:
+        description: HANG SENG COMPOSITE INDEX
+        aliases:
+          - HANG SENG COMPOSITE
+      HSENG:
+        description: HANG SENG INDEX
+        aliases:
+          - HANG SENG
+      HSM100:
+        description: HANG SENG MAINLAND 100 INDEX
+        aliases:
+          - HANG SENG CHINA (HONG KONG-LISTED) 100
+      HSREIT:
+        description: HANG SENG REIT INDEX
+        aliases:
+          - HANG SENG REIT
+      HDAX:
+        description: HDAX (XETRA) INDEX
+        aliases:
+          - HDAX
+      EHRMS:
+        description: HERMES FINANCIAL INDEX
+        aliases:
+          - HERMES FINANCIAL
+      HUNTRI:
+        description: HUNGARIAN TRADED HTX (USD) INDEX
+        aliases:
+          - HTX OTOB
+      IBEX35:
+        description: IBEX 35 INDEX
+        aliases:
+          - IBEX 35
+      IBEXM:
+        description: IBEX MEDIUM CAP INDEX
+        aliases:
+          - IBEX MEDIUM CAP
+      IBEXS:
+        description: IBEX SMALL CAP INDEX
+        aliases:
+          - IBEX SMALL CAP
+      BOVESP:
+        description: IBOVESPA BRASIL SAO PAULO SE INDEX
+        aliases:
+          - IBOVESPA
+      JKCM:
+        description: IDX COMPOSITE INDEX
+        aliases:
+          - IDX COMPOSITE
+      LQ45:
+        description: IDX LQ45 INDEX
+        aliases:
+          - LQ45
+      SPAMAD:
+        description: IGBM INDEX
+        aliases:
+          - IGBM
+      IMC30:
+        description: IMC 30 INDEX
+        aliases:
+          - IMC 30
+      ISEQ:
+        description: IRELAND SE OVERALL (ISEQ) INDEX
+        aliases:
+          - ISEQ OVERALL
+      ISEQ20:
+        description: ISEQ 20 INDEX
+        aliases:
+          - ISEQ 20
+      NK400:
+        description: JPX-NIKKEI 400 INDEX
+        aliases:
+          - JPX-NIKKEI 400
+      DBMIDC:
+        description: KFMX INDEX
+        aliases:
+          - KFMX
+      SKKD:
+        description: KOSDAQ INDEX
+        aliases:
+          - KOSDAQ
+      KO100:
+        description: KOSPI 100 INDEX
+        aliases:
+          - KOSPI 100
+      KORK20:
+        description: KOSPI 200 INDEX
+        aliases:
+          - KOSPI 200
+      KO50:
+        description: KOSPI 50 INDEX
+        aliases:
+          - KOSPI 50
+      KSPI:
+        description: KOSPI INDEX
+        aliases:
+          - KOSPI
+      KORLRG:
+        description: KOSPI LARGECAP INDEX
+        aliases:
+          - KOSPI LARGECAP
+      KOSPM:
+        description: KOSPI MIDCAP INDEX
+        aliases:
+          - KOSPI MIDCAP
+      KOSPS:
+        description: KOSPI SMALLCAP INDEX
+        aliases:
+          - KOSPI SMALLCAP
+      KRX100:
+        description: KRX 100 INDEX
+        aliases:
+          - KRX 100
+      LXBORG:
+        description: LUXEMBOURG SE LUXX INDEX
+        aliases:
+          - LUXX
+      DAXMID:
+        description: MDAX INDEX
+        aliases:
+          - MDAX
+      MICEX:
+        description: MOEX RUSSIA INDEX (MICEX INDEX)
+        aliases:
+          - MOEX RUSSIA
+      MSAPAC:
+        description: MSCI AC ASIA PACIFIC ESG LEADERS
+        aliases:
+          - MSCI AC ASIA PACIFIC ESG LEADERS
+      MSEME:
+        description: MSCI AC EUROPE AND MIDDLE EAST INDEX
+        aliases:
+          - MSCI AC EUROPE AND MIDDLE EAST
+      MSACEJ:
+        description: MSCI AC WORLD EX JAPAN INDEX (AKA MSCI KOKUSAI INDEX)
+        aliases:
+          - MSCI ACWI EX JAPAN
+      MSACW:
+        description: MSCI AC WORLD IMI INDEX
+        aliases:
+          - MSCI ACWI IMI
+      MSALL:
+        description: MSCI AC WORLD INDEX
+        aliases:
+          - MSCI ACWI
+      MSACES:
+        description: MSCI ACWI ESG SCREENED
+        aliases:
+          - MSCI ACWI ESG SCREENED
+      MSWDEJ:
+        description: MSCI ACWI EX JAPAN INDEX
+        aliases:
+          - MSCI WORLD EX JAPAN (AKA KOKUSAI)
+      MAUIMI:
+        description: MSCI AUSTRALIA IMI INDEX
+        aliases:
+          - MSCI AUSTRALIA IMI
+      MAUSLC:
+        description: MSCI AUSTRALIA LARGE CAP INDEX
+        aliases:
+          - MSCI AUSTRALIA LARGE CAP
+      MAUSMC:
+        description: MSCI AUSTRALIA MID CAP INDEX
+        aliases:
+          - MSCI AUSTRALIA MID CAP
+      MSAUST:
+        description: MSCI AUSTRALIA
+        aliases:
+          - MSCI AUSTRALIA
+      AUSIMI:
+        description: MSCI AUSTRIA IMI INDEX
+        aliases:
+          - MSCI AUSTRIA IMI
+      MSBELG:
+        description: MSCI BELGIUM INDEX
+        aliases:
+          - MSCI BELGIUM
+      MSBRZ:
+        description: MSCI BRAZIL INDEX
+        aliases:
+          - MSCI BRAZIL
+      MSCNDA:
+        description: MSCI CANADA
+        aliases:
+          - MSCI CANADA
+      MCHA50:
+        description: MSCI CHINA A50
+        aliases:
+          - MSCI CHINA A50
+      MSCHIN:
+        description: MSCI CHINA INDEX
+        aliases:
+          - MSCI CHINA
+      MSCRLC:
+        description: MSCI CZECH REPUBLIC LARGE CAP INDEX
+        aliases:
+          - MSCI CZECH REPUBLIC LARGE CAP
+      MSCRMC:
+        description: MSCI CZECH REPUBLIC MID CAP INDEX
+        aliases:
+          - MSCI CZECH REPUBLIC MID CAP
+      MSDIMI:
+        description: MSCI DENMARK IMI INDEX
+        aliases:
+          - MSCI DENMARK IMI
+      MSIMI:
+        description: MSCI EAFE IMI INDEX
+        aliases:
+          - MSCI EAFE IMI
+      MSEAFE:
+        description: MSCI EAFE INDEX
+        aliases:
+          - MSCI EAFE
+      MSEMAS:
+        description: MSCI EM ASIA ESG LEADERS
+        aliases:
+          - MSCI EM ASIA ESG LEADERS
+      MSCIEM:
+        description: MSCI EMERGING MARKETS INDEX
+        aliases:
+          - MSCI EMERGING MARKETS
+      MSERO:
+        description: MSCI EURO INDEX
+        aliases:
+          - MSCI EURO
+      MSEESG:
+        description: MSCI EUROPE ESG LEADERS
+        aliases:
+          - MSCI EUROPE ESG LEADERS
+      MSUREE:
+        description: MSCI EUROPE ESG SCREENED
+        aliases:
+          - MSCI EUROPE ESG SCREENED
+      MSCIE:
+        description: MSCI EUROPE INDEX
+        aliases:
+          - MSCI EUROPE
+      MSESC:
+        description: MSCI EUROPE SMALL CAP INDEX
+        aliases:
+          - MSCI EUROPE SMALL CAP
+      MESMID:
+        description: MSCI EUROPE SMID CAP INDEX
+        aliases:
+          - MSCI EUROPE SMID CAP
+      MSFDLC:
+        description: MSCI FINLAND LARGE CAP INDEX
+        aliases:
+          - MSCI FINLAND LARGE CAP
+      MSFDMC:
+        description: MSCI FINLAND MID CAP INDEX
+        aliases:
+          - MSCI FINLAND MID CAP
+      MSFIMI:
+        description: MSCI FRANCE IMI INDEX
+        aliases:
+          - MSCI FRANCE IMI
+      MSFRLP:
+        description: MSCI FRANCE LARGE CAP INDEX
+        aliases:
+          - MSCI FRANCE LARGE CAP
+      MHKIMI:
+        description: MSCI HONG KONG IMI INDEX
+        aliases:
+          - MSCI HONG KONG IMI
+      MSIND:
+        description: MSCI INDIA INDEX
+        aliases:
+          - MSCI INDIA
+      MIRIMI:
+        description: MSCI IRELAND IMI INDEX
+        aliases:
+          - MSCI IRELAND IMI
+      MSITAL:
+        description: MSCI ITALY INDEX
+        aliases:
+          - MSCI ITALY
+      MSITLC:
+        description: MSCI ITALY LARGE CAP INDEX
+        aliases:
+          - MSCI ITALY LARGE CAP
+      MSITMC:
+        description: MSCI ITALY MID CAP INDEX
+        aliases:
+          - MSCI ITALY MID CAP
+      ITSMCI:
+        description: MSCI ITALY SMALL CAP INDEX
+        aliases:
+          - MSCI ITALY SMALL CAP INDEX
+      JAPIMI:
+        description: MSCI JAPAN IMI INDEX
+        aliases:
+          - MSCI JAPAN IMI
+      MSCIJP:
+        description: MSCI JAPAN INDEX
+        aliases:
+          - MSCI JAPAN
+      MSKOR:
+        description: MSCI KOREA INDEX
+        aliases:
+          - MSCI KOREA
+      MSMEX:
+        description: MSCI MEXICO INDEX
+        aliases:
+          - MSCI MEXICO
+      MSNETH:
+        description: MSCI NETHERLANDS INDEX
+        aliases:
+          - MSCI NETHERLANDS
+      MSNEMC:
+        description: MSCI NETHERLANDS MID CAP INDEX
+        aliases:
+          - MSCI NETHERLANDS MID CAP
+      MNZIMI:
+        description: MSCI NEW ZEALAND IMI INDEX
+        aliases:
+          - MSCI NEW ZEALAND IMI
+      MSNORW:
+        description: MSCI NORWAY INDEX
+        aliases:
+          - MSCI NORWAY
+      MSCIPE:
+        description: MSCI PAN EURO INDEX
+        aliases:
+          - MSCI PAN EURO
+      MPOLLC:
+        description: MSCI POLAND LARGE CAP INDEX
+        aliases:
+          - MSCI POLAND LARGE CAP
+      MPOLMC:
+        description: MSCI POLAND MID CAP INDEX
+        aliases:
+          - MSCI POLAND MID CAP
+      MSPIMI:
+        description: MSCI PORTUGAL IMI INDEX
+        aliases:
+          - MSCI PORTUGAL IMI
+      MSSING:
+        description: MSCI SINGAPORE INDEX
+        aliases:
+          - MSCI SINGAPORE
+      MSCSA:
+        description: MSCI SOUTH AFRICA INDEX
+        aliases:
+          - MSCI SOUTH AFRICA
+      MSSIMI:
+        description: MSCI SPAIN IMI INDEX
+        aliases:
+          - MSCI SPAIN IMI
+      SWEIMI:
+        description: MSCI SWEDEN IMI INDEX
+        aliases:
+          - MSCI SWEDEN IMI
+      MSWELC:
+        description: MSCI SWEDEN LARGE CAP INDEX
+        aliases:
+          - MSCI SWEDEN LARGE CAP
+      SWIIMI:
+        description: MSCI SWITZERLAND IMI INDEX
+        aliases:
+          - MSCI SWITZERLAND IMI
+      MSSWLP:
+        description: MSCI SWITZERLAND LARGE CAP INDEX
+        aliases:
+          - MSCI SWITZERLAND LARGE CAP
+      MSTAI:
+        description: MSCI TAIWAN INDEX
+        aliases:
+          - MSCI TAIWAN
+      MSTHAI:
+        description: MSCI THAILAND
+        aliases:
+          - MSCI THAILAND
+      UKIMI:
+        description: MSCI UK IMI
+        aliases:
+          - MSCI UK IMI
+      MSCIUK:
+        description: MSCI UK INDEX
+        aliases:
+          - MSCI UK
+      UKSMCI:
+        description: MSCI UK SMALL CAP INDEX
+        aliases:
+          - MSCI UK SMALL CAP
+      MSUSAL:
+        description: MSCI USA ESG LEADERS
+        aliases:
+          - MSCI USA ESG LEADERS
+      MSUSEE:
+        description: MSCI USA ESG SCREENED
+        aliases:
+          - MSCI USA ESG SCREENED
+      MSCIUS:
+        description: MSCI USA INDEX
+        aliases:
+          - MSCI USA
+      MSWESG:
+        description: MSCI WORLD ESG LEADERS
+        aliases:
+          - MSCI WORLD ESG LEADERS
+      MSDWEE:
+        description: MSCI WORLD ESG SCREENED
+        aliases:
+          - MSCI WORLD ESG SCREENED
+      MSCIWD:
+        description: MSCI WORLD INDEX
+        aliases:
+          - MSCI WORLD
+      MSLCBL:
+        description: MSCI WORLD LOW CARBON SRI LEADERS INDEX
+        aliases:
+          - MSCI WORLD LOW CARBON SRI LEADERS
+      MSWSCS:
+        description: MSCI WORLD SMALL CAP ESG SCREENED
+        aliases:
+          - MSCI WORLD SMALL CAP ESG SCREENED
+      MWSMID:
+        description: MSCI WORLD SMID CAP INDEX
+        aliases:
+          - MSCI WORLD SMID CAP
+      MWIG:
+        description: MWIG40 INDEX
+        aliases:
+          - MWIG40
+      NASDAQ:
+        description: NASDAQ 100 INDEX
+        aliases:
+          - NASDAQ-100
+      NASCOM:
+        description: NASDAQ COMPOSITE INDEX
+        aliases:
+          - NASDAQ COMPOSITE
+      NEXT15:
+        description: NEXT 150 INDEX
+        aliases:
+          - NEXT 150
+      NIK500:
+        description: NIKKEI 500 INDEX
+        aliases:
+          - NIKKEI 500
+      NIKKEI:
+        description: NIKKEI STOCK AVERAGE (NIKKEI 225) INDEX
+        aliases:
+          - NIKKEI 225
+      NK300O:
+        description: NIKKEI STOCK INDEX 300
+        aliases:
+          - NIKKEI 300
+      NYSE:
+        description: NYSE COMPOSITE INDEX
+        aliases:
+          - NYSE COMPOSITE
+      OBX25:
+        description: OBX INDEX
+        aliases:
+          - OBX
+      OMXAFG:
+        description: OMX AFFARSVARLDENS GENERAL INDEX
+        aliases:
+          - OMX AFFARSVARLDENS GENERAL
+      KAX:
+        description: OMX COPENHAGEN (OMXC) INDEX
+        aliases:
+          - OMX COPENHAGEN
+      KFX:
+        description: OMX COPENHAGEN (OMXC20) INDEX
+        aliases:
+          - OMX COPENHAGEN 20
+      KBX:
+        description: OMX COPENHAGEN BENCHMARK (OMXCB) INDEX
+        aliases:
+          - OMX COPENHAGEN BENCHMARK
+      OMXCPM:
+        description: OMX COPENHAGEN MID CAP INDEX
+        aliases:
+          - OMX COPENHAGEN MID CAP
+      OMXCPS:
+        description: OMX COPENHAGEN SMALL CAP INDEX
+        aliases:
+          - OMX COPENHAGEN SMALL CAP
+      HEXGEN:
+        description: OMX HELSINKI (OMXH) INDEX
+        aliases:
+          - OMX HELSINKI
+      HEX25:
+        description: OMX HELSINKI 25 (OMXH25) INDEX
+        aliases:
+          - OMX HELSINKI 25
+      HEXP:
+        description: OMX HELSINKI CAP (OMXHCAP) INDEX
+        aliases:
+          - OMX HELSINKI CAP
+      OMHSM:
+        description: OMX HELSINKI MID CAP INDEX
+        aliases:
+          - OMX HELSINKI MID CAP
+      OMHSS:
+        description: OMX HELSINKI SMALL CAP INDEX
+        aliases:
+          - OMX HELSINKI SMALL CAP
+      NOMXT:
+        description: OMX HELSINKI TECHNOLOGY INDEX
+        aliases:
+          - OMX HELSINKI TECHNOLOGY
+      ICEX:
+        description: OMX ICELAND ALL SHARE INDEX
+        aliases:
+          - OMX ICELAND ALL-SHARE
+      ICEM:
+        description: OMX ICELAND MID CAP PI INDEX
+        aliases:
+          - OMX ICELAND MID CAP
+      ICES:
+        description: OMX ICELAND SMALL CAP INDEX
+        aliases:
+          - OMX ICELAND SMALL CAP
+      OMX:
+        description: OMX STOCKHOLM 30 INDEX
+        aliases:
+          - OMX STOCKHOLM 30
+      GENX:
+        description: OMX STOCKHOLM ALL SHARE OMXS INDEX
+        aliases:
+          - OMX STOCKHOLM ALL-SHARE
+      SOXP:
+        description: OMX STOCKHOLM BENCHMARK INDEX
+        aliases:
+          - OMX STOCKHOLM BENCHMARK
+      OBX:
+        description: OSLO BORS ALL SHARE INDEX
+        aliases:
+          - OSLO BORS ALL-SHARE
+      OEBI:
+        description: OSLO BORS BENCHMARK INDEX
+        aliases:
+          - OSLO BORS BENCHMARK
+      OSEMF:
+        description: OSLO BORS MUTUAL FUND INDEX
+        aliases:
+          - OSLO BORS MUTUAL FUND
+      OESC:
+        description: OSLO BORS SMALL CAP INDEX
+        aliases:
+          - OSLO BORS SMALL CAP
+      RUSTRA:
+        description: OTOB RUSSIAN TRADED RTX (USD) INDEX
+        aliases:
+          - OTOB RTX (USD)
+      PSECOM:
+        description: PHILIPPINE STOCK EXCHANGE PSEI INDEX
+        aliases:
+          - PSEI
+      PSIGI:
+        description: PORTUGAL PSI ALL-SHARE INDEX
+        aliases:
+          - PSI ALL-SHARE
+      PSI:
+        description: PORTUGAL PSI-20 INDEX
+        aliases:
+          - PSI-20
+      PRAGE:
+        description: PRAGUE STOCK EXCHANGE INDEX
+        aliases:
+          - PX
+      PRIMAL:
+        description: PRIME ALL SHARE INDEX
+        aliases:
+          - PRIME ALL SHARE
+      ASPMTI:
+        description: RSF EE MT (RUR) INDEX
+        aliases:
+          - RSF EASTERN EUROPE MATERIALS (RUR)
+      ASPGEN:
+        description: RSF GENERAL INDEX
+        aliases:
+          - RSF GENERAL RUSSIA
+      RRTS:
+        description: RTS INDEX
+        aliases:
+          - RTS
+      RU1000:
+        description: RUSSELL 1000 INDEX
+        aliases:
+          - RUSSELL 1000
+      RU2000:
+        description: RUSSELL 2000 INDEX
+        aliases:
+          - RUSSELL 2000
+      RU250:
+        description: RUSSELL 2500 INDEX
+        aliases:
+          - RUSSELL 2500
+      RU3000:
+        description: RUSSELL 3000 INDEX
+        aliases:
+          - RUSSELL 3000
+      SP100:
+        description: S&P 100 INDEX
+        aliases:
+          - S&P 100
+      SP1500:
+        description: S&P 1500 SUPERCOMPOSITE INDEX
+        aliases:
+          - S&P COMPOSITE 1500
+      SPFINA:
+        description: S&P 500 FINANCIAL INDEX
+        aliases:
+          - S&P 500 FINANCIAL
+      SP500:
+        description: S&P 500 INDEX
+        aliases:
+          - S&P 500
+      SPINDU:
+        description: S&P 500 INDUSTRIALS INDEX
+        aliases:
+          - S&P 500 INDUSTRIALS
+      SP600:
+        description: S&P 600 SMALLCAP INDEX
+        aliases:
+          - S&P SMALLCAP 600
+      SPADR:
+        description: S&P ADR INDEX
+        aliases:
+          - S&P ADR
+      BMIFR:
+        description: S&P BMI FRANCE INDEX
+        aliases:
+          - S&P FRANCE BMI
+      INSPCN:
+        description: S&P BSE (SENSEX) 30 SENSITIVE INDEX
+        aliases:
+          - S&P BSE SENSEX
+      BS100:
+        description: S&P BSE 100 INDEX
+        aliases:
+          - S&P BSE 100
+      BS200:
+        description: S&P BSE 200 INDEX
+        aliases:
+          - S&P BSE 200
+      BOM500:
+        description: S&P BSE 500 INDEX
+        aliases:
+          - S&P BSE 500
+      BMIEMG:
+        description: S&P EMERGING BMI INDEX
+        aliases:
+          - S&P EMERGING BMI
+      SPGNRG:
+        description: S&P GLOBAL 1200 ENERGY INDEX
+        aliases:
+          - S&P GLOBAL 1200 ENERGY
+      SPGLBL:
+        description: S&P GLOBAL 1200 INDEX
+        aliases:
+          - S&P GLOBAL 1200
+      SPLT40:
+        description: S&P LATIN AMERICA 40 INDEX
+        aliases:
+          - S&P LATIN AMERICA 40
+      SPMIDC:
+        description: S&P MIDCAP 400 INDEX
+        aliases:
+          - S&P MIDCAP 400
+      TX150:
+        description: S&P TOPIX 150 INDEX
+        aliases:
+          - S&P/TOPIX 150
+      ASX100:
+        description: S&P/ASX 100 INDEX
+        aliases:
+          - S&P/ASX 100
+      _20LEAD:
+        description: S&P/ASX 20 INDEX
+        aliases:
+          - S&P/ASX 20
+      ASX200:
+        description: S&P/ASX 200 INDEX
+        aliases:
+          - S&P/ASX 200
+      ASX300:
+        description: S&P/ASX 300 INDEX
+        aliases:
+          - S&P/ASX 300
+      ASX50:
+        description: S&P/ASX 50 INDEX
+        aliases:
+          - S&P/ASX 50
+      ASXM50:
+        description: S&P/ASX MIDCAP 50 INDEX
+        aliases:
+          - S&P/ASX MIDCAP 50
+      ASPA:
+        description: S&P/ASX MIDCAP 50 INDUSTRIALS INDEX
+        aliases:
+          - S&P/ASX MIDCAP 50 INDUSTRIALS
+      SPASX:
+        description: S&P/ASX SMALL ORDINARIES INDEX
+        aliases:
+          - S&P/ASX SMALL ORDINARIES
+      INMEX:
+        description: S&P/BMV INMEX INDEX
+        aliases:
+          - S&P/BMV INMEX
+      MEXCM:
+        description: S&P/BMV IPC COMPMX INDEX
+        aliases:
+          - S&P/BMV IPC COMPMX
+      IPC:
+        description: S&P/BMV IPC INDEX
+        aliases:
+          - S&P/BMV IPC
+      IPCM:
+        description: S&P/BMV IPC MIDCAP INDEX
+        aliases:
+          - S&P/BMV IPC MIDCAP
+      PEGEN:
+        description: S&P/BVL PERU GENERAL INDEX
+        aliases:
+          - S&P/BVL PERU GENERAL
+      INSENS:
+        description: S&P/CNX NIFTY (50) INDEX
+        aliases:
+          - NIFTY 50
+      SPHG:
+        description: S&P/HKEX GEM INDEX
+        aliases:
+          - S&P/HKEX GEM
+      SPLC:
+        description: S&P/HKEX LARGE CAP INDEX
+        aliases:
+          - S&P/HKEX LARGE CAP
+      NZX10:
+        description: S&P/NZX 10 INDEX
+        aliases:
+          - S&P/NZX 10
+      NZSE50:
+        description: S&P/NZX 50 INDEX
+        aliases:
+          - S&P/NZX 50
+      NZSEAL:
+        description: S&P/NZX ALL INDEX CAPITAL INDEX
+        aliases:
+          - S&P/NZX ALL CAPITAL
+      NZXMI:
+        description: S&P/NZX MIDCAP INDEX
+        aliases:
+          - S&P/NZX MIDCAP
+      NZXSI:
+        description: S&P/NZX SMALLCAP INDEX
+        aliases:
+          - S&P/NZX SMALLCAP
+      SP60:
+        description: S&P/TSX 60 INDEX
+        aliases:
+          - S&P/TSX 60
+      CSPT:
+        description: S&P/TSX COMPLETION INDEX
+        aliases:
+          - S&P/TSX COMPLETION
+      TSE300:
+        description: S&P/TSX COMPOSITE INDEX
+        aliases:
+          - S&P/TSX COMPOSITE
+      SNPPF:
+        description: S&P/TSX PREFERRED SHARE INDEX
+        aliases:
+          - S&P/TSX PREFERRED SHARE
+      CSPS:
+        description: S&P/TSX SMALLCAP INDEX
+        aliases:
+          - S&P/TSX SMALLCAP
+      TSXVEN:
+        description: S&P/TSX VENTURE COMPOSITE INDEX
+        aliases:
+          - S&P/TSX VENTURE COMPOSITE
+      SBF120:
+        description: SBF 120 INDEX
+        aliases:
+          - SBF 120
+      SBITOP:
+        description: SBI TOP INDEX
+        aliases:
+          - SBI TOP
+      SDAX:
+        description: SDAX PERFORMANCE INDEX
+        aliases:
+          - SDAX
+      SET100:
+        description: SET100 INDEX
+        aliases:
+          - SET100
+      BNGK50:
+        description: SET50 INDEX
+        aliases:
+          - SET50
+      CHSHG:
+        description: SHANGHAI G SHARE INDEX
+        aliases:
+          - SHANGHAI G SHARE
+      C180:
+        description: SHANGHAI SE 180 A SHR INDEX
+        aliases:
+          - SHANGHAI 180 A SHARE
+      CHSA:
+        description: SHANGHAI SE A SHARE INDEX
+        aliases:
+          - SHANGHAI A SHARE
+      CHSB:
+        description: SHANGHAI SE B SHARE INDEX
+        aliases:
+          - SHANGHAI B SHARE
+      CSSC:
+        description: SHANGHAI SE COMPOSITE INDEX
+        aliases:
+          - SHANGHAI COMPOSITE
+      S300:
+        description: SHANGHAI SHENZHEN CSI 300 INDEX
+        aliases:
+          - CSI 300
+      _S300:
+        description: SHANGHAI SHENZHEN CSI 300 INDEX
+        aliases:
+          - SHANGHAI SHENZEN CSI 300
+      CHZA:
+        description: SHENZEN SE A SHARE INDEX
+        aliases:
+          - SHENZEN A SHARE
+      CHZB:
+        description: SHENZEN SE B SHARE INDEX
+        aliases:
+          - SHENZEN B SHARE
+      CSZC:
+        description: SHENZEN SE COMPOSITE INDEX
+        aliases:
+          - SHENZEN COMPOSITE
+      SLISWS:
+        description: SLI SWISS LEADER INDEX
+        aliases:
+          - SLI SWISS LEADER
+      SMIEX:
+        description: SMI EXPANDED INDEX
+        aliases:
+          - SMI EXPANDED
+      SMI:
+        description: SMI INDEX
+        aliases:
+          - SMI
+      SMIM:
+        description: SMI MID INDEX
+        aliases:
+          - SMI MID
+      BSOFIX:
+        description: SOFIX INDEX
+        aliases:
+          - SOFIX
+      PAC600:
+        description: STOXX ASIA/PACIFIC 600 INDEX
+        aliases:
+          - STOXX ASIA/PACIFIC 600
+      DJSE:
+        description: STOXX EUROPE 50 INDEX
+        aliases:
+          - STOXX EUROPE 50
+      STXE6B:
+        description: STOXX EUROPE 600 BANKS INDEX
+        aliases:
+          - STOXX EUROPE 600 BANKS
+      DJS600:
+        description: STOXX EUROPE 600 INDEX
+        aliases:
+          - STOXX EUROPE 600
+      DJSTXL:
+        description: STOXX EUROPE LARGE 200 INDEX
+        aliases:
+          - STOXX EUROPE LARGE 200
+      SX1800:
+        description: STOXX GLOBAL 1800 INDEX
+        aliases:
+          - STOXX GLOBAL 1800
+      SNGSTR:
+        description: STRAITS TIMES INDEX (STI)
+        aliases:
+          - STRAITS TIMES
+      SWIG:
+        description: SWIG80 INDEX
+        aliases:
+          - SWIG80
+      SPI:
+        description: SWISS PERFORMANCE INDEX
+        aliases:
+          - SWISS PERFORMANCE
+      ISTMI:
+        description: TA-125 INDEX
+        aliases:
+          - TA-125
+      TELAVI:
+        description: TA-35 INDEX
+        aliases:
+          - TA-35
+      TDWTAS:
+        description: TADAWUL ALL SHARE INDEX
+        aliases:
+          - TADAWUL ALL SHARE
+      TWSE:
+        description: TAIEX INDEX
+        aliases:
+          - TAIEX
+      TAIOTC:
+        description: TAIWAN SE OTC INDEX
+        aliases:
+          - TAIWAN SE OTC
+      TECDAX:
+        description: TECDAX INDEX
+        aliases:
+          - TECDAX
+      BNGKSE:
+        description: THAI SET INDEX
+        aliases:
+          - SET
+      TPX100:
+        description: TOPIX 100 INDEX
+        aliases:
+          - TOPIX 100
+      TS1000:
+        description: TOPIX 1000 INDEX
+        aliases:
+          - TOPIX 1000
+      JT500:
+        description: TOPIX 500 INDEX
+        aliases:
+          - TOPIX 500
+      TCOR30:
+        description: TOPIX CORE 30 INDEX
+        aliases:
+          - TOPIX CORE 30
+      TOPIX:
+        description: TOPIX INDEX
+        aliases:
+          - TOPIX
+      TPXLRG:
+        description: TOPIX LARGE 70 INDEX
+        aliases:
+          - TOPIX LARGE 70
+      TMID40:
+        description: TOPIX MID 400 INDEX
+        aliases:
+          - TOPIX MID 400
+      TPXSMA:
+        description: TOPIX SMALL INDEX
+        aliases:
+          - TOPIX SMALL
+      TSEGMC:
+        description: TSE GROWTH MARKET CORE INDEX
+        aliases:
+          - TSE GROWTH MARKET CORE
+      TSEGMI:
+        description: TSE GROWTH MARKET INDEX
+        aliases:
+          - TSE GROWTH MARKET
+      TKMOTH:
+        description: TSE MOTHERS INDEX
+        aliases:
+          - TOKYO STOCK EXCHANGE MARKET 250
+      TSEPMC:
+        description: TSE PRIME MARKET COMPOSITE INDEX
+        aliases:
+          - TSE PRIME MARKET COMPOSITE
+      TSEPMI:
+        description: TSE PRIME MARKET INDEX
+        aliases:
+          - TSE PRIME MARKET
+      TSER:
+        description: TSE REIT INDEX
+        aliases:
+          - TSE REIT
+      TSESMI:
+        description: TSE STANDARD MARKET INDEX
+        aliases:
+          - TSE STANDARD MARKET
+      TSES20:
+        description: TSE STANDARD MARKET TOP20 INDEX
+        aliases:
+          - TSE STANDARD MARKET TOP 20
+      VENGEN:
+        description: VENEZUELA SE GENERAL INDEX
+        aliases:
+          - VENEZUELA GENERAL
+      AVSE:
+        description: WIENER BORSE INDEX
+        aliases:
+          - WIENER BORSE
+      PWWGI:
+        description: WIG INDEX
+        aliases:
+          - WIG
+      PWG20:
+        description: WIG20 INDEX
+        aliases:
+          - WIG20
+      WIG30:
+        description: WIG30 INDEX
+        aliases:
+          - WIG30
+      WFEXCH:
+        description: WORLD FEDERATION OF EXCHANGES INDEX
+        aliases:
+          - WORLD FEDERATION OF EXCHANGES
+
+slots:
+  maturity:
+    range: decimal
+    description: Maturity in years
+    required: true
+
+  collateralAssetType:
+    range: AssetType
+    description: The asset product type.
+    required: true
+
+  assetCountryOfOrigin:
+    range: ISOCountryCodeEnum
+    description: The asset country of origin.
+    required: true
+
+  denominatedCurrency:
+    range: CurrencyCodeEnum
+    description: The underlying asset denominated currency.
+    required: true
+
+  agencyRating:
+    range: AgencyRatingCriteria
+    description: The agency rating based on default risk and creditors claim in event of default associated with specific
+      instrument.
+    required: true
+
+  issuerName:
+    range: LegalEntity
+    description: Specifies the issuing entity name or LEI.
+    required: true
+
+  isEligible:
+    range: boolean
+    description: a simple boolean which is set to true if the asset described in the EligibilityQuery input is eligible
+    required: true
+
+  matchingEligibleCriteria:
+    range: EligibleCollateralCriteria
+    description: if there was a match, this will be the one or more criteria that were supplied in the EligbilityCollateralSpecification
+      which matched with the query input
+    multivalued: true
+    inlined_as_list: true
+
+  eligibilityQuery:
+    range: EligibilityQuery
+    description: a copy of the input query that was checked against the eligible collateral specification
+    required: true
+
+  specification:
+    range: EligibleCollateralSpecification
+    description: a copy of the input EligbilityCollateralSpecification that was checked against the query
+    required: true
+
+  collateralProvisions:
+    range: CollateralProvisions
+    description: specifies the collateral provisions of the product.
+    close_mappings:
+      - fpml_5_10:Collateral.collateralProvisions
+
+  collateralType:
+    range: CollateralTypeEnum
+    description: Enumerates the collateral types which are accepted by the Seller.
+    required: true
+    related_mappings:
+      - icma:GMRA#marginType
+    close_mappings:
+      - fpml_5_10:CollateralProvisions.collateralType
+
+  substitutionProvisions:
+    range: SubstitutionProvisions
+    description: The provisions for collateral substitutions such as how many and when they are allowed.
+    close_mappings:
+      - fpml_5_10:CollateralProvisions.substitutionProvisions
+
+  numberOfSubstitutionsAllowed:
+    range: integer
+    description: Specifies if 1 or more substitutions are allowed.
+
+  noticeDeadlinePeriod:
+    range: Period
+    description: Defines the min period for notify of a substitution.
+
+  noticeDeadlineDateTime:
+    range: datetime
+    description: A specific date and time for the notice deadline
+
+  paymentDetail:
+    range: PaymentDetail
+    description: An attribute that specifies a payment as the combination of a payment amount, a payment date and an associated
+      payment calculation rule.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  boundary:
+    range: CreditNotationBoundaryEnum
+    description: Indicates the boundary of a credit agency rating i.e minimum or maximum.
+    close_mappings:
+      - fpml_5_10:AgencyRatingCriteria.boundary
+
+  marginPercentage:
+    range: decimal
+    description: Specifies a percentage value of transaction needing to be posted as collateral expressed as a valuation.
+      As an example a 104% requirement would be represented as a decimal number 1.04.
+    related_mappings:
+      - icma:GMRA#Margin_Ratio
+      - icma:ERCCBestPractice#Margin_Ratio
+    close_mappings:
+      - fpml_5_10:CollateralValuationTreatment.marginPercentage
+
+  collateralCriteria:
+    range: CollateralCriteria
+    description: The specific criteria that applies. It can be created using AND, OR and NOT logic, and both asset and issuer
+      characteristics.
+    any_of:
+      - range: AllCriteria
+      - range: AnyCriteria
+      - range: NegativeCriteria
+      - range: CollateralIssuerType
+      - range: CollateralGuarantorType
+      - range: AssetType
+      - range: IssuerCountryOfOrigin
+      - range: AssetCountryOfOrigin
+      - range: CurrencyCodeEnum
+      - range: IssuerName
+      - range: IssuerAgencyRating
+      - range: SovereignAgencyRating
+      - range: AssetAgencyRating
+      - range: AssetMaturity
+      - range: SpecificAsset
+      - range: CollateralTaxonomy
+      - range: ListingExchange
+      - range: ListingSector
+      - range: IndexType
+      - range: CounterpartyOwnIssuePermitted
+      - range: DomesticCurrencyIssued
+    close_mappings:
+      - fpml_5_10:CollateralCriteriaBase.collateralCriteria
+
+  appliesTo:
+    range: CounterpartyRoleEnum
+    description: Specifies which of the two counterparties the criteria applies to (either one or both counterparties). This
+      attribute is optional, in case the applicable party is already specified elsewhere within a party election.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CollateralCriteriaBase.appliesTo
+
+  restrictTo:
+    range: CollateralMarginTypeEnum
+    description: Restrict the criteria to only apply to a specific type of margin, ie IM or VM.
+    close_mappings:
+      - fpml_5_10:CollateralCriteriaBase.restrictTo
+
+  ratingPriorityResolution:
+    range: RatingPriorityResolutionEnum
+    description: Denotes which Criteria has priority if more than one agency rating applies.
+    close_mappings:
+      - fpml_5_10:CollateralCriteriaBase.ratingPriorityResolution
+
+  valuationTreatment:
+    range: CollateralValuationTreatment
+    description: Specification of the valuation treatment for the specified collateral.
+    related_mappings:
+      - icma:GMRA#marginRatio
+    close_mappings:
+      - fpml_5_10:CollateralTreatment.valuationTreatment
+
+  concentrationLimit:
+    range: ConcentrationLimit
+    description: Specification of concentration limits applicable to the collateral criteria.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:CollateralTreatment.concentrationLimit
+
+  isIncluded:
+    range: boolean
+    description: A boolean attribute to specify whether collateral critieria are inclusion (True) or exclusion (False) criteria.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralTreatment.isIncluded
+
+  concentrationLimitCriteria:
+    range: ConcentrationLimitCriteria
+    description: Specifies a set of criteria to describe the assets that the concentration limits apply to.
+
+  valueLimit:
+    range: MoneyRange
+    description: Specifies the value of collateral limit represented as a range.
+
+  percentageLimit:
+    range: NumberRange
+    description: Specifies the perecentage of collateral limit represented as a decimal number - example 25% is 0.25.
+
+  concentrationLimitType:
+    range: ConcentrationLimitTypeEnum
+    description: Specifies the type of concentration limit to be applied.
+
+  averageTradingVolume:
+    range: AverageTradingVolume
+    description: Specifies an average trading volume on an exchange in relation to Equity products.
+
+  methodology:
+    range: AverageTradingVolumeMethodologyEnum
+    description: Indicates the type of equity average trading volume being stated (single) the highest amount on one exchange,
+      or (consolidated) volumes across multiple exchanges.
+    required: true
+    close_mappings:
+      - fpml_5_10:AverageTradingVolume.methodology
+
+  issuerCountryOfOrigin:
+    range: ISOCountryCodeEnum
+    description: Represents a filter on the issuing entity country of origin based on the ISO Standard 3166, which is the
+      same as filtering by eligible Sovereigns.
+    required: true
+
+  issuerAgencyRating:
+    range: AgencyRatingCriteria
+    description: Represents an agency rating based on default risk and creditors claim in event of default associated with
+      asset issuer.
+    required: true
+
+  sovereignAgencyRating:
+    range: AgencyRatingCriteria
+    description: Represents an agency rating based on default risk of the country of the issuer.
+    required: true
+
+  assetAgencyRating:
+    range: AgencyRatingCriteria
+    description: Represents an agency rating based on default risk and creditors claim in event of default associated with
+      specific instrument.
+    required: true
+
+  maturityType:
+    range: MaturityTypeEnum
+    description: Specifies whether the maturity range is the remaining or original maturity.
+    required: true
+    close_mappings:
+      - fpml_5_10:AssetMaturity.maturityType
+
+  maturityRange:
+    range: PeriodRange
+    description: Represents a filter based on the underlying asset maturity.
+    required: true
+    close_mappings:
+      - fpml_5_10:AssetMaturity.maturityRange
+
+  sector:
+    range: string
+    description: Represents a filter based on an industry sector defined under a system for classifying industry types such
+      as Global Industry Classification Standard (GICS) and North American Industry Classification System (NAICS)
+    required: true
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+
+  domesticCurrencyIssued:
+    range: boolean
+    description: Identifies that the Security must be denominated in the domestic currency of the issuer.
+    required: true
+
+  counterpartyOwnIssuePermitted:
+    range: boolean
+    description: Represents a filter based on whether it is permitted for the underlying asset to be issued by the posting
+      entity or part of their corporate family.
+    required: true
+
+  negativeCriteria:
+    range: CollateralCriteria
+    any_of:
+      - range: AllCriteria
+      - range: AnyCriteria
+      - range: NegativeCriteria
+      - range: CollateralIssuerType
+      - range: CollateralGuarantorType
+      - range: AssetType
+      - range: IssuerCountryOfOrigin
+      - range: AssetCountryOfOrigin
+      - range: CurrencyCodeEnum
+      - range: IssuerName
+      - range: IssuerAgencyRating
+      - range: SovereignAgencyRating
+      - range: AssetAgencyRating
+      - range: AssetMaturity
+      - range: SpecificAsset
+      - range: CollateralTaxonomy
+      - range: ListingExchange
+      - range: ListingSector
+      - range: IndexType
+      - range: CounterpartyOwnIssuePermitted
+      - range: DomesticCurrencyIssued
+    required: true
+
+  interestParameters:
+    range: CollateralInterestParameters
+    description: Represents the interest parameters for the various currencies, margin types, posting parties.
+    multivalued: true
+    inlined_as_list: true
+
+  marginType:
+    range: CollateralMarginTypeEnum
+    description: Specifies the type of margin for which interest is being calculated, if the parameters are different depending
+      on type of margin (initial or variation).
+    close_mappings:
+      - fpml_5_10:CollateralInterestParameters.marginType
+
+  interestCalculationParameters:
+    range: CollateralInterestCalculationParameters
+    description: Represents the basic interest calculation parameters.
+    close_mappings:
+      - fpml_5_10:CollateralInterestParameters.interestCalculationParameters
+
+  interestCalculationFrequency:
+    range: CalculationFrequency
+    description: Represents how often and when interest is calculated.
+    close_mappings:
+      - fpml_5_10:CollateralInterestParameters.interestCalculationFrequency
+
+  interestHandlingParameters:
+    range: CollateralInterestHandlingParameters
+    description: Represents the parameters describing how and when interest transfer occurs.
+    close_mappings:
+      - fpml_5_10:CollateralInterestParameters.interestHandlingParameters
+
+  inBaseCurrency:
+    range: boolean
+    description: If True, specifies that the interest transfers should be converted to base currency equivalent, or if False
+      specifies that the transfer should be in the currency of the collateral.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestCalculationParameters.inBaseCurrency
+
+  compoundingType:
+    range: CompoundingTypeEnum
+    description: Specifies the type of compounding to be applied (None, Business, Calendar).
+    close_mappings:
+      - fpml_5_10:CollateralInterestCalculationParameters.compoundingType
+
+  compoundingBusinessCenter:
+    range: BusinessCenter
+    description: Specifies the applicable business centers for compounding.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestCalculationParameters.compoundingBusinessCenter
+
+  roundingFrequency:
+    range: RoundingFrequencyEnum
+    description: Specifies when/how often is rounding applied?
+    close_mappings:
+      - fpml_5_10:CollateralInterestCalculationParameters.roundingFrequency
+
+  withholdingTaxRate:
+    range: decimal
+    description: Specifies the withholding tax rate if a withholding tax is applicable.
+    close_mappings:
+      - fpml_5_10:CollateralInterestCalculationParameters.withholdingTaxRate
+
+  negativeInterest:
+    range: boolean
+    description: Specifies how negative rates should be applied.  If rates go negative, should the payment be reversed (true)
+      or zeroed out (false)?
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralAgreementFloatingRate.negativeInterest
+
+  compressibleSpread:
+    range: boolean
+    description: Specifies how spreads should be applied in a low/negative rate environment.  If true, spread is applied only
+      if rate is positive.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralAgreementFloatingRate.compressibleSpread
+
+  interestPaymentHandling:
+    range: CollateralInterestHandlingEnum
+    description: Specifies how the collateral interest is to be handled.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.interestPaymentHandling
+
+  paymentBusinessCenter:
+    range: BusinessCenter
+    description: Specifies applicable business centers for payments.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.paymentBusinessCenter
+
+  netPostedAndHeldInterest:
+    range: boolean
+    description: Indicates whether to net Held and Posted Interest Payments (i.e. whether interest payable for a period can
+      be netted with interest receivable).
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.netPostedAndHeldInterest
+
+  netInterestWithMarginCalls:
+    range: boolean
+    description: Indicates whether the interest amount may be offset against any margin call deliver or return amounts?   (aka
+      'net payments' indicator).
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.netInterestWithMarginCalls
+
+  includeAccrualInMarginCalc:
+    range: boolean
+    description: Indicates whether or not to include the open interest accrual in the margin calculation.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.includeAccrualInMarginCalc
+
+  accrueInterestOnUnsettledInterest:
+    range: boolean
+    description: Indicates whether interest accruing on unsettled interest amount is included (continues to be accrued) in
+      the following period.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.accrueInterestOnUnsettledInterest
+
+  onFullReturn:
+    range: boolean
+    description: Indicates the option that accrued interest should be calculated and distributed when a full return of collateral
+      occurs.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.onFullReturn
+
+  onPartialReturn:
+    range: boolean
+    description: Indicates the option that accrued interest should be calculated and distributed when a partial return collateral
+      occurs.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.onPartialReturn
+
+  interestAmountApplication:
+    range: InterestAmountApplication
+    description: The application of Interest Amount with respect to the Delivery Amount and the Return Amount.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.interestAmountApplication
+
+  interestRolloverLimit:
+    range: NumberBound
+    description: Specifies the level below which the interest will be rolled over.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.interestRolloverLimit
+
+  writeoffLimit:
+    range: NumberBound
+    description: Specifies the level below which the interest will be written off; if omitted write-off is not applicable.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.writeoffLimit
+
+  alternativeToInterestAmount:
+    range: AlternativeToInterestAmountEnum
+    description: Specifies the alternative to interest amounts.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.alternativeToInterestAmount
+
+  alternativeProvision:
+    range: string
+    description: Specifies an alternative to interest amount, when the alternative provision clause is specified.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.alternativeProvision
+
+  cutoffTime:
+    range: time
+    description: Specifies the time of day that interest needs to be confirmed by.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.cutoffTime
+
+  notification:
+    range: CollateralInterestNotification
+    description: Specifies the terms describing notification requirements.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters.notification
+
+  notificationDayType:
+    range: DayTypeEnum
+    description: The type of days on which notification should occur.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralInterestNotification.notificationDayType
+
+  includesDefaultLanguage:
+    range: boolean
+    description: Default language is included when True, and excluded when False.
+
+  equityIndex:
+    range: CollateralEquityIndexEnum
+    description: An enumerated list for equity indices.
+
+classes:
+  EligibilityQuery:
+    description: Query to check against an EligibleCollateralSpecification
+    comments:
+      - 'Rosetta func: CheckEligibilityByDetails — This function when presented with a set of Asset and Issuer details to
+        be potentially posted as collateral, will check against a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification)
+        to determine which collateral meets the eligibility and can be used/posted for delivery.'
+      - 'Rosetta func: CheckCriteria — This function takes a single criteria and evaluates it against the criteria.  This
+        function handles the recursive use of AND and OR logic.'
+      - 'Rosetta func: CheckCountryOfOrigin'
+      - 'Rosetta func: CheckAgencyRating'
+      - 'Rosetta func: CheckAssetType'
+      - 'Rosetta func: CheckDebtType'
+      - 'Rosetta func: CheckDenominatedCurrency'
+      - 'Rosetta func: CheckMaturity'
+      - 'Rosetta func: CheckIssuerName'
+      - 'Rosetta func: CheckIssuerType'
+    annotations:
+      rosetta_functions: '[{"name":"CheckEligibilityByDetails","description":"This function when presented with a set of Asset
+        and Issuer details to be potentially posted as collateral, will check against a set of given Eligibility Criteria
+        or Basket (EligibleCollateralSpecification) to determine which collateral meets the eligibility and can be used/posted
+        for delivery.","inputs":[{"name":"specification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"1..1"}},{"name":"CheckCriteria","description":"This
+        function takes a single criteria and evaluates it against the criteria.  This function handles the recursive use of
+        AND and OR logic.","inputs":[{"name":"inputCriteria","type":"CollateralCriteria","cardinality":"1..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEligible","type":"boolean","cardinality":"1..1"}},{"name":"CheckCountryOfOrigin","inputs":[{"name":"countryOfOrigin","type":"ISOCountryCodeEnum","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckAgencyRating","inputs":[{"name":"agencyRatings","type":"AgencyRatingCriteria","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckAssetType","inputs":[{"name":"collateralAssetTypes","type":"AssetType","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckDebtType","inputs":[{"name":"collateralDebtTypes","type":"DebtType","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckDenominatedCurrency","inputs":[{"name":"denominatedCurrency","type":"CurrencyCodeEnum","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckMaturity","inputs":[{"name":"maturityRange","type":"AssetMaturity","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckIssuerName","inputs":[{"name":"issuerName","type":"IssuerName","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}},{"name":"CheckIssuerType","inputs":[{"name":"issuerType","type":"CollateralIssuerType","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}}]'
+    slots:
+      - maturity
+      - collateralAssetType
+      - assetCountryOfOrigin
+      - denominatedCurrency
+      - agencyRating
+      - issuerType
+      - issuerName
+    slot_usage:
+      issuerType:
+        range: CollateralIssuerType
+        description: Represents a filter based on the type of entity issuing the asset.
+    in_subset:
+      - cdm_product_collateral
+
+  CheckEligibilityResult:
+    description: Result for the CheckEligibilityByDetails and CheckEligibilityForProduct functions
+    comments:
+      - 'Rosetta func: CheckEligibilityForProduct'
+      - 'Rosetta func: CheckEligibilityByDetails — This function when presented with a set of Asset and Issuer details to
+        be potentially posted as collateral, will check against a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification)
+        to determine which collateral meets the eligibility and can be used/posted for delivery.'
+    annotations:
+      rosetta_functions: '[{"name":"CheckEligibilityForProduct","inputs":[{"name":"specifications","type":"EligibleCollateralSpecification","cardinality":"1..*"},{"name":"product","type":"TransferableProduct","cardinality":"0..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"0..1"},"code_implementation":true},{"name":"CheckEligibilityByDetails","description":"This
+        function when presented with a set of Asset and Issuer details to be potentially posted as collateral, will check
+        against a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification) to determine which collateral
+        meets the eligibility and can be used/posted for delivery.","inputs":[{"name":"specification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"1..1"}}]'
+    slots:
+      - isEligible
+      - matchingEligibleCriteria
+      - eligibilityQuery
+      - specification
+    in_subset:
+      - cdm_product_collateral
+
+  Collateral:
+    description: A type for defining the obligations of the counterparty subject to credit support requirements.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - fpml_5_10:Collateral
+    rules:
+      - description: Collateral must represent either a simple independent amount or full collateral portfolio.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                independentAmount:
+                  required: true
+            - slot_conditions:
+                collateralPortfolio:
+                  required: true
+        preconditions: {}
+      - description: When a collateral portfolio is provided, collateral provisions must exists that govern this collateral.
+        preconditions:
+          slot_conditions:
+            collateralPortfolio:
+              required: true
+        postconditions:
+          slot_conditions:
+            collateralProvisions:
+              required: true
+      - description: Collateralchoice
+        postconditions:
+          any_of:
+            - slot_conditions:
+                independentAmount:
+                  required: true
+            - slot_conditions:
+                portfolioIdentifier:
+                  required: true
+            - slot_conditions:
+                collateralPortfolio:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: CollateralExists — independentAmount exists or collateralPortfolio exists'
+      - 'Rosetta condition: CollateralProvisions — if collateralPortfolio exists then collateralProvisions exists'
+      - 'Rosetta condition: Collateralchoice — optional choice independentAmount, portfolioIdentifier, collateralPortfolio'
+    slots:
+      - independentAmount
+      - portfolioIdentifier
+      - collateralPortfolio
+      - collateralProvisions
+    slot_usage:
+      independentAmount:
+        range: IndependentAmount
+        description: 'Independent Amount is an amount that usually less creditworthy counterparties are asked to provide.
+          It can either be a fixed amount or a percentage of the Transaction''s value. The Independent Amount can be: (i)
+          transferred before any trading between the parties occurs (as a deposit at a third party''s account or with the
+          counterparty) or (ii) callable after trading has occurred (typically because a downgrade has occurred). In situation
+          (i), the Independent Amount is not included in the calculation of Exposure, but in situation (ii), it is included
+          in the calculation of Exposure. Thus, for situation (ii), the Independent Amount may be transferred along with any
+          collateral call. Independent Amount is a defined term in the ISDA Credit Support Annex. (''with respect to a party,
+          the amount specified as such for that party in Paragraph 13; if no amount is specified, zero'').'
+        required: false
+      portfolioIdentifier:
+        description: A list of identifiers pointing to the collateral portfolios which contain the collateral which covers
+          a trade.
+        multivalued: true
+      collateralPortfolio:
+        description: 'The collateral portfolios which contain the collateral which covers a trade. (NB: this can be provided
+          by reference to a global key for each CollateralPortfolio object)'
+        multivalued: true
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralProvisions:
+    description: Contains collateral attributes which can also inherit information from a GMRA
+    close_mappings:
+      - fpml_5_10:CollateralProvisions
+    related_mappings:
+      - gist:ContractTerm
+    slots:
+      - collateralType
+      - eligibleCollateral
+      - substitutionProvisions
+    slot_usage:
+      eligibleCollateral:
+        description: The eligible collateral as specified in relation to the transaction.
+    in_subset:
+      - cdm_product_collateral
+
+  SubstitutionProvisions:
+    description: Defines collateral substitution provisions such as how many and with how much notice are substitutions allowed.
+    slots:
+      - numberOfSubstitutionsAllowed
+      - noticeDeadlinePeriod
+      - noticeDeadlineDateTime
+    in_subset:
+      - cdm_product_collateral
+
+  IndependentAmount:
+    description: A class specifying the Independent Amount as the combination of a payer/receiver, a payment amount, a payment
+      date and an associated payment calculation rule.
+    is_a: PartyReferencePayerReceiver
+    slots:
+      - paymentDetail
+    in_subset:
+      - cdm_product_collateral
+
+  AgencyRatingCriteria:
+    description: Represents a class to specify a credit notation.
+    close_mappings:
+      - fpml_5_10:AgencyRatingCriteria
+    rules:
+      - description: If the mismatch resolution is ReferenceAgency, ensure that the reference agency is specified.
+        preconditions:
+          slot_conditions:
+            mismatchResolution:
+              equals_string: ReferenceAgency
+        postconditions:
+          slot_conditions:
+            referenceAgency:
+              required: true
+    comments:
+      - 'Rosetta condition: ReferenceAgency — if mismatchResolution = CreditNotationMismatchResolutionEnum -> ReferenceAgency
+        then referenceAgency exists'
+      - 'Rosetta func: CheckAgencyRating'
+    annotations:
+      rosetta_functions: '[{"name":"CheckAgencyRating","inputs":[{"name":"agencyRatings","type":"AgencyRatingCriteria","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}}]'
+    slots:
+      - creditNotation
+      - mismatchResolution
+      - referenceAgency
+      - boundary
+    slot_usage:
+      creditNotation:
+        description: Indicates the agency rating criteria specified for the asset or issuer.
+        required: true
+      mismatchResolution:
+        description: Indicator for options to be used if several agency ratings (>1) are specified and its necessary to identify
+          specific charateristics. i.e (lowest or highest).
+      referenceAgency:
+        description: identifies the dominant reference agency if there is a missmatch and several reference agencies exsist.
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralValuationTreatment:
+    description: Specification of the valuation treatment for the specified collateral.
+    close_mappings:
+      - fpml_5_10:CollateralValuationTreatment
+    rules:
+      - description: A data rule to validate that if a Valuation Percentage is specified it should be greater than or equal
+          to 0 and less than 1.
+        preconditions:
+          slot_conditions:
+            haircutPercentage:
+              required: true
+        postconditions:
+          slot_conditions:
+            haircutPercentage:
+              minimum_value: 0
+              maximum_value: 1
+      - description: A data rule to validate that if a Margin Percentage is specified it should be greater than 1.
+        preconditions:
+          slot_conditions:
+            marginPercentage:
+              required: true
+        postconditions:
+          slot_conditions:
+            marginPercentage:
+              minimum_value: 1
+      - description: A data rule to validate that if an FX Haircut Percentage is specified it should be between 0 and less
+          than 1.
+        preconditions:
+          slot_conditions:
+            fxHaircutPercentage:
+              required: true
+        postconditions:
+          slot_conditions:
+            fxHaircutPercentage:
+              minimum_value: 0
+              maximum_value: 1
+      - description: A data rule to validate that if an FX Haircut Percentage is specified it should be between 0 and  less
+          than 1.
+        preconditions:
+          slot_conditions:
+            additionalHaircutPercentage:
+              required: true
+        postconditions:
+          slot_conditions:
+            additionalHaircutPercentage:
+              minimum_value: 0
+              maximum_value: 1
+      - description: Choice rule requiring that either a haircut percentage or margin percentage is specified.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                haircutPercentage:
+                  required: true
+            - slot_conditions:
+                marginPercentage:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: HaircutPercentage — if haircutPercentage exists then haircutPercentage >= 0 and haircutPercentage
+        < 1'
+      - 'Rosetta condition: MarginPercentage — if marginPercentage exists then marginPercentage >= 1'
+      - 'Rosetta condition: FxHaircutPercentage — if fxHaircutPercentage exists then fxHaircutPercentage > 0 and fxHaircutPercentage
+        < 1'
+      - 'Rosetta condition: AdditionalHaircutPercentage — if additionalHaircutPercentage exists then additionalHaircutPercentage
+        > 0 and additionalHaircutPercentage < 1'
+      - 'Rosetta condition: HaircutPercentageOrMarginPercentage — required choice haircutPercentage, marginPercentage'
+    slots:
+      - haircutPercentage
+      - marginPercentage
+      - fxHaircutPercentage
+      - additionalHaircutPercentage
+    slot_usage:
+      haircutPercentage:
+        description: Specifies a haircut percentage to be applied to the value of asset and used as a discount factor to the
+          value of the collateral asset,expressed as a percentage in decimal terms. As an example a 0.5% haircut would be
+          represented as a decimal number 0.005.
+        required: false
+      fxHaircutPercentage:
+        description: Specifies an FX haircut applied to a specific asset which is agreed between the parties (for example,
+          if pledgor eligible collateral is not denominated in the termination currency or under other specified cases in
+          collateral support documents both for initial margin and variation margin).The percentage value is expressed as
+          the discount haircut to the value of the collateral- as an example an 8% FX haircut would be expressed as 0.08.
+      additionalHaircutPercentage:
+        description: 'Specifies a percentage value of any additional haircut to be applied to a collateral asset,the percentage
+          value is expressed as the discount haircut to the value of the collateral- as an example a 5% haircut would be expressed
+          as 0.05. '
+    in_subset:
+      - cdm_product_collateral
+
+  EligibleCollateralSpecification:
+    description: Represents a set of criteria used to specify eligible collateral.
+    tree_root: true
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"CloneEligibleCollateralWithChangedTreatment","description":"Creates a new Eligible Collateral
+        Specification based on an input specification but with one changed criteria and with one changed treatment.","inputs":[{"name":"inputSpecification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"changedCriteria","type":"CollateralCriteria","cardinality":"1..1"},{"name":"changedTreatment","type":"CollateralTreatment","cardinality":"1..1"}],"output":{"name":"outputSpecification","type":"EligibleCollateralSpecification","cardinality":"1..1"}},{"name":"CheckEligibilityForProduct","inputs":[{"name":"specifications","type":"EligibleCollateralSpecification","cardinality":"1..*"},{"name":"product","type":"TransferableProduct","cardinality":"0..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"0..1"},"code_implementation":true},{"name":"CheckEligibilityByDetails","description":"This
+        function when presented with a set of Asset and Issuer details to be potentially posted as collateral, will check
+        against a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification) to determine which collateral
+        meets the eligibility and can be used/posted for delivery.","inputs":[{"name":"specification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"eligibilityResult","type":"CheckEligibilityResult","cardinality":"1..1"}}]'
+    comments:
+      - 'Rosetta func: CloneEligibleCollateralWithChangedTreatment — Creates a new Eligible Collateral Specification based
+        on an input specification but with one changed criteria and with one changed treatment.'
+      - 'Rosetta func: CheckEligibilityForProduct'
+      - 'Rosetta func: CheckEligibilityByDetails — This function when presented with a set of Asset and Issuer details to
+        be potentially posted as collateral, will check against a set of given Eligibility Criteria or Basket (EligibleCollateralSpecification)
+        to determine which collateral meets the eligibility and can be used/posted for delivery.'
+    slots:
+      - identifier
+      - party
+      - counterparty
+      - criteria
+      - partyRole
+    slot_usage:
+      identifier:
+        range: Identifier
+        inlined_as_list: true
+        description: Specifies the identifier(s) to uniquely identify eligible collateral or a set of eligible collateral,
+          such as a schedule or equivalant for an identity issuer.
+        required: false
+      party:
+        range: Party
+        description: The parties associated with the specification.
+        multivalued: true
+      counterparty:
+        description: Specification of the roles of the counterparties to the specification.
+        required: false
+      criteria:
+        range: EligibleCollateralCriteria
+        description: Represents a set of criteria used to specify eligible collateral.
+        required: true
+        multivalued: true
+      partyRole:
+        description: Specifies the role(s) that each of the party(s) is playing in the context of the specification, eg Payor
+          or Receiver.
+        multivalued: true
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralCriteriaBase:
+    description: Represents a set of criteria used to specify and describe collateral.
+    close_mappings:
+      - fpml_5_10:CollateralCriteriaBase
+    slots:
+      - collateralCriteria
+      - appliesTo
+      - restrictTo
+      - ratingPriorityResolution
+    in_subset:
+      - cdm_product_collateral
+
+  EligibleCollateralCriteria:
+    description: Represents a set of criteria used to specify eligible collateral.
+    is_a: CollateralCriteriaBase
+    related_mappings:
+      - gist:Specification
+    comments:
+      - 'Rosetta condition: ConcentrationLimitTypeIssueOSAmountDebtOnly — if treatment -> concentrationLimit -> concentrationLimitCriteria
+        -> concentrationLimitType only-element = ConcentrationLimitTypeEnum -> IssueOutstandingAmount then CriteriaMatchesSecurityType(collateralCriteria,
+        Debt) or (treatment -> concentrationLimit extract CriteriaMatchesSecurityType( item -> concentrationLimitCriteria
+        -> collateralCriteria, Debt )) all = True'
+      - 'Rosetta condition: ConcentrationLimitTypeMarketCapEquityOnly — if treatment -> concentrationLimit -> concentrationLimitCriteria
+        -> concentrationLimitType only-element = ConcentrationLimitTypeEnum -> MarketCapitalisation then CriteriaMatchesSecurityType(collateralCriteria,
+        Equity) or (treatment -> concentrationLimit extract CriteriaMatchesSecurityType( item -> concentrationLimitCriteria
+        -> collateralCriteria, Equity )) all = True'
+      - 'Rosetta condition: AverageTradingVolumeEquityOnly — if treatment -> concentrationLimit -> concentrationLimitCriteria
+        -> averageTradingVolume exists then CriteriaMatchesSecurityType(collateralCriteria, Equity) or (treatment -> concentrationLimit
+        extract CriteriaMatchesSecurityType( item -> concentrationLimitCriteria -> collateralCriteria, Equity )) all = True'
+    slots:
+      - treatment
+    slot_usage:
+      treatment:
+        description: Identifies the treatment of specified collateral, e.g., haircuts,holding limits or exclusions.
+        required: true
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralTreatment:
+    description: Specifies the treatment terms for the eligible collateral criteria specified.
+    close_mappings:
+      - fpml_5_10:CollateralTreatment
+    comments:
+      - 'Rosetta func: CloneEligibleCollateralWithChangedTreatment — Creates a new Eligible Collateral Specification based
+        on an input specification but with one changed criteria and with one changed treatment.'
+    annotations:
+      rosetta_functions: '[{"name":"CloneEligibleCollateralWithChangedTreatment","description":"Creates a new Eligible Collateral
+        Specification based on an input specification but with one changed criteria and with one changed treatment.","inputs":[{"name":"inputSpecification","type":"EligibleCollateralSpecification","cardinality":"1..1"},{"name":"changedCriteria","type":"CollateralCriteria","cardinality":"1..1"},{"name":"changedTreatment","type":"CollateralTreatment","cardinality":"1..1"}],"output":{"name":"outputSpecification","type":"EligibleCollateralSpecification","cardinality":"1..1"}}]'
+    slots:
+      - valuationTreatment
+      - concentrationLimit
+      - isIncluded
+    in_subset:
+      - cdm_product_collateral
+
+  ConcentrationLimit:
+    description: Represents a class to describe concentration limits that may be applicable to eligible collateral criteria.
+    rules:
+      - description: Either a value or percentage concentration limit must be specified.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                valueLimit:
+                  required: true
+            - slot_conditions:
+                percentageLimit:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ConcentrationLimitValueChoice — required choice valueLimit, percentageLimit'
+      - 'Rosetta condition: PercentageConcentrationLimit — if concentrationLimitCriteria -> concentrationLimitType = ConcentrationLimitTypeEnum
+        -> MarketCapitalisation then percentageLimit exists'
+    slots:
+      - concentrationLimitCriteria
+      - valueLimit
+      - percentageLimit
+    in_subset:
+      - cdm_product_collateral
+
+  ConcentrationLimitCriteria:
+    description: Respresents a class to describe a set of criteria to describe specific assets that the concentration limits
+      apply to.
+    is_a: CollateralCriteriaBase
+    rules:
+      - description: Either a limit type or limit criteria must be specified.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                concentrationLimitType:
+                  required: true
+            - slot_conditions:
+                averageTradingVolume:
+                  required: true
+            - slot_conditions:
+                collateralCriteria:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ConcentrationLimitTypeChoice — required choice concentrationLimitType, averageTradingVolume, collateralCriteria'
+    slots:
+      - concentrationLimitType
+      - averageTradingVolume
+    in_subset:
+      - cdm_product_collateral
+
+  AverageTradingVolume:
+    description: Represents the average trading volume of an Equity product upon an exchange or set of exchanges.
+    close_mappings:
+      - fpml_5_10:AverageTradingVolume
+    slots:
+      - period
+      - methodology
+    slot_usage:
+      period:
+        range: Period
+        description: Represents the period of the equities average trading volume on the exchange/s.
+    in_subset:
+      - cdm_product_collateral
+
+  IssuerCountryOfOrigin:
+    slots:
+      - issuerCountryOfOrigin
+    in_subset:
+      - cdm_product_collateral
+
+  AssetCountryOfOrigin:
+    slots:
+      - assetCountryOfOrigin
+    slot_usage:
+      assetCountryOfOrigin:
+        description: Represents a filter on the asset country of origin based on the ISO Standard 3166.
+    in_subset:
+      - cdm_product_collateral
+
+  IssuerName:
+    comments:
+      - 'Rosetta func: CheckIssuerName'
+    annotations:
+      rosetta_functions: '[{"name":"CheckIssuerName","inputs":[{"name":"issuerName","type":"IssuerName","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}}]'
+    slots:
+      - issuerName
+    in_subset:
+      - cdm_product_collateral
+
+  IssuerAgencyRating:
+    slots:
+      - issuerAgencyRating
+    in_subset:
+      - cdm_product_collateral
+
+  SovereignAgencyRating:
+    slots:
+      - sovereignAgencyRating
+    in_subset:
+      - cdm_product_collateral
+
+  AssetAgencyRating:
+    slots:
+      - assetAgencyRating
+    in_subset:
+      - cdm_product_collateral
+
+  AssetMaturity:
+    close_mappings:
+      - fpml_5_10:AssetMaturity
+    comments:
+      - 'Rosetta func: CheckMaturity'
+    annotations:
+      rosetta_functions: '[{"name":"CheckMaturity","inputs":[{"name":"maturityRange","type":"AssetMaturity","cardinality":"0..1"},{"name":"query","type":"EligibilityQuery","cardinality":"1..1"}],"output":{"name":"isEqual","type":"boolean","cardinality":"1..1"}}]'
+    slots:
+      - maturityType
+      - maturityRange
+    in_subset:
+      - cdm_product_collateral
+
+  ListingExchange:
+    description: Specifies a filter based on a stock exchange.
+    slots:
+      - exchange
+    slot_usage:
+      exchange:
+        range: string
+        description: Represents a filter based on the Primary Stock Exchange facilitating the listing of companies, exchange
+          of Stocks, Exchange traded Derivatives, Bonds, and other Securities expressed in ISO standard 10383.
+        required: true
+        multivalued: true
+    in_subset:
+      - cdm_product_collateral
+
+  ListingSector:
+    description: Specifies a filter based on an industry sector.
+    slots:
+      - sector
+    in_subset:
+      - cdm_product_collateral
+
+  DomesticCurrencyIssued:
+    slots:
+      - domesticCurrencyIssued
+    in_subset:
+      - cdm_product_collateral
+
+  CounterpartyOwnIssuePermitted:
+    slots:
+      - counterpartyOwnIssuePermitted
+    in_subset:
+      - cdm_product_collateral
+
+  AllCriteria:
+    description: Used to combine two or more Collateral Criteria using AND logic.
+    slots:
+      - allCriteria
+    slot_usage:
+      allCriteria:
+        range: CollateralCriteria
+    in_subset:
+      - cdm_product_collateral
+
+  AnyCriteria:
+    description: Used to combine two or more Collateral Criteria using OR logic.
+    slots:
+      - anyCriteria
+    slot_usage:
+      anyCriteria:
+        range: CollateralCriteria
+    in_subset:
+      - cdm_product_collateral
+
+  NegativeCriteria:
+    description: Used to apply a NOT logic condition to a single Collateral Criteria.
+    slots:
+      - negativeCriteria
+    in_subset:
+      - cdm_product_collateral
+
+  DistributionAndInterestPayment:
+    description: A class to specify the Distributions and Interest Payment provisions applicable to the collateral agreement.
+    slots:
+      - interestParameters
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralInterestParameters:
+    description: Represents the floating interest calculation and distribution parameters for a single currency.
+    close_mappings:
+      - fpml_5_10:CollateralInterestParameters
+    slots:
+      - postingParty
+      - marginType
+      - currency
+      - interestCalculationParameters
+      - interestCalculationFrequency
+      - interestHandlingParameters
+    slot_usage:
+      postingParty:
+        description: Represents the party to which these parameters apply (the applicable party).  In other words, if the
+          parameters are different depending on which party is posting/holding the collateral, for which party to the Collateral
+          Agreement (Party 1 or Party 2) that is posting the collateral do these parameters apply?
+      currency:
+        description: Specifies the currency for which the parameters are captured.
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralInterestCalculationParameters:
+    description: Represents parameters for calculating the amount the floating interest calculation, e.g.  for a single currency
+      or defaults for all currencies.
+    close_mappings:
+      - fpml_5_10:CollateralInterestCalculationParameters
+    rules:
+      - description: InterestRate
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                fixedRate:
+                  required: true
+            - slot_conditions:
+                floatingRate:
+                  required: true
+        preconditions: {}
+      - description: CompoundingBC1
+        preconditions:
+          slot_conditions:
+            compoundingType:
+              equals_string: Business
+        postconditions:
+          slot_conditions:
+            compoundingBusinessCenter:
+              required: true
+      - description: CompoundingBC2
+        comments:
+          - 'Rosetta negation: compoundingType <> CompoundingTypeEnum -> Business'
+        preconditions:
+          slot_conditions:
+            compoundingType:
+              none_of:
+                - equals_string_in:
+                    - Business
+        postconditions:
+          slot_conditions:
+            compoundingBusinessCenter:
+              required: false
+    comments:
+      - 'Rosetta condition: InterestRate — required choice fixedRate, floatingRate'
+      - 'Rosetta condition: DCF — dayCountFraction = DayCountFractionEnum -> ACT_360 or dayCountFraction = DayCountFractionEnum
+        -> ACT_365_FIXED'
+      - 'Rosetta condition: CompoundingBC1 — if compoundingType = CompoundingTypeEnum -> Business then compoundingBusinessCenter
+        exists'
+      - 'Rosetta condition: CompoundingBC2 — if compoundingType <> CompoundingTypeEnum -> Business then compoundingBusinessCenter
+        is absent'
+    slots:
+      - fixedRate
+      - floatingRate
+      - inBaseCurrency
+      - compoundingType
+      - compoundingBusinessCenter
+      - dayCountFraction
+      - rounding
+      - roundingFrequency
+      - withholdingTaxRate
+    slot_usage:
+      fixedRate:
+        description: Specifies the applicable fixed rate  if used.
+        required: false
+      floatingRate:
+        range: CollateralAgreementFloatingRate
+        description: Specifies the floating interest rate to be used.
+        multivalued: false
+      dayCountFraction:
+        description: Specifies the day count fraction to use for that currency.
+      rounding:
+        range: Rounding
+        description: Specifies the rounding rules for settling in that currency.
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralAgreementFloatingRate:
+    description: Represents the parameters needed to calculate the floating rate paid on collateral holdings.
+    is_a: FloatingRateBase
+    close_mappings:
+      - fpml_5_10:CollateralAgreementFloatingRate
+    slots:
+      - negativeInterest
+      - compressibleSpread
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralInterestHandlingParameters:
+    description: Represents parameters that describe how calculated interest amounts are handled, i.e. are they transferred/distributed,
+      or is the collateral balance adjusted, is netting done, and any other special handling.
+    close_mappings:
+      - fpml_5_10:CollateralInterestHandlingParameters
+    rules:
+      - description: Alternative
+        preconditions:
+          slot_conditions:
+            alternativeToInterestAmount:
+              equals_string: Other
+        postconditions:
+          slot_conditions:
+            alternativeProvision:
+              required: true
+      - description: Alternative2
+        comments:
+          - 'Rosetta negation: alternativeToInterestAmount <> AlternativeToInterestAmountEnum -> Other'
+        preconditions:
+          slot_conditions:
+            alternativeToInterestAmount:
+              none_of:
+                - equals_string_in:
+                    - Other
+        postconditions:
+          slot_conditions:
+            alternativeProvision:
+              required: false
+    comments:
+      - 'Rosetta condition: Alternative — if alternativeToInterestAmount = AlternativeToInterestAmountEnum -> Other then alternativeProvision
+        exists'
+      - 'Rosetta condition: Alternative2 — if alternativeToInterestAmount <> AlternativeToInterestAmountEnum -> Other then
+        alternativeProvision is absent'
+    slots:
+      - interestPaymentHandling
+      - paymentBusinessCenter
+      - netPostedAndHeldInterest
+      - netInterestWithMarginCalls
+      - includeAccrualInMarginCalc
+      - accrueInterestOnUnsettledInterest
+      - onFullReturn
+      - onPartialReturn
+      - interestAmountApplication
+      - interestRolloverLimit
+      - writeoffLimit
+      - alternativeToInterestAmount
+      - alternativeProvision
+      - cutoffTime
+      - notification
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralInterestNotification:
+    description: Represents the parameters describing when notifications should be made for required collateral interest transfers.
+    close_mappings:
+      - fpml_5_10:CollateralInterestNotification
+    slots:
+      - trigger
+      - offset
+      - notificationTime
+      - notificationDayType
+    slot_usage:
+      trigger:
+        range: string
+        description: Specifies what triggers notification (should be enum) Interest Statement Frequency, Period End Date.
+      offset:
+        range: decimal
+        description: Specifies the number of days before (negative) or after (positive) the trigger event.
+        required: true
+      notificationTime:
+        range: time
+        description: Specifies the time of day that the notification should occur.
+    in_subset:
+      - cdm_product_collateral
+
+  InterestAmountApplication:
+    description: A class to specify the application of Interest Amount with respect to the Delivery Amount and the Return
+      Amount.
+    slots:
+      - returnAmount
+      - deliveryAmount
+    slot_usage:
+      returnAmount:
+        range: ReturnAmount
+        description: The application of Interest Amount with respect the Return Amount.
+      deliveryAmount:
+        range: DeliveryAmount
+        description: The application of Interest Amount with respect the Delivery Amount.
+    in_subset:
+      - cdm_product_collateral
+
+  ReturnAmount:
+    description: A class to specify the application of Interest Amount with respect the Return Amount.
+    rules:
+      - description: A data rule to specify that when a custom election exists then default language should not be included.
+        preconditions:
+          slot_conditions:
+            customElection:
+              required: true
+        postconditions:
+          slot_conditions:
+            includesDefaultLanguage:
+              equals_string: 'False'
+    comments:
+      - 'Rosetta condition: CustomElection — if customElection exists then includesDefaultLanguage = False'
+    slots:
+      - includesDefaultLanguage
+      - customElection
+    slot_usage:
+      customElection:
+        description: Custom election that might be specified by the parties to the agreement.
+    in_subset:
+      - cdm_product_collateral
+
+  DeliveryAmount:
+    description: A class to specify the application of Interest Amount with respect the Delivery Amount.
+    slots:
+      - standardElection
+      - customElection
+    slot_usage:
+      standardElection:
+        range: DeliveryAmountElectionEnum
+        description: The standard election as specified by an enumeration.
+      customElection:
+        description: The custom election that might be specified by the parties to the agreement.
+    in_subset:
+      - cdm_product_collateral
+
+  SpecificAsset:
+    description: A single, specifically identified Asset chosen from the Asset data type
+    is_a: Asset
+    in_subset:
+      - cdm_product_collateral
+
+  IndexType:
+    description: Specification of an index.
+    slots:
+      - equityIndex
+    in_subset:
+      - cdm_product_collateral
+
+  CollateralCriteria:
+    abstract: true
+    description: The possible different terms that can be combined, using AND, OR and NOT logic, to define the issuers and/or
+      assets that meet a given criteria for collateral.
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - AllCriteria
+      - AnyCriteria
+      - NegativeCriteria
+      - CollateralIssuerType
+      - CollateralGuarantorType
+      - AssetType
+      - IssuerCountryOfOrigin
+      - AssetCountryOfOrigin
+      - CurrencyCodeEnum
+      - IssuerName
+      - IssuerAgencyRating
+      - SovereignAgencyRating
+      - AssetAgencyRating
+      - AssetMaturity
+      - SpecificAsset
+      - CollateralTaxonomy
+      - ListingExchange
+      - ListingSector
+      - IndexType
+      - CounterpartyOwnIssuePermitted
+      - DomesticCurrencyIssued
+    in_subset:
+      - cdm_product_collateral

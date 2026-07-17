@@ -1,0 +1,204 @@
+id: https://w3id.org/nmdc/annotation
+name: NMDC-Annotation
+title: Annotation Module for NMDC Schema
+description: >-
+  This module in the schema is for representing annotations including functional annotations of proteins and other gene products,
+  as well as controlled terms for describing things like metabolites
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+see_also:
+  - https://github.com/microbiomedata/nmdc-metadata/issues/176
+
+imports:
+  - core
+
+prefixes:
+  CATH: 'https://bioregistry.io/cath:'
+  COG: "https://bioregistry.io/cog:"
+  EC: "https://bioregistry.io/eccode:"
+  EGGNOG: 'https://bioregistry.io/eggnog:'
+  GO: "http://purl.obolibrary.org/obo/GO_"
+  KEGG.ORTHOLOGY: "https://bioregistry.io/kegg.orthology:"
+  KEGG.REACTION: "https://bioregistry.io/kegg.reaction:"
+  KEGG_PATHWAY: "https://bioregistry.io/kegg.pathway:"
+  MetaCyc: "https://bioregistry.io/metacyc.compound:"
+  MetaNetX: "http://example.org/metanetx/"
+  PANTHER.FAMILY: 'https://bioregistry.io/panther.family:'
+  PFAM: 'https://bioregistry.io/pfam:'
+  RHEA: "https://bioregistry.io/rhea:"
+  SEED: "https://bioregistry.io/seed:"
+  SUPFAM: 'https://bioregistry.io/supfam:'
+  TIGRFAM: 'https://bioregistry.io/tigrfam:'
+  biolink: "https://w3id.org/biolink/vocab/"
+  linkml: "https://w3id.org/linkml/"
+  nmdc: "https://w3id.org/nmdc/"
+
+default_prefix: nmdc
+default_range: string
+
+classes:
+  GenomeFeature:
+    class_uri: nmdc:GenomeFeature
+    description: >-
+      A feature localized to an interval along a genome
+    comments:
+      - corresponds to an entry in GFF3
+    see_also:
+      - https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
+    slots:
+      - encodes
+      - end
+      - feature_type
+      - phase
+      - seqid
+      - start
+      - strand
+      - type
+      - feature_category
+    slot_usage:
+      seqid:
+        required: true
+      start:
+        required: true
+      end:
+        required: true
+
+  FunctionalAnnotationTerm:
+    class_uri: nmdc:FunctionalAnnotationTerm
+    aliases:
+      - function
+      - FunctionalAnnotation
+    is_a: OntologyClass
+    description: >-
+      Abstract grouping class for any term/descriptor that can be applied to a functional unit of a genome (protein, ncRNA, complex).
+    abstract: true
+
+
+  OrthologyGroup:
+    class_uri: nmdc:OrthologyGroup
+    is_a: FunctionalAnnotationTerm
+    description: >-
+      A set of genes or gene products in which all members are orthologous
+    id_prefixes:
+      - CATH
+      - EGGNOG
+      - KEGG.ORTHOLOGY
+      - PANTHER.FAMILY
+      - PFAM
+      - SUPFAM
+      - TIGRFAM
+    exact_mappings:
+      - biolink:GeneFamily
+    notes:
+      - KEGG.ORTHOLOGY prefix is used for KO numbers
+    todos:
+      - is OrthologyGroup instantiated in an MongoDB collection? Aren't Pathways searchable in the Data Portal?
+
+  FunctionalAnnotation:
+    class_uri: nmdc:FunctionalAnnotation
+    description: >-
+      An assignment of a function term (e.g. reaction or pathway) that is executed by a gene product, 
+      or which the gene product plays an active role in.
+      Functional annotations can be assigned manually by curators, or automatically in workflows. 
+      In the context of NMDC, all function annotation is performed
+      automatically, typically using HMM or Blast type methods
+    see_also:
+      - https://img.jgi.doe.gov/docs/functional-annotation.pdf
+      - https://github.com/microbiomedata/mg_annotation/blob/master/functional-annotation.wdl
+    slots:
+      - has_function
+      - subject
+      - was_generated_by
+      - type
+      - feature_category
+    slot_usage:
+      has_function:
+        notes:
+          - Still missing patterns for COG and RetroRules
+          - These patterns are not yet tied to the listed prefixes.
+          - Are these lists are intended to be open examples or closed?
+      was_generated_by:
+        description: provenance for the annotation.
+        notes:
+          - To be consistent with the rest of the NMDC schema we use the PROV annotation model, rather than GPAD
+        range: MetagenomeAnnotation
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:(wfmgan)-{id_shoulder}-{id_blade}{id_version}$"
+          interpolated: true
+    narrow_mappings:
+      - biolink:GeneToGoTermAssociation
+
+slots:
+
+  feature_category:
+    range: ControlledIdentifiedTermValue
+    description: A Sequence Ontology term that describes the category of a feature
+
+  subject:
+    range: GeneProduct
+
+  has_function:
+    range: string
+    notes:
+      - "the range for has_function was asserted as functional_annotation_term/FunctionalAnnotationTerm,"
+      - "but is actually taking string arguments in MongoDB,"
+      - "and those are frequently fulltext, not CURIEs. MAM 2021-06-23"
+    pattern: "^(KEGG_PATHWAY:\\w{2,4}\\d{5}|KEGG\\.REACTION:R\\d+|RHEA:\\d{5}|MetaCyc:[A-Za-z0-9+_.%:\\-]+|EC:\\d{1,2}(\\.\\d{0,3}){0,3}|GO:\\d{7}|MetaNetX:(MNXR\\d+|EMPTY)|SEED:\\w+|KEGG\\.ORTHOLOGY:K\\d+|EGGNOG:\\w+|PFAM:PF\\d{5}|TIGRFAM:TIGR\\d+|SUPFAM:\\w+|CATH:[1-6]\\.[0-9]+\\.[0-9]+\\.[0-9]+|PANTHER\\.FAMILY:PTHR\\d{5}(\\:SF\\d{1,3})?)$"
+
+  gff_coordinate:
+    range: integer
+    minimum_value: 1
+    description: A positive 1-based integer coordinate indicating start or end
+    comments:
+      - "For features that cross the origin of a circular feature (e.g. most bacterial genomes, plasmids, and some viral genomes), the requirement for start to be less than or equal to end is satisfied by making end = the position of the end + the length of the landmark feature."
+
+  seqid:
+    description: The ID of the landmark used to establish the coordinate system for the current feature.
+    range: string
+    todos:
+      - "change range from string to a object like uriorcurie?"
+
+  strand:
+    todos:
+      - "set the range to an enum?"
+    description: >-
+      The strand on which a feature is located. Has a value of '+' (sense strand or forward strand) or 
+      '-' (anti-sense strand or reverse strand).
+    exact_mappings:
+      - biolink:strand
+
+  encodes:
+    range: GeneProduct
+    description: >-
+      The gene product encoded by this feature.
+      Typically this is used for a CDS feature or gene feature which will encode a protein.
+      It can also be used by a nc transcript ot gene feature that encoded a ncRNA
+    todos:
+      - If we revert Reaction back into the schema, that would be a reasonable domain for this slot
+  end:
+    range: integer
+    is_a: gff_coordinate
+    description: The end of the feature in positive 1-based integer coordinates
+    comments:
+      - "unenforced constraint: end > start"
+      - "For features that cross the origin of a circular feature, end = the position of the end + the length of the landmark feature."
+    close_mappings:
+      - biolink:end_interbase_coordinate
+  feature_type:
+    range: string
+    description: "TODO: Yuri to write"
+
+  phase:
+    range: integer
+    minimum_value: 0
+    maximum_value: 2
+    description: >-
+      The phase for a coding sequence entity. For example, phase of a CDS as represented in a GFF3 with a value of 0, 1 or 2.
+    exact_mappings:
+      - biolink:phase
+  start:
+    is_a: gff_coordinate
+    description: The start of the feature in positive 1-based integer coordinates
+    close_mappings:
+      - biolink:start_interbase_coordinate

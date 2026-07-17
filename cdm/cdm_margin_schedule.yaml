@@ -1,0 +1,265 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_margin_schedule
+name: cdm_margin_schedule
+description: LinkML schema for cdm.margin.schedule
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_observable_asset
+
+comments:
+  - 'Rosetta func: BuildStandardizedSchedule — Takes a trade and uses qualification to extract the relevant information to
+    populate the grid that will be used to calculate the gross initial margin. | inputs(trade: Trade (1..1)) | output(standardizedSchedule:
+    StandardizedSchedule (1..1))'
+  - 'Rosetta func: GetGrossInitialMarginFromStandardizedSchedule — Takes the grid information from an specific trade and calculates
+    the gross initial margin. | inputs(standardizedSchedule: StandardizedSchedule (1..1)) | output(grossInitialMargin: Money
+    (0..1))'
+  - 'Rosetta func: StandardizedScheduleAssetClass — Identifies the asset class of a trade from qualifying functions, according
+    to the standardized schedule classification. | inputs(trade: Trade (1..1)) | output(assetClass: StandardizedScheduleAssetClassEnum
+    (0..1))'
+  - 'Rosetta func: StandardizedScheduleProductClass — Identifies the product class of a trade from qualifying functions, according
+    to the standardized schedule classification. | inputs(trade: Trade (1..1)) | output(productClass: StandardizedScheduleProductClassEnum
+    (0..1))'
+  - 'Rosetta func: StandardizedScheduleNotional — Extracts the notional amount of a trade, according to the product class-depending
+    extraction method defined in the ISDA industry survey. | inputs(trade: Trade (1..1), assetClass: StandardizedScheduleAssetClassEnum
+    (1..1), productClass: StandardizedScheduleProductClassEnum (1..1)) | output(notional: number (0..1))'
+  - 'Rosetta func: StandardizedScheduleNotionalCurrency — Extracts the notional currency of a trade, according to the product
+    class-depending extraction method defined in the ISDA industry survey. | inputs(trade: Trade (1..1), assetClass: StandardizedScheduleAssetClassEnum
+    (1..1), productClass: StandardizedScheduleProductClassEnum (1..1)) | output(notionalCurrency: string (0..1))'
+  - 'Rosetta func: AuxiliarEffectiveDate — Extracts the effective date of specific products such as interest rate swaps and
+    swaptions. | inputs(trade: Trade (1..1)) | output(effectiveDate: date (0..1))'
+  - 'Rosetta func: AuxiliarTerminationDate — Extracts the termination date of specific products such as interest rate swaps
+    and swaptions. | inputs(trade: Trade (1..1)) | output(terminationDate: date (0..1))'
+  - 'Rosetta func: StandardizedScheduleDuration — Extracts the duration of a trade, according to the product class-depending
+    extraction method defined in the ISDA industry survey. | inputs(trade: Trade (1..1), assetClass: StandardizedScheduleAssetClassEnum
+    (1..1), productClass: StandardizedScheduleProductClassEnum (1..1)) | output(durationInYears: number (0..1))'
+  - 'Rosetta func: GetStandardizedScheduleMarginRate — Computes the margin rate, which is required in the calculation of the
+    gross initial margin. It depends exclusively on the asset class of the trade and, in some cases, on the duration as well.
+    | inputs(assetClass: StandardizedScheduleAssetClassEnum (1..1), durationInYears: number (1..1)) | output(percentage: number
+    (1..1))'
+  - 'Rosetta func: StandardizedScheduleMonetaryNotionalFromResolvablePQ — Extracts the notional amount for all products that
+    have it populated in the resolvable priceQuantity. | inputs(priceQuantity: ResolvablePriceQuantity (0..1)) | output(notional:
+    number (0..1))'
+  - 'Rosetta func: StandardizedScheduleMonetaryNotionalCurrencyFromResolvablePQ — Extracts the notional currency for all products
+    that have it populated in the resolvable priceQuantity. | inputs(priceQuantity: ResolvablePriceQuantity (0..1)) | output(notionalCurrency:
+    string (0..1))'
+  - 'Rosetta func: StandardizedScheduleFXSwapNotional — Extracts the notional amount and currency of an FX swap. | inputs(farLeg:
+    SettlementPayout (0..1), tradeLot: TradeLot (0..1)) | output(quantity: NonNegativeQuantitySchedule (0..1))'
+  - 'Rosetta func: StandardizedScheduleFXVarianceNotionalAmount — Extracts the notional amount of an FX variance swap. | inputs(performancePayout:
+    PerformancePayout (0..1)) | output(amount: number (0..1))'
+  - 'Rosetta func: StandardizedScheduleOptionNotionalAmount — Extracts the notional amount of a CO or EQ option. | inputs(optionPayout:
+    OptionPayout (0..1)) | output(amount: number (0..1))'
+  - 'Rosetta func: StandardizedScheduleEquityForwardNotionalAmount — Extracts the notional amount of an EQ forward. | inputs(settlementPayout:
+    SettlementPayout (0..1)) | output(amount: number (0..1))'
+  - 'Rosetta func: StandardizedScheduleVarianceSwapNotionalAmount — Extracts the notional amount of an EQ variance swap. |
+    inputs(performancePayout: PerformancePayout (0..1)) | output(amount: number (0..1))'
+  - 'Rosetta func: StandardizedScheduleCommodityForwardNotionalAmount — Extracts the notional amount of a CO forward. Floating
+    price forwards not supported. | inputs(economicTerms: EconomicTerms (0..1)) | output(amount: number (0..1))'
+  - 'Rosetta func: StandardizedScheduleCommoditySwapFixedFloatNotionalAmount — Extracts the notional amount of a CO fixed
+    float swap. | inputs(economicTerms: EconomicTerms (0..1)) | output(amount: number (0..1))'
+  - 'Rosetta func: Qualify_Credit_NthToDefault — Qualifies a product as a CR basket Nth to default by checking that 1) it
+    is a credit product with a basket underlier and 2) nth to default information is populated. | inputs(economicTerms: EconomicTerms
+    (1..1)) | output(is_Product: boolean (1..1))'
+  - 'Rosetta func: Qualify_InterestRate_Swaption_Straddle — Qualifies a product as an IR swaption straddle by checking that
+    it is indeed an IR swaption with the option type populated as Straddle. | inputs(economicTerms: EconomicTerms (1..1))
+    | output(is_Product: boolean (1..1))'
+  - 'Rosetta func: Qualify_InterestRate_SwapWithCallableBermudanRightToEnterExitSwaps — Qualifies a product as an IR swap
+    with bermudan/callable right to enter/exit swaps, by checking it is an IR swap that has an optional early termination
+    with Bermudan style. | inputs(economicTerms: EconomicTerms (1..1)) | output(is_Product: boolean (1..1))'
+  - 'Rosetta func: GetNetInitialMarginFromExposure — Computes the net initial margin, taking the gross initial margin result
+    and the mark to market value for each trade in the portfolio. | inputs(exposure: Exposure (0..1)) | output(initialMargin:
+    StandardizedScheduleInitialMargin (0..1))'
+annotations:
+  rosetta_functions: '[{"name":"BuildStandardizedSchedule","description":"Takes a trade and uses qualification to extract
+    the relevant information to populate the grid that will be used to calculate the gross initial margin.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"standardizedSchedule","type":"StandardizedSchedule","cardinality":"1..1"}},{"name":"GetGrossInitialMarginFromStandardizedSchedule","description":"Takes
+    the grid information from an specific trade and calculates the gross initial margin.","inputs":[{"name":"standardizedSchedule","type":"StandardizedSchedule","cardinality":"1..1"}],"output":{"name":"grossInitialMargin","type":"Money","cardinality":"0..1"}},{"name":"StandardizedScheduleAssetClass","description":"Identifies
+    the asset class of a trade from qualifying functions, according to the standardized schedule classification.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"assetClass","type":"StandardizedScheduleAssetClassEnum","cardinality":"0..1"}},{"name":"StandardizedScheduleProductClass","description":"Identifies
+    the product class of a trade from qualifying functions, according to the standardized schedule classification.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"productClass","type":"StandardizedScheduleProductClassEnum","cardinality":"0..1"}},{"name":"StandardizedScheduleNotional","description":"Extracts
+    the notional amount of a trade, according to the product class-depending extraction method defined in the ISDA industry
+    survey.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"},{"name":"assetClass","type":"StandardizedScheduleAssetClassEnum","cardinality":"1..1"},{"name":"productClass","type":"StandardizedScheduleProductClassEnum","cardinality":"1..1"}],"output":{"name":"notional","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleNotionalCurrency","description":"Extracts
+    the notional currency of a trade, according to the product class-depending extraction method defined in the ISDA industry
+    survey.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"},{"name":"assetClass","type":"StandardizedScheduleAssetClassEnum","cardinality":"1..1"},{"name":"productClass","type":"StandardizedScheduleProductClassEnum","cardinality":"1..1"}],"output":{"name":"notionalCurrency","type":"string","cardinality":"0..1"}},{"name":"AuxiliarEffectiveDate","description":"Extracts
+    the effective date of specific products such as interest rate swaps and swaptions.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"effectiveDate","type":"date","cardinality":"0..1"}},{"name":"AuxiliarTerminationDate","description":"Extracts
+    the termination date of specific products such as interest rate swaps and swaptions.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"terminationDate","type":"date","cardinality":"0..1"}},{"name":"StandardizedScheduleDuration","description":"Extracts
+    the duration of a trade, according to the product class-depending extraction method defined in the ISDA industry survey.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"},{"name":"assetClass","type":"StandardizedScheduleAssetClassEnum","cardinality":"1..1"},{"name":"productClass","type":"StandardizedScheduleProductClassEnum","cardinality":"1..1"}],"output":{"name":"durationInYears","type":"number","cardinality":"0..1"}},{"name":"GetStandardizedScheduleMarginRate","description":"Computes
+    the margin rate, which is required in the calculation of the gross initial margin. It depends exclusively on the asset
+    class of the trade and, in some cases, on the duration as well.","inputs":[{"name":"assetClass","type":"StandardizedScheduleAssetClassEnum","cardinality":"1..1"},{"name":"durationInYears","type":"number","cardinality":"1..1"}],"output":{"name":"percentage","type":"number","cardinality":"1..1"}},{"name":"StandardizedScheduleMonetaryNotionalFromResolvablePQ","description":"Extracts
+    the notional amount for all products that have it populated in the resolvable priceQuantity.","inputs":[{"name":"priceQuantity","type":"ResolvablePriceQuantity","cardinality":"0..1"}],"output":{"name":"notional","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleMonetaryNotionalCurrencyFromResolvablePQ","description":"Extracts
+    the notional currency for all products that have it populated in the resolvable priceQuantity.","inputs":[{"name":"priceQuantity","type":"ResolvablePriceQuantity","cardinality":"0..1"}],"output":{"name":"notionalCurrency","type":"string","cardinality":"0..1"}},{"name":"StandardizedScheduleFXSwapNotional","description":"Extracts
+    the notional amount and currency of an FX swap.","inputs":[{"name":"farLeg","type":"SettlementPayout","cardinality":"0..1"},{"name":"tradeLot","type":"TradeLot","cardinality":"0..1"}],"output":{"name":"quantity","type":"NonNegativeQuantitySchedule","cardinality":"0..1"}},{"name":"StandardizedScheduleFXVarianceNotionalAmount","description":"Extracts
+    the notional amount of an FX variance swap.","inputs":[{"name":"performancePayout","type":"PerformancePayout","cardinality":"0..1"}],"output":{"name":"amount","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleOptionNotionalAmount","description":"Extracts
+    the notional amount of a CO or EQ option.","inputs":[{"name":"optionPayout","type":"OptionPayout","cardinality":"0..1"}],"output":{"name":"amount","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleEquityForwardNotionalAmount","description":"Extracts
+    the notional amount of an EQ forward.","inputs":[{"name":"settlementPayout","type":"SettlementPayout","cardinality":"0..1"}],"output":{"name":"amount","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleVarianceSwapNotionalAmount","description":"Extracts
+    the notional amount of an EQ variance swap.","inputs":[{"name":"performancePayout","type":"PerformancePayout","cardinality":"0..1"}],"output":{"name":"amount","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleCommodityForwardNotionalAmount","description":"Extracts
+    the notional amount of a CO forward. Floating price forwards not supported.","inputs":[{"name":"economicTerms","type":"EconomicTerms","cardinality":"0..1"}],"output":{"name":"amount","type":"number","cardinality":"0..1"}},{"name":"StandardizedScheduleCommoditySwapFixedFloatNotionalAmount","description":"Extracts
+    the notional amount of a CO fixed float swap.","inputs":[{"name":"economicTerms","type":"EconomicTerms","cardinality":"0..1"}],"output":{"name":"amount","type":"number","cardinality":"0..1"}},{"name":"Qualify_Credit_NthToDefault","description":"Qualifies
+    a product as a CR basket Nth to default by checking that 1) it is a credit product with a basket underlier and 2) nth
+    to default information is populated.","inputs":[{"name":"economicTerms","type":"EconomicTerms","cardinality":"1..1"}],"output":{"name":"is_Product","type":"boolean","cardinality":"1..1"}},{"name":"Qualify_InterestRate_Swaption_Straddle","description":"Qualifies
+    a product as an IR swaption straddle by checking that it is indeed an IR swaption with the option type populated as Straddle.","inputs":[{"name":"economicTerms","type":"EconomicTerms","cardinality":"1..1"}],"output":{"name":"is_Product","type":"boolean","cardinality":"1..1"}},{"name":"Qualify_InterestRate_SwapWithCallableBermudanRightToEnterExitSwaps","description":"Qualifies
+    a product as an IR swap with bermudan/callable right to enter/exit swaps, by checking it is an IR swap that has an optional
+    early termination with Bermudan style.","inputs":[{"name":"economicTerms","type":"EconomicTerms","cardinality":"1..1"}],"output":{"name":"is_Product","type":"boolean","cardinality":"1..1"}},{"name":"GetNetInitialMarginFromExposure","description":"Computes
+    the net initial margin, taking the gross initial margin result and the mark to market value for each trade in the portfolio.","inputs":[{"name":"exposure","type":"Exposure","cardinality":"0..1"}],"output":{"name":"initialMargin","type":"StandardizedScheduleInitialMargin","cardinality":"0..1"}}]'
+
+subsets:
+  cdm_margin_schedule:
+    description: Classes defined in the cdm_margin_schedule module.
+
+enums:
+  StandardizedScheduleAssetClassEnum:
+    permissible_values:
+      InterestRates: {}
+      Credit: {}
+      ForeignExchange: {}
+      Equity: {}
+      Commodity: {}
+
+  StandardizedScheduleProductClassEnum:
+    permissible_values:
+      Swap: {}
+      CrossCurrencySwap: {}
+      Swaption: {}
+      SwaptionStraddle: {}
+      SwapWithCallableBermudanRightToEnterExitSwaps: {}
+      IRExoticSwapWithAnExoticCouponAgainstAFloatingLeg: {}
+      Option: {}
+      ForwardRateAgreement: {}
+      SingleNameCreditDefaultSwap: {}
+      IndexCDS: {}
+      IndexTranche: {}
+      CreditNthToDefault: {}
+      CreditTotalReturnSwapOnABond: {}
+      DeliverableSwap: {}
+      NonDeliverableCrossCurrencySwap: {}
+      DeliverableForward: {}
+      NonDeliverableForward: {}
+      DeliverableOption: {}
+      NonDeliverableOption: {}
+      VarianceSwap: {}
+      VolatilitySwap: {}
+      CorrelationSwap: {}
+      Forward: {}
+      DividendSwap: {}
+      DeliverableOptionF: {}
+      ContractForDifference: {}
+      SwapsAndPortfolioSwaps: {}
+      FixedFloatSwap: {}
+      BasisSwap: {}
+
+slots:
+  assetClass:
+    range: StandardizedScheduleAssetClassEnum
+    required: true
+
+  productClass:
+    range: StandardizedScheduleProductClassEnum
+    required: true
+
+  notional:
+    range: decimal
+    required: true
+
+  notionalCurrency:
+    range: string
+    required: true
+
+  durationInYears:
+    range: decimal
+
+  grossInitialMargin:
+    range: Money
+
+  markToMarketValue:
+    range: Money
+
+  tradeInfo:
+    range: StandardizedScheduleTradeInfo
+    multivalued: true
+    inlined_as_list: true
+
+  netInitialMargin:
+    range: Money
+    required: true
+
+classes:
+  StandardizedSchedule:
+    rules:
+      - description: Ensure notional is greater than 0
+        postconditions:
+          slot_conditions:
+            notional:
+              minimum_value: 0
+              comments:
+                - 'Rosetta: strictly greater than'
+        preconditions: {}
+      - description: Ensure duration is greater than 0.
+        preconditions:
+          slot_conditions:
+            durationInYears:
+              required: true
+        postconditions:
+          slot_conditions:
+            durationInYears:
+              minimum_value: 0
+              comments:
+                - 'Rosetta: strictly greater than'
+    comments:
+      - 'Rosetta condition: PositiveNotional — notional > 0'
+      - 'Rosetta condition: ValidCurrency — notionalCurrency to-enum ISOCurrencyCodeEnum exists'
+      - 'Rosetta condition: PositiveDuration — if durationInYears exists then durationInYears > 0'
+      - 'Rosetta func: BuildStandardizedSchedule — Takes a trade and uses qualification to extract the relevant information
+        to populate the grid that will be used to calculate the gross initial margin.'
+      - 'Rosetta func: GetGrossInitialMarginFromStandardizedSchedule — Takes the grid information from an specific trade and
+        calculates the gross initial margin.'
+    annotations:
+      rosetta_functions: '[{"name":"BuildStandardizedSchedule","description":"Takes a trade and uses qualification to extract
+        the relevant information to populate the grid that will be used to calculate the gross initial margin.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"standardizedSchedule","type":"StandardizedSchedule","cardinality":"1..1"}},{"name":"GetGrossInitialMarginFromStandardizedSchedule","description":"Takes
+        the grid information from an specific trade and calculates the gross initial margin.","inputs":[{"name":"standardizedSchedule","type":"StandardizedSchedule","cardinality":"1..1"}],"output":{"name":"grossInitialMargin","type":"Money","cardinality":"0..1"}}]'
+    slots:
+      - assetClass
+      - productClass
+      - notional
+      - notionalCurrency
+      - durationInYears
+    in_subset:
+      - cdm_margin_schedule
+
+  StandardizedScheduleTradeInfo:
+    comments:
+      - 'Rosetta condition: PositiveGrossInitialMargin — grossInitialMargin -> value > 0'
+      - 'Rosetta condition: SameCurrencies — grossInitialMargin -> unit -> currency = markToMarketValue -> unit -> currency'
+    slots:
+      - assetClass
+      - productClass
+      - grossInitialMargin
+      - markToMarketValue
+    slot_usage:
+      assetClass:
+        required: false
+      productClass:
+        required: false
+    in_subset:
+      - cdm_margin_schedule
+
+  StandardizedScheduleInitialMargin:
+    comments:
+      - 'Rosetta condition: NonNegativeNetInitialMargin — netInitialMargin -> value >= 0'
+      - 'Rosetta func: GetNetInitialMarginFromExposure — Computes the net initial margin, taking the gross initial margin
+        result and the mark to market value for each trade in the portfolio.'
+    annotations:
+      rosetta_functions: '[{"name":"GetNetInitialMarginFromExposure","description":"Computes the net initial margin, taking
+        the gross initial margin result and the mark to market value for each trade in the portfolio.","inputs":[{"name":"exposure","type":"Exposure","cardinality":"0..1"}],"output":{"name":"initialMargin","type":"StandardizedScheduleInitialMargin","cardinality":"0..1"}}]'
+    slots:
+      - tradeInfo
+      - netInitialMargin
+    in_subset:
+      - cdm_margin_schedule

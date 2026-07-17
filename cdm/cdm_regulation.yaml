@@ -1,0 +1,555 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_regulation
+name: cdm_regulation
+description: 'Regulatory reporting concepts: regulatory rules, report definitions, reporting formats.'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_math
+
+subsets:
+  cdm_regulation:
+    description: Classes defined in the cdm_regulation module.
+
+slots:
+  finInstrmRptgTxRpt:
+    range: FinInstrmRptgTxRpt
+    required: true
+    related_mappings:
+      - icma:ISO20022#FinInstrmRptgTxRpt
+
+  tx:
+    range: Tx
+    required: true
+    related_mappings:
+      - icma:ISO20022#Tx
+
+  newTx:
+    range: New
+    required: true
+    related_mappings:
+      - icma:ISO20022#New
+
+  tradDt:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#TradDt
+
+  tradgCpcty:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#TradgCpcty
+
+  qty:
+    range: Qty
+    required: true
+    related_mappings:
+      - icma:ISO20022#Qty
+
+  pric:
+    range: Pric
+    required: true
+    related_mappings:
+      - icma:ISO20022#Pric
+
+  tradVn:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#TradVn
+
+  ctryOfBrnch:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#CtryOfBrnch
+
+  txId:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#TxId
+
+  exctgPty:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#ExctgPty
+
+  invstmtPtyInd:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#InvstmtPtyInd
+
+  submitgPty:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#SubmitgPty
+
+  buyr:
+    range: Buyr
+    required: true
+    related_mappings:
+      - icma:ISO20022#Buyr
+
+  sellr:
+    range: Sellr
+    required: true
+    related_mappings:
+      - icma:ISO20022#Sellr
+
+  ordrTrnsmssn:
+    range: OrdrTrnsmssn
+    required: true
+    related_mappings:
+      - icma:ISO20022#OrdrTrnsmssn
+
+  finInstrm:
+    range: FinInstrm
+    required: true
+    related_mappings:
+      - icma:ISO20022#FinInstrm
+
+  invstmtDcsnPrsn:
+    range: InvstmtDcsnPrsn
+    required: true
+    related_mappings:
+      - icma:ISO20022#InvstmtDcsnPrsn
+
+  exctgPrsn:
+    range: ExctgPrsn
+    required: true
+    related_mappings:
+      - icma:ISO20022#ExctgPrsn
+
+  addtlAttrbts:
+    range: AddtlAttrbts
+    required: true
+    related_mappings:
+      - icma:ISO20022#AddtlAttrbts
+
+  acctOwnr:
+    range: AcctOwnr
+    required: true
+    related_mappings:
+      - icma:ISO20022#AcctOwnr
+
+  isin:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#ISIN
+
+  indx:
+    range: Indx
+    required: true
+    related_mappings:
+      - icma:ISO20022#Indx
+
+  trnsmssnInd:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#TrnsmssnInd
+
+  xpryDt:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#XpryDt
+
+  pricMltplr:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#PricMltplr
+
+  undrlygInstrm:
+    range: UndrlygInstrm
+    required: true
+    related_mappings:
+      - icma:ISO20022#UndrlygInstrm
+
+  dlvryTp:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#DlvryTp
+
+  swp:
+    range: Swp
+    required: true
+    related_mappings:
+      - icma:ISO20022#Swp
+
+  id:
+    range: Id
+    required: true
+    related_mappings:
+      - icma:ISO20022#Id
+
+  prsn:
+    range: Prsn
+    required: true
+    related_mappings:
+      - icma:ISO20022#Prsn
+
+  othr:
+    range: Othr
+    required: true
+    related_mappings:
+      - icma:ISO20022#Othr
+
+  bsisPts:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#BsisPts
+
+  fullNm:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#FullNm
+
+  clssfctnTp:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#ClssfctnTp
+
+  ntnlCcy:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#NtnlCcy
+
+  refRate:
+    range: RefRate
+    required: true
+    related_mappings:
+      - icma:ISO20022#RefRate
+
+  term:
+    range: Term
+    required: true
+    related_mappings:
+      - icma:ISO20022#Term
+
+  sngl:
+    range: Sngl
+    required: true
+    related_mappings:
+      - icma:ISO20022#Sngl
+
+  finInstrmGnlAttrbts:
+    range: FinInstrmGnlAttrbts
+    required: true
+    related_mappings:
+      - icma:ISO20022#FinInstrmGnlAttrbts
+
+  derivInstrmAttrbts:
+    range: DerivInstrmAttrbts
+    required: true
+    related_mappings:
+      - icma:ISO20022#DerivInstrmAttrbts
+
+  schmeNm:
+    range: SchmeNm
+    required: true
+    related_mappings:
+      - icma:ISO20022#SchmeNm
+
+  val:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#Val
+
+  swpIn:
+    range: SwpIn
+    required: true
+    related_mappings:
+      - icma:ISO20022#SwpIn
+
+  swpOut:
+    range: SwpOut
+    required: true
+    related_mappings:
+      - icma:ISO20022#SwpOut
+
+  prtry:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#Prtry
+
+  nm:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#Nm
+
+  rskRdcgTx:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#RskRdcgTx
+    close_mappings:
+      - fpml_5_10:AddtlAttrbts.rskRdcgTx
+
+  sctiesFincgTxInd:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#SctiesFincgTxInd
+    close_mappings:
+      - fpml_5_10:AddtlAttrbts.sctiesFincgTxInd
+
+  lei:
+    range: string
+    required: true
+    related_mappings:
+      - icma:ISO20022#LEI
+
+classes:
+  Document:
+    slots:
+      - finInstrmRptgTxRpt
+    in_subset:
+      - cdm_regulation
+
+  FinInstrmRptgTxRpt:
+    slots:
+      - tx
+    in_subset:
+      - cdm_regulation
+
+  Tx:
+    slots:
+      - newTx
+      - tradDt
+      - tradgCpcty
+      - qty
+      - pric
+      - tradVn
+      - ctryOfBrnch
+    in_subset:
+      - cdm_regulation
+
+  New:
+    slots:
+      - txId
+      - exctgPty
+      - invstmtPtyInd
+      - submitgPty
+      - buyr
+      - sellr
+      - ordrTrnsmssn
+      - tx
+      - finInstrm
+      - invstmtDcsnPrsn
+      - exctgPrsn
+      - addtlAttrbts
+    in_subset:
+      - cdm_regulation
+
+  Sellr:
+    slots:
+      - acctOwnr
+    in_subset:
+      - cdm_regulation
+
+  Sngl:
+    slots:
+      - isin
+      - indx
+    in_subset:
+      - cdm_regulation
+
+  OrdrTrnsmssn:
+    slots:
+      - trnsmssnInd
+    in_subset:
+      - cdm_regulation
+
+  DerivInstrmAttrbts:
+    slots:
+      - xpryDt
+      - pricMltplr
+      - undrlygInstrm
+      - dlvryTp
+    in_subset:
+      - cdm_regulation
+
+  UndrlygInstrm:
+    slots:
+      - swp
+    in_subset:
+      - cdm_regulation
+
+  AcctOwnr:
+    slots:
+      - id
+    in_subset:
+      - cdm_regulation
+
+  InvstmtDcsnPrsn:
+    slots:
+      - prsn
+    in_subset:
+      - cdm_regulation
+
+  Buyr:
+    slots:
+      - acctOwnr
+    in_subset:
+      - cdm_regulation
+
+  Qty:
+    slots:
+      - unit
+    slot_usage:
+      unit:
+        range: string
+        required: true
+    in_subset:
+      - cdm_regulation
+
+  FinInstrm:
+    slots:
+      - othr
+    in_subset:
+      - cdm_regulation
+
+  Pric:
+    slots:
+      - pric
+      - bsisPts
+    in_subset:
+      - cdm_regulation
+
+  Prsn:
+    slots:
+      - ctryOfBrnch
+      - othr
+    in_subset:
+      - cdm_regulation
+
+  FinInstrmGnlAttrbts:
+    slots:
+      - fullNm
+      - clssfctnTp
+      - ntnlCcy
+    in_subset:
+      - cdm_regulation
+
+  Nm:
+    slots:
+      - refRate
+      - term
+    in_subset:
+      - cdm_regulation
+
+  SwpOut:
+    slots:
+      - sngl
+    in_subset:
+      - cdm_regulation
+
+  Othr:
+    slots:
+      - finInstrmGnlAttrbts
+      - derivInstrmAttrbts
+      - id
+      - schmeNm
+    slot_usage:
+      id:
+        range: string
+    in_subset:
+      - cdm_regulation
+
+  ExctgPrsn:
+    slots:
+      - prsn
+    in_subset:
+      - cdm_regulation
+
+  Term:
+    slots:
+      - unit
+      - val
+    slot_usage:
+      unit:
+        range: string
+        required: true
+    in_subset:
+      - cdm_regulation
+
+  Swp:
+    slots:
+      - swpIn
+      - swpOut
+    in_subset:
+      - cdm_regulation
+
+  SchmeNm:
+    slots:
+      - prtry
+    in_subset:
+      - cdm_regulation
+
+  RefRate:
+    slots:
+      - indx
+      - nm
+    slot_usage:
+      indx:
+        range: string
+    in_subset:
+      - cdm_regulation
+
+  AddtlAttrbts:
+    close_mappings:
+      - fpml_5_10:AddtlAttrbts
+    slots:
+      - rskRdcgTx
+      - sctiesFincgTxInd
+    in_subset:
+      - cdm_regulation
+
+  SwpIn:
+    slots:
+      - sngl
+    in_subset:
+      - cdm_regulation
+
+  Indx:
+    slots:
+      - nm
+    slot_usage:
+      nm:
+        range: Nm
+    in_subset:
+      - cdm_regulation
+
+  Id:
+    slots:
+      - lei
+    in_subset:
+      - cdm_regulation

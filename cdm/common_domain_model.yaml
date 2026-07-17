@@ -1,0 +1,62 @@
+id: https://w3id.org/lmodel/common-domain-model
+name: common_domain_model
+description: FINOS Common Domain Model (CDM) — LinkML schema
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+  - https://github.com/finos/common-domain-model
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+  isda: https://www.isda.org/specifications/
+  icma: https://www.icmagroup.org/market-practice-and-regulatory-policy/
+  gist: https://w3id.org/lmodel/gist/
+  iso29100: https://w3id.org/lmodel/iso29100/
+  oscal: https://w3id.org/lmodel/oscal/
+  spdx: https://spdx.org/rdf/3.0.1/terms/
+source: https://github.com/finos/common-domain-model/tree/master/rosetta-source/src/main/rosetta
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base
+  - ./cdm_base_datetime
+  - ./cdm_base_datetime_daycount
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_asset_commodity
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_staticdata_asset_credit
+  - ./cdm_base_staticdata_asset_rates
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_event_common
+  - ./cdm_event_position
+  - ./cdm_event_workflow
+  - ./cdm_legaldocumentation_common
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_legaldocumentation_master
+  - ./cdm_legaldocumentation_master_icma
+  - ./cdm_legaldocumentation_master_isda
+  - ./cdm_legaldocumentation_master_isla
+  - ./cdm_legaldocumentation_transaction
+  - ./cdm_legaldocumentation_transaction_additionalterms
+  - ./cdm_margin_schedule
+  - ./cdm_observable_asset
+  - ./cdm_observable_asset_calculatedrate
+  - ./cdm_observable_asset_fro
+  - ./cdm_observable_common
+  - ./cdm_observable_event
+  - ./cdm_product_asset
+  - ./cdm_product_asset_floatingrate
+  - ./cdm_product_collateral
+  - ./cdm_product_common
+  - ./cdm_product_common_schedule
+  - ./cdm_product_common_settlement
+  - ./cdm_product_template
+  - ./cdm_regulation

@@ -1,0 +1,116 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_observable_common
+name: cdm_observable_common
+description: LinkML schema for cdm.observable.common
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+
+comments:
+  - 'Rosetta func: ResolveTimeZoneFromTimeType — Defines inputs and outputs needed to derive the time and time-zone for a
+    product identifier | inputs(assetIdentifier: AssetIdentifier (1..1), timeType: TimeTypeEnum (1..1), determinationMethod:
+    DeterminationMethodEnum (1..1)) | output(time: TimeZone (1..1))'
+  - 'Rosetta func: CashPriceQuantityNoOfUnitsTriangulation — Data rule to check the relationship between cash price, notional
+    and number of units. | inputs(quantity: NonNegativeQuantitySchedule (0..*), price: PriceSchedule (0..*)) | output(success:
+    boolean (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"ResolveTimeZoneFromTimeType","description":"Defines inputs and outputs needed to derive the
+    time and time-zone for a product identifier","inputs":[{"name":"assetIdentifier","type":"AssetIdentifier","cardinality":"1..1"},{"name":"timeType","type":"TimeTypeEnum","cardinality":"1..1"},{"name":"determinationMethod","type":"DeterminationMethodEnum","cardinality":"1..1"}],"output":{"name":"time","type":"TimeZone","cardinality":"1..1"},"code_implementation":true},{"name":"CashPriceQuantityNoOfUnitsTriangulation","description":"Data
+    rule to check the relationship between cash price, notional and number of units.","inputs":[{"name":"quantity","type":"NonNegativeQuantitySchedule","cardinality":"0..*"},{"name":"price","type":"PriceSchedule","cardinality":"0..*"}],"output":{"name":"success","type":"boolean","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_observable_common:
+    description: Classes defined in the cdm_observable_common module.
+
+enums:
+  TimeTypeEnum:
+    description: The enumerated values to specify points in the day when option exercise and valuation can occur.
+    permissible_values:
+      Close:
+        description: The official closing time of the exchange on the valuation date.
+      Open:
+        description: The official opening time of the exchange on the valuation date.
+      OSP:
+        description: The time at which the official settlement price is determined.
+      SpecificTime:
+        description: The time specified in the element equityExpirationTime or valuationTime (as appropriate).
+      XETRA:
+        description: The time at which the official settlement price (following the auction by the exchange) is determined
+          by the exchange.
+      DerivativesClose:
+        description: The official closing time of the derivatives exchange on which a derivative contract is listed on that
+          security underlier.
+      AsSpecifiedInMasterConfirmation:
+        description: The time is determined as provided in the relevant Master Confirmation.
+
+  DeterminationMethodEnum:
+    description: The enumerated values to specify the method according to which an amount or a date is determined.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/determination-method
+    permissible_values:
+      AgreedInitialPrice:
+        description: Agreed separately between the parties.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#AgreedInitialPrice
+      AsSpecifiedInMasterConfirmation:
+        description: As specified in Master Confirmation.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#AsSpecifiedInMasterConfirmation
+      CalculationAgent:
+        description: Determined by the Calculation Agent.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#CalculationAgent
+      ClosingPrice:
+        description: Official Closing Price.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#ClosingPrice
+      DividendCurrency:
+        description: Determined by the Currency of Equity Dividends.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#DividendCurrency
+      ExpiringContractLevel:
+        description: The initial Index Level is the level of the Expiring Contract as provided in the Master Confirmation.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#ExpiringContractLevel
+      HedgeExecution:
+        description: Determined by the Hedging Party.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#HedgeExecution
+      IssuerPaymentCurrency:
+        description: Issuer Payment Currency.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#IssuerPaymentCurrency
+      NAV:
+        description: Net Asset Value.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#NAV
+      OpenPrice:
+        description: Opening Price of the Market.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#OpenPrice
+      OSPPrice:
+        description: OSP Price.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#OSPPrice
+      SettlementCurrency:
+        description: Settlement Currency.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#SettlementCurrency
+      StrikeDateDetermination:
+        description: Date on which the strike is determined in respect of a forward starting swap.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#StrikeDateDetermination
+      TWAPPrice:
+        description: Official TWAP Price.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#TWAPPrice
+      TWAPVE:
+        description: TWAP VE Price.
+      TWAPVEExcludingClose:
+        description: TWAP VE Calculated by Excluding Closing price.
+      ValuationTime:
+        description: Price determined at valuation time.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#ValuationTime
+      VWAPPrice:
+        description: Official VWAP Price.
+        meaning: http://www.fpml.org/coding-scheme/determination-method-3-4#VWAPPrice
+      VWAPVE:
+        description: VWAP VE Price.
+      VWAPVEExcludingClose:
+        description: VWAP VE Calculated by Excluding Closing price.

@@ -1,0 +1,298 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base_staticdata_asset_commodity
+name: cdm_base_staticdata_asset_commodity
+description: LinkML schema for cdm.base.staticdata.asset.commodity
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+
+subsets:
+  cdm_base_staticdata_asset_commodity:
+    description: Classes defined in the cdm_base_staticdata_asset_commodity module.
+
+enums:
+  ProductGradeEnum:
+    description: Identifies the grade of physical commodity product to be delivered.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/commodity-oil-product-grade
+    permissible_values:
+      _0_1_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 0.1-Percent
+      _0_5_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 0.5-Percent
+      _1_0_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 1.0-Percent
+      _10_PPM:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 10-PPM
+      _10_PPM_95_R:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 10-PPM-95-R
+      _10_PPM_Premium_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 10-PPM-Premium-Unleaded
+      _10_PPM_Regular_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 10-PPM-Regular-Unleaded
+      _180_CST:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 180-CST
+      _3_5_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 3.5-Percent
+      _380_CST:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 380-CST
+      _50_PPM:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - 50-PPM
+      _54:
+        description: Applies to Oil Product Type Jet Fuel.
+        aliases:
+          - '54'
+      _55:
+        description: Applies to Oil Product Type Jet Fuel.
+        aliases:
+          - '55'
+      _87_M:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 87-M
+      _87_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 87-Unleaded
+      _87_Unleaded_ULS_30:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 87-Unleaded-ULS-30
+      _92_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 92-Unleaded
+      _93_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 93-Unleaded
+      _95_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 95-Unleaded
+      _97_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 97-Unleaded
+      _98_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - 98-Unleaded
+      Arabian_Light:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Arabian-Light
+      Brass_Blend:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Brass-Blend
+      Brent:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Brent
+      CARBOB:
+        description: Applies to Oil Product Type Gasoline.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#CARBOB
+      CBOB:
+        description: Applies to Oil Product Type Gasoline.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#CBOB
+      Cold_Lake:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Cold-Lake
+      Dubai:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Dubai
+      Edmonton_High_Sulphur_Sour:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Edmonton-High-Sulphur-Sour
+      EUROBOB:
+        description: Applies to Oil Product Type Gasoline.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#EUROBOB
+      German_10PPM:
+        description: Applies to Oil Product Type Diesel Fuel.
+        aliases:
+          - German-10PPM
+      Gulf_Coast_Sweet:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Gulf-Coast-Sweet
+      Hardisty_Light:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Hardisty-Light
+      Iranian_Light_1:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Iranian-Light
+      Iranian_Light:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Iranian-Light
+      Jet:
+        description: Applies to Oil Product Type Jet Fuel.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Jet
+      Kirkuk_Light:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Kirkuk-Light
+      Kuwait:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Kuwait
+      Light_Louisiana_Sweet:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Light-Louisiana-Sweet
+      Low_Sulphur:
+        description: Applies to Oil Product Type Diesel Fuel.
+        aliases:
+          - Low-Sulphur
+      Low_Sulphur_Jet:
+        description: Applies to Oil Product Type Jet Fuel.
+        aliases:
+          - Low-Sulphur-Jet
+      Mars:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Mars
+      Mixed_Sour_Blend:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Mixed-Sour-Blend
+      Mixed_Sweet_Blend:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Mixed-Sweet-Blend
+      Murban:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Murban
+      Natural_Gasoline:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - Natural-Gasoline
+      No__2:
+        description: Applies to Oil Product Type Diesel Fuel.
+        aliases:
+          - No.-2
+      No__6_0_3_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-0.3-Percent
+      No__6_0_3_Percent_HP:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-0.3-Percent-HP
+      No__6_0_3_Percent_LP:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-0.3-Percent-LP
+      No__6_0_7_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-0.7-Percent
+      No__6_1_0_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-1.0-Percent
+      No__6_2_2_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-2.2-Percent
+      No__6_3_Percent:
+        description: Applies to Oil Product Type Fuel Oil.
+        aliases:
+          - No.-6-3-Percent
+      Normal_Butane:
+        description: Applies to Oil Product Type Butane.
+        aliases:
+          - Normal-Butane
+      North_Dakota_Light:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - North-Dakota-Light
+      Oman:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Oman
+      Polymer_Grade:
+        description: Applies to Oil Product Type Propylene.
+        aliases:
+          - Polymer-Grade
+      RBOB:
+        description: Applies to Oil Product Type Gasoline.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#RBOB
+      Saharan:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Saharan
+      Sour:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Sour
+      Southern_Green_Canyon:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Southern-Green-Canyon
+      Tapis:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Tapis
+      Thunder_Horse:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Thunder-Horse
+      Ultra_Low_Sulphur:
+        description: Applies to Oil Product Type Diesel Fuel.
+        aliases:
+          - Ultra-Low-Sulphur
+      Urals:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Urals
+      Urals_Sour:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Urals-Sour
+      US_Regular_Unleaded:
+        description: Applies to Oil Product Type Gasoline.
+        aliases:
+          - US-Regular-Unleaded
+      Western_Canadian_Select:
+        description: Applies to Oil Product Type Oil.
+        aliases:
+          - Western-Canadian-Select
+      WTI:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#WTI
+      WTS:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#WTS
+      Zuetina:
+        description: Applies to Oil Product Type Oil.
+        meaning: http://www.fpml.org/coding-scheme/commodity-oil-product-grade-1-0#Zuetina

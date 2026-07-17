@@ -1,0 +1,1255 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_legaldocumentation_master
+name: cdm_legaldocumentation_master
+description: Master agreement concepts.
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_staticdata_party
+  - ./cdm_event_position
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_event_common
+  - ./cdm_legaldocumentation_common
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_base_math
+
+subsets:
+  cdm_legaldocumentation_master:
+    description: Classes defined in the cdm_legaldocumentation_master module.
+
+enums:
+  MasterAgreementTypeEnum:
+    description: The enumerated values to specify the type of the master agreement governing the transaction.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/master-agreement-type
+    permissible_values:
+      AFB:
+        description: AFB Master Agreement for Foreign Exchange and Derivatives Transactions
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#AFB
+      Bespoke:
+        description: A Bespoke (custom) Master Agreement, including one-off agreements for transactions
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#Bespoke
+      CMA:
+        description: Clearing Master Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#CMA
+      CMOF:
+        description: Contrato Marco de Operaciones Financieras
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#CMOF
+      EEIPower:
+        description: EEI Master Power Purchase and Sale Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#EEIPower
+      EFETElectricity:
+        description: EFET General Agreement Concerning the Delivery and Acceptance of Electricity
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#EFETElectricity
+      EFETGas:
+        description: EFET General Agreement Concerning The Delivery And Acceptance of Natural Gas
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#EFETGas
+      EMA:
+        description: European Master Agreement and the Derivatives Annex (Banking Federation of the European Union)
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#EMA
+      FBF:
+        description: Master Agreement Relating to transactions on Forward Financial Instruments (Federation Bancaire Francaise)
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#FBF
+      GasEDI:
+        description: GasEDI Base Contract for Short-term Sale and Purchase of Natural Gas
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#GasEDI
+      German:
+        description: German Master Agreement for Financial derivatives and Addendum for Options on Stock Exchange Indices
+          or Securities
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#German
+      GMRA:
+        description: ICMA Global Master Agreement for REPO Trades
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#GMRA
+      GMSLA:
+        description: ISLA Global Master Agreement for Securities Lending
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#GMSLA
+      GTMA:
+        description: FOA Grid Trade Master Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#GTMA
+      ICOM:
+        description: International Currency Options Market Master Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#ICOM
+      IETA_ERPA:
+        description: International Emissions Trading Association Emissions Reduction Purchase Agreement
+        aliases:
+          - IETA-ERPA
+      IETA_ETMA:
+        description: International Emissions Trading Association Emissions Trading Master Agreement
+        aliases:
+          - IETA-ETMA
+      IETA_IETMA:
+        description: International Emissions Trading Association International Emissions Trading Master Agreement
+        aliases:
+          - IETA-IETMA
+      IFEMA:
+        description: International Foreign Exchange Master Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#IFEMA
+      IFEOMA:
+        description: International Foreign Exchange and Options Master Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#IFEOMA
+      ISDAMaster:
+        description: ISDA Master Agreement
+      ISDAFIA_CDEA:
+        description: ISDA-FIA Cleared Derivatives Execution Agreement
+        aliases:
+          - ISDAFIA-CDEA
+      ISDAIIFM_TMA:
+        description: ISDA/IIFM Tahawwut (Hedging) Master Agreement (TMA)
+        aliases:
+          - ISDAIIFM-TMA
+      JSCC:
+        description: Master agreement of Japan Securities Clearing Corporation
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#JSCC
+      LBMA:
+        description: International Bullion Master Agreement Terms published by the London Bullion Market Association
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#LBMA
+      LEAP:
+        description: Leadership in Energy Automated Processing
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#LEAP
+      MCPSA:
+        description: CTA Master Coal Purchase and Sales Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#MCPSA
+      NAESBGas:
+        description: NAESB Base Contract for Sale and Purchase of Natural Gas
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#NAESBGas
+      NBP:
+        description: Short Term Flat NBP Trading Terms and Conditions
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#NBP
+      RussianDerivatives:
+        description: Standard Documentation for Derivative Transactions on the Russian Financial Markets
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#RussianDerivatives
+      RussianRepo:
+        description: Master Agreement and Contractual Terms for Repurchase Agreements on the Russian Financial Market
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#RussianRepo
+      SCoTA:
+        description: globalCOAL Standard Coal Trading Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#SCoTA
+      Swiss:
+        description: Swiss Master Agreement for OTC Derivatives Instruments
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#Swiss
+      TTF:
+        description: TTF Hub Natural Gas Trading Terms and Conditions
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#TTF
+      ZBT:
+        description: Zeebrugge Hub Natural Gas Trading Terms and Conditions
+        meaning: http://www.fpml.org/coding-scheme/master-agreement-type-3-2#ZBT
+
+  MasterConfirmationAnnexTypeEnum:
+    description: The enumerated values to specify the type of annex to be used with master confirmation agreement governing
+      the transaction.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/master-confirmation-annex-type
+    permissible_values:
+      ISDA2004IndexVarianceSwapAmericasInterdealer:
+        description: The Index Variance Swap 2004 Annex to the ISDA 2004 Americas Interdealer Master Equity Derivatives Confirmation
+          Agreement and to the Revised ISDA 2004 Americas Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2004IndexVarianceSwapAmericasInterdealer
+      ISDA2004ShareVarianceSwapAmericasInterdealer:
+        description: The Share Variance Swap 2004 Annex to the ISDA 2004 Americas Interdealer Master Equity Derivatives Confirmation
+          Agreement and to the Revised ISDA 2004 Americas Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2004ShareVarianceSwapAmericasInterdealer
+      ISDA2007DispersionVarianceSwapEuropean:
+        description: The Dispersion Variance Swap Annex to the Revised 2007 ISDA European Variance Swap Master Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2007DispersionVarianceSwapEuropean
+      ISDA2007EquityFinanceSwapEuropean:
+        description: The EFS (Equity Share Finance Swap) 2007 Annex to the ISDA 2007 European Master Equity Derivatives Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2007EquityFinanceSwapEuropean
+      ISDA2007IndexVarianceSwapAmericasInterdealer:
+        description: The Index Variance Swap 2007 Annex to the Revised ISDA 2004 Americas Interdealer Master Equity Derivatives
+          Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2007IndexVarianceSwapAmericasInterdealer
+      ISDA2007ShareVarianceSwapAmericasInterdealer:
+        description: The Share Variance Swap 2007 Annex to the Revised ISDA 2004 Americas Interdealer Master Equity Derivatives
+          Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2007ShareVarianceSwapAmericasInterdealer
+      ISDA2007VarianceOptionEuropean:
+        description: The Variance Option Standard Terms Appendix to the Revised ISDA 2007 European Variance Swap Master Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2007VarianceOptionEuropean
+      ISDA2008EquityFinanceSwapAsiaExcludingJapan:
+        description: The Cash-settled Open Market EFS (Equity Finance Share Swap) 2008 Annex to the ISDA 2008 AEJ (Asia Excluding
+          Japan) Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2008EquityFinanceSwapAsiaExcludingJapan
+      ISDA2008EquityFinanceSwapAsiaExcludingJapanRev1:
+        description: The Cash-settled Open Market EFS (Equity Finance Share Swap) Annex to the Revised ISDA 2008 AEJ (Asia
+          Excluding Japan) Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2008EquityFinanceSwapAsiaExcludingJapanRev1
+      ISDA2008EquityOptionAsiaExcludingJapan:
+        description: The Open Market Equity Option 2008 Annex to the ISDA 2008 AEJ (Asia Excluding Japan) Master Equity Derivatives
+          Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2008EquityOptionAsiaExcludingJapan
+      ISDA2008EquityOptionAsiaExcludingJapanRev1:
+        description: The Open Market Equity Option Annex to the Revised ISDA 2008 AEJ (Asia Excluding Japan) Master Equity
+          Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2008EquityOptionAsiaExcludingJapanRev1
+      ISDA2008EquityOptionJapan:
+        description: The Equity Option 2008 Annex to the ISDA 2008 Japanese Master Equity Derivatives Confirmation Agreement
+          applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2008EquityOptionJapan
+      ISDA2009ClosedMarketsOptionsAsiaExcludingJapan:
+        description: The Cash-settled Closed Market Index and Share Options 2009 Annex to the Revised ISDA 2008 AEJ (Asia
+          Excluding Japan) Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009ClosedMarketsOptionsAsiaExcludingJapan
+      ISDA2009EquityEuropeanInterdealerSS:
+        description: The Interdealer Share Swap 2009 Annex to the ISDA 2009 European Interdealer Master Equity Derivatives
+          Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009EquityEuropeanInterdealerSS
+      ISDA2009EquityEuropeanIS:
+        description: The Index Swap 2009 Annex to the ISDA 2007 European Master Equity Derivatives Confirmation Agreement
+          applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009EquityEuropeanIS
+      ISDA2009IndexShareOptionAmericas:
+        description: The Index and Share Options 2009 Annex to the ISDA 2009 Americas Master Equity Derivatives Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009IndexShareOptionAmericas
+      ISDA2009IndexSwapEuropeanInterdealer:
+        description: The Interdealer Index Swap 2009 Annex to the ISDA 2009 European Interdealer Master Equity Derivatives
+          Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009IndexSwapEuropeanInterdealer
+      ISDA2009IndexSwapPanAsiaInterdealer:
+        description: The Index Swap 2009 Annex to the ISDA 2009 Pan-Asia Interdealer Master Equity Derivatives Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009IndexSwapPanAsiaInterdealer
+      ISDA2009ShareSwapPanAsia:
+        description: The Share Swap 2009 Annex to the ISDA 2009 Pan-Asia Interdealer Master Equity Derivatives Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2009ShareSwapPanAsia
+      ISDA2010FairValueShareSwapEuropeanInterdealer:
+        description: The Fair Value Interdealer Share Swap 2010 Annex to the ISDA 2009 European Interdealer Master Equity
+          Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2010FairValueShareSwapEuropeanInterdealer
+      ISDA2010IndexShareOptionEMEAInterdealer:
+        description: The Cash-settled Index Option/Cash/Physically-settled Share Option 2010 Annex to the ISDA 2010 EMEA EM
+          Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-annex-type-2-6#ISDA2010IndexShareOptionEMEAInterdealer
+
+  NationalizationOrInsolvencyOrDelistingEventEnum:
+    description: Defines the consequences of nationalization, insolvency and delisting events relating to the underlying.
+    permissible_values:
+      NegotiatedCloseout:
+        description: The parties may, but are not obliged, to terminate the transaction on mutually acceptable terms and if
+          the terms are not agreed then the transaction continues.
+      CancellationAndPayment:
+        description: The trade is terminated.
+
+  MasterConfirmationTypeEnum:
+    description: The enumerated values to specify the type of master confirmation agreement governing the transaction. While
+      FpML positions the date a prefix, the CDM positions it as the suffix to handle grammar type constraints.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/master-confirmation-type
+    permissible_values:
+      _2003CreditIndex:
+        description: Used for CDS Index trades. Relevant Master Confirmation determined by the contents of the creditDefaultSwap
+          element. Best practice is to use the most specific code that applies.
+        aliases:
+          - 2003CreditIndex
+      _2004EquityEuropeanInterdealer:
+        description: A privately negotiated European Interdealer Master Confirmation Agreement applies.
+        aliases:
+          - 2004EquityEuropeanInterdealer
+      _2005VarianceSwapEuropeanInterdealer:
+        description: A privately negotiated European Interdealer Master Confirmation Agreement applies.
+        aliases:
+          - 2005VarianceSwapEuropeanInterdealer
+      _2006DividendSwapEuropean:
+        description: A European Interdealer Master Confirmation Agreement not defined by ISDA, and modified by the parties
+          to the transaction applies.
+        aliases:
+          - 2006DividendSwapEuropean
+      _2006DividendSwapEuropeanInterdealer:
+        description: A European Interdealer Master Confirmation Agreement not defined by ISDA applies.
+        aliases:
+          - 2006DividendSwapEuropeanInterdealer
+      _2014CreditAsia:
+        description: Dummy MCA value mirroring the matrix term value AsiaCorporate.
+        aliases:
+          - 2014CreditAsia
+      _2014CreditAsiaFinancial:
+        description: Dummy MCA value mirroring the matrix term value AsiaFinancialCorporate.
+        aliases:
+          - 2014CreditAsiaFinancial
+      _2014CreditAustraliaNewZealand:
+        description: Dummy MCA value mirroring the matrix term value AustraliaCorporate/NewZealandCorporate.
+        aliases:
+          - 2014CreditAustraliaNewZealand
+      _2014CreditAustraliaNewZealandFinancial:
+        description: Dummy MCA value mirroring the matrix term value AustraliaFinancialCorporate/NewZealandFinancialCorporate.
+        aliases:
+          - 2014CreditAustraliaNewZealandFinancial
+      _2014CreditEuropean:
+        description: Dummy MCA value mirroring the matrix term value EuropeanCorporate.
+        aliases:
+          - 2014CreditEuropean
+      _2014CreditEuropeanCoCoFinancial:
+        description: Dummy MCA value mirroring the matrix term value EuropeanCoCoFinancialCorporate.
+        aliases:
+          - 2014CreditEuropeanCoCoFinancial
+      _2014CreditEuropeanFinancial:
+        description: Dummy MCA value mirroring the matrix term value EuropeanFinancialCorporate.
+        aliases:
+          - 2014CreditEuropeanFinancial
+      _2014CreditJapan:
+        description: Dummy MCA value mirroring the matrix term value JapanCorporate.
+        aliases:
+          - 2014CreditJapan
+      _2014CreditJapanFinancial:
+        description: Dummy MCA value mirroring the matrix term value JapanFinancialCorporate.
+        aliases:
+          - 2014CreditJapanFinancial
+      _2014CreditNorthAmerican:
+        description: Dummy MCA value mirroring the matrix term value NorthAmericanCorporate.
+        aliases:
+          - 2014CreditNorthAmerican
+      _2014CreditNorthAmericanFinancial:
+        description: Dummy MCA value mirroring the matrix term value NorthAmericanFinancialCorporate.
+        aliases:
+          - 2014CreditNorthAmericanFinancial
+      _2014CreditSingapore:
+        description: Dummy MCA value mirroring the matrix term values SingaporeCorporate.
+        aliases:
+          - 2014CreditSingapore
+      _2014CreditSingaporeFinancial:
+        description: Dummy MCA value mirroring the matrix term values SingaporeFinancialCorporate.
+        aliases:
+          - 2014CreditSingaporeFinancial
+      _2014CreditSovereignAsia:
+        description: Dummy MCA value mirroring the matrix term value AsiaSovereign.
+        aliases:
+          - 2014CreditSovereignAsia
+      _2014CreditSovereignEmergingEuropeanAndMiddleEastern:
+        description: Dummy MCA value mirroring the matrix term value EmergingEuropeanAndMiddleEasternSovereign.
+        aliases:
+          - 2014CreditSovereignEmergingEuropeanAndMiddleEastern
+      _2014CreditSovereignJapan:
+        description: Dummy MCA value mirroring the matrix term value JapanSovereign.
+        aliases:
+          - 2014CreditSovereignJapan
+      _2014CreditSovereignLatinAmerican:
+        description: Dummy MCA value mirroring the matrix term value LatinAmericaSovereign.
+        aliases:
+          - 2014CreditSovereignLatinAmerican
+      _2014CreditSovereignWesternEuropean:
+        description: Dummy MCA value mirroring the matrix term value WesternEuropeanSovereign.
+        aliases:
+          - 2014CreditSovereignWesternEuropean
+      _2014StandardCreditAsia:
+        description: Dummy MCA value mirroring the matrix term values StandardAsiaCorporate.
+        aliases:
+          - 2014StandardCreditAsia
+      _2014StandardCreditAsiaFinancial:
+        description: Dummy MCA value mirroring the matrix term values StandardAsiaFinancialCorporate.
+        aliases:
+          - 2014StandardCreditAsiaFinancial
+      _2014StandardCreditAustraliaNewZealand:
+        description: Dummy MCA value mirroring the matrix term values StandardAustraliaCorporate and StandardNewZealandCorporate.
+        aliases:
+          - 2014StandardCreditAustraliaNewZealand
+      _2014StandardCreditAustraliaNewZealandFinancial:
+        description: Dummy MCA value mirroring the matrix term values StandardAustraliaFinancialCorporate and StandardNewZealandFinancialCorporate.
+        aliases:
+          - 2014StandardCreditAustraliaNewZealandFinancial
+      _2014StandardCreditEuropean:
+        description: Dummy MCA value mirroring the matrix term value StandardEuropeanCorporate.
+        aliases:
+          - 2014StandardCreditEuropean
+      _2014StandardCreditEuropeanCoCoFinancial:
+        description: Dummy MCA value mirroring the matrix term value StandardEuropeanCoCoFinancialCorporate.
+        aliases:
+          - 2014StandardCreditEuropeanCoCoFinancial
+      _2014StandardCreditEuropeanFinancial:
+        description: Dummy MCA value mirroring the matrix term value StandardEuropeanFinancialCorporate.
+        aliases:
+          - 2014StandardCreditEuropeanFinancial
+      _2014StandardCreditJapan:
+        description: Dummy MCA value mirroring the matrix term values StandardJapanCorporate.
+        aliases:
+          - 2014StandardCreditJapan
+      _2014StandardCreditJapanFinancial:
+        description: Dummy MCA value mirroring the matrix term value StandardJapanFinancialCorporate.
+        aliases:
+          - 2014StandardCreditJapanFinancial
+      _2014StandardCreditNorthAmerican:
+        description: Dummy MCA value mirroring the matrix term value StandardNorthAmericanCorporate.
+        aliases:
+          - 2014StandardCreditNorthAmerican
+      _2014StandardCreditNorthAmericanFinancial:
+        description: Dummy MCA value mirroring the matrix term value standardNorthAmericanFinancialCorporate.
+        aliases:
+          - 2014StandardCreditNorthAmericanFinancial
+      _2014StandardCreditSingapore:
+        description: Dummy MCA value mirroring the matrix term values StandardSingaporeCorporate.
+        aliases:
+          - 2014StandardCreditSingapore
+      _2014StandardCreditSingaporeFinancial:
+        description: Dummy MCA value mirroring the matrix term value StandardSingaporeFinancialCorporate.
+        aliases:
+          - 2014StandardCreditSingaporeFinancial
+      _2014StandardCreditSovereignAsia:
+        description: Dummy MCA value mirroring the matrix term value StandardAsiaSovereign.
+        aliases:
+          - 2014StandardCreditSovereignAsia
+      _2014StandardCreditSovereignEmergingEuropeanAndMiddleEastern:
+        description: Dummy MCA value mirroring the matrix term value StandardEmergingEuropeanAndMiddleEasternSovereign.
+        aliases:
+          - 2014StandardCreditSovereignEmergingEuropeanAndMiddleEastern
+      _2014StandardCreditSovereignJapan:
+        description: Dummy MCA value mirroring the matrix term values StandardJapanSovereign.
+        aliases:
+          - 2014StandardCreditSovereignJapan
+      _2014StandardCreditSovereignLatinAmerican:
+        description: Dummy MCA value mirroring the matrix term value StandardLatinAmericaSovereign.
+        aliases:
+          - 2014StandardCreditSovereignLatinAmerican
+      _2014StandardCreditSovereignWesternEuropean:
+        description: Dummy MCA value mirroring the matrix term value StandardWesternEuropeanSovereign.
+        aliases:
+          - 2014StandardCreditSovereignWesternEuropean
+      DJ_CDX_EM:
+        description: Used for CDS Index trades executed under the Dow Jones CDX Emerging Markets Master Confirmation.
+        aliases:
+          - DJ.CDX.EM
+      DJ_CDX_EM_DIV:
+        description: Used for CDS Index trades executed under the Dow Jones CDX Emerging Markets Diversified Master Confirmation.
+        aliases:
+          - DJ.CDX.EM.DIV
+      DJ_CDX_NA:
+        description: Used for CDS Index trades executed under the Dow Jones CDX Master Confirmation that covers CDX.NA.IG,
+          CDX.NA.HY, and CDX.NA.XO.
+        aliases:
+          - DJ.CDX.NA
+      DJ_iTraxx_Europe:
+        description: Used for CDS Index trades executed under the Dow Jones iTraxx Europe Master Confirmation Agreement.
+        aliases:
+          - DJ.iTraxx.Europe
+      EquityAmericas:
+        description: A general reference to the types of Americas Master Confirmation Agreements. Use the more specific values
+          to reference a specific type of Americas Master Confirmation Agreement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#EquityAmericas
+      EquityAsia:
+        description: A general reference to the types of Asia Master Confirmation Agreements. Use the more specific values
+          to reference a specific type of Asia Master Confirmation Agreement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#EquityAsia
+      EquityEuropean:
+        description: A general reference to the types of European Master Confirmation Agreements. Use the more specific values
+          to reference a specific type of European Master Confirmation Agreement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#EquityEuropean
+      ISDA1999Credit:
+        description: ISDA 1999 Master Credit Derivatives Confirmation Agreement
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA1999Credit
+      ISDA2003CreditAsia:
+        description: ISDA 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Asia had been specified
+          as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditAsia
+      ISDA2003CreditAustraliaNewZealand:
+        description: ISDA 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Australia and New Zealand
+          had been specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditAustraliaNewZealand
+      ISDA2003CreditEuropean:
+        description: ISDA 2003 Master Credit Derivatives Confirmation Agreement interpreted as if European had been specified
+          as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditEuropean
+      ISDA2003CreditJapan:
+        description: ISDA 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Japan had been specified
+          as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditJapan
+      ISDA2003CreditNorthAmerican:
+        description: ISDA 2003 Master Credit Derivatives Confirmation Agreement interpreted as if North American had been
+          specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditNorthAmerican
+      ISDA2003CreditSingapore:
+        description: ISDA 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Singapore had been specified
+          as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSingapore
+      ISDA2003CreditSovereignAsia:
+        description: ISDA Sovereign 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Asia had been
+          specified as the relevant Transaction Type in the Transaction Supplement. The 2003 Sovereign Master Confirmation
+          has been superceded by the 2004.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSovereignAsia
+      ISDA2003CreditSovereignCentralAndEasternEurope:
+        description: ISDA Sovereign 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Central and Eastern
+          Europe had been specified as the relevant Transaction Type in the Transaction Supplement. The 2003 Sovereign Master
+          Confirmation has been superceded by the 2004.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSovereignCentralAndEasternEurope
+      ISDA2003CreditSovereignJapan:
+        description: ISDA Sovereign 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Japan had been
+          specified as the relevant Transaction Type in the Transaction Supplement. The 2003 Sovereign Master Confirmation
+          has been superceded by the 2004.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSovereignJapan
+      ISDA2003CreditSovereignLatinAmerica:
+        description: ISDA Sovereign 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Latin America
+          had been specified as the relevant Transaction Type in the Transaction Supplement. The 2003 Sovereign Master Confirmation
+          has been superceded by the 2004.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSovereignLatinAmerica
+      ISDA2003CreditSovereignMiddleEast:
+        description: ISDA Sovereign 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Middle East had
+          been specified as the relevant Transaction Type in the Transaction Supplement. The 2003 Sovereign Master Confirmation
+          has been superceded by the 2004.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSovereignMiddleEast
+      ISDA2003CreditSovereignWesternEurope:
+        description: ISDA Sovereign 2003 Master Credit Derivatives Confirmation Agreement interpreted as if Western Europe
+          had been specified as the relevant Transaction Type in the Transaction Supplement. The 2003 Sovereign Master Confirmation
+          has been superceded by the 2004.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003CreditSovereignWesternEurope
+      ISDA2003StandardCreditAsia:
+        description: Dummy MCA value mirroring the matrix term values StandardAsiaCorporate.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003StandardCreditAsia
+      ISDA2003StandardCreditAustraliaNewZealand:
+        description: Dummy MCA value mirroring the matrix term values StandardAustraliaCorporate/Sovereign and StandardNewZealandCorporate/Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003StandardCreditAustraliaNewZealand
+      ISDA2003StandardCreditEuropean:
+        description: Dummy MCA value mirroring the matrix term value StandardEuropeanCorporate.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003StandardCreditEuropean
+      ISDA2003StandardCreditJapan:
+        description: Dummy MCA value mirroring the matrix term values StandardJapanCorporate.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003StandardCreditJapan
+      ISDA2003StandardCreditNorthAmerican:
+        description: Dummy MCA value mirroring the matrix term value StandardNorthAmericanCorporate.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003StandardCreditNorthAmerican
+      ISDA2003StandardCreditSingapore:
+        description: Dummy MCA value mirroring the matrix term values StandardSingaporeCorporate/Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2003StandardCreditSingapore
+      ISDA2004CreditSovereignAsia:
+        description: ISDA Sovereign 2004 Master Credit Derivatives Confirmation Agreement interpreted as if Asia had been
+          specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004CreditSovereignAsia
+      ISDA2004CreditSovereignEmergingEuropeanAndMiddleEastern:
+        description: ISDA Sovereign 2004 Master Credit Derivatives Confirmation Agreement interpreted as if Emerging European
+          and Middle Eastern had been specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004CreditSovereignEmergingEuropeanAndMiddleEastern
+      ISDA2004CreditSovereignJapan:
+        description: ISDA Sovereign 2004 Master Credit Derivatives Confirmation Agreement interpreted as if Japan had been
+          specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004CreditSovereignJapan
+      ISDA2004CreditSovereignLatinAmerican:
+        description: ISDA Sovereign 2004 Master Credit Derivatives Confirmation Agreement interpreted as if Latin American
+          had been specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004CreditSovereignLatinAmerican
+      ISDA2004CreditSovereignWesternEuropean:
+        description: ISDA Sovereign 2004 Master Credit Derivatives Confirmation Agreement interpreted as if Western European
+          had been specified as the relevant Transaction Type in the Transaction Supplement.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004CreditSovereignWesternEuropean
+      ISDA2004EquityAmericasInterdealer:
+        description: The ISDA 2004 Americas Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004EquityAmericasInterdealer
+      ISDA2004EquityAmericasInterdealerRev1:
+        description: The Revised ISDA 2004 Americas Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004EquityAmericasInterdealerRev1
+      ISDA2004StandardCreditSovereignAsia:
+        description: Dummy MCA value mirroring the matrix term values StandardAsiaSovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004StandardCreditSovereignAsia
+      ISDA2004StandardCreditSovereignEmergingEuropeanAndMiddleEastern:
+        description: Dummy MCA value mirroring the matrix term value StandardEmergingEuropeanAndMiddleEasternSovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004StandardCreditSovereignEmergingEuropeanAndMiddleEastern
+      ISDA2004StandardCreditSovereignJapan:
+        description: Dummy MCA value mirroring the matrix term values StandardJapanSovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004StandardCreditSovereignJapan
+      ISDA2004StandardCreditSovereignLatinAmerican:
+        description: Dummy MCA value mirroring the matrix term value StandardLatinAmericaSovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004StandardCreditSovereignLatinAmerican
+      ISDA2004StandardCreditSovereignWesternEuropean:
+        description: Dummy MCA value mirroring the matrix term value StandardWesternEuropeanSovereign.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2004StandardCreditSovereignWesternEuropean
+      ISDA2005EquityAsiaExcludingJapanInterdealer:
+        description: ISDA 2005 AEJ (Asia Excluding Japan) Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2005EquityAsiaExcludingJapanInterdealer
+      ISDA2005EquityAsiaExcludingJapanInterdealerRev2:
+        description: Second Revised ISDA 2005 AEJ (Asia Excluding Japan) Interdealer Master Equity Derivatives Confirmation
+          Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2005EquityAsiaExcludingJapanInterdealerRev2
+      ISDA2005EquityJapaneseInterdealer:
+        description: The ISDA 2005 Japanese Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2005EquityJapaneseInterdealer
+      ISDA2006VarianceSwapJapanese:
+        description: ISDA 2006 Variance Swap Japanese Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2006VarianceSwapJapanese
+      ISDA2006VarianceSwapJapaneseInterdealer:
+        description: ISDA 2006 Variance Swap Japanese Interdealer Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2006VarianceSwapJapaneseInterdealer
+      ISDA2007EquityEuropean:
+        description: The ISDA 2007 European Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007EquityEuropean
+      ISDA2007VarianceSwapAmericas:
+        description: The ISDA 2007 Americas Master Variance Swap Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007VarianceSwapAmericas
+      ISDA2007VarianceSwapAsiaExcludingJapan:
+        description: The ISDA 2007 AEJ Master Variance Swap Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007VarianceSwapAsiaExcludingJapan
+      ISDA2007VarianceSwapAsiaExcludingJapanRev1:
+        description: The Revised ISDA 2007 AEJ Master Variance Swap Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007VarianceSwapAsiaExcludingJapanRev1
+      ISDA2007VarianceSwapAsiaExcludingJapanRev2:
+        description: The Second Revised ISDA 2007 AEJ Master Variance Swap Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007VarianceSwapAsiaExcludingJapanRev2
+      ISDA2007VarianceSwapEuropean:
+        description: The ISDA 2007 European Variance Swap Master Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007VarianceSwapEuropean
+      ISDA2007VarianceSwapEuropeanRev1:
+        description: The Revised ISDA 2007 European Variance Swap Master Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2007VarianceSwapEuropeanRev1
+      ISDA2008DividendSwapJapan:
+        description: The ISDA 2008 Japanese Dividend Swap Master Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2008DividendSwapJapan
+      ISDA2008DividendSwapJapaneseRev1:
+        description: The Revised ISDA 2008 Japanese Dividend Swap Master Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2008DividendSwapJapaneseRev1
+      ISDA2008EquityAmericas:
+        description: The ISDA 2008 Americas Master Designated/Exchange-Traded Contract Option Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2008EquityAmericas
+      ISDA2008EquityAsiaExcludingJapan:
+        description: The ISDA 2008 AEJ (Asia Excluding Japan) Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2008EquityAsiaExcludingJapan
+      ISDA2008EquityAsiaExcludingJapanRev1:
+        description: The Revised ISDA 2008 AEJ (Asia Excluding Japan) Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2008EquityAsiaExcludingJapanRev1
+      ISDA2008EquityJapan:
+        description: The ISDA 2008 Japanese Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2008EquityJapan
+      ISDA2009EquityAmericas:
+        description: The ISDA 2009 Americas Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2009EquityAmericas
+      ISDA2009EquityEuropeanInterdealer:
+        description: The ISDA 2009 European Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2009EquityEuropeanInterdealer
+      ISDA2009EquityPanAsia:
+        description: 2009 Pan-Asia Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2009EquityPanAsia
+      ISDA2010EquityEMEAInterdealer:
+        description: The ISDA 2010 EMEA EM Interdealer Master Equity Derivatives Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2010EquityEMEAInterdealer
+      ISDA2013VolatilitySwapAmericas:
+        description: The ISDA 2013 Americas Master Volatility Swap Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2013VolatilitySwapAmericas
+      ISDA2013VolatilitySwapAsiaExcludingJapan:
+        description: The ISDA 2013 AEJ Master Volatility Swap Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2013VolatilitySwapAsiaExcludingJapan
+      ISDA2013VolatilitySwapEuropean:
+        description: The ISDA 2013 European Volatility Swap Master Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2013VolatilitySwapEuropean
+      ISDA2013VolatilitySwapJapanese:
+        description: The ISDA 2013 Volatility Swap Japanese Confirmation Agreement applies.
+        meaning: http://www.fpml.org/coding-scheme/master-confirmation-type-7-7#ISDA2013VolatilitySwapJapanese
+
+  MasterAgreementClauseIdentifierEnum:
+    permissible_values:
+      ISLA_GMSLA_001:
+        description: Date of Agreement
+      ISLA_GMSLA_002:
+        description: Parties
+      ISLA_GMSLA_003:
+        description: Specific Roles
+      ISLA_GMSLA_004:
+        description: Eligible Collateral
+      ISLA_GMSLA_005:
+        description: Margin
+      ISLA_GMSLA_006:
+        description: Aggregation
+      ISLA_GMSLA_007:
+        description: Collateral Disapplication
+      ISLA_GMSLA_008:
+        description: Settlement Netting
+      ISLA_GMSLA_009:
+        description: Notification Time
+      ISLA_GMSLA_010:
+        description: Indemnity
+      ISLA_GMSLA_011:
+        description: Base Currency
+      ISLA_GMSLA_012:
+        description: Places of Business
+      ISLA_GMSLA_013:
+        description: Value
+      ISLA_GMSLA_014:
+        description: Automatic Early Termination
+      ISLA_GMSLA_015:
+        description: Designated Offices
+      ISLA_GMSLA_016:
+        description: Address for Notices
+      ISLA_GMSLA_017:
+        description: Process Agent
+      ISLA_GMSLA_018:
+        description: Party Acting as Agent
+      ISLA_GMSLA_019:
+        description: 'Pooled Principal Transactions '
+      ISLA_GMSLA_020:
+        description: 'Party Preparing the Agreement '
+      ISLA_GMSLA_021:
+        description: Default Interest Rate
+      ISLA_GMSLA_022:
+        description: Existing Transactions
+      ISLA_GMSLA_023:
+        description: Automation
+      ISLA_GMSLA_024:
+        description: Act of Insolvency
+      ISLA_GMSLA_025:
+        description: Buy-In
+      ISLA_GMSLA_026:
+        description: Currency Conversions
+      ISLA_GMSLA_027:
+        description: Scope
+      ISLA_GMSLA_028:
+        description: Collateral Delivery Timings
+      ISLA_GMSLA_029:
+        description: Delivery
+      ISLA_GMSLA_030:
+        description: Substitution of Collateral
+      ISLA_GMSLA_031:
+        description: Manufactured Payments
+      ISLA_GMSLA_032:
+        description: Corporate Actions
+      ISLA_GMSLA_033:
+        description: Payment of Rates
+      ISLA_GMSLA_034:
+        description: Rate Applicable to Loaned Securities
+      ISLA_GMSLA_035:
+        description: Lender's Right to Terminate a Loan
+      ISLA_GMSLA_036:
+        description: Borrower's Right to Terminate a Loan
+      ISLA_GMSLA_037:
+        description: Failure to Deliver Event of Default
+      ISLA_GMSLA_038:
+        description: Failure to Redeliver
+      ISLA_GMSLA_039:
+        description: Assets Transferred to a Trustee
+      ISLA_GMSLA_040:
+        description: Suspension Event of Default
+      ISLA_GMSLA_041:
+        description: Costs and Expenses
+      ISLA_GMSLA_042:
+        description: Set-Off
+      ISLA_GMSLA_043:
+        description: Default Market Value Fallbacks
+      ISLA_GMSLA_044:
+        description: Assignment
+      ISLA_GMSLA_045:
+        description: Telephone Recordings
+      ISLA_GMSLA_046:
+        description: Waiver of Immunity
+      ISLA_GMSLA_047:
+        description: Agreement to Deliver Documents
+      ISLA_GMSLA_048:
+        description: Collateral Transfer Details
+      ISLA_GMSLA_049:
+        description: Confidentiality
+      ISLA_GMSLA_050:
+        description: Correction
+      ISLA_GMSLA_051:
+        description: Minimum Collateral Transfer Amount
+      ISLA_GMSLA_052:
+        description: Non-Reliance Representation
+      ISLA_GMSLA_053:
+        description: Records and Statements
+      ISLA_GMSLA_054:
+        description: Recovery and Resolution
+      ISLA_GMSLA_055:
+        description: Security Agreement Details
+      ISLA_GMSLA_056:
+        description: Triparty Services
+
+  MasterAgreementVariantIdentifierEnum:
+    permissible_values:
+      ISLA_GMSLA_001_01:
+        description: Agreement is Undated
+      ISLA_GMSLA_001_02:
+        description: Agreement is Dated
+      ISLA_GMSLA_002_01:
+        description: Name and Place of Incorporation
+      ISLA_GMSLA_002_02:
+        description: Names and Place of Incorporation plus Additional Information
+      ISLA_GMSLA_002_03:
+        description: Defining the Party's Role as Lender or Borrower
+      ISLA_GMSLA_003_01:
+        description: Non-specific Roles
+      ISLA_GMSLA_003_02:
+        description: Specific Roles
+      ISLA_GMSLA_004_01:
+        description: GMSLA Schedule
+      ISLA_GMSLA_004_02:
+        description: Outside of GMSLA
+      ISLA_GMSLA_004_03:
+        description: Additional Criteria
+      ISLA_GMSLA_005_01:
+        description: GMSLA Schedule
+      ISLA_GMSLA_005_02:
+        description: Outside of GMSLA
+      ISLA_GMSLA_006_01:
+        description: Aggregation Applies
+      ISLA_GMSLA_006_02:
+        description: Aggregation Does Not Apply
+      ISLA_GMSLA_006_03:
+        description: Aggregation Applies Separately to Loan Groups
+      ISLA_GMSLA_006_04:
+        description: Aggregation Applies to Some but Not All Loans
+      ISLA_GMSLA_006_05:
+        description: Neither Aggregation nor Loan by Loan Applies
+      ISLA_GMSLA_007_01:
+        description: Standard
+      ISLA_GMSLA_007_02:
+        description: Collateral Disapplied
+      ISLA_GMSLA_008_01:
+        description: Netting of Collateral Shall Apply
+      ISLA_GMSLA_008_02:
+        description: Netting of Collateral Shall Not Apply
+      ISLA_GMSLA_008_03:
+        description: Netting of Collateral Shall Apply with Multiple Payments or Delivery Options
+      ISLA_GMSLA_008_04:
+        description: Netting of Collateral Shall Apply Separately per Group of Loans
+      ISLA_GMSLA_009_01:
+        description: Specified Time
+      ISLA_GMSLA_009_02:
+        description: Notification Time by Collateral Type
+      ISLA_GMSLA_009_03:
+        description: Notification Time as Agreed
+      ISLA_GMSLA_009_04:
+        description: No Notification Time
+      ISLA_GMSLA_010_01:
+        description: Indemnity Applies
+      ISLA_GMSLA_010_02:
+        description: Indemnity does not Apply
+      ISLA_GMSLA_011_01:
+        description: Single Base Currency
+      ISLA_GMSLA_011_02:
+        description: Single Base Currency with Fallback
+      ISLA_GMSLA_011_03:
+        description: Single Base Currency with Multiple Fallback Options
+      ISLA_GMSLA_012_01:
+        description: Locations are Specified Without Reference to Party
+      ISLA_GMSLA_012_02:
+        description: Locations are Specified Separately per Party
+      ISLA_GMSLA_012_03:
+        description: Not all Places of Business Have to be Open
+      ISLA_GMSLA_013_01:
+        description: Standard Bid Price
+      ISLA_GMSLA_013_02:
+        description: Standard Mid Price
+      ISLA_GMSLA_013_03:
+        description: 2018 Standard
+      ISLA_GMSLA_013_04:
+        description: Borrowers Agreement to Pricing Source
+      ISLA_GMSLA_013_05:
+        description: Pre-agreed Pricing Source
+      ISLA_GMSLA_013_06:
+        description: Time Variation
+      ISLA_GMSLA_014_01:
+        description: Automatic Early Termination does not Apply
+      ISLA_GMSLA_014_02:
+        description: Automatic Early Termination Applies
+      ISLA_GMSLA_014_03:
+        description: Automatic Early Termination Applies in Modified Form)
+      ISLA_GMSLA_014_04:
+        description: Automatic Early Termination is specified separately for each Principal
+      ISLA_GMSLA_014_05:
+        description: Automatic Early Termination is not applicable unless required due to the systems of law
+      ISLA_GMSLA_015_01:
+        description: Party Specifies a Single Designated Office
+      ISLA_GMSLA_015_02:
+        description: Party Specifies Multiple Designated Offices
+      ISLA_GMSLA_016_01:
+        description: 2000 Standard
+      ISLA_GMSLA_016_02:
+        description: 2010 Standard
+      ISLA_GMSLA_016_03:
+        description: 2018 Standard
+      ISLA_GMSLA_016_04:
+        description: Plus Email
+      ISLA_GMSLA_016_05:
+        description: Separate Address for Legal and Operational Notices
+      ISLA_GMSLA_016_06:
+        description: Special Instructions
+      ISLA_GMSLA_017_01:
+        description: No Process Agent
+      ISLA_GMSLA_017_02:
+        description: Process Agent Specified
+      ISLA_GMSLA_017_03:
+        description: Process Agent to be Appointed
+      ISLA_GMSLA_018_01:
+        description: A Party will not act as Agent
+      ISLA_GMSLA_018_02:
+        description: A Party may act as Agent
+      ISLA_GMSLA_018_03:
+        description: A Party will always act as Agent
+      ISLA_GMSLA_019_01:
+        description: Pooled Principal Transactions Shall Not Apply
+      ISLA_GMSLA_019_02:
+        description: Pooled Principal Transactions Shall  Apply
+      ISLA_GMSLA_019_03:
+        description: Pooled Principal Transactions May Apply
+      ISLA_GMSLA_020_01:
+        description: Simple Election
+      ISLA_GMSLA_020_02:
+        description: Election with Modifications
+      ISLA_GMSLA_021_01:
+        description: Term Rate
+      ISLA_GMSLA_021_02:
+        description: Overnight Rate
+      ISLA_GMSLA_021_03:
+        description: Risk Free Rate
+      ISLA_GMSLA_021_04:
+        description: Non-Defaulting Party Election
+      ISLA_GMSLA_021_05:
+        description: Spread
+      ISLA_GMSLA_022_01:
+        description: Agreement Covers Existing Loans
+      ISLA_GMSLA_022_02:
+        description: Agreement Does Not Cover Existing Loans
+      ISLA_GMSLA_023_01:
+        description: Automation Does Not Apply
+      ISLA_GMSLA_023_02:
+        description: Automation May Apply
+      ISLA_GMSLA_024_01:
+        description: Standard Pre-Print
+      ISLA_GMSLA_024_02:
+        description: Grace Period Amendment
+      ISLA_GMSLA_024_03:
+        description: Jurisdictional Amendments
+      ISLA_GMSLA_025_01:
+        description: Transferor Pays Costs and Expenses
+      ISLA_GMSLA_025_02:
+        description: Transferor Pays Costs and Expenses other than those arising from Negligence
+      ISLA_GMSLA_025_03:
+        description: Transferor only Liable for Cost and Expenses if Reasonable Notice of Buy-in
+      ISLA_GMSLA_025_04:
+        description: Buy-in Expanded to Cover Buy-in Exercised by an Exchange
+      ISLA_GMSLA_026_01:
+        description: Standard
+      ISLA_GMSLA_026_02:
+        description: Selecting Party other than Lender
+      ISLA_GMSLA_026_03:
+        description: Variation of Exchange Rate Source
+      ISLA_GMSLA_027_01:
+        description: Standard Scope
+      ISLA_GMSLA_027_02:
+        description: Limited Scope
+      ISLA_GMSLA_028_01:
+        description: Same Day
+      ISLA_GMSLA_028_02:
+        description: Alternative Delivery Time
+      ISLA_GMSLA_028_03:
+        description: Same Day with Notification Time
+      ISLA_GMSLA_028_04:
+        description: Alternative Delivery Time with Notification Time
+      ISLA_GMSLA_028_05:
+        description: Asset Dependent
+      ISLA_GMSLA_029_01:
+        description: Simultaneous delivery of securities and collateral
+      ISLA_GMSLA_029_02:
+        description: Collateral Delivery as specified in the Security Agreement
+      ISLA_GMSLA_029_03:
+        description: Lender to Deliver Securities once Collateral is Delivered
+      ISLA_GMSLA_030_01:
+        description: Borrower Request
+      ISLA_GMSLA_030_02:
+        description: Borrower Request/Lender Consent
+      ISLA_GMSLA_030_03:
+        description: Lender or Borrower Request
+      ISLA_GMSLA_030_04:
+        description: Pre-approval of Alternative Collateral
+      ISLA_GMSLA_031_01:
+        description: Manufactured Payment of Amount Such Party Would Be Entitled to Receive
+      ISLA_GMSLA_031_02:
+        description: Manufactured Payment of Amount Such Lender Would Be Entitled to Receive
+      ISLA_GMSLA_031_03:
+        description: Manufactured Payment Only in Relation to Loaned Securities
+      ISLA_GMSLA_031_04:
+        description: Additional Sum to Be Paid to Cover Tax Relief
+      ISLA_GMSLA_031_05:
+        description: Notice Requirement
+      ISLA_GMSLA_032_01:
+        description: Standard
+      ISLA_GMSLA_032_02:
+        description: Reasonable Notice Defined
+      ISLA_GMSLA_032_03:
+        description: No Right to Instruct
+      ISLA_GMSLA_033_01:
+        description: Payment Within a Week
+      ISLA_GMSLA_033_02:
+        description: Payment Within 10 Days
+      ISLA_GMSLA_033_03:
+        description: Payment Upon Maturity
+      ISLA_GMSLA_034_01:
+        description: Such Rate as Agreed
+      ISLA_GMSLA_034_02:
+        description: VAT Added
+      ISLA_GMSLA_034_03:
+        description: No Deduction
+      ISLA_GMSLA_034_04:
+        description: No Rate Payable
+      ISLA_GMSLA_035_01:
+        description: Lender May Terminate a Loan at any Time
+      ISLA_GMSLA_035_02:
+        description: Lender May Not Terminate a Loan
+      ISLA_GMSLA_036_01:
+        description: Borrower May Terminate a Loan at Any Time
+      ISLA_GMSLA_036_02:
+        description: Borrower May Terminate a Loan Subject to Notice
+      ISLA_GMSLA_036_03:
+        description: Borrower May Terminate a Loan Subject to Limitations Concerning Corporate Actions
+      ISLA_GMSLA_036_04:
+        description: Borrower May Terminate a Loan Subject to Paying the Rate for the Full Term
+      ISLA_GMSLA_037_01:
+        description: Failure to Deliver Event of Default Applies
+      ISLA_GMSLA_037_02:
+        description: Failure to Deliver Event of Default does not Apply
+      ISLA_GMSLA_037_03:
+        description: Failure to Deliver Event of Default does not Apply to Lender
+      ISLA_GMSLA_038_01:
+        description: 2000 Standard
+      ISLA_GMSLA_038_02:
+        description: 2010 Standard
+      ISLA_GMSLA_038_03:
+        description: 2018 Standard
+      ISLA_GMSLA_038_04:
+        description: 2000 Modified No Lender Close Out
+      ISLA_GMSLA_039_01:
+        description: 2000 Standard
+      ISLA_GMSLA_039_02:
+        description: 2010/2018 Standard
+      ISLA_GMSLA_039_03:
+        description: Hybrid
+      ISLA_GMSLA_040_01:
+        description: 2000 Standard
+      ISLA_GMSLA_040_02:
+        description: 2010/2018 Standard
+      ISLA_GMSLA_040_03:
+        description: Hybrid
+      ISLA_GMSLA_041_01:
+        description: Standard Costs and Expenses
+      ISLA_GMSLA_041_02:
+        description: Limitation of Costs and Expenses
+      ISLA_GMSLA_041_03:
+        description: Expansion of Costs and Expenses
+      ISLA_GMSLA_042_01:
+        description: No Contractual Set-Off
+      ISLA_GMSLA_042_02:
+        description: Simple Contractual Set-Off
+      ISLA_GMSLA_042_03:
+        description: Set-Off with Unascertained Obligations Amendment
+      ISLA_GMSLA_043_01:
+        description: Standard Paragraph 11.2(a)
+      ISLA_GMSLA_043_02:
+        description: Amended Paragraph 11.2,(a) applies
+      ISLA_GMSLA_044_01:
+        description: Consent
+      ISLA_GMSLA_044_02:
+        description: Consent with Standard Exclusions
+      ISLA_GMSLA_044_03:
+        description: Consent with Additional Exclusions
+      ISLA_GMSLA_044_04:
+        description: Pre-approved Assignments
+      ISLA_GMSLA_045_01:
+        description: Parties May Record All Conversations
+      ISLA_GMSLA_045_02:
+        description: Parties Agree to Obtain Consent
+      ISLA_GMSLA_045_03:
+        description: Parties Limit the Conversations that May be Recorded
+      ISLA_GMSLA_045_04:
+        description: Submission as Evidence
+      ISLA_GMSLA_046_01:
+        description: Standard Waiver of Immunity Applies
+      ISLA_GMSLA_046_02:
+        description: Waiver of Immunity may Not Apply
+      ISLA_GMSLA_047_01:
+        description: No Additional Documentation Required
+      ISLA_GMSLA_047_02:
+        description: Additional Documentation Required
+      ISLA_GMSLA_048_01:
+        description: Collateral Transfer Details not included
+      ISLA_GMSLA_048_02:
+        description: Collateral Transfer Details included
+      ISLA_GMSLA_049_01:
+        description: Confidentiality Clause
+      ISLA_GMSLA_049_02:
+        description: Permitted Disclosure Clause
+      ISLA_GMSLA_050_01:
+        description: Paragraph 20.1 Amended to Refer  Paragraph 6
+      ISLA_GMSLA_050_02:
+        description: Paragraph 27.2 Amended to refer to the 2010 GMSLA
+      ISLA_GMSLA_051_01:
+        description: MCTA  Delivery only
+      ISLA_GMSLA_051_02:
+        description: MCTA  Delivery and Re-Delivery
+      ISLA_GMSLA_051_03:
+        description: MCTA  Drops to Zero for a Defaulting Party
+      ISLA_GMSLA_052_01:
+        description: No Non-Reliance Representation
+      ISLA_GMSLA_052_02:
+        description: Non-Reliance Representation Added
+      ISLA_GMSLA_053_01:
+        description: No Records and Statements Clause
+      ISLA_GMSLA_053_02:
+        description: Records and Statements Clause Added
+      ISLA_GMSLA_054_01:
+        description: Recovery and Resolution not Included
+      ISLA_GMSLA_054_02:
+        description: Recovery and Resolution Included in GMSLA
+      ISLA_GMSLA_054_03:
+        description: Recovery and Resolution Included by Protocol
+      ISLA_GMSLA_054_04:
+        description: Recovery and Resolution Incorporated by Reference
+      ISLA_GMSLA_055_01:
+        description: Security Agreement Details Included
+      ISLA_GMSLA_056_01:
+        description: Triparty Services Not Referenced
+      ISLA_GMSLA_056_02:
+        description: Triparty Services May Apply
+
+slots:
+  clause:
+    range: MasterAgreementClause
+    description: Clauses that have had elections made against them in this Master Agreement. There must be at least one clause
+      defined in the agreement.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  variant:
+    range: MasterAgreementClauseVariant
+    description: Allows multiple variants to be defined for a clause. This needs to be an array as some clauses can specify
+      different variants for different parties. At least one variant must be specified for a clause.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+classes:
+  MasterAgreementSchedule:
+    description: The set of elections which specify a Master Agreement.
+    slots:
+      - clause
+    in_subset:
+      - cdm_legaldocumentation_master
+
+  MasterAgreementClause:
+    description: Defines clauses that make up a Master Agreement.
+    slots:
+      - identifer
+      - name
+      - counterparty
+      - otherParty
+      - variant
+    slot_usage:
+      identifer:
+        range: MasterAgreementClauseIdentifierEnum
+        description: Unique identifier for the clause.
+      name:
+        description: Optional textual description of the clause.
+      counterparty:
+        range: CounterpartyRoleEnum
+        description: Optional counterparty role. This can be used where a clause needs to be assigned to a specific party
+          on the agreement based upon their role i.e. Party A or Party B.
+        required: false
+      otherParty:
+        range: PartyRoleEnum
+        description: Optional party. This can be required for umbrella agreements where a clause may need to be assigned to
+          a specific party who may or may not be on the agreement.
+    in_subset:
+      - cdm_legaldocumentation_master
+
+  MasterAgreementClauseVariant:
+    description: Sets the details for a specific variant associated to a clause in a Master Agreement.
+    slots:
+      - identifier
+      - name
+      - counterparty
+      - otherParty
+      - variableSet
+    slot_usage:
+      identifier:
+        range: MasterAgreementVariantIdentifierEnum
+        description: Unique identifier for this variant.
+        multivalued: false
+      name:
+        description: Optional textual description of the variant.
+      counterparty:
+        range: CounterpartyRoleEnum
+        description: Optional counterparty role. This can be used where a clause needs to assign a different variant to the
+          different parties on the agreement based upon their role i.e. Party A or Party B.
+        required: false
+      otherParty:
+        range: PartyRoleEnum
+        description: Optional party. This can be used where a clause needs to assign different variants to different parties
+          who may or may not be on the agreement.
+      variableSet:
+        range: MasterAgreementVariableSet
+        description: For some variants of some clauses additional details are required to work out what has been elected.
+          This array can be used to define the name and value of these variables. Please refer to the agreement documentation
+          for more details of the variables that are available for any clause.
+    in_subset:
+      - cdm_legaldocumentation_master
+
+  MasterAgreementVariableSet:
+    description: Defines a type where additional variables associated to clauses and their variants can be described.
+    rules:
+      - description: If we have a variableSet then we must not have any name/value pairs at this level.
+        preconditions:
+          slot_conditions:
+            variableSet:
+              required: true
+        postconditions:
+          slot_conditions:
+            name:
+              required: false
+            value:
+              required: false
+      - description: If we have a name then we must also have a value.
+        preconditions:
+          slot_conditions:
+            name:
+              required: true
+        postconditions:
+          slot_conditions:
+            value:
+              required: true
+      - description: If we have a value then we must also have a name.
+        preconditions:
+          slot_conditions:
+            value:
+              required: true
+        postconditions:
+          slot_conditions:
+            name:
+              required: true
+    comments:
+      - 'Rosetta condition: VariableSetExists — if variableSet exists then name is absent and value is absent'
+      - 'Rosetta condition: VariableSetNesting — if variableSet -> variableSet exists then variableSet -> variableSet -> variableSet
+        is absent'
+      - 'Rosetta condition: NameMustExist — if name exists then value exists'
+      - 'Rosetta condition: ValueMustExist — if value exists then name exists'
+    slots:
+      - variableSet
+      - name
+      - value
+    slot_usage:
+      variableSet:
+        range: MasterAgreementVariableSet
+        description: For some variants a table of variables is required. To support this use case we need to be able to specify
+          variables within variables. Including a variable set here gives us infinite nesting opportunities - realistically
+          we are only ever expecting that a table would need to be defined for any particular clause, so we would expect two
+          levels of nesting as a maximum i.e. variableSet->variableSet->name/value.
+      name:
+        description: The name of the variable.
+      value:
+        range: string
+        description: The value for this variable.
+    in_subset:
+      - cdm_legaldocumentation_master
+
+  MasterAgreementBase:
+    description: A set of elections that can be shared across master agreement types - this should be built upon for specific
+      contracts.
+    in_subset:
+      - cdm_legaldocumentation_master
+
+  MasterAgreementElections:
+    description: A representation of a master agreement extended from a base agreement of shared elections.
+    in_subset:
+      - cdm_legaldocumentation_master

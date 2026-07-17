@@ -1,0 +1,883 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_event_workflow
+name: cdm_event_workflow
+description: 'Workflow concepts (orthogonal to business event): time stamp, credit limit, trade warehouse info and associated
+  function specifications.'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  gist: https://w3id.org/lmodel/gist/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_datetime
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_event_common
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_event_position
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_base_math
+
+comments:
+  - 'Rosetta func: Create_WorkflowStep — Function to create a workflow step with a business event and associated details about
+    the message, identifiers, event timestamps, parties and accounts involved in the step. The function should be used when
+    there is already a fully formed business event with the action set to signify that the step is new, or a correction/cancellation
+    of a previous step. The action is constrained so that when a previous workflow step is specified, the valid actions are
+    as follows; New -> New, New -> Correct, New -> Cancel, Correct -> Correct and Correct -> Cancel. When a previous workflow
+    is not specified, the action must be New. | inputs(messageInformation: MessageInformation (0..1), timestamp: EventTimestamp
+    (1..*), eventIdentifier: Identifier (1..*), party: Party (0..*), account: Account (0..*), previousWorkflowStep: WorkflowStep
+    (0..1), action: ActionEnum (1..1), businessEvent: BusinessEvent (0..1)) | output(workflowStep: WorkflowStep (1..1))'
+  - 'Rosetta func: Create_AcceptedWorkflowStep — Represents the acceptance of a proposed instruction that results in a workflow
+    step containing a business event, message details, identifiers, event timestamps, parties and accounts. The previous workflow
+    step input must exist to provide workflow lineage. The instruction from the previous workflow step should be used with
+    a [creation BusinessEvent] function to create the input business event passed into this function e.g. PartyChangeInstruction
+    from the previous step is used with Create_PartyChange to produce the business event which should used as an input to
+    this step. | inputs(messageInformation: MessageInformation (0..1), timestamp: EventTimestamp (1..*), eventIdentifier:
+    Identifier (1..*), party: Party (0..*), account: Account (0..*), proposedWorkflowStep: WorkflowStep (1..1), businessEvent:
+    BusinessEvent (1..1)) | output(acceptedWorkflowStep: WorkflowStep (1..1))'
+  - 'Rosetta func: Create_AcceptedWorkflowStepFromInstruction — Represents the acceptance of a proposed instruction that results
+    in a workflow step containing a business event, message details, identifiers, event timestamps, parties and accounts.
+    The previous workflow step input must exist to provide workflow lineage. The instruction from the previous workflow step
+    should be used with a [creation BusinessEvent] function to create the input business event passed into this function e.g.
+    PartyChangeInstruction from the previous step is used with Create_PartyChange to produce the business event which should
+    used as an input to this step. | inputs(proposedWorkflowStep: WorkflowStep (1..1)) | output(acceptedWorkflowStep: WorkflowStep
+    (1..1))'
+  - 'Rosetta func: Create_ProposedWorkflowStep — Represents the proposal to create a business event that results in a workflow
+    step containing an instruction, message details, identifiers, event timestamps, parties and accounts. The optional previous
+    workflow step input provides workflow lineage to where there has been a correction or cancellation to the proposed step.
+    The action is constrained so that when a previous workflow step is specified, the valid actions are as follows; New ->
+    Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be New. | inputs(messageInformation:
+    MessageInformation (0..1), timestamp: EventTimestamp (1..*), eventIdentifier: Identifier (1..*), party: Party (0..*),
+    account: Account (0..*), previousWorkflowStep: WorkflowStep (0..1), action: ActionEnum (1..1), proposedEvent: EventInstruction
+    (1..1), approval: WorkflowStepApproval (0..*)) | output(proposedWorkflowStep: WorkflowStep (1..1))'
+  - 'Rosetta func: Create_RejectedWorkflowStep — Represents the rejection of a proposed instruction that results in a workflow
+    step containing the rejection flag, message details, identifiers, event timestamps, parties and accounts involved in the
+    step. The previous workflow step input must exist to provide workflow lineage. This function will be further developed
+    to provide the reasons for rejection. | inputs(messageInformation: MessageInformation (0..1), timestamp: EventTimestamp
+    (1..*), eventIdentifier: Identifier (1..*), proposedWorkflowStep: WorkflowStep (1..1)) | output(rejectedWorkflowStep:
+    WorkflowStep (1..1))'
+  - 'Rosetta func: Create_Workflow — Function to create a Workflow from a list of WorkflowStep. | inputs(steps: WorkflowStep
+    (1..*)) | output(workflow: Workflow (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"Create_WorkflowStep","description":"Function to create a workflow step with a business event
+    and associated details about the message, identifiers, event timestamps, parties and accounts involved in the step. The
+    function should be used when there is already a fully formed business event with the action set to signify that the step
+    is new, or a correction/cancellation of a previous step. The action is constrained so that when a previous workflow step
+    is specified, the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct -> Correct and Correct
+    -> Cancel. When a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"0..1"}],"output":{"name":"workflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_AcceptedWorkflowStep","description":"Represents
+    the acceptance of a proposed instruction that results in a workflow step containing a business event, message details,
+    identifiers, event timestamps, parties and accounts. The previous workflow step input must exist to provide workflow lineage.
+    The instruction from the previous workflow step should be used with a [creation BusinessEvent] function to create the
+    input business event passed into this function e.g. PartyChangeInstruction from the previous step is used with Create_PartyChange
+    to produce the business event which should used as an input to this step.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"1..1"}],"output":{"name":"acceptedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_AcceptedWorkflowStepFromInstruction","description":"Represents
+    the acceptance of a proposed instruction that results in a workflow step containing a business event, message details,
+    identifiers, event timestamps, parties and accounts. The previous workflow step input must exist to provide workflow lineage.
+    The instruction from the previous workflow step should be used with a [creation BusinessEvent] function to create the
+    input business event passed into this function e.g. PartyChangeInstruction from the previous step is used with Create_PartyChange
+    to produce the business event which should used as an input to this step.","inputs":[{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}],"output":{"name":"acceptedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_ProposedWorkflowStep","description":"Represents
+    the proposal to create a business event that results in a workflow step containing an instruction, message details, identifiers,
+    event timestamps, parties and accounts. The optional previous workflow step input provides workflow lineage to where there
+    has been a correction or cancellation to the proposed step. The action is constrained so that when a previous workflow
+    step is specified, the valid actions are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is
+    not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"proposedEvent","type":"EventInstruction","cardinality":"1..1"},{"name":"approval","type":"WorkflowStepApproval","cardinality":"0..*"}],"output":{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_RejectedWorkflowStep","description":"Represents
+    the rejection of a proposed instruction that results in a workflow step containing the rejection flag, message details,
+    identifiers, event timestamps, parties and accounts involved in the step. The previous workflow step input must exist
+    to provide workflow lineage. This function will be further developed to provide the reasons for rejection.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}],"output":{"name":"rejectedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_Workflow","description":"Function
+    to create a Workflow from a list of WorkflowStep.","inputs":[{"name":"steps","type":"WorkflowStep","cardinality":"1..*"}],"output":{"name":"workflow","type":"Workflow","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_event_workflow:
+    description: Classes defined in the cdm_event_workflow module.
+
+enums:
+  CreditLimitTypeEnum:
+    description: The enumeration values to qualify the type of credit limits.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/credit-limit-type
+    permissible_values:
+      CS01:
+        description: The type of credit line expressed in CS01. The sensitivity with respect to changes in the CDS spread.
+        meaning: http://www.fpml.org/coding-scheme/credit-limit-type-1-1#CS01
+      DV01:
+        description: The type of credit line expressed in DV01. The dollar value of a one basis point decrease in interest
+          rates. It shows the change in a bond's price compared to a decrease in the bond's yield.
+        meaning: http://www.fpml.org/coding-scheme/credit-limit-type-1-1#DV01
+      IM:
+        description: The type of credit line expressed in Initial Margin value.
+        meaning: http://www.fpml.org/coding-scheme/credit-limit-type-1-1#IM
+      Notional:
+        description: The type of credit line expressed in Notional amount.
+        meaning: http://www.fpml.org/coding-scheme/credit-limit-type-1-1#Notional
+      NPV:
+        description: The type of credit line expressed as a Net Present Value.
+      PV01:
+        description: The type of credit line expressed in PV01. The value of a one dollar or one basis point annuity.
+        meaning: http://www.fpml.org/coding-scheme/credit-limit-type-1-1#PV01
+
+  EventTimestampQualificationEnum:
+    description: The enumeration values to qualify the timestamps that can be associated with a lifecycle event. The reason
+      for such approach is that the experience of integrating the DTCC and CME data representations suggests that a wide set
+      of timestamps are currently utilized among service providers, while there is not at present an objective set of criteria
+      that could help suggest a defined set of timestamps as part of the CDM. Implementers are expected to evaluate the current
+      enumeration values to determine whether those meet their requirements. If not, they are expected to engage with the
+      CDM team to evaluate the addition of further value(s) to this enumeration, which will then participate to the development
+      of a compendium for further evaluation at a later point in order to determine whether this modeling is appropriate.
+    permissible_values:
+      clearingDateTime:
+        description: The date and time on the trade was cleared.
+      clearingConfirmationDateTime:
+        description: The date and time on which trade was confirmed as cleared.
+      clearingReceiptDateTime:
+        description: The date and time on which trade was received by Clearing Body.
+      clearingSubmissionDateTime:
+        description: The date and time on which the event was submitted for clearing.
+      confirmationDateTime:
+        description: The date and time on which the event was confirmed.
+      eventCreationDateTime:
+        description: The date and time on which the event was created.
+      eventExpirationDateTime:
+        description: The date and time on which the event will be considered expired.
+      eventProcessingDateTime:
+        description: The date and time on which the event was processed.
+      eventSentDateTime:
+        description: The date and time on which the event was sent.
+      eventSubmittedDateTime:
+        description: The date and time on which the event was submitted.
+      executionDateTime:
+        description: The date and time on which the trade execution was performed.
+      transactionCreationDateTime:
+        description: 'The date and time on which the transaction has been created. This timestamp is specified as such by
+          the CME ClearPort Matched IRS Trade submission API specification: ''The transaction date time of the trade. Represents
+          the date & time on which the trade was initially generated either by CME Clearing or firm. The transaction date
+          time may be assigned by CME Clearing at the point the trade is reported as cleared. Transaction date time can also
+          be provided by an external submitter of the trade at the point the trade is submitted.'''
+
+  LimitLevelEnum:
+    description: 'The enumeration values to specify the level at which the limit is set: customer business, proprietary business
+      or account level. This is part of the CME specification for clearing credit limits, although not specified as a set
+      of enumerated values as part of the clearing confirmation specification.'
+    permissible_values:
+      Account:
+        description: The limit is set in relation to the proprietary business undertaken by the clearing counterparty.
+      Customer:
+        description: The limit is set in relation to the customer business undertaken by the clearing counterparty.
+      House:
+        description: The limit is set at the account level in relation to the clearing counterparty.
+
+  WarehouseIdentityEnum:
+    permissible_values:
+      DTCC_TIW_Gold:
+        description: The DTCC Trade Information Warehouse Gold service
+
+  WorkflowStatusEnum:
+    permissible_values:
+      Accepted: {}
+      Alleged: {}
+      Amended: {}
+      Cancelled: {}
+      Certain: {}
+      Cleared: {}
+      Pending: {}
+      Rejected: {}
+      Submitted: {}
+      Terminated: {}
+      Uncertain: {}
+      Unconfirmed: {}
+      Affirmed: {}
+      Confirmed: {}
+
+slots:
+  limitApplicable:
+    range: LimitApplicableExtended
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  executed:
+    range: CreditLimitUtilisationPosition
+    description: Credit limit utilisation attributable to executed trades.
+
+  pending:
+    range: CreditLimitUtilisationPosition
+    description: Credit limit utilisation attributable to pending unexecuted orders.
+
+  shortPosition:
+    range: decimal
+    description: Credit limit utilisation attributable to short positions.
+
+  longPosition:
+    range: decimal
+    description: Credit limit utilisation attributable to long positions.
+
+  global_:
+    range: decimal
+    description: Global credit limit utilisation amount, agnostic of long/short position direction.
+
+  itemName:
+    range: string
+    description: In this initial iteration, this corresponds to the DTCC TIW element name.
+    required: true
+
+  itemValue:
+    range: string
+    description: In this initial iteration, this corresponds to the DTCC value.
+    required: true
+
+  approved:
+    range: boolean
+    description: Flag denoting whether the workflow step is approved or not
+    required: true
+
+  rejectedReason:
+    range: string
+    description: Optional reason for rejecting the workflow step
+
+  businessEvent:
+    range: BusinessEvent
+    description: Life cycle event for the step.
+
+  counterpartyPositionBusinessEvent:
+    range: CounterpartyPositionBusinessEvent
+    description: Documents the life cycle event for a position.
+
+  proposedEvent:
+    range: EventInstruction
+    description: The proposed event for a workflow step.
+
+  rejected:
+    range: boolean
+    description: Flags this step as rejected.
+
+  approval:
+    range: WorkflowStepApproval
+    description: Optional party approvals for the current workflow step. A workflow step can have any number of parties associated
+      to it, thus this object is represented as a list. All parties that are expected to provide approval should have an item
+      in this list that references them.
+    multivalued: true
+    inlined_as_list: true
+
+  previousWorkflowStep:
+    range: WorkflowStep
+    description: Optional previous workflow step that provides lineage to workflow steps that precedes it.
+    annotations:
+      metadata_reference: true
+
+  nextEvent:
+    range: EventInstruction
+    description: The intended next event can be specified, even if the instructions are not known yet.
+
+  eventIdentifier:
+    range: Identifier
+    description: The identifier(s) that uniquely identify a lifecycle event. The unbounded cardinality is meant to provide
+      the ability to associate identifiers that are issued by distinct parties. As an example, each of the parties to the
+      event may choose to associate their own identifiers to the event.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  action:
+    range: ActionEnum
+    description: Specifies whether the event is a new, a correction or a cancellation.
+
+  creditLimitInformation:
+    range: CreditLimitInformation
+
+  workflowState:
+    range: WorkflowState
+    description: The event workflow information, i.e. the workflow status, the associated comment and the partyCustomisedWorkflow
+      which purpose is to provide the ability to associate custom workflow information to the CDM.
+
+  steps:
+    range: WorkflowStep
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  eventTime:
+    range: TimeZone
+    description: The time and zone of the date in which the event is taking place.
+
+  effectiveTime:
+    range: TimeZone
+    description: The time and zone of the date in which the event contractually takes effect.
+
+  instruction:
+    range: Instruction
+    description: Specifies the instructions to create the Business Event.
+    multivalued: true
+    inlined_as_list: true
+
+  qualification:
+    range: EventTimestampQualificationEnum
+    description: The timestamp qualifier is specified through an enumeration because the experience of integrating the DTCC
+      and CME data representations suggests that a wide set of timestamps are currently utilized among service providers,
+      while there is not at present an objective set of criteria that could help suggest a defined set of timestamps as part
+      of the CDM. At some future point, one possible baseline could be developed from the review of the set of timestamps
+      specified across regulatory regimes and regulations (incl. regulations such as high frequency trading). Also, the integration
+      with a further set of implementations and the specification of business workflows such as clearing as part of the CDM
+      development should help confirm the implementation approach in this respect.
+    required: true
+
+  workflowStatus:
+    range: WorkflowStatusEnum
+    description: The workflow status indicator, e.g. Accepted, Rejected, ...
+    required: true
+
+  partyCustomisedWorkflow:
+    range: PartyCustomisedWorkflow
+    description: Workflow data that is specific to certain market participants and is expressed as part of the CDM in a very
+      generic manner, which can be party-specific. The initial use cases have been derived from the CME clearing and the DTCC
+      TIW submissions.
+    multivalued: true
+    inlined_as_list: true
+
+  warehouseIdentity:
+    range: WarehouseIdentityEnum
+    description: The identity of the warehouse, if any, that is executing that workflow step.
+
+  limitType:
+    range: CreditLimitTypeEnum
+    description: Standard code to indicate which type of credit line is being referred to - i.e. IM, DV01, PV01, CS01, Notional,
+      Clip Size, Notional, maximumOrderQuantity.
+    annotations:
+      metadata_scheme: true
+
+  clipSize:
+    range: integer
+    description: This element is required in FpML, optional in CDM for the purpose of accommodating the CME data representation
+      while making reference to the FpML one.
+
+  amountUtilized:
+    range: decimal
+    description: The limit utilised by all the cleared trades for the limit level and limit type. While the attribute is of
+      type integer in FpML and the CME schema, it has been specified to be of type number in the CDM to take into consideration
+      java size limits as well as for consistency purposes with the way most monetary amounts are expressed.
+
+  utilization:
+    range: CreditLimitUtilisation
+
+  amountRemaining:
+    range: decimal
+    description: The limit remaining for the limit level and limit type. This does not take into account any pending trades.
+      While the attribute is of type integer in FpML and the CME schema, it has been specified to be of type number in the
+      CDM to take into consideration java size limits as well as for consistency purposes with the way most monetary amounts
+      are expressed.
+
+  velocity:
+    range: Velocity
+
+  limitLevel:
+    range: LimitLevelEnum
+    description: 'The level at which the limit is set: customer business, proprietary business or account level. This attribute
+      is specified as a string as part of the CME clearing confirmation specification.'
+    annotations:
+      metadata_scheme: true
+
+  limitAmount:
+    range: decimal
+    description: The total limit available for the limit level and limit type. While the attribute is of type integer in the
+      CME schema, it has been specified to be of type number in the CDM to take into consideration java size limits as well
+      as for consistency purposes with the way most monetary amounts are expressed.
+
+  limitImpactDueToTrade:
+    range: decimal
+    description: The limit utilized by this specific trade. While the attribute is of type integer in the CME schema, it has
+      been specified to be of type number in the CDM to take into consideration java size limits as well as for consistency
+      purposes with the way most monetary amounts are expressed.
+
+  messageId:
+    range: string
+    description: A unique identifier assigned to the message.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  sentBy:
+    range: string
+    description: The identifier for the originator of a message instance.
+    annotations:
+      metadata_scheme: true
+
+  sentTo:
+    range: string
+    description: The identifier(s) for the recipient(s) of a message instance.
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+
+  copyTo:
+    range: string
+    description: A unique identifier (within the specified coding scheme) giving the details of some party to whom a copy
+      of this message will be sent for reference.
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+
+  partyName:
+    range: string
+    description: The party name to which the workflow pertains to.
+
+  customisedWorkflow:
+    range: CustomisedWorkflow
+    description: Non-standardized data in a generic form.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+classes:
+  CreditLimitInformation:
+    description: A class to represent the credit limit utilisation information.
+    slots:
+      - limitApplicable
+    in_subset:
+      - cdm_event_workflow
+
+  CreditLimitUtilisation:
+    description: Credit limit utilisation breakdown by executed trades and pending orders.
+    slots:
+      - executed
+      - pending
+    in_subset:
+      - cdm_event_workflow
+
+  CreditLimitUtilisationPosition:
+    slots:
+      - shortPosition
+      - longPosition
+      - global_
+    in_subset:
+      - cdm_event_workflow
+
+  CustomisedWorkflow:
+    description: In its initial iteration, this class is meant to support the DTCC TIW workflow information.
+    slots:
+      - itemName
+      - itemValue
+    in_subset:
+      - cdm_event_workflow
+
+  WorkflowStepApproval:
+    description: 'Party approvals associated to the current WorkflowStep. '
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"Create_ProposedWorkflowStep","description":"Represents the proposal to create a business
+        event that results in a workflow step containing an instruction, message details, identifiers, event timestamps, parties
+        and accounts. The optional previous workflow step input provides workflow lineage to where there has been a correction
+        or cancellation to the proposed step. The action is constrained so that when a previous workflow step is specified,
+        the valid actions are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified,
+        the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"proposedEvent","type":"EventInstruction","cardinality":"1..1"},{"name":"approval","type":"WorkflowStepApproval","cardinality":"0..*"}],"output":{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}}]'
+    comments:
+      - 'Rosetta func: Create_ProposedWorkflowStep — Represents the proposal to create a business event that results in a
+        workflow step containing an instruction, message details, identifiers, event timestamps, parties and accounts. The
+        optional previous workflow step input provides workflow lineage to where there has been a correction or cancellation
+        to the proposed step. The action is constrained so that when a previous workflow step is specified, the valid actions
+        are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be
+        New.'
+    slots:
+      - approved
+      - party
+      - rejectedReason
+      - timestamp
+    slot_usage:
+      party:
+        range: Party
+        description: Reference to the Party who is approving/rejecting this workflow step
+        required: true
+      timestamp:
+        range: EventTimestamp
+        description: Timestamp of the approval
+    in_subset:
+      - cdm_event_workflow
+
+  WorkflowStep:
+    description: A workflow step represents the state of a business event. The workflow step contains a reference to a previous
+      WorkflowStep in order to preserve lineage. A workflow step is accepted if it contains a business event, proposed if
+      proposedEvent is present and is rejected if the rejected flag is set.
+    tree_root: true
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"Create_WorkflowStep","description":"Function to create a workflow step with a business
+        event and associated details about the message, identifiers, event timestamps, parties and accounts involved in the
+        step. The function should be used when there is already a fully formed business event with the action set to signify
+        that the step is new, or a correction/cancellation of a previous step. The action is constrained so that when a previous
+        workflow step is specified, the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct ->
+        Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"0..1"}],"output":{"name":"workflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_AcceptedWorkflowStep","description":"Represents
+        the acceptance of a proposed instruction that results in a workflow step containing a business event, message details,
+        identifiers, event timestamps, parties and accounts. The previous workflow step input must exist to provide workflow
+        lineage. The instruction from the previous workflow step should be used with a [creation BusinessEvent] function to
+        create the input business event passed into this function e.g. PartyChangeInstruction from the previous step is used
+        with Create_PartyChange to produce the business event which should used as an input to this step.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"1..1"}],"output":{"name":"acceptedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_AcceptedWorkflowStepFromInstruction","description":"Represents
+        the acceptance of a proposed instruction that results in a workflow step containing a business event, message details,
+        identifiers, event timestamps, parties and accounts. The previous workflow step input must exist to provide workflow
+        lineage. The instruction from the previous workflow step should be used with a [creation BusinessEvent] function to
+        create the input business event passed into this function e.g. PartyChangeInstruction from the previous step is used
+        with Create_PartyChange to produce the business event which should used as an input to this step.","inputs":[{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}],"output":{"name":"acceptedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_ProposedWorkflowStep","description":"Represents
+        the proposal to create a business event that results in a workflow step containing an instruction, message details,
+        identifiers, event timestamps, parties and accounts. The optional previous workflow step input provides workflow lineage
+        to where there has been a correction or cancellation to the proposed step. The action is constrained so that when
+        a previous workflow step is specified, the valid actions are as follows; New -> Correct and Correct -> Cancel. When
+        a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"proposedEvent","type":"EventInstruction","cardinality":"1..1"},{"name":"approval","type":"WorkflowStepApproval","cardinality":"0..*"}],"output":{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_RejectedWorkflowStep","description":"Represents
+        the rejection of a proposed instruction that results in a workflow step containing the rejection flag, message details,
+        identifiers, event timestamps, parties and accounts involved in the step. The previous workflow step input must exist
+        to provide workflow lineage. This function will be further developed to provide the reasons for rejection.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}],"output":{"name":"rejectedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_Workflow","description":"Function
+        to create a Workflow from a list of WorkflowStep.","inputs":[{"name":"steps","type":"WorkflowStep","cardinality":"1..*"}],"output":{"name":"workflow","type":"Workflow","cardinality":"1..1"}}]'
+    rules:
+      - description: Choice rule to control that either positionBusinessEvent is present, businessEvent is present or proposedEvent
+          is present, but not more than one at the same time.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                counterpartyPositionBusinessEvent:
+                  required: true
+            - slot_conditions:
+                businessEvent:
+                  required: true
+            - slot_conditions:
+                proposedEvent:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: WorkflowStepStatus — (businessEvent exists and nextEvent -> instruction is absent and rejected
+        is absent) or (nextEvent -> instruction exists and businessEvent is absent and rejected is absent) or (rejected exists
+        and businessEvent is absent and nextEvent is absent) or (proposedEvent exists and nextEvent is absent and rejected
+        is absent) or (previousWorkflowStep exists and action = ActionEnum -> Cancel)'
+      - 'Rosetta condition: CounterpartyPositionBusinessEventOrBusinessEventOrProposedEventChoice — required choice counterpartyPositionBusinessEvent,
+        businessEvent, proposedEvent'
+      - 'Rosetta func: Create_WorkflowStep — Function to create a workflow step with a business event and associated details
+        about the message, identifiers, event timestamps, parties and accounts involved in the step. The function should be
+        used when there is already a fully formed business event with the action set to signify that the step is new, or a
+        correction/cancellation of a previous step. The action is constrained so that when a previous workflow step is specified,
+        the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct -> Correct and Correct -> Cancel.
+        When a previous workflow is not specified, the action must be New.'
+      - 'Rosetta func: Create_AcceptedWorkflowStep — Represents the acceptance of a proposed instruction that results in a
+        workflow step containing a business event, message details, identifiers, event timestamps, parties and accounts. The
+        previous workflow step input must exist to provide workflow lineage. The instruction from the previous workflow step
+        should be used with a [creation BusinessEvent] function to create the input business event passed into this function
+        e.g. PartyChangeInstruction from the previous step is used with Create_PartyChange to produce the business event which
+        should used as an input to this step.'
+      - 'Rosetta func: Create_AcceptedWorkflowStepFromInstruction — Represents the acceptance of a proposed instruction that
+        results in a workflow step containing a business event, message details, identifiers, event timestamps, parties and
+        accounts. The previous workflow step input must exist to provide workflow lineage. The instruction from the previous
+        workflow step should be used with a [creation BusinessEvent] function to create the input business event passed into
+        this function e.g. PartyChangeInstruction from the previous step is used with Create_PartyChange to produce the business
+        event which should used as an input to this step.'
+      - 'Rosetta func: Create_ProposedWorkflowStep — Represents the proposal to create a business event that results in a
+        workflow step containing an instruction, message details, identifiers, event timestamps, parties and accounts. The
+        optional previous workflow step input provides workflow lineage to where there has been a correction or cancellation
+        to the proposed step. The action is constrained so that when a previous workflow step is specified, the valid actions
+        are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be
+        New.'
+      - 'Rosetta func: Create_RejectedWorkflowStep — Represents the rejection of a proposed instruction that results in a
+        workflow step containing the rejection flag, message details, identifiers, event timestamps, parties and accounts
+        involved in the step. The previous workflow step input must exist to provide workflow lineage. This function will
+        be further developed to provide the reasons for rejection.'
+      - 'Rosetta func: Create_Workflow — Function to create a Workflow from a list of WorkflowStep.'
+    slots:
+      - businessEvent
+      - counterpartyPositionBusinessEvent
+      - proposedEvent
+      - rejected
+      - approval
+      - previousWorkflowStep
+      - nextEvent
+      - messageInformation
+      - timestamp
+      - eventIdentifier
+      - action
+      - party
+      - account
+      - lineage
+      - creditLimitInformation
+      - workflowState
+    slot_usage:
+      messageInformation:
+        description: 'Contains all information pertaining the FpML messaging header '
+      timestamp:
+        range: EventTimestamp
+        description: The set of timestamp(s) associated with the event as a collection of [dateTime, qualifier].
+        multivalued: true
+      party:
+        range: Party
+        description: The specification of the event parties. This attribute is optional, as not applicable to certain events
+          (e.g. most of the observations).
+        multivalued: true
+      account:
+        description: Optional account information that could be associated to the event.
+        multivalued: true
+      lineage:
+        description: The lineage attribute provides a linkage among lifecycle events through the globalKey hash value. One
+          example is when a given lifecycle event is being corrected or cancelled. In such case, each subsequent event will
+          have lineage into the prior version of that event. The second broad use case is when an event has a dependency upon
+          either another event (e.g. the regular payment associated with a fix/float swap will have a lineage into the reset
+          event, which will in turn have a lineage into the observation event for the floating rate and the contract) or a
+          contract (e.g. the exercise of an option has a lineage into that option).
+        required: false
+        deprecated: Deprecated in CDM
+    in_subset:
+      - cdm_event_workflow
+
+  Workflow:
+    description: A collection of workflow steps which together make up an entire workflow sequence.
+    related_mappings:
+      - gist:Task
+    comments:
+      - 'Rosetta func: Create_Workflow — Function to create a Workflow from a list of WorkflowStep.'
+    annotations:
+      rosetta_functions: '[{"name":"Create_Workflow","description":"Function to create a Workflow from a list of WorkflowStep.","inputs":[{"name":"steps","type":"WorkflowStep","cardinality":"1..*"}],"output":{"name":"workflow","type":"Workflow","cardinality":"1..1"}}]'
+    slots:
+      - steps
+    in_subset:
+      - cdm_event_workflow
+
+  EventInstruction:
+    description: Specifies instructions to create a BusinessEvent.
+    comments:
+      - 'Rosetta condition: CorporateAction — if corporateActionIntent exists then intent = EventIntentEnum -> CorporateActionAdjustment'
+      - 'Rosetta func: Create_ProposedWorkflowStep — Represents the proposal to create a business event that results in a
+        workflow step containing an instruction, message details, identifiers, event timestamps, parties and accounts. The
+        optional previous workflow step input provides workflow lineage to where there has been a correction or cancellation
+        to the proposed step. The action is constrained so that when a previous workflow step is specified, the valid actions
+        are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be
+        New.'
+    annotations:
+      rosetta_functions: '[{"name":"Create_ProposedWorkflowStep","description":"Represents the proposal to create a business
+        event that results in a workflow step containing an instruction, message details, identifiers, event timestamps, parties
+        and accounts. The optional previous workflow step input provides workflow lineage to where there has been a correction
+        or cancellation to the proposed step. The action is constrained so that when a previous workflow step is specified,
+        the valid actions are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified,
+        the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"proposedEvent","type":"EventInstruction","cardinality":"1..1"},{"name":"approval","type":"WorkflowStepApproval","cardinality":"0..*"}],"output":{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}}]'
+    slots:
+      - intent
+      - corporateActionIntent
+      - eventDate
+      - eventTime
+      - effectiveDate
+      - effectiveTime
+      - packageInformation
+      - instruction
+    slot_usage:
+      intent:
+        range: EventIntentEnum
+        description: The intent attribute is meant to be specified when the event qualification cannot be programmatically
+          inferred from the event features. As a result it is only associated with those primitives that can give way to such
+          ambiguity, the quantityChange being one of those. An example of such is a reduction in the trade notional, which
+          could be interpreted as either a trade correction (unless a maximum period of time post-event is specified as part
+          of the qualification), a partial termination or a portfolio rebalancing in the case of an equity swap. On the other
+          hand, an event such as the exercise is not expected to have an associated intent as there should not be ambiguity.
+        required: false
+      effectiveDate:
+        description: The date on which the event contractually takes effect, when different from the event date.
+    in_subset:
+      - cdm_event_workflow
+
+  EventTimestamp:
+    description: A class to represent the various set of timestamps that can be associated with lifecycle events, as a collection
+      of [dateTime, qualifier].
+    comments:
+      - 'Rosetta func: Create_WorkflowStep — Function to create a workflow step with a business event and associated details
+        about the message, identifiers, event timestamps, parties and accounts involved in the step. The function should be
+        used when there is already a fully formed business event with the action set to signify that the step is new, or a
+        correction/cancellation of a previous step. The action is constrained so that when a previous workflow step is specified,
+        the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct -> Correct and Correct -> Cancel.
+        When a previous workflow is not specified, the action must be New.'
+      - 'Rosetta func: Create_AcceptedWorkflowStep — Represents the acceptance of a proposed instruction that results in a
+        workflow step containing a business event, message details, identifiers, event timestamps, parties and accounts. The
+        previous workflow step input must exist to provide workflow lineage. The instruction from the previous workflow step
+        should be used with a [creation BusinessEvent] function to create the input business event passed into this function
+        e.g. PartyChangeInstruction from the previous step is used with Create_PartyChange to produce the business event which
+        should used as an input to this step.'
+      - 'Rosetta func: Create_ProposedWorkflowStep — Represents the proposal to create a business event that results in a
+        workflow step containing an instruction, message details, identifiers, event timestamps, parties and accounts. The
+        optional previous workflow step input provides workflow lineage to where there has been a correction or cancellation
+        to the proposed step. The action is constrained so that when a previous workflow step is specified, the valid actions
+        are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be
+        New.'
+      - 'Rosetta func: Create_RejectedWorkflowStep — Represents the rejection of a proposed instruction that results in a
+        workflow step containing the rejection flag, message details, identifiers, event timestamps, parties and accounts
+        involved in the step. The previous workflow step input must exist to provide workflow lineage. This function will
+        be further developed to provide the reasons for rejection.'
+    annotations:
+      rosetta_functions: '[{"name":"Create_WorkflowStep","description":"Function to create a workflow step with a business
+        event and associated details about the message, identifiers, event timestamps, parties and accounts involved in the
+        step. The function should be used when there is already a fully formed business event with the action set to signify
+        that the step is new, or a correction/cancellation of a previous step. The action is constrained so that when a previous
+        workflow step is specified, the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct ->
+        Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"0..1"}],"output":{"name":"workflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_AcceptedWorkflowStep","description":"Represents
+        the acceptance of a proposed instruction that results in a workflow step containing a business event, message details,
+        identifiers, event timestamps, parties and accounts. The previous workflow step input must exist to provide workflow
+        lineage. The instruction from the previous workflow step should be used with a [creation BusinessEvent] function to
+        create the input business event passed into this function e.g. PartyChangeInstruction from the previous step is used
+        with Create_PartyChange to produce the business event which should used as an input to this step.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"1..1"}],"output":{"name":"acceptedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_ProposedWorkflowStep","description":"Represents
+        the proposal to create a business event that results in a workflow step containing an instruction, message details,
+        identifiers, event timestamps, parties and accounts. The optional previous workflow step input provides workflow lineage
+        to where there has been a correction or cancellation to the proposed step. The action is constrained so that when
+        a previous workflow step is specified, the valid actions are as follows; New -> Correct and Correct -> Cancel. When
+        a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"proposedEvent","type":"EventInstruction","cardinality":"1..1"},{"name":"approval","type":"WorkflowStepApproval","cardinality":"0..*"}],"output":{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_RejectedWorkflowStep","description":"Represents
+        the rejection of a proposed instruction that results in a workflow step containing the rejection flag, message details,
+        identifiers, event timestamps, parties and accounts involved in the step. The previous workflow step input must exist
+        to provide workflow lineage. This function will be further developed to provide the reasons for rejection.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}],"output":{"name":"rejectedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}}]'
+    slots:
+      - dateTime
+      - qualification
+    slot_usage:
+      dateTime:
+        multivalued: false
+    in_subset:
+      - cdm_event_workflow
+
+  WorkflowState:
+    description: A class to specify workflow information, which is conceptually applicable to all lifecycle events.
+    slots:
+      - workflowStatus
+      - comment
+      - partyCustomisedWorkflow
+      - warehouseIdentity
+    slot_usage:
+      comment:
+        description: A comment field to be associated with the workflow, e.g. to specify why a transaction event was rejected
+          by a party.
+    in_subset:
+      - cdm_event_workflow
+
+  LimitApplicable:
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                amountUtilized:
+                  required: true
+            - slot_conditions:
+                utilization:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: LimitApplicableChoice — optional choice amountUtilized, utilization'
+    slots:
+      - limitType
+      - clipSize
+      - amountUtilized
+      - utilization
+      - amountRemaining
+      - currency
+      - velocity
+    slot_usage:
+      currency:
+        description: The currency in which the applicable limit is denominated. The list of valid currencies is not presently
+          positioned as an enumeration as part of the CDM because that scope is limited to the values specified by ISDA and
+          FpML. As a result, implementers have to make reference to the relevant standard, such as the ISO 4217 standard for
+          currency codes.
+    in_subset:
+      - cdm_event_workflow
+
+  LimitApplicableExtended:
+    description: A class to represent the CDM attributes that are not part of the FpML standard. Once broader usage is confirmed,
+      it is expected that those two classes can be collapsed.
+    is_a: LimitApplicable
+    slots:
+      - limitLevel
+      - limitAmount
+      - limitImpactDueToTrade
+    in_subset:
+      - cdm_event_workflow
+
+  MessageInformation:
+    description: This class corresponds to the components of the FpML MessageHeader.model.
+    comments:
+      - 'Rosetta func: Create_WorkflowStep — Function to create a workflow step with a business event and associated details
+        about the message, identifiers, event timestamps, parties and accounts involved in the step. The function should be
+        used when there is already a fully formed business event with the action set to signify that the step is new, or a
+        correction/cancellation of a previous step. The action is constrained so that when a previous workflow step is specified,
+        the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct -> Correct and Correct -> Cancel.
+        When a previous workflow is not specified, the action must be New.'
+      - 'Rosetta func: Create_AcceptedWorkflowStep — Represents the acceptance of a proposed instruction that results in a
+        workflow step containing a business event, message details, identifiers, event timestamps, parties and accounts. The
+        previous workflow step input must exist to provide workflow lineage. The instruction from the previous workflow step
+        should be used with a [creation BusinessEvent] function to create the input business event passed into this function
+        e.g. PartyChangeInstruction from the previous step is used with Create_PartyChange to produce the business event which
+        should used as an input to this step.'
+      - 'Rosetta func: Create_ProposedWorkflowStep — Represents the proposal to create a business event that results in a
+        workflow step containing an instruction, message details, identifiers, event timestamps, parties and accounts. The
+        optional previous workflow step input provides workflow lineage to where there has been a correction or cancellation
+        to the proposed step. The action is constrained so that when a previous workflow step is specified, the valid actions
+        are as follows; New -> Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be
+        New.'
+      - 'Rosetta func: Create_RejectedWorkflowStep — Represents the rejection of a proposed instruction that results in a
+        workflow step containing the rejection flag, message details, identifiers, event timestamps, parties and accounts
+        involved in the step. The previous workflow step input must exist to provide workflow lineage. This function will
+        be further developed to provide the reasons for rejection.'
+    annotations:
+      rosetta_functions: '[{"name":"Create_WorkflowStep","description":"Function to create a workflow step with a business
+        event and associated details about the message, identifiers, event timestamps, parties and accounts involved in the
+        step. The function should be used when there is already a fully formed business event with the action set to signify
+        that the step is new, or a correction/cancellation of a previous step. The action is constrained so that when a previous
+        workflow step is specified, the valid actions are as follows; New -> New, New -> Correct, New -> Cancel, Correct ->
+        Correct and Correct -> Cancel. When a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"0..1"}],"output":{"name":"workflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_AcceptedWorkflowStep","description":"Represents
+        the acceptance of a proposed instruction that results in a workflow step containing a business event, message details,
+        identifiers, event timestamps, parties and accounts. The previous workflow step input must exist to provide workflow
+        lineage. The instruction from the previous workflow step should be used with a [creation BusinessEvent] function to
+        create the input business event passed into this function e.g. PartyChangeInstruction from the previous step is used
+        with Create_PartyChange to produce the business event which should used as an input to this step.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"},{"name":"businessEvent","type":"BusinessEvent","cardinality":"1..1"}],"output":{"name":"acceptedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_ProposedWorkflowStep","description":"Represents
+        the proposal to create a business event that results in a workflow step containing an instruction, message details,
+        identifiers, event timestamps, parties and accounts. The optional previous workflow step input provides workflow lineage
+        to where there has been a correction or cancellation to the proposed step. The action is constrained so that when
+        a previous workflow step is specified, the valid actions are as follows; New -> Correct and Correct -> Cancel. When
+        a previous workflow is not specified, the action must be New.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"party","type":"Party","cardinality":"0..*"},{"name":"account","type":"Account","cardinality":"0..*"},{"name":"previousWorkflowStep","type":"WorkflowStep","cardinality":"0..1"},{"name":"action","type":"ActionEnum","cardinality":"1..1"},{"name":"proposedEvent","type":"EventInstruction","cardinality":"1..1"},{"name":"approval","type":"WorkflowStepApproval","cardinality":"0..*"}],"output":{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}},{"name":"Create_RejectedWorkflowStep","description":"Represents
+        the rejection of a proposed instruction that results in a workflow step containing the rejection flag, message details,
+        identifiers, event timestamps, parties and accounts involved in the step. The previous workflow step input must exist
+        to provide workflow lineage. This function will be further developed to provide the reasons for rejection.","inputs":[{"name":"messageInformation","type":"MessageInformation","cardinality":"0..1"},{"name":"timestamp","type":"EventTimestamp","cardinality":"1..*"},{"name":"eventIdentifier","type":"Identifier","cardinality":"1..*"},{"name":"proposedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}],"output":{"name":"rejectedWorkflowStep","type":"WorkflowStep","cardinality":"1..1"}}]'
+    slots:
+      - messageId
+      - sentBy
+      - sentTo
+      - copyTo
+    in_subset:
+      - cdm_event_workflow
+
+  PartyCustomisedWorkflow:
+    description: A class to specify a party-related, non-standardized data in a generic form.
+    rules:
+      - description: The identification of the party to which the PartyCustomisedWorkflow pertains to can be done through
+          either a party reference or the party name.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                partyName:
+                  required: true
+            - slot_conditions:
+                partyReference:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: PartyCustomisedWorkflowChoice — required choice partyName, partyReference'
+    slots:
+      - partyReference
+      - partyName
+      - customisedWorkflow
+    slot_usage:
+      partyReference:
+        description: Reference to the party to which the workflow pertains to.
+        required: false
+    in_subset:
+      - cdm_event_workflow
+
+  Velocity:
+    slots:
+      - periodMultiplier
+      - period
+    slot_usage:
+      periodMultiplier:
+        required: false
+      period:
+        range: PeriodTimeEnum
+        required: false
+    in_subset:
+      - cdm_event_workflow

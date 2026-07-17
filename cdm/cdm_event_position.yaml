@@ -1,0 +1,452 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_event_position
+name: cdm_event_position
+description: 'Position concepts: portfolio and portfolio aggregation.'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_event_common
+  - ./cdm_event_workflow
+  - ./cdm_observable_asset
+  - ./cdm_product_collateral
+  - ./cdm_product_template
+  - ./cdm_base_datetime
+
+comments:
+  - 'Rosetta func: FxMarkToMarket — Representation of sample mark to market calculation provided by a member firm. | inputs(trade:
+    Trade (1..1)) | output(value: number (1..1))'
+  - 'Rosetta func: InterpolateForwardRate | inputs(settlementPayout: SettlementPayout (1..1)) | output(result: number (1..1))'
+  - 'Rosetta func: EvaluatePortfolioState — Function specification to evaluate a portfolio''s aggregation parameters and return
+    a new portfolio state containing aggregated positions. | inputs(portfolio: Portfolio (1..1)) | output(portfolioState:
+    PortfolioState (1..1))'
+  - 'Rosetta func: IsValidPartyRole | inputs(partyRoles: PartyRole (0..*), validRoles: PartyRoleEnum (1..*)) | output(isValid:
+    boolean (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"FxMarkToMarket","description":"Representation of sample mark to market calculation provided
+    by a member firm.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"}],"output":{"name":"value","type":"number","cardinality":"1..1"}},{"name":"InterpolateForwardRate","inputs":[{"name":"settlementPayout","type":"SettlementPayout","cardinality":"1..1"}],"output":{"name":"result","type":"number","cardinality":"1..1"},"code_implementation":true},{"name":"EvaluatePortfolioState","description":"Function
+    specification to evaluate a portfolio''s aggregation parameters and return a new portfolio state containing aggregated
+    positions.","inputs":[{"name":"portfolio","type":"Portfolio","cardinality":"1..1"}],"output":{"name":"portfolioState","type":"PortfolioState","cardinality":"1..1"},"code_implementation":true},{"name":"IsValidPartyRole","inputs":[{"name":"partyRoles","type":"PartyRole","cardinality":"0..*"},{"name":"validRoles","type":"PartyRoleEnum","cardinality":"1..*"}],"output":{"name":"isValid","type":"boolean","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_event_position:
+    description: Classes defined in the cdm_event_position module.
+
+enums:
+  PositionStatusEnum:
+    description: Enumeration to describe the different (risk) states of a Position, whether executed, settled, matured...etc
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/position-status
+    permissible_values:
+      Executed:
+        description: The position has been executed, which is the point at which risk has been transferred.
+      Formed:
+        description: Contract has been formed, in case position is on a contractual product.
+      Settled:
+        description: The position has settled, in case product is subject to settlement after execution, such as securities.
+      Cancelled:
+        description: The position has been cancelled, in case of a cancellation event following an execution.
+      Closed:
+        description: The position has been closed, in case of a termination event.
+
+  AvailableInventoryTypeEnum:
+    description: Enumeration to describe the type of AvailableInventory
+    permissible_values:
+      AvailableToLend:
+        description: Where a lender is broadcasting the securities that they have available to lend
+      RequestToBorrow:
+        description: Where a party is asking a lender if they have specific securities available for them to borrow
+
+slots:
+  positionIdentifier:
+    range: PositionIdentifier
+    description: Represents the identifier(s) that uniquely identify a position for an identity issuer. A position can include
+      multiple identifiers, for example an internal position identifer and a UTI (Unique Trade Identifier).
+    multivalued: true
+    inlined_as_list: true
+
+  openDateTime:
+    range: datetime
+    description: The date and time when the position was opened.
+
+  positionBase:
+    range: TradableProduct
+    description: Encapsulates the core constituents that characterize a position.
+    required: true
+
+  asset:
+    range: Asset
+    description: The asset that underlies the position.
+    any_of:
+      - range: Cash
+      - range: Commodity
+      - range: DigitalAsset
+      - range: Instrument
+
+  cashBalance:
+    range: Money
+    description: The aggregate cost of proceeds.
+
+  positions:
+    range: Position
+    description: The list of positions, each containing a Quantity and a Product.
+    multivalued: true
+    inlined_as_list: true
+
+  lineage:
+    range: Lineage
+    description: Pointer to the previous PortfolioState and new Event(s) leading to the current (new) state. Previous PortfolioState
+      in the Lineage can be Null in case this is the start of the chain of Events.
+    required: true
+
+  totalPosition:
+    range: boolean
+    description: Specifies whether to calculate total position to given date, or only daily position for the given date.
+    close_mappings:
+      - fpml_5_10:AggregationParameters.totalPosition
+
+  positionStatus:
+    range: PositionStatusEnum
+    description: To aggregate based on position status (EXECUTED, SETTLED etc)
+    close_mappings:
+      - fpml_5_10:AggregationParameters.positionStatus
+
+  aggregationParameters:
+    range: AggregationParameters
+    description: Describes the portfolio by describing how to aggregate all its relevant Events.
+    required: true
+
+  portfolioState:
+    range: PortfolioState
+    description: Describes the state of the Portfolio as a list of Positions resulting from the aggregation.
+    required: true
+
+  inventoryRecord:
+    range: InventoryRecord
+    description: An array holding the list of inventory being described. Each element in the inventoryRecord array represents
+      an individual piece of inventory i.e. a security.
+    multivalued: true
+    inlined_as_list: true
+
+  identifer:
+    range: AssignedIdentifier
+    description: Unique identifier for this record. This can be used to uniquely identify a specific piece of inventory.
+    required: true
+
+  security:
+    range: Security
+    description: The security details.
+    required: true
+
+  availableInventoryType:
+    range: AvailableInventoryTypeEnum
+    description: Defines the purpose of this inventory.
+    required: true
+    close_mappings:
+      - fpml_5_10:AvailableInventory.availableInventoryType
+
+  comment:
+    range: string
+    description: Optional comments for this group of inventory records.
+
+  messageInformation:
+    range: MessageInformation
+    description: Allows details related to the availability messaging use case to be defined
+    close_mappings:
+      - fpml_5_10:AvailableInventory.messageInformation
+
+  availableInventoryRecord:
+    range: AvailableInventoryRecord
+    description: An array holding the list of inventory being described. Each element in the inventoryRecord array represents
+      an individual piece of inventory i.e. a security.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AvailableInventory.availableInventoryRecord
+
+  expirationDateTime:
+    range: datetime
+    description: There may be a set period/time restriction associated to the security.
+    close_mappings:
+      - fpml_5_10:AvailableInventoryRecord.expirationDateTime
+
+  interestRate:
+    range: Price
+    description: An optional element which can be used to hold a rate associated to this piece of availability.
+    close_mappings:
+      - fpml_5_10:AvailableInventoryRecord.interestRate
+
+  dividendTerms:
+    range: DividendTerms
+    description: Specifies the dividend requirements if applicable.
+
+classes:
+  ContractBase:
+    description: Encapsulates data features common to trade and position.
+    slots:
+      - contractDetails
+      - executionDetails
+      - collateral
+    slot_usage:
+      contractDetails:
+        description: Represents information specific to trades or positions involving contractual products.
+      executionDetails:
+        description: Defines specific attributes that relate to trade or position executions.
+        required: false
+      collateral:
+        description: Represents the collateral obligations of a party.
+    in_subset:
+      - cdm_event_position
+
+  CounterpartyPosition:
+    description: A Position describes the accumulated effect of a set of securities or financial transactions.
+    is_a: ContractBase
+    slots:
+      - positionIdentifier
+      - openDateTime
+      - tradeReference
+      - party
+      - partyRole
+      - positionBase
+    slot_usage:
+      tradeReference:
+        range: TradeState
+        description: Reference to all the trades that constitute the position.
+      party:
+        range: Party
+        description: The parties involved in the position, including the Clearing Organization.
+        multivalued: true
+      partyRole:
+        description: Represents the role each specified party takes in the position.
+        multivalued: true
+    in_subset:
+      - cdm_event_position
+
+  PositionBase:
+    description: Base class to describe a Position, which could be a group of products (e.g. trade portfolio) or a group of
+      assets (e.g. collateral portfolio).
+    rules:
+      - description: A Position must either refer to a grouping by product or a grouping by asset.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                product:
+                  required: true
+            - slot_conditions:
+                asset:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ProductOrAsset — required choice product, asset'
+    slots:
+      - priceQuantity
+      - product
+      - asset
+      - cashBalance
+      - tradeReference
+    slot_usage:
+      priceQuantity:
+        description: Position with many price quantities.
+      product:
+        range: Product
+        description: The product underlying the position.
+        required: false
+      tradeReference:
+        range: TradeState
+        description: Reference to the Contract, in case product is contractual and the contract has been formed.
+        multivalued: false
+    in_subset:
+      - cdm_event_position
+
+  Position:
+    description: A Position describes how much of a given Product is being held and constitutes the atomic element of a Portfolio.
+    is_a: PositionBase
+    in_subset:
+      - cdm_event_position
+
+  PortfolioState:
+    description: State-full representation of a Portfolio that describes all the positions held at a given time, in various
+      states which can be either traded, settled, etc., with lineage information to the previous state
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"EvaluatePortfolioState","description":"Function specification to evaluate a portfolio''s
+        aggregation parameters and return a new portfolio state containing aggregated positions.","inputs":[{"name":"portfolio","type":"Portfolio","cardinality":"1..1"}],"output":{"name":"portfolioState","type":"PortfolioState","cardinality":"1..1"},"code_implementation":true}]'
+    comments:
+      - 'Rosetta condition: Initialisation — if lineage -> portfolioStateReference is absent then positions is absent and
+        lineage -> eventReference is absent'
+      - 'Rosetta condition: NonTransferable — positions -> product -> NonTransferableProduct exists'
+      - 'Rosetta func: EvaluatePortfolioState — Function specification to evaluate a portfolio''s aggregation parameters and
+        return a new portfolio state containing aggregated positions.'
+    slots:
+      - positions
+      - lineage
+    in_subset:
+      - cdm_event_position
+
+  AggregationParameters:
+    description: ' Parameters to be used to filter events that are relevant to a given portfolio in order to calculate the
+      state of this portfolio. The attributes correspond to all the possible aggregation criteria that can be used and these
+      criteria can be combined. All the attributes are optional.'
+    close_mappings:
+      - fpml_5_10:AggregationParameters
+    slots:
+      - dateTime
+      - totalPosition
+      - positionStatus
+      - party
+      - product
+      - productQualifier
+      - tradeReference
+    slot_usage:
+      dateTime:
+        description: To aggregate as of a particular date
+        multivalued: false
+      party:
+        range: Party
+        description: To aggregate based on a selection of party(ies) / legal entity(ies).
+        multivalued: true
+      product:
+        description: To aggregate based on a selection of products.
+        required: false
+        multivalued: true
+      productQualifier:
+        description: To aggregate based on a selection of product type(s).
+        multivalued: true
+    in_subset:
+      - cdm_event_position
+
+  Portfolio:
+    description: ' A Portfolio represents an aggregation of multiple Positions, by describing the parameters that this Portfolio
+      should be aggregated based on. The resulting PortfolioState is calculated using these aggregation parameters as inputs,
+      by aggregating all the Events that are relevant to this Portfolio. The concept of Portfolio works at all levels in the
+      model: from the highest for a given LegalEntity for instance, to the lowest to account for security substitutions in
+      a secutity financing transaction. As such, Portfolio can be used either above or below the Contract level.'
+    comments:
+      - 'Rosetta func: EvaluatePortfolioState — Function specification to evaluate a portfolio''s aggregation parameters and
+        return a new portfolio state containing aggregated positions.'
+    annotations:
+      rosetta_functions: '[{"name":"EvaluatePortfolioState","description":"Function specification to evaluate a portfolio''s
+        aggregation parameters and return a new portfolio state containing aggregated positions.","inputs":[{"name":"portfolio","type":"Portfolio","cardinality":"1..1"}],"output":{"name":"portfolioState","type":"PortfolioState","cardinality":"1..1"},"code_implementation":true}]'
+    slots:
+      - aggregationParameters
+      - portfolioState
+    in_subset:
+      - cdm_event_position
+
+  Inventory:
+    description: A data type that can be used to describe an inventory of securities.
+    slots:
+      - inventoryRecord
+    in_subset:
+      - cdm_event_position
+
+  InventoryRecord:
+    description: An individual piece of inventory. This represents a single security.
+    slots:
+      - identifer
+      - security
+    in_subset:
+      - cdm_event_position
+
+  AvailableInventory:
+    description: A data type that can be used to describe the inventory of securities that a party holds. The securities are
+      held in the AvailableInventoryRecord, with each item in the array being an individual security and its associated criteria.
+      Criteria can include the quantity available, the rate at which the security is available to borrow at, as well as other
+      details that can affect the decision as to whether a party wants to utilise the securities listed.
+    tree_root: true
+    close_mappings:
+      - fpml_5_10:AvailableInventory
+    comments:
+      - 'Rosetta condition: ValidPartyRole — IsValidPartyRole( partyRole, [PartyRoleEnum -> AgentLender, PartyRoleEnum ->
+        BeneficialOwner, PartyRoleEnum -> Borrower, PartyRoleEnum -> Custodian, PartyRoleEnum -> Lender] )'
+    slots:
+      - availableInventoryType
+      - identifer
+      - comment
+      - messageInformation
+      - party
+      - partyRole
+      - availableInventoryRecord
+    slot_usage:
+      identifer:
+        description: Unique identifier for this group. This can be used to uniquely identify a group of inventory records.
+        required: false
+      party:
+        range: Party
+        description: Defines all parties involved for the list of inventory records in this set of inventory. For example,
+          when used to describe securities lending availability, this could hold the sender of the availability, the intended
+          recipient, the beneficial owner(s), the lender (which may differ from the sender as the lender may have the same
+          piece of availability going through multiple agents), an agent or a venue.
+        multivalued: true
+      partyRole:
+        description: Defines the role(s) that party(ies) may have in relation to the inventory.
+        multivalued: true
+    in_subset:
+      - cdm_event_position
+
+  AvailableInventoryRecord:
+    description: An individual piece of available inventory. This represents a single security and its associated criteria.
+      The criteria are used to describe any restrictions on the securities.
+    is_a: InventoryRecord
+    close_mappings:
+      - fpml_5_10:AvailableInventoryRecord
+    comments:
+      - 'Rosetta condition: InterestRate — if interestRate exists then interestRate -> priceType = PriceTypeEnum -> InterestRate'
+      - 'Rosetta condition: ValidPartyRole — IsValidPartyRole( partyRole, [PartyRoleEnum -> AgentLender, PartyRoleEnum ->
+        BeneficialOwner, PartyRoleEnum -> Custodian, PartyRoleEnum -> Lender] )'
+    slots:
+      - expirationDateTime
+      - collateral
+      - partyRole
+      - quantity
+      - interestRate
+      - dividendTerms
+      - comment
+    slot_usage:
+      collateral:
+        range: CollateralProvisions
+        description: The type of collateral can often be required when determining if the piece of availability being described
+          is suitable for a party.
+        multivalued: true
+      partyRole:
+        description: An individual security may be held by several agents. Including the party role at this level allows us
+          to reference the party holding this specific item.
+        multivalued: true
+      quantity:
+        description: The quantity of the security
+      comment:
+        description: Optional comment for this specific piece of inventory.
+    in_subset:
+      - cdm_event_position
+
+  SecurityLocate:
+    description: A locate is an approval from a broker that needs to be obtained prior to effecting a short sale in an equity
+      security. Similar to security availability, a borrower can request a single or multiple securities, but at least one
+      must be requested.
+    is_a: AvailableInventory
+    tree_root: true
+    rules:
+      - description: A locate must request the availability of at least one security.
+        postconditions:
+          slot_conditions:
+            availableInventoryRecord:
+              required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: RequestOneSecurityMinimum — availableInventoryRecord exists'
+    in_subset:
+      - cdm_event_position

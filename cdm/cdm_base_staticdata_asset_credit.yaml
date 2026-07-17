@@ -1,0 +1,221 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base_staticdata_asset_credit
+name: cdm_base_staticdata_asset_credit
+description: LinkML schema for cdm.base.staticdata.asset.credit
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_math
+
+subsets:
+  cdm_base_staticdata_asset_credit:
+    description: Classes defined in the cdm_base_staticdata_asset_credit module.
+
+enums:
+  ObligationCategoryEnum:
+    description: The enumerated values used in both the obligations and deliverable obligations of the credit default swap
+      to represent a class or type of securities which apply.
+    permissible_values:
+      Payment:
+        description: ISDA term 'Payment'.
+      BorrowedMoney:
+        description: ISDA term 'Borrowed Money'.
+      ReferenceObligationsOnly:
+        description: ISDA term 'Reference Obligations Only'.
+      Bond:
+        description: ISDA term 'Bond'.
+      Loan:
+        description: ISDA term 'Loan'.
+      BondOrLoan:
+        description: ISDA term 'Bond or Loan'.
+
+slots:
+  applicable:
+    range: boolean
+    description: Indicates whether the Not Domestic Currency provision is applicable.
+    required: true
+
+  category:
+    range: ObligationCategoryEnum
+    description: 'Used in both obligations and deliverable obligations to represent a class or type of securities which apply.
+      ISDA 2003 Term: Obligation Category/Deliverable Obligation Category.'
+    required: true
+
+  notSubordinated:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. An obligation that ranks at least equal with the
+      most senior Reference Obligation in priority of payment or, if no Reference Obligation is specified in the related Confirmation,
+      the obligations of the Reference Entity that are senior. ISDA 2003 Term: Not Subordinated.'
+
+  specifiedCurrency:
+    range: SpecifiedCurrency
+    description: 'An obligation and deliverable obligation characteristic. The currency or currencies in which an obligation
+      or deliverable obligation must be payable. ISDA 2003 Term: Specified Currency.'
+
+  notSovereignLender:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Any obligation that is not primarily (majority)
+      owed to a Sovereign or Supranational Organisation. ISDA 2003 Term: Not Sovereign Lender.'
+
+  notDomesticCurrency:
+    range: NotDomesticCurrency
+    description: 'An obligation and deliverable obligation characteristic. Any obligation that is payable in any currency
+      other than the domestic currency. Domestic currency is either the currency so specified or, if no currency is specified,
+      the currency of (a) the reference entity, if the reference entity is a sovereign, or (b) the jurisdiction in which the
+      relevant reference entity is organised, if the reference entity is not a sovereign. ISDA 2003 Term: Not Domestic Currency.'
+
+  notDomesticLaw:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. If the reference entity is a Sovereign, this means
+      any obligation that is not subject to the laws of the reference entity. If the reference entity is not a sovereign,
+      this means any obligation that is not subject to the laws of the jurisdiction of the reference entity. ISDA 2003 Term:
+      Not Domestic Law.'
+
+  listed:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Indicates whether or not the obligation is quoted,
+      listed or ordinarily purchased and sold on an exchange. ISDA 2003 Term: Listed.'
+
+  notDomesticIssuance:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Any obligation other than an obligation that was
+      intended to be offered for sale primarily in the domestic market of the relevant Reference Entity. This specifies that
+      the obligation must be an internationally recognised bond. ISDA 2003 Term: Not Domestic Issuance.'
+
+  fullFaithAndCreditObLiability:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Defined in the ISDA published additional provisions
+      for U.S. Municipal as Reference Entity. ISDA 2003 Term: Full Faith and Credit Obligation Liability.'
+
+  generalFundObligationLiability:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Defined in the ISDA published additional provisions
+      for U.S. Municipal as Reference Entity. ISDA 2003 Term: General Fund Obligation Liability.'
+
+  revenueObligationLiability:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Defined in the ISDA published additional provisions
+      for U.S. Municipal as Reference Entity. ISDA 2003 Term: Revenue Obligation Liability.'
+
+  notContingent:
+    range: boolean
+    description: 'OTE: Only allowed as an obligation characteristic under ISDA Credit 1999. In essence Not Contingent means
+      the repayment of principal cannot be dependent on a formula/index, i.e. to prevent the risk of being delivered an instrument
+      that may never pay any element of principal, and to ensure that the obligation is interest bearing (on a regular schedule).
+      ISDA 2003 Term: Not Contingent.'
+
+  excluded:
+    range: string
+    description: 'A free format string to specify any excluded obligations or deliverable obligations, as the case may be,
+      of the reference entity or excluded types of obligations or deliverable obligations. ISDA 2003 Term: Excluded Obligations/Excluded
+      Deliverable Obligations.'
+
+  othReferenceEntityObligations:
+    range: string
+    description: 'This element is used to specify any other obligations of a reference entity in both obligations and deliverable
+      obligations. The obligations can be specified free-form. ISDA 2003 Term: Other Obligations of a Reference Entity.'
+
+  designatedPriority:
+    range: string
+    description: 'Applies to Loan CDS, to indicate what lien level is appropriate for a deliverable obligation. Applies to
+      European Loan CDS, to indicate the Ranking of the obligation. Example: a 2nd lien Loan CDS would imply that the deliverable
+      obligations are 1st or 2nd lien loans.'
+    annotations:
+      metadata_scheme: true
+
+  cashSettlementOnly:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Defined in the ISDA published Standard Terms Supplement
+      for use with CDS Transactions on Leveraged Loans. ISDA 2003 Term: Cash Settlement Only.'
+
+  deliveryOfCommitments:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Defined in the ISDA published Standard Terms Supplement
+      for use with CDS Transactions on Leveraged Loans. ISDA 2003 Term: Delivery of Commitments.'
+
+  continuity:
+    range: boolean
+    description: 'An obligation and deliverable obligation characteristic. Defined in the ISDA published Standard Terms Supplement
+      for use with CDS Transactions on Leveraged Loans. ISDA 2003 Term: Continuity.'
+
+classes:
+  NotDomesticCurrency:
+    description: 'A class to specify the ISDA 2003 Term: Not Domestic Currency.'
+    slots:
+      - applicable
+      - currency
+    slot_usage:
+      currency:
+        description: An explicit specification of the domestic currency. The list of valid currencies is not presently positioned
+          as an enumeration as part of the CDM because that scope is limited to the values specified by ISDA and FpML. As
+          a result, implementers have to make reference to the relevant standard, such as the ISO 4217 standard for currency
+          codes.
+    in_subset:
+      - cdm_base_staticdata_asset_credit
+
+  Obligations:
+    description: A class to specify the underlying obligations of the reference entity on which protection is purchased or
+      sold through the Credit Default Swap.
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                fullFaithAndCreditObLiability:
+                  required: true
+            - slot_conditions:
+                generalFundObligationLiability:
+                  required: true
+            - slot_conditions:
+                revenueObligationLiability:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ObligationsChoice — optional choice fullFaithAndCreditObLiability, generalFundObligationLiability,
+        revenueObligationLiability'
+    slots:
+      - category
+      - notSubordinated
+      - specifiedCurrency
+      - notSovereignLender
+      - notDomesticCurrency
+      - notDomesticLaw
+      - listed
+      - notDomesticIssuance
+      - fullFaithAndCreditObLiability
+      - generalFundObligationLiability
+      - revenueObligationLiability
+      - notContingent
+      - excluded
+      - othReferenceEntityObligations
+      - designatedPriority
+      - cashSettlementOnly
+      - deliveryOfCommitments
+      - continuity
+    in_subset:
+      - cdm_base_staticdata_asset_credit
+
+  SpecifiedCurrency:
+    slots:
+      - applicable
+      - currency
+    slot_usage:
+      applicable:
+        description: Indicates whether the specified currency provision is applicable.
+      currency:
+        description: The currency in which the specified currency is denominated. The list of valid currencies is not presently
+          positioned as an enumeration as part of the CDM because that scope is limited to the values specified by ISDA and
+          FpML. As a result, implementers have to make reference to the relevant standard, such as the ISO 4217 standard for
+          currency codes.
+    in_subset:
+      - cdm_base_staticdata_asset_credit

@@ -1,0 +1,1240 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base_staticdata_party
+name: cdm_base_staticdata_party
+description: 'Basic party concepts: legal entity, natural person, contact details, buyer / payer and all related enums.'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  icma: https://www.icmagroup.org/market-practice-and-regulatory-policy/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+  gist: https://w3id.org/lmodel/gist/
+  iso29100: https://w3id.org/lmodel/iso29100/
+  oscal: https://w3id.org/lmodel/oscal/
+  spdx: https://spdx.org/rdf/3.0.1/terms/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_math
+
+comments:
+  - 'Rosetta func: ExtractCounterpartyByRole — Extracts from a list of Counterparty data types, the Counterparty that corresponds
+    to the role i.e. Party1 or Party2. | inputs(counterparties: Counterparty (1..*), roleEnumToExtract: CounterpartyRoleEnum
+    (1..1)) | output(counterparty: Counterparty (0..1))'
+  - 'Rosetta func: ExtractAncillaryPartyByRole — Extracts from a list of AncillaryParty data types, the AncillaryParty that
+    corresponds to the AncillaryRoleEnum. | inputs(ancillaryParties: AncillaryParty (1..*), roleEnumToExtract: AncillaryRoleEnum
+    (1..1)) | output(ancillaryParty: AncillaryParty (0..1))'
+  - 'Rosetta func: ReplaceParty — Removes the old party, and adds the new party. | inputs(parties: Party (0..*), oldParty:
+    Party (1..1), newParty: Party (1..1)) | output(updatedParties: Party (0..*))'
+  - 'Rosetta func: FilterPartyRole — Filters the list of partyRoles based on the provided partyRoleEnum. | inputs(partyRoles:
+    PartyRole (0..*), partyRoleEnum: PartyRoleEnum (1..1)) | output(filteredPartyRoles: PartyRole (0..*))'
+  - 'Rosetta func: FilterRelatedPartyByRole — Filters the list of RelatedParty based on the provided partyRoleEnum. | inputs(relatedParties:
+    RelatedParty (0..*), partyRoleEnum: PartyRoleEnum (1..1)) | output(filteredRelatedParties: RelatedParty (0..*))'
+annotations:
+  rosetta_functions: '[{"name":"ExtractCounterpartyByRole","description":"Extracts from a list of Counterparty data types,
+    the Counterparty that corresponds to the role i.e. Party1 or Party2.","inputs":[{"name":"counterparties","type":"Counterparty","cardinality":"1..*"},{"name":"roleEnumToExtract","type":"CounterpartyRoleEnum","cardinality":"1..1"}],"output":{"name":"counterparty","type":"Counterparty","cardinality":"0..1"}},{"name":"ExtractAncillaryPartyByRole","description":"Extracts
+    from a list of AncillaryParty data types, the AncillaryParty that corresponds to the AncillaryRoleEnum.","inputs":[{"name":"ancillaryParties","type":"AncillaryParty","cardinality":"1..*"},{"name":"roleEnumToExtract","type":"AncillaryRoleEnum","cardinality":"1..1"}],"output":{"name":"ancillaryParty","type":"AncillaryParty","cardinality":"0..1"}},{"name":"ReplaceParty","description":"Removes
+    the old party, and adds the new party.","inputs":[{"name":"parties","type":"Party","cardinality":"0..*"},{"name":"oldParty","type":"Party","cardinality":"1..1"},{"name":"newParty","type":"Party","cardinality":"1..1"}],"output":{"name":"updatedParties","type":"Party","cardinality":"0..*"}},{"name":"FilterPartyRole","description":"Filters
+    the list of partyRoles based on the provided partyRoleEnum.","inputs":[{"name":"partyRoles","type":"PartyRole","cardinality":"0..*"},{"name":"partyRoleEnum","type":"PartyRoleEnum","cardinality":"1..1"}],"output":{"name":"filteredPartyRoles","type":"PartyRole","cardinality":"0..*"}},{"name":"FilterRelatedPartyByRole","description":"Filters
+    the list of RelatedParty based on the provided partyRoleEnum.","inputs":[{"name":"relatedParties","type":"RelatedParty","cardinality":"0..*"},{"name":"partyRoleEnum","type":"PartyRoleEnum","cardinality":"1..1"}],"output":{"name":"filteredRelatedParties","type":"RelatedParty","cardinality":"0..*"}}]'
+
+subsets:
+  cdm_base_staticdata_party:
+    description: Classes defined in the cdm_base_staticdata_party module.
+
+enums:
+  CounterpartyRoleEnum:
+    description: Defines the enumerated values to specify the two counterparties to the transaction.
+    permissible_values:
+      Party1: {}
+      Party2: {}
+    related_mappings:
+      - oscal:Role
+
+  EntityTypeEnum:
+    description: The enumerated values to specify the reference entity types corresponding to a list of types defined in the
+      ISDA First to Default documentation.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/entity-type
+    permissible_values:
+      Asian:
+        description: Entity Type of Asian.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#Asian
+      AustralianAndNewZealand:
+        description: Entity Type of Australian and New Zealand.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#AustralianAndNewZealand
+      EuropeanEmergingMarkets:
+        description: Entity Type of European Emerging Markets.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#EuropeanEmergingMarkets
+      Japanese:
+        description: Entity Type of Japanese.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#Japanese
+      NorthAmericanHighYield:
+        description: Entity Type of North American High Yield.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#NorthAmericanHighYield
+      NorthAmericanInsurance:
+        description: Entity Type of North American Insurance.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#NorthAmericanInsurance
+      NorthAmericanInvestmentGrade:
+        description: Entity Type of North American Investment Grade.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#NorthAmericanInvestmentGrade
+      Singaporean:
+        description: Entity Type of Singaporean.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#Singaporean
+      WesternEuropean:
+        description: Entity Type of Western European.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#WesternEuropean
+      WesternEuropeanInsurance:
+        description: Entity Type of Western European Insurance.
+        meaning: http://www.fpml.org/coding-scheme/entity-type-1-0#WesternEuropeanInsurance
+
+  PayerReceiverEnum:
+    description: The enumerated values to specify an interest rate stream payer or receiver party.
+    permissible_values:
+      Payer:
+        description: The party identified as the stream payer.
+      Receiver:
+        description: The party identified as the stream receiver.
+
+  AccountTypeEnum:
+    description: The enumeration values to qualify the type of account.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/account-type
+    permissible_values:
+      AggregateClient:
+        description: Aggregate client account, as defined under ESMA MiFIR.
+        meaning: http://www.fpml.org/coding-scheme/account-type-1-1#AggregateClient
+      Client:
+        description: The account contains trading activity or positions that belong to a client of the firm that opened the
+          account.
+        meaning: http://www.fpml.org/coding-scheme/account-type-1-1#Client
+      House:
+        description: The account contains proprietary trading activity or positions, belonging to the firm that is the owner
+          of the account.
+        meaning: http://www.fpml.org/coding-scheme/account-type-1-1#House
+
+  NaturalPersonRoleEnum:
+    description: The enumerated values for the natural person's role.
+    permissible_values:
+      Broker:
+        description: The person who arranged with a client to execute the trade.
+      Buyer:
+        description: Acquirer of the legal title to the financial instrument.
+      DecisionMaker:
+        description: The party or person with legal responsibility for authorization of the execution of the transaction.
+      ExecutionWithinFirm:
+        description: Person within the firm who is responsible for execution of the transaction.
+      InvestmentDecisionMaker:
+        description: Person who is responsible for making the investment decision.
+      Seller:
+        description: Seller of the legal title to the financial instrument.
+      Trader:
+        description: The person who executed the trade.
+    related_mappings:
+      - iso29100:PIIPrincipal
+      - oscal:Role
+
+  PersonIdentifierTypeEnum:
+    description: The enumeration values associated with person identifier sources.
+    permissible_values:
+      ARNU:
+        description: Alien Registration Number, number assigned by a social security agency to identify a non-resident person.
+      CCPT:
+        description: Passport Number, number assigned by an authority to identify the passport number of a person.
+      CUST:
+        description: Customer Identification Number, number assigned by an issuer to identify a customer.
+      DRLC:
+        description: Drivers License Number, number assigned by an authority to identify a driver's license.
+      EMPL:
+        description: Employee Identification Number, number assigned by a registration authority to an employee.
+      NIDN:
+        description: National Identity Number, number assigned by an authority to identify the national identity number of
+          a person..
+      SOSE:
+        description: Social Security Number, number assigned by an authority to identify the social security number of a person.
+      TXID:
+        description: Tax Identification Number, number assigned by a tax authority to identify a person.
+      NPID:
+        description: Natural Person Identifier. To identify the person who is acting as private individual, not as business
+          entity. Used for regulatory reporting.
+      PLID:
+        description: Privacy Law Identifier. It refers to the DMO Letter No. 17-16, http://www.cftc.gov/idc/groups/public/@lrlettergeneral/documents/letter/17-16.pdf
+
+  EntityIdentifierTypeEnum:
+    description: The enumeration values associated with legal entity identifier sources.
+    inherits:
+      - PartyIdentifierTypeEnum
+    permissible_values:
+      REDID:
+        description: The Reference Entity Database identifier.
+      CountryCode:
+        description: The ISO 3166 Country Code.
+      Other:
+        description: Used when the identifier type is not otherwise in this enumerated list because it is internal or other
+          reasons.  The source can be identified in the scheme which is part of the identifier attribute.
+
+  PartyIdentifierTypeEnum:
+    description: The enumeration values associated with party identifier sources.
+    permissible_values:
+      BIC:
+        description: The Bank Identifier Code.
+      LEI:
+        description: The ISO 17442:2012 Legal Entity Identifier.
+      MIC:
+        description: The ISO 10383 Market Identifier Code (MIC).
+
+  PartyRoleEnum:
+    description: The enumerated values for the party role. The enumerated values go beyond the FpML partyRoleScheme as they
+      also include elements that are part of the FpML Trade, such as the Barrier Determination Agent and the Hedging Party.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/party-role
+    permissible_values:
+      Accountant:
+        description: Organization responsible for preparing the accounting for the trade.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Accountant
+      AgentLender:
+        description: An agent who lends securities of its principals under stock lending arrangements.
+      AllocationAgent:
+        description: The organization responsible for supplying the allocations for a trade to be allocated to multiple accounts/organizations.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#AllocationAgent
+      ArrangingBroker:
+        description: 'The organization that arranged the trade, i.e. brought together the counterparties.  Synonyms/Alternatives:
+          Inter-dealer broker, agent.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ArrangingBroker
+      BarrierDeterminationAgent:
+        description: The party specified in the related confirmation as Barrier Determination Agent.
+      BeneficialOwner:
+        description: The party that lends out securities under stock lending arrangements via an Agent Lender.
+      Beneficiary:
+        description: Organization that suffers the economic benefit of the trade.  The beneficiary may be distinct from the
+          principal/counterparty - an example occurs when a hedge fund trades via a prime broker; in this case the principal
+          is the prime broker, but the beneficiary is the hedge fund.  This can be represented as a payer/receiver account
+          in the name of the hedge fund, but it is also possible to add the party role of 'Beneficiary' at the partyTradeInformation
+          level.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Beneficiary
+      BookingParty:
+        description: The entity for which the organization supporting the trade's processing has booked/recorded the trade.
+          This is used in non-reporting workflows situations in which the trade doesn\'t need to be reported but a firm still
+          wants to specify their own side.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#BookingParty
+      Borrower:
+        description: The party that borrows securities under stock lending arrangements.
+      Buyer:
+        description: Acquirer of the legal title to the financial instrument. In the case of an option, the buyer is the holder
+          of the option. In the case of a swap or forward, the buyer will be determined by industry best practice.  This does
+          not refer to an investor or investment manager or other organization on what is typically called  the 'Buy side';
+          for that, see the 'Client' role. Corresponds to 'Buyer' as defined in certain regulations such as ESMA MiFID II/MIFIR
+          RTS 22 field 9.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Buyer
+      BuyerDecisionMaker:
+        description: The party or person who, having legal authority to act on behalf of the trade counterparty acting as
+          Buyer as defined in this coding scheme, made the decision to acquire the financial instrument. Corresponds to 'buyer
+          decision maker' as defined in ESMA\'s MIFIR RTS 23 report. This does not refer to the decision maker for what is
+          traditionally called the 'Buy side'; for that, see the 'Client Decision Maker' role.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#BuyerDecisionMaker
+      Chargor:
+        description: The party that provides credit support under English Law.
+      ClearingClient:
+        description: An organization that clears trades through a clearing house, via a clearing broker (member of the clearing
+          house) who acts as an agent on its behalf. The term 'client' refers to the organization\'s role in the clearing
+          process in relation to its clearing broker, and not whether it is a price maker or taker in the execution process.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ClearingClient
+      ClearingExceptionParty:
+        description: A party to the trade that claims a clearing exception, such as an end-user exception under Dodd-Frank
+          Act provisions.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ClearingExceptionParty
+      ClearingFirm:
+        description: 'Organization that submits the trade to a clearing house on behalf of the principal. Synonyms/alternates:
+          Futures Commission Merchant (FCM), Clearing Broker, Clearing Member Firm. Some implementations use ''Clearing Broker''
+          as synonym.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ClearingFirm
+      ClearingOrganization:
+        description: The organization that acts as a central counterparty to clear a derivatives contract.  This is used to
+          represent the role of Central Counterparties (CCPs) or Derivative Clearing Organizations (DCOs).  Sometimes called
+          'ClearingService'. Some implementations also use the term 'Clearer'.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ClearingOrganization
+      Client:
+        description: Client as defined under ESMA MIFIR. This is generally the investor or other client of an investment firm,
+          and is synonymous with the Beneficiary in many circumstances.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Client
+      ClientDecisionMaker:
+        description: The party or person who, having legal authority to act on behalf of a trade counterparty, made the decision
+          to acquire or sell the financial instrument.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ClientDecisionMaker
+      ConfirmationPlatform:
+        description: Organization serving as a financial intermediary for the purposes of electronic confirmation or providing
+          services for post-processing of transactional data.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ConfirmationPlatform
+      ContractualParty:
+        description: A party to a contractual document.  If the intended usage relates to the context of the trade lifecycle,
+          more specific annotations have been defined which might be more appropriate.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ContractualParty
+      CounterPartyAffiliate:
+        description: Organization officially attached to the counterparty. e.g. partner, branch, subsidiary.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#CounterPartyAffiliate
+      CounterPartyUltimateParent:
+        description: The topmost entity or organization, within the corporate hierarchy, responsible for the reporting party.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#CounterPartyUltimateParent
+      Counterparty:
+        description: 'An economic counterparty to the trade. Synonym: principal.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Counterparty
+      CreditSupportProvider:
+        description: Organization that enhances the credit of another organization (similar to guarantor, but may not fully
+          guarantee the obligation).
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#CreditSupportProvider
+      Custodian:
+        description: Organization that maintains custody of the asset represented by the trade on behalf of the owner/principal.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Custodian
+      DataSubmitter:
+        description: Entity submitting the transaction report to the competent authority.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#DataSubmitter
+      DeterminingParty:
+        description: The party referenced is specified in the contract confirmation as Determination Party.
+      DisputingParty:
+        description: Organization that is disputing the trade or transaction.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#DisputingParty
+      DocumentRepository:
+        description: A marketplace organization which purpose is to maintain document records.  If the intended usage relates
+          to the context of the trade lifecycle, more specific annotations have been defined which might be more appropriate.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#DocumentRepository
+      ExecutingBroker:
+        description: The (generally sell-side) organization that executed the trade; the price-making party.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ExecutingBroker
+      ExecutingEntity:
+        description: Entity executing the transaction.  If the transaction is executed directly by the reporting party, it
+          will be the reporting party.  If it is executed by an execution agent or an affiliated party on behalf of the reporting
+          party, it will be that affiliate or agent.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ExecutingEntity
+      ExecutionAgent:
+        description: The (generally buy-side) organization that acts to execute trades on behalf of an investor. Typically
+          this is an investment manager or asset manager, and also makes the investment decisions for the investor. If required,
+          a separate InvestmentDecision role can be specified to distinguish that the party making the investment decision
+          is different.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ExecutionAgent
+      ExecutionFacility:
+        description: 'The facility, exchange, or market where the trade was executed. Synonym: Swap Execution Facility, Designated
+          Contract Market, Execution Venue.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ExecutionFacility
+      Guarantor:
+        description: Organization that backs (guarantees) the credit risk of the trade.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Guarantor
+      HedgingParty:
+        description: The ISDA Hedging Party that is specified in the related confirmation as Hedging, or if no Hedging Party
+          is specified, either party to the contract.
+      Lender:
+        description: The party that lends out securities under stock lending arrangements as principal.
+      MarginAffiliate:
+        description: Margin affiliate as defined by U.S. margin and capital rules §23.151.
+      OrderTransmitter:
+        description: 'The entity transmitting the order to the reporting firm. Synonym: Transmitting Firm.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#OrderTransmitter
+      Pledgor:
+        description: The party that provides credit support under New York Law.
+      PrimeBroker:
+        description: The organization that takes on or took on the credit risk for this trade by stepping in between the two
+          economic parties (without a central counterparty clearing mechanism).
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#PrimeBroker
+      PriorTradeRepository:
+        description: The trade repository at which the trade was reported previous to the current trade repository.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#PriorTradeRepository
+      PTRRServiceProvider:
+        description: The party that acts as either a portfolio compression or portfolio rebalancing service provider, as defined
+          under ESMA MIFIR
+      PublicationVenue:
+        description: The reporting service (whether trade repository, market data service, or exchange/facility/venue data
+          distribution service) that published the report of this trade.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#PublicationVenue
+      ReportingParty:
+        description: The party with the regulatory responsibility to report this trade.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ReportingParty
+      ReportingPartyAffiliate:
+        description: Organization officially attached to the reporting party  e.g. partner, branch, subsidiary.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ReportingPartyAffiliate
+      ReportingPartyUltimateParent:
+        description: The topmost entity or organization, within the corporate hierarchy, responsible for the reporting party.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#ReportingPartyUltimateParent
+      Seller:
+        description: 'A counterparty in a trade, which performs in one of the following capacities: 1) it transfers or agrees
+          to transfer in the future an instrument or title to that instrument in exchange for payment, 2) it writes a derivatives
+          instrument such as an option or a swap in which it provides risk protection to the buyer. This does not refer to
+          the broker/dealer or other organization on what is typically called  the ''Sell side''; for that, see the ''Executing
+          Broker'' role. Corresponds to ''Seller'' as defined in certain regulations such as ESMA MiFID II/MIFIR RTS 22 field
+          16.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#Seller
+      SellerDecisionMaker:
+        description: The party or person who, having legal authority to act on behalf of the trade counterparty acting as
+          Seller as defined in this coding scheme, made the decision to sell the financial instrument. Corresponds to 'seller
+          decision maker' as defined in ESMA\'s MIFIR RTS 23 report. This does not refer to the decision maker for what is
+          traditionally called the 'Sell side'; for that, see the 'Trader' person role.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#SellerDecisionMaker
+      SecuredParty:
+        description: The party that receives credit support under New York or English Law.
+      SettlementAgent:
+        description: The organization that makes or receives payments on behalf of the given principal party.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#SettlementAgent
+      TradeRepository:
+        description: An organization that maintains records of the trade for regulatory reporting purposes.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#TradeRepository
+      TradeSource:
+        description: The organization that originally supplied the record of the trade. In the context of regulatory reporting,
+          it is the submitter of the trade record to a regulator or TR.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#TradeSource
+      TradingManager:
+        description: 'The entity responsible for managing the assets/investments of this party.  Synonym:  Asset Manager,
+          Investment Manager, Trading Advisory.'
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#TradingManager
+      TradingPartner:
+        description: An entity with which this party trades from time to time, ie. with which it acts as a counterparty on
+          some transactions.   This role is used for static reference data, not individual transactions.
+        meaning: http://www.fpml.org/coding-scheme/party-role-4-0#TradingPartner
+      TripartyAgent:
+        description: A third party entity that acts as an intermediary and provides automated clearing, settlement, allocation,
+          valuation and reporting services.
+      ThirdPartyCustodian:
+        description: A third-party providing custody, settlement, segregation and reporting services.
+    related_mappings:
+      - oscal:Role
+
+  AncillaryRoleEnum:
+    description: Defines the enumerated values to specify the ancillary roles to the transaction. The product is agnostic
+      to the actual parties involved in the transaction, with the party references abstracted away from the product definition
+      and replaced by the AncillaryRoleEnum. The AncillaryRoleEnum can then be positioned in the product and the AncillaryParty
+      type, which is positioned outside of the product definition, allows the AncillaryRoleEnum to be associated with an actual
+      party reference.
+    permissible_values:
+      DisruptionEventsDeterminingParty:
+        description: Specifies the party which determines additional disruption events.
+      ExtraordinaryDividendsParty:
+        description: Specifies the party which determines if dividends are extraordinary in relation to normal levels.
+      PredeterminedClearingOrganizationParty:
+        description: Specifies the clearing organization (CCP, DCO) which the trade should be cleared.
+      ExerciseNoticeReceiverPartyManual:
+        description: Specifies the party to which notice of a manual exercise should be given.
+      ExerciseNoticeReceiverPartyOptionalEarlyTermination:
+        description: Specifies the party to which notice of a optional early termination exercise should be given.
+      ExerciseNoticeReceiverPartyCancelableProvision:
+        description: Specifies the party to which notice of a cancelable provision exercise should be given.
+      ExerciseNoticeReceiverPartyExtendibleProvision:
+        description: Specifies the party to which notice of a extendible provision exercise should be given.
+      CalculationAgentIndependent:
+        description: Specifies the party responsible for performing calculation agent duties as defined in the applicable
+          product definition.
+      CalculationAgentOptionalEarlyTermination:
+        description: Specifies the party responsible for performing calculation agent duties associated with an optional early
+          termination.
+      CalculationAgentMandatoryEarlyTermination:
+        description: Specifies the party responsible for performing calculation agent duties associated with an mandatory
+          early termination.
+      CalculationAgentFallback:
+        description: Specifies the party responsible for deciding the fallback rate.
+    related_mappings:
+      - oscal:Role
+
+  TelephoneTypeEnum:
+    description: The enumerated values to specify the type of telephone number, e.g. work vs. mobile.
+    permissible_values:
+      Work:
+        description: A number used primarily for work-related calls. Includes home office numbers used primarily for work
+          purposes.
+      Mobile:
+        description: A number on a mobile telephone that is often or usually used for work-related calls. This type of number
+          can be used for urgent work related business when a work number is not sufficient to contact the person or firm.
+      Fax:
+        description: A number used primarily for work-related facsimile transmissions.
+      Personal:
+        description: A number used primarily for non work-related calls. (Normally this type of number would be used only
+          as an emergency backup number, not as a regular course of business).
+
+slots:
+  role:
+    range: CounterpartyRoleEnum
+    description: Specifies the CounterpartyEnum, e.g. either Party1 or Party2, that is associated to the partyReference.
+    required: true
+
+  partyReference:
+    range: Party
+    description: Specifies the party that is associated to the counterparty.
+    required: true
+    annotations:
+      metadata_reference: true
+
+  onBehalfOf:
+    range: CounterpartyRoleEnum
+    description: Optionally specifies the counterparty that the ancillary party is acting on behalf of.
+    close_mappings:
+      - fpml_5_10:AncillaryParty.onBehalfOf
+
+  buyer:
+    range: CounterpartyRoleEnum
+    description: 'Buyer party that can be resolved as one of the two principal parties to the transaction. The party that
+      buys this instrument, i.e. pays for this instrument and receives the rights defined by it. ISDA 2002 Equity Definitions
+      section 1.18: `Buyer` means the party specified as such in the related Confirmation. | ISDA 2006 Definitions article
+      12.1 (b)(i) relating to a Swaption: ''Buyer'' means the party that will, on each Premium Payment Date, pay to Seller
+      the Premium | ISDA 2006 Definitions article 12.1 (b)(ii) relating to Swap Transactions with applicable Early Termination:
+      the party specified as such in the related Confirmation, or the Exercising Party if neither party is specified | ISDA
+      2006 Definitions article 12.1 (b)(iii) relating to any other Option Transaction: the party specified as such in the
+      related Confirmation. | ISDA 2014 Credit Definition article 1.4: `Buyer` means the Fixed Rate Payer.'
+    required: true
+    close_mappings:
+      - fpml_5_10:BuyerSeller.buyer
+
+  seller:
+    range: CounterpartyRoleEnum
+    description: 'Seller party that can be resolved as one of the two principal parties to the transaction. The party that
+      sells (''writes'') this instrument, i.e. that grants the rights defined by this instrument and in return receives a
+      payment for it. ISDA 2002 Equity Definitions section 1.19: `Seller` means the party specified as such in the related
+      Confirmation. | ISDA 2006 Definitions article 12.1 (a)(i) relating to a Swaption: ''Seller'' means the party the party
+      specified as such or as writer in the related Confirmation | ISDA 2006 Definitions article 12.1 (a)(ii) relating to
+      Swap Transactions with applicable Early Termination: the party specified as such or as writer in the related Confirmation
+      or, if neither party is specified as such, the Non-exercising Party | ISDA 2006 Definitions article 12.1 (a)(iii) relating
+      to any other Option Transaction: the party specified as such in the related Confirmation. | ISDA 2014 Credit Definition
+      article 1.4: `Seller` means the Floating Rate Payer.'
+    required: true
+    close_mappings:
+      - fpml_5_10:BuyerSeller.seller
+
+  payer:
+    range: CounterpartyRoleEnum
+    description: Specifies the counterparty responsible for making the payments defined by this structure.  The party is one
+      of the two principal parties to the transaction.
+    required: true
+    related_mappings:
+      - icma:GMRA#Seller
+      - icma:ERCCBestPractice#Seller
+
+  receiver:
+    range: CounterpartyRoleEnum
+    description: Specifies the party that receives the payments corresponding to this structure.  The party is one of the
+      two counterparties to the transaction.
+    required: true
+    related_mappings:
+      - icma:GMRA#Buyer
+      - icma:ERCCBestPractice#Buyer
+
+  payerPartyReference:
+    range: Party
+    description: The party responsible for making the payments defined by this structure.
+    required: true
+    annotations:
+      metadata_reference: true
+
+  payerAccountReference:
+    range: Account
+    description: A reference to the account responsible for making the payments defined by this structure.
+    annotations:
+      metadata_reference: true
+
+  receiverPartyReference:
+    range: Party
+    description: The party that receives the payments corresponding to this structure.
+    required: true
+    annotations:
+      metadata_reference: true
+
+  receiverAccountReference:
+    range: Account
+    description: A reference to the account that receives the payments corresponding to this structure.
+    annotations:
+      metadata_reference: true
+
+  referenceBankId:
+    range: string
+    description: An institution (party) identifier, e.g. a bank identifier code (BIC). FpML specifies a referenceBankIdScheme.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  referenceBankName:
+    range: string
+    description: The name of the institution (party). A free format string. FpML does not define usage rules for the element.
+
+  referenceBank:
+    range: ReferenceBank
+    description: An institution (party) identified by means of a coding scheme and an optional name.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  accountReference:
+    range: Account
+    description: Reference to an account.
+    annotations:
+      metadata_reference: true
+
+  accountNumber:
+    range: string
+    description: The account number.
+    required: true
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:Account.accountNumber
+
+  accountName:
+    range: string
+    description: The name by which the account is known.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:Account.accountName
+
+  accountType:
+    range: AccountTypeEnum
+    description: The type of account, e.g. client, house.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:Account.accountType
+
+  accountBeneficiary:
+    range: Party
+    description: A reference to the party beneficiary of the account.
+    annotations:
+      metadata_reference: true
+    close_mappings:
+      - fpml_5_10:Account.accountBeneficiary
+
+  servicingParty:
+    range: Party
+    description: The reference to the legal entity that services the account, i.e. in the books of which the account is held.
+    annotations:
+      metadata_reference: true
+    close_mappings:
+      - fpml_5_10:Account.servicingParty
+
+  street:
+    range: string
+    description: The set of street and building number information that identifies a postal address within a city.
+    required: true
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:Address.street
+
+  city:
+    range: string
+    description: The city component of the postal address.
+    close_mappings:
+      - fpml_5_10:Address.city
+
+  state:
+    range: string
+    description: A country subdivision used in postal addresses in some countries. For example, US states, Canadian provinces,
+      Swiss cantons, ...
+    close_mappings:
+      - fpml_5_10:Address.state
+
+  country:
+    range: string
+    description: The ISO 3166 standard code for the country within which the postal address is located.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:Address.country
+
+  postalCode:
+    range: string
+    description: The code, required for computerized mail sorting systems, that is allocated to a physical address by a national
+      postal authority.
+    close_mappings:
+      - fpml_5_10:Address.postalCode
+
+  contactInformation:
+    range: ContactInformation
+    description: The contact information for such business unit, when different from the contact information associated with
+      the party.
+    close_mappings:
+      - fpml_5_10:BusinessUnit.contactInformation
+
+  telephone:
+    range: TelephoneNumber
+    description: The telephone number.
+    multivalued: true
+    inlined_as_list: true
+
+  address:
+    range: Address
+    description: The street/postal address.
+    multivalued: true
+    inlined_as_list: true
+
+  email:
+    range: string
+    description: The email address.
+    multivalued: true
+
+  webPage:
+    range: string
+    description: The web page. This attribute is not specified as part of the FpML ContactInformation complex type.
+    multivalued: true
+
+  entityIdentifier:
+    range: EntityIdentifier
+    description: A legal entity identifier with a source (e.g. RED entity code).
+    multivalued: true
+    inlined_as_list: true
+
+  personId:
+    range: PersonIdentifier
+    description: The identifier associated with a person, e.g. the internal identification code.
+    multivalued: true
+    inlined_as_list: true
+    annotations:
+      metadata_scheme: true
+
+  honorific:
+    range: string
+    description: An honorific title, such as Mr., Ms., Dr. etc.
+
+  firstName:
+    range: string
+    description: The natural person's first name. It is optional in FpML.
+
+  middleName:
+    range: string
+    description: The natural person's middle name(s). If a middle name is provided then an initial should be absent.
+    multivalued: true
+
+  initial:
+    range: string
+    description: The natural person's middle initial(s). If a middle initial is provided then a name should be absent.
+    multivalued: true
+
+  surname:
+    range: string
+    description: The natural person's surname.
+
+  suffix:
+    range: string
+    description: Name suffix, such as Jr., III, etc.
+
+  dateOfBirth:
+    range: date
+    description: The natural person's date of birth.
+
+  personReference:
+    range: NaturalPerson
+    description: A reference to the natural person to whom the role refers to.
+    required: true
+    annotations:
+      metadata_reference: true
+
+  partyId:
+    range: PartyIdentifier
+    description: The identifier associated with a party, e.g. the 20 digits LEI code.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  businessUnit:
+    range: BusinessUnit
+    description: Optional organization unit information used to describe the organization units (e.g. trading desks) involved
+      in a transaction or business process, incl. the contact information (when relevant).
+    multivalued: true
+    inlined_as_list: true
+
+  person:
+    range: NaturalPerson
+    description: The person(s) who might be associated with the party as part of the execution, contract or legal document.
+    multivalued: true
+    inlined_as_list: true
+
+  personRole:
+    range: NaturalPersonRole
+    description: 'The role of the person(s) '
+    multivalued: true
+    inlined_as_list: true
+
+  account:
+    range: Account
+    description: The account that might be associated with the party. At most one account can be specified, as it is expected
+      that this information is used in the context of a contract or legal document where only one account per party can be
+      associated with such object.
+
+  ownershipPartyReference:
+    range: Party
+    description: A reference to the party that has ownership of this party role information. FpML specifies that For shared
+      trade information, this attribute will reference the originator of the data (for example, an execution facility or clearing
+      house).
+    annotations:
+      metadata_reference: true
+
+  telephoneNumberType:
+    range: TelephoneTypeEnum
+    description: The type of telephone number, e.g. work, mobile.
+
+  ancillaryParty:
+    range: AncillaryRoleEnum
+    description: Identifies a party via its ancillary role on a transaction (e.g. CCP or DCO through which the trade should
+      be cleared.)
+    close_mappings:
+      - fpml_5_10:AncillaryEntity.ancillaryParty
+
+  legalEntity:
+    range: LegalEntity
+    close_mappings:
+      - fpml_5_10:AncillaryEntity.legalEntity
+
+classes:
+  Counterparty:
+    description: Defines a counterparty enumerated value, e.g. Party1 or Party2, with an associated party reference. The product
+      is agnostic to the actual parties to the transaction, with the party references abstracted away from the product definition
+      and replaced by the CounterpartyEnum (e.g. values Party1 or Party2). The CounterpartyEnum can then be positioned in
+      the product (e.g. to specify which counterparty is the payer, receiver etc) and this Counterparty type, which is positioned
+      outside of the product definition, allows the CounterpartyEnum to be associated with an actual party reference.
+    close_mappings:
+      - gist:Assignment
+      - oscal:ResponsibleParty
+    related_mappings:
+      - iso29100:ThirdParty
+    comments:
+      - 'Rosetta func: ExtractCounterpartyByRole — Extracts from a list of Counterparty data types, the Counterparty that
+        corresponds to the role i.e. Party1 or Party2.'
+    annotations:
+      rosetta_functions: '[{"name":"ExtractCounterpartyByRole","description":"Extracts from a list of Counterparty data types,
+        the Counterparty that corresponds to the role i.e. Party1 or Party2.","inputs":[{"name":"counterparties","type":"Counterparty","cardinality":"1..*"},{"name":"roleEnumToExtract","type":"CounterpartyRoleEnum","cardinality":"1..1"}],"output":{"name":"counterparty","type":"Counterparty","cardinality":"0..1"}}]'
+    slots:
+      - role
+      - partyReference
+    in_subset:
+      - cdm_base_staticdata_party
+
+  AncillaryParty:
+    description: Defines an ancillary role enumerated value with an associated party reference. The product is agnostic to
+      the actual parties involved in the transaction, with the party references abstracted away from the product definition
+      and replaced by the AncillaryRoleEnum. The AncillaryRoleEnum can then be positioned in the product and this AncillaryParty
+      type, which is positioned outside of the product definition, allows the AncillaryRoleEnum to be associated with an actual
+      party reference.
+    close_mappings:
+      - fpml_5_10:AncillaryParty
+    comments:
+      - 'Rosetta func: ExtractAncillaryPartyByRole — Extracts from a list of AncillaryParty data types, the AncillaryParty
+        that corresponds to the AncillaryRoleEnum.'
+    annotations:
+      rosetta_functions: '[{"name":"ExtractAncillaryPartyByRole","description":"Extracts from a list of AncillaryParty data
+        types, the AncillaryParty that corresponds to the AncillaryRoleEnum.","inputs":[{"name":"ancillaryParties","type":"AncillaryParty","cardinality":"1..*"},{"name":"roleEnumToExtract","type":"AncillaryRoleEnum","cardinality":"1..1"}],"output":{"name":"ancillaryParty","type":"AncillaryParty","cardinality":"0..1"}}]'
+    slots:
+      - role
+      - partyReference
+      - onBehalfOf
+    slot_usage:
+      role:
+        range: AncillaryRoleEnum
+        description: Specifies the AncillaryRoleEnum that is associated to the party reference. An ancillary party is any
+          involved party that is not one of the two principal parties to the transaction.
+      partyReference:
+        description: Specifies the party, or parties, associated to the ancillary role.
+        multivalued: true
+    in_subset:
+      - cdm_base_staticdata_party
+
+  BuyerSeller:
+    description: This class corresponds to the FpML BuyerSeller.model construct.
+    close_mappings:
+      - fpml_5_10:BuyerSeller
+    slots:
+      - buyer
+      - seller
+    in_subset:
+      - cdm_base_staticdata_party
+
+  PayerReceiver:
+    description: Specifies the parties responsible for making and receiving payments defined by this structure.
+    slots:
+      - payer
+      - receiver
+    in_subset:
+      - cdm_base_staticdata_party
+
+  PartyReferencePayerReceiver:
+    description: Specifies the parties responsible for making and receiving payments defined by this structure.
+    slots:
+      - payerPartyReference
+      - payerAccountReference
+      - receiverPartyReference
+      - receiverAccountReference
+    in_subset:
+      - cdm_base_staticdata_party
+
+  ReferenceBank:
+    description: A class to describe an institution (party) identified by means of a coding scheme and an optional name.
+    slots:
+      - referenceBankId
+      - referenceBankName
+    in_subset:
+      - cdm_base_staticdata_party
+
+  ReferenceBanks:
+    description: A class defining the list of reference institutions polled for relevant rates or prices when determining
+      the cash settlement amount for a product where cash settlement is applicable.
+    slots:
+      - referenceBank
+    in_subset:
+      - cdm_base_staticdata_party
+
+  RelatedParty:
+    close_mappings:
+      - gist:Assignment
+      - oscal:ResponsibleParty
+    related_mappings:
+      - iso29100:ThirdParty
+    comments:
+      - 'Rosetta func: FilterRelatedPartyByRole — Filters the list of RelatedParty based on the provided partyRoleEnum.'
+    annotations:
+      rosetta_functions: '[{"name":"FilterRelatedPartyByRole","description":"Filters the list of RelatedParty based on the
+        provided partyRoleEnum.","inputs":[{"name":"relatedParties","type":"RelatedParty","cardinality":"0..*"},{"name":"partyRoleEnum","type":"PartyRoleEnum","cardinality":"1..1"}],"output":{"name":"filteredRelatedParties","type":"RelatedParty","cardinality":"0..*"}}]'
+    slots:
+      - partyReference
+      - accountReference
+      - role
+    slot_usage:
+      partyReference:
+        description: Reference to a party.
+      role:
+        range: PartyRoleEnum
+        description: The category of the relationship. The related party performs the role specified in this field for the
+          base party. For example, if the role is ,Guarantor, the related party acts as a guarantor for the base party.
+    in_subset:
+      - cdm_base_staticdata_party
+
+  Account:
+    description: A class to specify an account as an account number alongside, optionally. an account name, an account type,
+      an account beneficiary and a servicing party.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - fpml_5_10:Account
+      - gist:Account
+    slots:
+      - partyReference
+      - accountNumber
+      - accountName
+      - accountType
+      - accountBeneficiary
+      - servicingParty
+    slot_usage:
+      partyReference:
+        description: A reference to the party to which the account refers to.
+        required: false
+    in_subset:
+      - cdm_base_staticdata_party
+
+  Address:
+    description: A class to specify a post or street address.
+    close_mappings:
+      - fpml_5_10:Address
+      - gist:Address
+      - oscal:Address
+    related_mappings:
+      - gist:PhysicalAddress
+      - iso29100:PersonallyIdentifiableInformation
+    slots:
+      - street
+      - city
+      - state
+      - country
+      - postalCode
+    in_subset:
+      - cdm_base_staticdata_party
+
+  BusinessUnit:
+    description: A class to specify an organizational unit.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - fpml_5_10:BusinessUnit
+      - gist:Organization
+      - spdx:Organization
+    related_mappings:
+      - oscal:Location
+    slots:
+      - name
+      - identifier
+      - contactInformation
+    slot_usage:
+      name:
+        description: A name used to describe the organizational unit
+        required: true
+      identifier:
+        range: Identifier
+        inlined_as_list: true
+        description: An identifier used to uniquely identify the organizational unit
+        required: false
+        multivalued: false
+    in_subset:
+      - cdm_base_staticdata_party
+
+  ContactInformation:
+    description: 'A class to specify contact information associated with a party: telephone, postal/street address, email
+      and web page.'
+    close_mappings:
+      - gist:ElectronicAddress
+      - oscal:Location
+    related_mappings:
+      - iso29100:PersonallyIdentifiableInformation
+    slots:
+      - telephone
+      - address
+      - email
+      - webPage
+    in_subset:
+      - cdm_base_staticdata_party
+
+  LegalEntity:
+    description: A class to specify a legal entity, with a required name and an optional entity identifier (such as the LEI).
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - gist:Organization
+      - oscal:Party
+      - spdx:Organization
+    narrow_mappings:
+      - gist:GovernmentOrganization
+    related_mappings:
+      - iso29100:PIIController
+      - iso29100:PIIProcessor
+    slots:
+      - name
+      - entityIdentifier
+    slot_usage:
+      name:
+        description: The legal entity name.
+        required: true
+    in_subset:
+      - cdm_base_staticdata_party
+
+  NaturalPerson:
+    description: A class to represent the attributes that are specific to a natural person.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - gist:Person
+      - iso29100:PIIPrincipal
+      - oscal:Party
+      - spdx:Person
+    rules:
+      - description: NameOrIdChoice
+        postconditions:
+          any_of:
+            - slot_conditions:
+                firstName:
+                  required: true
+                surname:
+                  required: true
+            - slot_conditions:
+                personId:
+                  required: true
+        preconditions: {}
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                middleName:
+                  required: true
+            - slot_conditions:
+                initial:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: NameOrIdChoice — (firstName exists and surname exists) or personId exists'
+      - 'Rosetta condition: NaturalPersonChoice — optional choice middleName, initial'
+    slots:
+      - personId
+      - honorific
+      - firstName
+      - middleName
+      - initial
+      - surname
+      - suffix
+      - dateOfBirth
+      - contactInformation
+    slot_usage:
+      contactInformation:
+        description: The contact information for such person, when different from the contact information associated with
+          the party.
+    in_subset:
+      - cdm_base_staticdata_party
+
+  NaturalPersonRole:
+    description: A class to specify the role(s) that natural person(s) may have in relation to the contract.
+    close_mappings:
+      - gist:Assignment
+      - oscal:ResponsibleParty
+    slots:
+      - personReference
+      - role
+    slot_usage:
+      role:
+        range: NaturalPersonRoleEnum
+        description: FpML specifies a person role that is distinct from the party role.
+        required: false
+        multivalued: true
+    in_subset:
+      - cdm_base_staticdata_party
+
+  Party:
+    description: 'A class to specify a party, without a qualification as to whether this party is a legal entity or a natural
+      person, although the model provides the ability to associate a person (or set of persons) to a party, which use case
+      would imply that such party would be a legal entity (even if not formally specified as such). '
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"ReplaceParty","description":"Removes the old party, and adds the new party.","inputs":[{"name":"parties","type":"Party","cardinality":"0..*"},{"name":"oldParty","type":"Party","cardinality":"1..1"},{"name":"newParty","type":"Party","cardinality":"1..1"}],"output":{"name":"updatedParties","type":"Party","cardinality":"0..*"}}]'
+    close_mappings:
+      - gist:Organization
+      - oscal:Party
+      - spdx:Agent
+    related_mappings:
+      - gist:Person
+    broad_mappings:
+      - iso29100:PrivacyStakeholder
+    comments:
+      - 'Rosetta func: ReplaceParty — Removes the old party, and adds the new party.'
+    slots:
+      - partyId
+      - name
+      - businessUnit
+      - person
+      - personRole
+      - account
+      - contactInformation
+    slot_usage:
+      name:
+        description: The party name.
+      contactInformation:
+        description: The postal/street address, telephone number, email address and/or web page. If the contact information
+          is specific to the associated business unit(s) or person (s), it should be associated with those.
+    in_subset:
+      - cdm_base_staticdata_party
+
+  PartyIdentifier:
+    description: Comprises an identifier and a source. The associated metadata key denotes the ability to associate a hash
+      value to the PartyIdentifier instantiations for the purpose of model cross-referencing, in support of functionality
+      such as the event effect and the lineage.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - gist:ID
+      - oscal:PartyExternalId
+      - spdx:ExternalIdentifier
+    slots:
+      - identifier
+      - identifierType
+    slot_usage:
+      identifier:
+        range: string
+        description: Provides an identifier associated with a party. The identifier is unique within the public source specified
+          in the source attribute.
+        multivalued: false
+      identifierType:
+        range: PartyIdentifierTypeEnum
+        description: Defines the source of the identifier.
+        required: false
+    in_subset:
+      - cdm_base_staticdata_party
+
+  EntityIdentifier:
+    description: Comprises an identifier and a source. The associated metadata key denotes the ability to associate a hash
+      value to the EntityIdentifier instantiations for the purpose of model cross-referencing, in support of functionality
+      such as the event effect and the lineage.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - gist:ID
+      - oscal:PartyExternalId
+      - spdx:ExternalIdentifier
+    slots:
+      - identifier
+      - identifierType
+    slot_usage:
+      identifier:
+        range: string
+        description: Provides an identifier associated with a legal entity.
+        multivalued: false
+      identifierType:
+        range: EntityIdentifierTypeEnum
+        description: Defines the source of the identifier.
+        required: false
+    in_subset:
+      - cdm_base_staticdata_party
+
+  PersonIdentifier:
+    description: Comprises an identifier and a source. The associated metadata key denotes the ability to associate a hash
+      value to the PersonIdentifier instantiations for the purpose of model cross-referencing, in support of functionality
+      such as the event effect and the lineage.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - gist:ID
+      - oscal:PartyExternalId
+      - spdx:ExternalIdentifier
+    related_mappings:
+      - iso29100:PersonallyIdentifiableInformation
+    slots:
+      - identifier
+      - identifierType
+      - country
+    slot_usage:
+      identifier:
+        range: string
+        description: Provides an identifier associated with a person. The identifier is unique within the public source specified
+          in the source attribute.
+        multivalued: false
+      identifierType:
+        range: PersonIdentifierTypeEnum
+        description: Defines the source of the identifier.
+        required: false
+      country:
+        description: The ISO 3166 standard code for the country issuing the identifier.
+    in_subset:
+      - cdm_base_staticdata_party
+
+  PartyRole:
+    description: A class to specify the role(s) that party(ies) may have in relation to the execution, contract or other legal
+      agreement.
+    comments:
+      - 'Rosetta func: FilterPartyRole — Filters the list of partyRoles based on the provided partyRoleEnum.'
+    annotations:
+      rosetta_functions: '[{"name":"FilterPartyRole","description":"Filters the list of partyRoles based on the provided partyRoleEnum.","inputs":[{"name":"partyRoles","type":"PartyRole","cardinality":"0..*"},{"name":"partyRoleEnum","type":"PartyRoleEnum","cardinality":"1..1"}],"output":{"name":"filteredPartyRoles","type":"PartyRole","cardinality":"0..*"}}]'
+    slots:
+      - partyReference
+      - role
+      - ownershipPartyReference
+    slot_usage:
+      partyReference:
+        description: A reference to the party to which the role refers to.
+      role:
+        range: PartyRoleEnum
+        description: The party role.
+    in_subset:
+      - cdm_base_staticdata_party
+
+  TelephoneNumber:
+    description: A class to specify a telephone number as a type of phone number (e.g. work, personal, ...) alongside with
+      the actual number.
+    slots:
+      - telephoneNumberType
+      - number
+    slot_usage:
+      number:
+        range: string
+        description: The actual telephone number.
+    in_subset:
+      - cdm_base_staticdata_party
+
+  AncillaryEntity:
+    description: Holds an identifier for an ancillary entity, either identified directly via its ancillary role or directly
+      as a legal entity.
+    close_mappings:
+      - fpml_5_10:AncillaryEntity
+    slots:
+      - ancillaryParty
+      - legalEntity
+    in_subset:
+      - cdm_base_staticdata_party

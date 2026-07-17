@@ -1,0 +1,39 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_product_common
+name: cdm_product_common
+description: LinkML schema for cdm.product.common
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+
+comments:
+  - 'Rosetta func: InterestRatePayoutCurrency | inputs(interestRatePayouts: InterestRatePayout (0..*)) | output(currency:
+    string (0..*))'
+annotations:
+  rosetta_functions: '[{"name":"InterestRatePayoutCurrency","inputs":[{"name":"interestRatePayouts","type":"InterestRatePayout","cardinality":"0..*"}],"output":{"name":"currency","type":"string","cardinality":"0..*"}}]'
+
+subsets:
+  cdm_product_common:
+    description: Classes defined in the cdm_product_common module.
+
+enums:
+  NotionalAdjustmentEnum:
+    description: The enumerated values to specify the conditions that govern the adjustment to the number of units of the
+      return swap.
+    permissible_values:
+      Execution:
+        description: The adjustments to the number of units are governed by an execution clause.
+      PortfolioRebalancing:
+        description: The adjustments to the number of units are governed by a portfolio rebalancing clause.
+      Standard:
+        description: The adjustments to the number of units are not governed by any specific clause.

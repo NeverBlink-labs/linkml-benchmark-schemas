@@ -1,0 +1,2506 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_product_template
+name: cdm_product_template
+description: Template feature concepts to define payouts.
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  icma: https://www.icmagroup.org/market-practice-and-regulatory-policy/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+  gist: https://w3id.org/lmodel/gist/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_datetime
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_event_common
+  - ./cdm_observable_asset
+  - ./cdm_observable_common
+  - ./cdm_observable_event
+  - ./cdm_product_asset
+  - ./cdm_product_collateral
+  - ./cdm_product_common
+  - ./cdm_product_common_schedule
+  - ./cdm_product_common_settlement
+  - ./cdm_event_workflow
+  - ./cdm_legaldocumentation_transaction
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_event_position
+
+comments:
+  - 'Rosetta func: FilterTradeLot — Filter list of TradeLot based on TradeLot->lotIdentifier. | inputs(tradeLots: TradeLot
+    (0..*), lotIdentifier: Identifier (0..*)) | output(filteredTradeLots: TradeLot (0..*))'
+  - 'Rosetta func: AddTradeLot — Add a TradeLot to an existing list of TradeLots. | inputs(tradableProduct: TradableProduct
+    (1..1), newTradeLot: TradeLot (1..1)) | output(updatedTradableProduct: TradableProduct (1..1))'
+  - 'Rosetta func: ReplaceTradeLot — Replace TradeLot in with matching TradeLot->lotIdentifier. | inputs(tradeLots: TradeLot
+    (0..*), newTradeLot: TradeLot (1..1)) | output(mergedTradeLots: TradeLot (0..*))'
+  - 'Rosetta func: CompareTradeLot — Compare the Quantity in TradeLot 1 to the Quantity (with the same unit of amount) in
+    TradeLot 2, based on the CompareOp enum. | inputs(tradeLot1: TradeLot (1..1), op: CompareOp (1..1), tradeLot2: TradeLot
+    (1..1)) | output(result: boolean (1..1))'
+  - 'Rosetta func: CompareTradeLotToAmount — Compare the Quantity amount in TradeLot to the given amount (regardless of unit
+    of amount), based on the CompareOp enum. | inputs(tradeLot: TradeLot (1..1), op: CompareOp (1..1), amount: number (1..1))
+    | output(result: boolean (1..1))'
+  - 'Rosetta func: PriceQuantityTriangulation — Defines all the scenarios which triangulation can be helpful validation between
+    Prices and Quantities. | inputs(tradeLots: TradeLot (0..*)) | output(success: boolean (1..1))'
+  - 'Rosetta func: FpmlIrd8 — FpML validation rule ird-8 - If the same party is specified as the payer and receiver, then
+    different accounts must be specified. | inputs(trade: Trade (1..1), accounts: Account (0..*)) | output(success: boolean
+    (1..1))'
+  - 'Rosetta func: Create_AssetFlowFromSettlementPayout — Generates two opposite cashflows that correspond to a settlement
+    payout. One leg is the asset leg, that settles the asset according to the quantity, direction and date defined in the
+    settlement payout. The other is the price leg, that settles the price as a currency amount going in the opposite direction.
+    The function''s applicability is limited on purpose to a single asset with a single price and quantity specified. | inputs(payout:
+    SettlementPayout (1..1)) | output(cashflows: AssetFlow (2..2))'
+  - 'Rosetta func: UnderlierForOptionOrForwardProduct — Extracts the underlier from an option or a forward. | inputs(product:
+    NonTransferableProduct (1..1)) | output(underlierProduct: Underlier (1..1))'
+  - 'Rosetta func: FXFarLeg — Extracts the far leg of an FX swap (deliverable or not) based on two criteria: the forward payout
+    with the latest value date or the forward payout with the latest settlement date. | inputs(product: NonTransferableProduct
+    (1..1)) | output(nearLegPayout: SettlementPayout (0..1))'
+annotations:
+  rosetta_functions: '[{"name":"FilterTradeLot","description":"Filter list of TradeLot based on TradeLot->lotIdentifier.","inputs":[{"name":"tradeLots","type":"TradeLot","cardinality":"0..*"},{"name":"lotIdentifier","type":"Identifier","cardinality":"0..*"}],"output":{"name":"filteredTradeLots","type":"TradeLot","cardinality":"0..*"}},{"name":"AddTradeLot","description":"Add
+    a TradeLot to an existing list of TradeLots.","inputs":[{"name":"tradableProduct","type":"TradableProduct","cardinality":"1..1"},{"name":"newTradeLot","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"updatedTradableProduct","type":"TradableProduct","cardinality":"1..1"}},{"name":"ReplaceTradeLot","description":"Replace
+    TradeLot in with matching TradeLot->lotIdentifier.","inputs":[{"name":"tradeLots","type":"TradeLot","cardinality":"0..*"},{"name":"newTradeLot","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"mergedTradeLots","type":"TradeLot","cardinality":"0..*"}},{"name":"CompareTradeLot","description":"Compare
+    the Quantity in TradeLot 1 to the Quantity (with the same unit of amount) in TradeLot 2, based on the CompareOp enum.","inputs":[{"name":"tradeLot1","type":"TradeLot","cardinality":"1..1"},{"name":"op","type":"CompareOp","cardinality":"1..1"},{"name":"tradeLot2","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"result","type":"boolean","cardinality":"1..1"}},{"name":"CompareTradeLotToAmount","description":"Compare
+    the Quantity amount in TradeLot to the given amount (regardless of unit of amount), based on the CompareOp enum.","inputs":[{"name":"tradeLot","type":"TradeLot","cardinality":"1..1"},{"name":"op","type":"CompareOp","cardinality":"1..1"},{"name":"amount","type":"number","cardinality":"1..1"}],"output":{"name":"result","type":"boolean","cardinality":"1..1"}},{"name":"PriceQuantityTriangulation","description":"Defines
+    all the scenarios which triangulation can be helpful validation between Prices and Quantities.","inputs":[{"name":"tradeLots","type":"TradeLot","cardinality":"0..*"}],"output":{"name":"success","type":"boolean","cardinality":"1..1"}},{"name":"FpmlIrd8","description":"FpML
+    validation rule ird-8 - If the same party is specified as the payer and receiver, then different accounts must be specified.","inputs":[{"name":"trade","type":"Trade","cardinality":"1..1"},{"name":"accounts","type":"Account","cardinality":"0..*"}],"output":{"name":"success","type":"boolean","cardinality":"1..1"},"code_implementation":true},{"name":"Create_AssetFlowFromSettlementPayout","description":"Generates
+    two opposite cashflows that correspond to a settlement payout. One leg is the asset leg, that settles the asset according
+    to the quantity, direction and date defined in the settlement payout. The other is the price leg, that settles the price
+    as a currency amount going in the opposite direction. The function''s applicability is limited on purpose to a single
+    asset with a single price and quantity specified.","inputs":[{"name":"payout","type":"SettlementPayout","cardinality":"1..1"}],"output":{"name":"cashflows","type":"AssetFlow","cardinality":"2..2"}},{"name":"UnderlierForOptionOrForwardProduct","description":"Extracts
+    the underlier from an option or a forward.","inputs":[{"name":"product","type":"NonTransferableProduct","cardinality":"1..1"}],"output":{"name":"underlierProduct","type":"Underlier","cardinality":"1..1"}},{"name":"FXFarLeg","description":"Extracts
+    the far leg of an FX swap (deliverable or not) based on two criteria: the forward payout with the latest value date or
+    the forward payout with the latest settlement date.","inputs":[{"name":"product","type":"NonTransferableProduct","cardinality":"1..1"}],"output":{"name":"nearLegPayout","type":"SettlementPayout","cardinality":"0..1"}}]'
+
+subsets:
+  cdm_product_template:
+    description: Classes defined in the cdm_product_template module.
+
+enums:
+  AveragingInOutEnum:
+    description: The enumerated values to specify the type of averaging used in an Asian option.
+    permissible_values:
+      In:
+        description: The average price is used to derive the strike price. Also known as 'Asian strike' style option.
+      Out:
+        description: The average price is used to derive the expiration price. Also known as 'Asian price' style option.
+      Both:
+        description: The average price is used to derive both the strike and the expiration price.
+
+  OptionTypeEnum:
+    description: The enumerated values to specify the type or strategy of the option.
+    inherits:
+      - PutCallEnum
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/option-type
+    permissible_values:
+      Payer:
+        description: 'A ''payer'' option: If you buy a ''payer'' option you have the right but not the obligation to enter
+          into the underlying swap transaction as the ''fixed'' rate/price payer and receive float.'
+      Receiver:
+        description: 'A ''receiver'' option: If you buy a ''receiver'' option you have the right but not the obligation to
+          enter into the underlying swap transaction as the ''fixed'' rate/price receiver and pay float.'
+      Straddle:
+        description: A straddle strategy, which involves the simultaneous buying of a put and a call of the same underlier,
+          at the same strike and same expiration date
+        meaning: http://www.fpml.org/coding-scheme/option-type-1-0#Straddle
+
+  OptionExerciseStyleEnum:
+    description: The enumerated values to specify the option exercise style. i.e., European, Bermuda or American.
+    permissible_values:
+      European:
+        description: Single Exercise
+      Bermuda:
+        description: Multiple specified exercise dates
+      American:
+        description: Continuous exercise over a range of dates
+
+  CallingPartyEnum:
+    description: Identifies a party to the on-demand repo transaction that has a right to demand for termination of the Security
+      Finance transaction.
+    permissible_values:
+      InitialBuyer:
+        description: Initial buyer to the repo transaction.
+      InitialSeller:
+        description: Initial seller to the repo transaction.
+      Either:
+        description: Either, Buyer or Seller to the repo transaction.
+      AsDefinedInMasterAgreement:
+        description: As defined in Master Agreement.
+
+  ExerciseNoticeGiverEnum:
+    description: Defines the principal party to the trade that has the right to exercise.
+    permissible_values:
+      Buyer:
+        description: Specifies that only the option buyer has the right to exercise.
+      Seller:
+        description: Specifies that only the option seller has the right to exercise.
+      Both:
+        description: Specifies that both the option buyer and option seller has the right to exercise.
+      AsSpecifiedInMasterAgreement:
+        description: Specifies that the Master Agreement defines the principal party to the trade that has the right to exercise.
+
+  MarginTypeEnum:
+    description: This indicator defines which type of assets (cash or securities) is specified to apply as margin to the repo
+      transaction.
+    permissible_values:
+      Cash:
+        description: When the margin type is Cash, the margin factor is applied to the cash value of the transaction.
+      Instrument:
+        description: When the margin type is Instrument, the margin factor is applied to the instrument value for the transaction.
+          In the 'instrument' case, the haircut would be applied to the securities.
+
+  RepoDurationEnum:
+    description: A duration code for a Repo (or Securities Lending) transaction. There are many business and market rules
+      that are derived from the duration of the transaction.
+    permissible_values:
+      Overnight:
+        description: 'Indicates that a contract is classified as overnight, meaning that there is one business day difference
+          between the start and end date of the contract. Business rule: When the repo is overnight, the number of business
+          days between the spot and forward value dates must be one. Forward leg must be specified.'
+      Term:
+        description: 'Indicates that a contract is a regular term contract, with a start date and an end date. Business rule:
+          When the repo is ''Term'', both spot and forward legs must be specified.'
+
+  AssetPayoutTradeTypeEnum:
+    description: An enumerator to differentiate the different trade types used in securities finance and modelled on an AssetPayout.
+    permissible_values:
+      Repo:
+        description: In the case of a repurchase transaction, an immediate and equal income payment (often call a manufactured
+          payment) is made by the buyer to the seller.
+      BuySellBack:
+        description: In the case of a buy/sell-back, there is no income payment between buyer and seller. Instead, the repurchase
+          price to be paid on the repurchase date is reduced by the amount of the income payment on the collateral plus some
+          extra interest to compensate the seller for the delay between the income payment date on the collateral and the
+          repurchase date of the repo.
+        aliases:
+          - Buy/Sell-Back
+      SecurityLending:
+        description: Denotes this payout as being associated to the security being lent as part of a securities lending contract.
+
+  ExpirationTimeTypeEnum:
+    description: The time of day at which the equity option expires, for example the official closing time of the exchange.
+    permissible_values:
+      Close:
+        description: The official closing time of the exchange on the valuation date.
+      Open:
+        description: The official opening time of the exchange on the valuation date.
+      OSP:
+        description: The time at which the official settlement price is determined.
+      SpecificTime:
+        description: The time specified in the element equityExpirationTime or valuationTime (as appropriate)
+      XETRA:
+        description: The time at which the official settlement price (following the auction by the exchange) is determined
+          by the exchange.
+      DerivativesClose:
+        description: The official closing time of the derivatives exchange on which a derivative contract is listed on that
+          security underlyer.
+      AsSpecifiedInMasterConfirmation:
+        description: The time is determined as provided in the relevant Master Confirmation.
+
+slots:
+  economicTerms:
+    range: EconomicTerms
+    description: The price forming features, including payouts and provisions.
+    required: true
+
+  terminationTime:
+    range: DirectOrRelativeTime
+    description: The time and zone of the last day of the terms of the trade. It can also be specified in relation to another
+      time.
+
+  terminationProvision:
+    range: TerminationProvision
+    description: Contains optional provisions pertaining to the termination characteristics of a contract.
+
+  calculationAgent:
+    range: CalculationAgent
+    description: The ISDA calculation agent responsible for performing duties as defined in the applicable product definitions.
+
+  nonStandardisedTerms:
+    range: boolean
+    description: Specifies, when boolean value is True, that additional economic terms exist that have not been included in
+      the product representation.
+
+  buyerSeller:
+    range: BuyerSeller
+    required: true
+
+  feature:
+    range: OptionFeature
+    description: The option feature, such as quanto, Asian, barrier, knock.
+
+  observationTerms:
+    range: ObservationTerms
+    description: Class containing terms that are associated with observing a price/benchmark/index across either single or
+      multple observations. To be used for option contracts that reference a benchmark price.
+
+  exerciseTerms:
+    range: ExerciseTerms
+    description: The terms for exercising the option, which include the option style (e.g. American style option), the exercise
+      procedure (e.g. manual exercise) and the settlement terms (e.g. physical vs. cash).
+    required: true
+
+  priceReturnTerms:
+    range: PriceReturnTerms
+    description: Return terms based upon the underlier's observed price.
+
+  dividendReturnTerms:
+    range: DividendReturnTerms
+    description: Return terms based upon dividend payments associated to the underlier.
+
+  varianceReturnTerms:
+    range: VarianceReturnTerms
+    description: Return terms based upon the observed variance of the underlier's price.
+
+  volatilityReturnTerms:
+    range: VolatilityReturnTerms
+    description: Return terms based upon the observed volatility of the underlier's price.
+
+  correlationReturnTerms:
+    range: CorrelationReturnTerms
+    description: Return terms based upon the observed correlation between the components of the underlying basket.
+
+  returnTerms:
+    range: ReturnTerms
+    description: Specifies the type of return of a performance payout.
+
+  portfolioReturnTerms:
+    range: PortfolioReturnTerms
+    description: Specifies an individual type of return of a Performance Payout, when such individual return is part of an
+      aggregation of multiple similar returns, at Performance Payout level
+    multivalued: true
+    inlined_as_list: true
+
+  tradeLot:
+    range: TradeLot
+    description: Specifies the price, quantity and effective date of each trade lot, when the same product may be traded multiple
+      times in different lots with the same counterparty. In a trade increase, a new trade lot is added to the list, with
+      the corresponding effective date. In a trade decrease, the existing trade lot(s) are decreased of the corresponding
+      quantity (and an unwind fee may have to be settled). The multiple cardinality and the ability to increase existing trades
+      is used for Equity Swaps in particular.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  openUnits:
+    range: decimal
+    description: The number of units (index or securities) that constitute the underlier of the swap. In the case of a basket
+      swap, this element is used to reference both the number of basket units, and the number of each asset components of
+      the basket when these are expressed in absolute terms.
+
+  basketPercentage:
+    range: decimal
+    description: The relative weight of each respective basket constituent, expressed in percentage. A basket percentage of
+      5% would be represented as 0.05.
+
+  schedulePeriod:
+    range: SchedulePeriod
+    description: Defines a period of a calculation schedule structure.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  fixingPeriod:
+    range: DateRange
+    description: Period over which the underlying price is observed.
+    required: true
+
+  deliveryPeriod:
+    range: CalculationScheduleDeliveryPeriods
+    description: Period and time profile over which the delivery takes place.
+
+  fixedPrice:
+    range: FixedPrice
+    description: Specifies the fixed price on which fixed forward payments are based.
+    required: true
+
+  exerciseNotice:
+    range: ExerciseNotice
+    description: Definition of the party to whom notice of exercise should be given.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.exerciseNotice
+
+  followUpConfirmation:
+    range: boolean
+    description: A flag to indicate whether follow-up confirmation of exercise (written or electronic) is required following
+      telephonic notice by the buyer to the seller or seller's agent.
+    required: true
+    close_mappings:
+      - fpml_5_10:CancelableProvision.followUpConfirmation
+
+  cancelableProvisionAdjustedDates:
+    range: CancelableProvisionAdjustedDates
+    description: The adjusted dates associated with a cancelable provision. These dates have been adjusted for any applicable
+      business day convention.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.cancelableProvisionAdjustedDates
+
+  finalCalculationPeriodDateAdjustment:
+    range: FinalCalculationPeriodDateAdjustment
+    description: Business date convention adjustment to final payment period per leg (swapStream) upon exercise event. The
+      adjustments can be made in-line with leg level BDC's or they can be specified separately.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:CancelableProvision.finalCalculationPeriodDateAdjustment
+
+  initialFee:
+    range: Transfer
+    description: An initial fee for the cancelable option.
+    any_of:
+      - range: ScheduledTransfer
+      - range: UnscheduledTransfer
+    close_mappings:
+      - fpml_5_10:CancelableProvision.initialFee
+
+  callingParty:
+    range: CallingPartyEnum
+    description: The party with right to exercise a cancellation. Allows for buyer, seller or either.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.callingParty
+
+  earliestDate:
+    range: AdjustableOrRelativeDate
+    description: The first day when cancelation is permitted to take effect. A party may give notice prior to this date and
+      taken together with the effective period would be necessary to cancel on this date.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.earliestDate
+
+  expirationDate:
+    range: AdjustableOrRelativeDate
+    description: The last day within the term of the contract that cancelation is allowed.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.expirationDate
+
+  effectivePeriod:
+    range: Period
+    description: Effective period for cancelation when notice is given. This is the period after notice is given that cancellation
+      becomes effecticve.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.effectivePeriod
+
+  earliestCancellationTime:
+    range: BusinessCenterTime
+    description: The earliest time in a business day that notice of cancelation can be given.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.earliestCancellationTime
+
+  latestCancelationTime:
+    range: BusinessCenterTime
+    description: The latest time at which notice of cancelation can be given.
+    close_mappings:
+      - fpml_5_10:CancelableProvision.latestCancelationTime
+
+  cancellationEvent:
+    range: CancellationEvent
+    description: The adjusted dates for an individual cancellation date.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  adjustedEarlyTerminationDate:
+    range: date
+    description: The early termination date that is applicable if an early termination provision is exercised. This date should
+      already be adjusted for any applicable business day convention.
+    required: true
+    close_mappings:
+      - fpml_5_10:CancellationEvent.adjustedEarlyTerminationDate
+
+  mandatoryEarlyTermination:
+    range: MandatoryEarlyTermination
+    description: A mandatory early termination provision to terminate the swap at fair value.
+
+  mandatoryEarlyTerminationDateTenor:
+    range: Period
+    description: Period after trade date of the mandatory early termination date.
+
+  optionalEarlyTermination:
+    range: OptionalEarlyTermination
+    description: An option for either or both parties to terminate the swap at fair value.
+
+  optionalEarlyTerminationParameters:
+    range: ExercisePeriod
+    description: Definition of the first early termination date and the frequency of the termination dates subsequent to that.
+      American exercise is defined by having a frequency of one day.
+
+  earliestExerciseDateTenor:
+    range: Period
+    description: The time interval to the first (and possibly only) exercise date in the exercise period.
+    required: true
+
+  exerciseFrequency:
+    range: Period
+    description: The frequency of subsequent exercise dates in the exercise period following the earliest exercise date. An
+      interval of 1 day should be used to indicate an American style exercise period.
+
+  extendibleProvisionAdjustedDates:
+    range: ExtendibleProvisionAdjustedDates
+    description: The adjusted dates associated with an extendible provision. These dates have been adjusted for any applicable
+      business day convention.
+
+  singlePartyOption:
+    range: PartyRole
+    description: If the ability to extend the contract is not available to both parties then this component specifies the
+      buyer and seller of the option.
+
+  extensionTerm:
+    range: RelativeDateOffset
+    description: The length of each extension period relative to the effective date of the preceding contract.
+
+  extensionPeriod:
+    range: AdjustableRelativeOrPeriodicDates
+    description: The period within which notice can be given that the contract will be extended.
+
+  extensionEvent:
+    range: ExtensionEvent
+    description: The adjusted dates associated with a single extendible exercise date.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  adjustedExtendedTerminationDate:
+    range: date
+    description: The termination date if an extendible provision is exercised. This date should already be adjusted for any
+      applicable business day convention.
+    required: true
+
+  mandatoryEarlyTerminationDate:
+    range: AdjustableDate
+    description: The early termination date associated with a mandatory early termination of a swap.
+    required: true
+
+  cashSettlement:
+    range: SettlementTerms
+    description: If specified, this means that cash settlement is applicable to the transaction and defines the parameters
+      associated with the cash settlement procedure. If not specified, then physical settlement is applicable.
+    required: true
+
+  mandatoryEarlyTerminationAdjustedDates:
+    range: MandatoryEarlyTerminationAdjustedDates
+    description: The adjusted dates associated with a mandatory early termination provision. These dates have been adjusted
+      for any applicable business day convention.
+
+  mutualEarlyTermination:
+    range: boolean
+    description: Used for specifying whether the Mutual Early Termination Right that is detailed in the Master Confirmation
+      will apply.
+
+  optionalEarlyTerminationAdjustedDates:
+    range: OptionalEarlyTerminationAdjustedDates
+    description: An early termination provision to terminate the trade at fair value where one or both parties have the right
+      to decide on termination.
+
+  earlyTerminationEvent:
+    range: EarlyTerminationEvent
+    description: The adjusted dates associated with an individual early termination date.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  averagingCalculation:
+    range: AveragingCalculation
+    description: Defines parameters for use in cases when a valuation or other term is based on an average of market observations.
+    required: true
+    close_mappings:
+      - fpml_5_10:AveragingFeature.averagingCalculation
+
+  averagingInOut:
+    range: AveragingInOutEnum
+    required: true
+    close_mappings:
+      - fpml_5_10:AveragingFeature.averagingInOut
+
+  strikeFactor:
+    range: decimal
+    description: The factor of strike.
+    close_mappings:
+      - fpml_5_10:AveragingFeature.strikeFactor
+
+  averagingPeriodIn:
+    range: AveragingPeriod
+    description: The averaging in period.
+    close_mappings:
+      - fpml_5_10:AveragingFeature.averagingPeriodIn
+
+  averagingPeriodOut:
+    range: AveragingPeriod
+    description: The averaging out period.
+    close_mappings:
+      - fpml_5_10:AveragingFeature.averagingPeriodOut
+
+  knockIn:
+    range: TriggerEvent
+    description: The option only becomes active when a predetermined trigger level is breached.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:Barrier.knockIn
+
+  knockOut:
+    range: TriggerEvent
+    description: The option becomes null and void when a predetermined trigger level is breached.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:Barrier.knockOut
+
+  expirationDateTwo:
+    range: AdjustableOrRelativeDate
+    required: true
+
+  referenceCurrency:
+    range: string
+    description: Specifies the reference currency of the trade.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  quanto:
+    range: Quanto
+    description: If 'Quanto' is specified as the Settlement Type in the relevant Transaction Supplement, an amount, as determined
+      by the Calculation Agent in accordance with the Section 8.2 of the Equity Definitions.
+
+  crossCurrency:
+    range: Composite
+    description: 'If ''Cross-Currency'' is specified as the Settlement Type in the relevant Transaction Supplement, an amount
+      in the Settlement Currency, determined by the Calculation Agent as being equal to the number of Options exercised or
+      deemed exercised, multiplied by: (Settlement Price – Strike Price) / (Strike Price – Settlement Price) x Multiplier
+      x one unit of the Reference Currency converted into an amount in the Settlement Currency using the rate of exchange
+      of the Settlement Currency as quoted on the Reference Price Source on the Valuation Date, provided that if the above
+      is equal to a negative amount the Option Cash Settlement Amount shall be deemed to be zero.'
+
+  strategyFeature:
+    range: StrategyFeature
+    description: Defines a simple strategy feature.
+
+  barrier:
+    range: Barrier
+    description: Specifies a barrier feature.
+
+  passThrough:
+    range: PassThrough
+    description: Specifies the rules for pass-through payments from the underlier, such as dividends.
+
+  cancelableProvision:
+    range: CancelableProvision
+    description: A provision that allows the specification of an embedded option within a swap giving the buyer of the option
+      the right to terminate the swap, in whole or in part, on the early termination date.
+
+  earlyTerminationProvision:
+    range: EarlyTerminationProvision
+    description: Parameters specifying provisions relating to the optional and mandatory early termination of a swap transaction.
+
+  evergreenProvision:
+    range: EvergreenProvision
+    description: 'A data defining: the right of a party to exercise an Evergreen option'
+
+  extendibleProvision:
+    range: ExtendibleProvision
+    description: A provision that allows the specification of an embedded option with a swap giving the buyer of the option
+      the right to extend the swap, in whole or in part, to the extended termination date.
+
+  recallProvision:
+    range: RecallProvision
+    description: A provision defining criteria controlling the ability for a lender to recall securities it has lent out.
+
+  isRecallable:
+    range: boolean
+    description: Whether the securities on loan can be recalled by the lender.
+    required: true
+
+  issuanceCutoffTime:
+    range: TimeZone
+    description: The operational deadline on T+0 before which a recall must be requested. For the UK, best practice recommends
+      that this would be 30 minutes before market close i.e. 16:00:00 GMT.
+
+  intendedSettlementDate:
+    range: RelativeDateOffset
+    description: The intended settlement date of the recall, expressed as an offset against a relative date e.g. T+1. The
+      best practice is that the borrower must make their best efforts to settle on T+1.
+
+  strikePrice:
+    range: Price
+    description: Defines the strike of an option in the form of a price that could be a cash price, interestRate, or other
+      types.
+
+  strikeReference:
+    range: FixedRateSpecification
+    description: Defines the strike of an option in reference to the spread of the underlying swap (typical practice in the
+      case of an option on a credit single name swaps).
+    annotations:
+      metadata_reference: true
+
+  referenceSwapCurve:
+    range: ReferenceSwapCurve
+    description: Defines the strike of an option when expressed by reference to a swap curve (Typically the case for a convertible
+      bond option).
+
+  averagingStrikeFeature:
+    range: AveragingStrikeFeature
+    description: Defines an  option strike that is calculated from an average of observed market prices.
+
+  passThroughItem:
+    range: PassThroughItem
+    description: One to many pass through payment items.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  passThroughPercentage:
+    range: decimal
+    description: Percentage of payments from the underlier which are passed through.
+    required: true
+
+  fxRate:
+    range: FxRate
+    description: Specifies a currency conversion rate.
+    multivalued: true
+    inlined_as_list: true
+
+  strikeSpread:
+    range: StrikeSpread
+    description: Definition of the upper strike in a strike spread.
+
+  calendarSpread:
+    range: CalendarSpread
+    description: Definition of the later expiration date in a calendar spread.
+
+  upperStrike:
+    range: OptionStrike
+    description: Upper strike in a strike spread.
+    required: true
+
+  upperStrikeNumberOfOptions:
+    range: decimal
+    description: Number of options at the upper strike price in a strike spread.
+    required: true
+
+  style:
+    range: OptionExerciseStyleEnum
+    description: Whether the option has a single exercise (european), multiple exercise dates (bermuda), or a continuous range
+      of exercise (american).
+
+  commencementDate:
+    range: AdjustableOrRelativeDate
+    description: The first day of the exercise period for an American style option.
+
+  exerciseDates:
+    range: AdjustableOrRelativeDates
+    description: The dates that define the Bermuda option exercise dates and the expiration date. The last specified date
+      is assumed to be the expiration date. The dates can either be specified as a series of explicit dates and associated
+      adjustments or as a series of dates defined relative to another schedule of dates, for example, the calculation period
+      start dates. Where a relative series of dates are defined the first and last possible exercise dates can be separately
+      specified.
+
+  relevantUnderlyingDate:
+    range: AdjustableOrRelativeDates
+    description: The effective date on the underlying product if the option is exercised.  For example, for a swaption it
+      is the swap effective date, for an option on an FX spot or forward it is the value date for settlement, and in an extendible/cancelable
+      provision it is the swap termination date, which is the date on which the termination is effective.'
+
+  earliestExerciseTime:
+    range: BusinessCenterTime
+    description: The earliest time at which notice of exercise can be given by the buyer to the seller (or seller's agent)
+      to, and including, the expiration date.
+
+  latestExerciseTime:
+    range: BusinessCenterTime
+    description: For a Bermuda or American style option, the latest time on an exercise business day (excluding the expiration
+      date) within the exercise period that notice can be given by the buyer to the seller or seller's agent. Notice of exercise
+      given after this time will be deemed to have been given on the next exercise business day.
+
+  expirationTime:
+    range: BusinessCenterTime
+    description: The latest time for exercise on expirationDate. It is made mandatory given that for all option styles, this
+      field is required.
+
+  expirationTimeType:
+    range: ExpirationTimeTypeEnum
+    description: The time of day at which the equity option expires, for example the official closing time of the exchange.
+    required: true
+
+  multipleExercise:
+    range: MultipleExercise
+    description: As defined in the 2000 ISDA Definitions, Section 12.4. Multiple Exercise, the buyer of the option has the
+      right to exercise all or less than all the unexercised notional amount of the underlying swap on one or more days in
+      the exercise period, but on any such day may not exercise less than the minimum notional amount or more that the maximum
+      notional amount, and if an integral multiple amount is specified, the notional amount exercised must be equal to, or
+      be an integral multiple of, the integral multiple amount.
+
+  exerciseFeeSchedule:
+    range: ExerciseFeeSchedule
+    description: The fees associated with an exercise date. The fees are conditional on the exercise occurring. The fees can
+      be specified as actual currency amounts or as percentages of the notional amount being exercised.
+
+  exerciseProcedure:
+    range: ExerciseProcedure
+    description: The set of parameters defining the procedure associated with the exercise, e.g. manual exercise.
+
+  exerciseFee:
+    range: ExerciseFee
+    description: A fee to be paid on exercise. This could be represented as an amount or a rate and notional reference on
+      which to apply the rate.
+
+  partialExercise:
+    range: PartialExercise
+    description: As defined in the 2000 ISDA Definitions, Section 12.3. Partial Exercise, the buyer of the option has the
+      right to exercise all or less than all the notional amount of the underlying swap on the expiration date, but may not
+      exercise less than the minimum notional amount, and if an integral multiple amount is specified, the notional amount
+      exercised must be equal to, or be an integral multiple of, the integral multiple amount.
+
+  thresholdRate:
+    range: decimal
+    description: A threshold rate. The threshold of 0.10% would be represented as 0.001
+    close_mappings:
+      - fpml_5_10:AutomaticExercise.thresholdRate
+
+  notionalReference:
+    range: Money
+    description: A pointer style reference to the associated notional schedule defined elsewhere in the document.
+    required: true
+    annotations:
+      metadata_reference: true
+
+  feeAmount:
+    range: decimal
+    description: The amount of fee to be paid on exercise. The fee currency is that of the referenced notional.
+
+  feeRate:
+    range: decimal
+    description: A fee represented as a percentage of some referenced notional. A percentage of 5% would be represented as
+      0.05.
+
+  feePaymentDate:
+    range: RelativeDateOffset
+    description: The date on which exercise fee(s) will be paid. It is specified as a relative date.
+    required: true
+
+  feeAmountSchedule:
+    range: AmountSchedule
+    description: The exercise fee amount schedule. The fees are expressed as currency amounts. The currency of the fee is
+      assumed to be that of the notional schedule referenced.
+
+  feeRateSchedule:
+    range: Schedule
+    description: The exercise free rate schedule. The fees are expressed as percentage rates of the notional being exercised.
+      The currency of the fee is assumed to be that of the notional schedule referenced.
+
+  exerciseNoticeGiver:
+    range: ExerciseNoticeGiverEnum
+    description: Specifies the principal party of the trade that has the right to exercise.
+    required: true
+
+  exerciseNoticeReceiver:
+    range: AncillaryRoleEnum
+    description: Specifies the party to which notice of exercise should be given, e.g. by the buyer of the option. Although
+      in many cases it is the buyer of the option who sends the exercise notice to the seller of the option, this component
+      is reused, e.g. in case of OptionEarlyTermination, either or both parties have the right to exercise.
+
+  manualExercise:
+    range: ManualExercise
+    description: Specifies that the notice of exercise must be given by the buyer to the seller or seller's agent.
+
+  automaticExercise:
+    range: AutomaticExercise
+    description: If automatic is specified, then the notional amount of the underlying swap not previously exercised under
+      the swaption will be automatically exercised at the expiration time on the expiration date if at such time the buyer
+      is in-the-money, provided that the difference between the settlement rate and the fixed rate under the relevant underlying
+      swap is not less than the specified threshold rate. The term in-the-money is assumed to have the meaning defining in
+      the 2000 ISDA Definitions, Section 17.4 In-the-money.
+
+  limitedRightToConfirm:
+    range: boolean
+    description: Has the meaning defined as part of the 1997 ISDA Government Bond Option Definitions, section 4.5 Limited
+      Right to Confirm Exercise. If present, (i) the Seller may request the Buyer to confirm its intent if not done on or
+      before the expiration time on the Expiration date (ii) specific rules will apply in relation to the settlement mode.
+
+  splitTicket:
+    range: boolean
+    description: Typically applicable to the physical settlement of bond and convertible bond options. If present, means that
+      the party required to deliver the bonds will divide those to be delivered as notifying party desires to facilitate delivery
+      obligations.
+
+  fallbackExercise:
+    range: boolean
+    description: If fallback exercise is specified then the notional amount of the underlying swap, not previously exercised
+      under the swaption, will be automatically exercised at the expiration time on the expiration date if at such time the
+      buyer is in-the-money, provided that the difference between the settlement rate and the fixed rate under the relevant
+      underlying swap is not less than one tenth of a percentage point (0.10% or 0.001). The term in-the-money is assumed
+      to have the meaning defined in the 2000 ISDA Definitions, Section 17.4. In-the-money.
+
+  maximumNotionalAmount:
+    range: decimal
+    description: The maximum notional amount that can be exercised on a given exercise date.
+
+  maximumNumberOfOptions:
+    range: integer
+    description: The maximum number of options that can be exercised on a given exercise date. If the number is not specified,
+      it means that the maximum number of options corresponds to the remaining unexercised options.
+
+  integralMultipleAmount:
+    range: decimal
+    description: A notional amount which restricts the amount of notional that can be exercised when partial exercise or multiple
+      exercise is applicable. The integral multiple amount defines a lower limit of notional that can be exercised and also
+      defines a unit multiple of notional that can be exercised, i.e. only integer multiples of this amount can be exercised.
+
+  minimumNotionalAmount:
+    range: decimal
+    description: The minimum notional amount that can be exercised on a given exercise date. See multipleExercise.
+
+  minimumNumberOfOptions:
+    range: integer
+    description: The minimum number of options that can be exercised on a given exercise date.
+
+  strikeRate:
+    range: decimal
+    description: The rate for a cap or floor.
+    required: true
+
+  assetLeg:
+    range: AssetLeg
+    description: Defines each asset movement as a buy/sell at different dates, typically 1 near leg and 1 far leg in a securities
+      financing transaction.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AssetPayout.assetLeg
+
+  tradeType:
+    range: AssetPayoutTradeTypeEnum
+    description: The trade type, eg repurchase transaction or buy/sell-back.
+    close_mappings:
+      - fpml_5_10:AssetPayout.tradeType
+
+  manufacturedIncomeRequirement:
+    range: DividendPayoutRatio
+    description: Specifies the proportion of the value of the dividend on the borrowed shares that the borrower is legally
+      obligated to return to the lender.
+    required: true
+
+  minimumBillingAmount:
+    range: Money
+    description: daily fee increments accrue until a threshold is crossed, at which point payment becomes due)
+
+  deliveryMethod:
+    range: DeliveryMethodEnum
+    description: Specifies a delivery method for the security transaction.
+    required: true
+    close_mappings:
+      - fpml_5_10:AssetLeg.deliveryMethod
+
+  noticePeriod:
+    range: RelativeDateOffset
+    description: The length of each evergreen extension period relative to the effective date of the preceding contract.
+    required: true
+
+  extensionFrequency:
+    range: AdjustableRelativeOrPeriodicDates
+    description: The frequency with which the evergreen contract will be extended if notice is not given.
+    required: true
+
+  finalPeriodFeeAdjustment:
+    range: Price
+    description: An optional adjustment to the rate for the last period of the evergreen i.e. the period from when notice
+      is given to stop rolling the contract through to the termination date.
+
+classes:
+  TransferableProduct:
+    description: A TransferableProduct is a type of financial product which can be held or transferred, represented as an
+      Asset with the addition of specific EconomicTerms.
+    is_a: Asset
+    slots:
+      - economicTerms
+    in_subset:
+      - cdm_product_template
+
+  EconomicTerms:
+    description: ' This class represents the full set of price-forming features associated with a contractual product: the
+      payout component, the notional/quantity, the effective and termination date and the date adjustment provisions when
+      applying uniformily across the payout components. This class also includes the legal provisions which have valuation
+      implications: cancelable provision, extendible provision, early termination provision and extraordinary events specification.'
+    comments:
+      - 'Rosetta condition: ReturnType_Total_Requires_Dividends — if payout -> PerformancePayout -> returnTerms -> priceReturnTerms
+        -> returnType all = ReturnTypeEnum -> Total then payout -> PerformancePayout -> returnTerms -> dividendReturnTerms
+        exists'
+      - 'Rosetta condition: LastRegularPaymentDate — if payout -> InterestRatePayout -> paymentDates -> lastRegularPaymentDate
+        exists and payout -> InterestRatePayout -> stubPeriod -> finalStub exists then payout -> InterestRatePayout count
+        = 2'
+      - 'Rosetta condition: PayRelativeTo — if payout -> InterestRatePayout count = 2 and payout -> InterestRatePayout ->
+        paymentDates exists then payout -> InterestRatePayout -> paymentDates -> payRelativeTo exists'
+      - 'Rosetta condition: PaymentDatesAdjustments — if payout -> InterestRatePayout count = 2 and payout -> InterestRatePayout
+        -> paymentDates exists then payout -> InterestRatePayout -> paymentDates -> paymentDatesAdjustments exists'
+      - 'Rosetta condition: PaymentFrequency — if payout -> InterestRatePayout count = 2 and payout -> InterestRatePayout
+        -> paymentDates exists then payout -> InterestRatePayout -> paymentDates -> paymentFrequency exists'
+      - 'Rosetta condition: Quantity — if payout -> OptionPayout exists then payout -> OptionPayout -> priceQuantity exists
+        or payout -> OptionPayout -> underlier -> Product ->> economicTerms -> payout -> InterestRatePayout count = 2'
+      - 'Rosetta condition: DayCountFraction — if payout -> InterestRatePayout count = 2 then payout -> InterestRatePayout
+        -> dayCountFraction exists'
+      - 'Rosetta condition: PaymentDates — if payout -> InterestRatePayout count = 2 then payout -> InterestRatePayout ->
+        dayCountFraction exists'
+      - 'Rosetta condition: MarketPrice — if payout -> CreditDefaultPayout -> generalTerms -> indexReferenceInformation is
+        absent then payout -> CreditDefaultPayout -> transactedPrice -> marketFixedRate is absent and payout -> CreditDefaultPayout
+        -> transactedPrice -> marketPrice is absent'
+      - 'Rosetta condition: NotionalResetOnPerformancePayout — payout -> CreditDefaultPayout -> priceQuantity -> reset is
+        absent and payout -> AssetPayout -> priceQuantity -> reset is absent and payout -> CommodityPayout -> priceQuantity
+        -> reset is absent and payout -> FixedPricePayout -> priceQuantity -> reset is absent and payout -> SettlementPayout
+        -> priceQuantity -> reset is absent and payout -> OptionPayout -> priceQuantity -> reset is absent'
+      - 'Rosetta condition: NotionalResetInterestRatePayoutExists — if payout -> PerformancePayout -> priceQuantity -> reset
+        contains True then payout -> InterestRatePayout exists'
+      - 'Rosetta condition: FpML_cd_26_28 — // Cashflow is no longer part of the product so this condition cannot be tested
+        at the economic terms level. // Consider adding a generic validation at the trade state level that any cashflow must
+        be between effective and termination dates. True'
+      - 'Rosetta condition: FpML_cd_27 — // Cashflow is no longer part of the product so this condition cannot be tested at
+        the economic terms level. // Consider adding a generic validation at the trade state level that any cashflow must
+        be between effective and termination dates. True'
+      - 'Rosetta condition: FpML_cd_30 — if payout -> InterestRatePayout -> paymentDates -> lastRegularPaymentDate exists
+        and terminationDate exists then payout -> InterestRatePayout -> paymentDates -> lastRegularPaymentDate all < terminationDate
+        -> adjustableDate -> unadjustedDate or payout -> InterestRatePayout -> paymentDates -> lastRegularPaymentDate all
+        < terminationDate -> adjustableDate -> adjustedDate'
+      - 'Rosetta condition: IndependentCalculationAgent — if calculationAgent -> calculationAgentParty exists then calculationAgent
+        -> calculationAgentParty = AncillaryRoleEnum -> CalculationAgentIndependent'
+    slots:
+      - effectiveDate
+      - effectiveTime
+      - terminationDate
+      - terminationTime
+      - dateAdjustments
+      - payout
+      - terminationProvision
+      - calculationAgent
+      - nonStandardisedTerms
+      - collateral
+    slot_usage:
+      effectiveDate:
+        range: AdjustableOrRelativeDate
+        description: The first day of the terms of the trade. This day may be subject to adjustment in accordance with a business
+          day convention.
+      effectiveTime:
+        range: DirectOrRelativeTime
+        description: The time and zone of the first day of the terms of the trade. It can also be specified in relation to
+          another time.
+      dateAdjustments:
+        description: The business day adjustment convention when it applies across all the payout components. This specification
+          of the business day convention and financial business centers is used for adjusting any calculation period date
+          if it would otherwise fall on a day that is not a business day in the specified business center.
+      payout:
+        description: The payout specifies the future cashflow computation methodology which characterizes a financial product.
+      collateral:
+        description: Represents the collateral obligations of a party.
+    in_subset:
+      - cdm_product_template
+
+  OptionPayout:
+    description: ' The option payout specification terms. The associated globalKey denotes the ability to associate a hash
+      value to the respective OptionPayout instantiation for the purpose of model cross-referencing, in support of functionality
+      such as the event effect and the lineage.'
+    is_a: PayoutBase
+    comments:
+      - 'Rosetta condition: AsianOptionChoice_averagingStrikeFeature — if strike -> averagingStrikeFeature exists then feature
+        -> averagingFeature is absent'
+      - 'Rosetta condition: AsianOptionChoice_averagingFeature — if feature -> averagingFeature exists then strike -> averagingStrikeFeature
+        is absent'
+      - 'Rosetta condition: ClearedPhysicalSettlementExists — if settlementTerms -> physicalSettlementTerms exists and underlier
+        -> Product ->> economicTerms -> payout -> InterestRatePayout exists and underlier -> Product ->> economicTerms ->
+        payout -> InterestRatePayout count = 2 then settlementTerms -> physicalSettlementTerms -> clearedPhysicalSettlement
+        exists'
+      - 'Rosetta condition: DeliveryCapacity — if delivery -> deliveryCapacity exists then schedule -> schedulePeriod -> deliveryPeriod
+        -> deliveryCapacity is absent and delivery -> periods -> profile -> block -> deliveryCapacity is absent and schedule
+        -> schedulePeriod -> deliveryPeriod -> profile -> block -> deliveryCapacity is absent else if schedule -> schedulePeriod
+        -> deliveryPeriod -> deliveryCapacity exists then delivery -> deliveryCapacity is absent and delivery -> periods ->
+        profile -> block -> deliveryCapacity is absent and schedule -> schedulePeriod -> deliveryPeriod -> profile -> block
+        -> deliveryCapacity is absent else if delivery -> periods -> profile -> block -> deliveryCapacity exists then schedule
+        -> schedulePeriod -> deliveryPeriod -> deliveryCapacity is absent and schedule -> schedulePeriod -> deliveryPeriod
+        -> profile -> block -> deliveryCapacity is absent else if schedule -> schedulePeriod -> deliveryPeriod -> profile
+        -> block -> deliveryCapacity exists then delivery -> deliveryCapacity is absent and schedule -> schedulePeriod ->
+        deliveryPeriod -> deliveryCapacity is absent and delivery -> periods -> profile -> block -> deliveryCapacity is absent'
+      - 'Rosetta condition: PriceTimeIntervalQuantity — if schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity
+        exists then delivery -> periods -> profile -> block -> priceTimeIntervalQuantity is absent and schedule -> schedulePeriod
+        -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity is absent else if delivery -> periods -> profile
+        -> block -> priceTimeIntervalQuantity exists then schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity
+        is absent and schedule -> schedulePeriod -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity is absent
+        else if schedule -> schedulePeriod -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity exists then
+        schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity is absent and delivery -> periods -> profile
+        -> block -> priceTimeIntervalQuantity is absent'
+      - 'Rosetta condition: OptionStylePresent — exerciseTerms -> style exists'
+      - 'Rosetta condition: OptionTypePresent — if underlier -> Product -> NonTransferableProduct is absent then optionType
+        exists'
+    slots:
+      - buyerSeller
+      - feature
+      - observationTerms
+      - schedule
+      - delivery
+      - underlier
+      - optionType
+      - exerciseTerms
+      - strike
+    slot_usage:
+      schedule:
+        range: CalculationSchedule
+        description: Allows the full representation of a payout by defining a set of schedule periods. It supports standard
+          schedule customization by expressing all the dates, quantities, and pricing data in a non-parametric way.
+        multivalued: false
+      underlier:
+        description: The financial product underlying the option, which can be of any type including an Asset, Basket, Index
+          or a NonTransferableProduct.
+      optionType:
+        range: OptionTypeEnum
+        description: The type of option transaction. From a usage standpoint, put/call is the default option type, while payer/receiver
+          indicator is used for options on index credit default swaps, consistently with the industry practice. Straddle is
+          used for the case of straddle strategy, that combine a call and a put with the same strike.
+      strike:
+        range: OptionStrike
+        description: Specifies the strike of the option
+    in_subset:
+      - cdm_product_template
+
+  ReturnTerms:
+    description: Specifies the type of return of a performance payout.
+    comments:
+      - 'Rosetta condition: ReturnTermsExists — if priceReturnTerms -> returnType = ReturnTypeEnum -> Total then (priceReturnTerms,
+        dividendReturnTerms) only exists else if priceReturnTerms -> returnType = ReturnTypeEnum -> Price then priceReturnTerms
+        only exists else priceReturnTerms only exists or dividendReturnTerms only exists or varianceReturnTerms only exists
+        or volatilityReturnTerms only exists or correlationReturnTerms only exists'
+    slots:
+      - priceReturnTerms
+      - dividendReturnTerms
+      - varianceReturnTerms
+      - volatilityReturnTerms
+      - correlationReturnTerms
+    in_subset:
+      - cdm_product_template
+
+  PerformancePayout:
+    description: Contains the necessary specifications for all performance payouts, encompassing equity return, dividend,
+      variance, volatility and correlation products.
+    is_a: PayoutBase
+    rules:
+      - description: PortfolioOrStraightReturn
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                returnTerms:
+                  required: true
+            - slot_conditions:
+                portfolioReturnTerms:
+                  required: true
+        preconditions: {}
+      - description: When there is an OptionPayout the quantity can be expressed as part of the payoutQuantity, or as part
+          of the underlier in the case of a Swaption.  For all other payouts that extend PayoutBase the payoutQuantity is
+          a mandatory attribute.
+        postconditions:
+          slot_conditions:
+            priceQuantity:
+              required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Underlier — underlier -> Observable exists'
+      - 'Rosetta condition: PortfolioOrStraightReturn — required choice returnTerms, portfolioReturnTerms'
+      - 'Rosetta condition: PortfolioReturnIsMultipleReturns — if portfolioReturnTerms exists then portfolioReturnTerms count
+        > 1'
+      - 'Rosetta condition: UnderlierOfPortfolioIsBasket — if portfolioReturnTerms -> priceReturnTerms exists then underlier
+        -> Observable -> Basket exists'
+      - 'Rosetta condition: Quantity — priceQuantity exists'
+      - 'Rosetta condition: NoSharePriceDividendAdjustmentIndex — if underlier -> Observable -> Index exists then returnTerms
+        -> varianceReturnTerms -> sharePriceDividendAdjustment is absent and returnTerms -> volatilityReturnTerms -> sharePriceDividendAdjustment
+        is absent'
+      - 'Rosetta condition: NoSharePriceDividendAdjustmentForeignExchange — if underlier -> Observable -> Index -> ForeignExchangeRateIndex
+        exists then returnTerms -> varianceReturnTerms -> sharePriceDividendAdjustment is absent and returnTerms -> volatilityReturnTerms
+        -> sharePriceDividendAdjustment is absent'
+      - 'Rosetta condition: CorrelationUnderlierOnlyBasket — if returnTerms -> correlationReturnTerms exists then underlier
+        -> Observable -> Basket exists'
+      - 'Rosetta condition: EquitySpecificAttributes — if Qualify_UnderlierObservable_Equity(underlier -> Observable) = False
+        then returnTerms -> varianceReturnTerms -> dividendApplicability is absent and returnTerms -> varianceReturnTerms
+        -> equityUnderlierProvisions is absent and returnTerms -> varianceReturnTerms -> sharePriceDividendAdjustment is absent
+        and returnTerms -> volatilityReturnTerms -> dividendApplicability is absent and returnTerms -> volatilityReturnTerms
+        -> equityUnderlierProvisions is absent and returnTerms -> volatilityReturnTerms -> sharePriceDividendAdjustment is
+        absent and returnTerms -> correlationReturnTerms -> dividendApplicability is absent and returnTerms -> correlationReturnTerms
+        -> equityUnderlierProvisions is absent and returnTerms -> correlationReturnTerms -> sharePriceDividendAdjustment is
+        absent'
+    slots:
+      - observationTerms
+      - valuationDates
+      - paymentDates
+      - underlier
+      - fxFeature
+      - returnTerms
+      - portfolioReturnTerms
+      - initialValuationPrice
+      - interimValuationPrice
+      - finalValuationPrice
+    slot_usage:
+      observationTerms:
+        description: Defines how and when a performance type option or performance type swap is to be observed.
+      valuationDates:
+        description: Defines how and when a performance type option or performance type swap is to be valued, including both
+          interim and final valuation.
+      underlier:
+        description: Identifies the underlying product that is referenced for pricing of the applicable leg in a swap.  Referenced
+          in the '2018 ISDA CDM Equity Confirmation for Security Equity Swap' as Security.
+        required: false
+      fxFeature:
+        multivalued: true
+      initialValuationPrice:
+        description: Specifies the net initial valuation price(s) of the underlier at Performance Payout level. This price
+          can be expressed either as an actual amount/currency, as a determination method, or by reference to another value
+          specified in the swap document.
+      interimValuationPrice:
+        description: Specifies the net initial valuation price(s) of the underlier at Performance Payout level. This price
+          can be expressed either as an actual amount/currency, as a determination method, or by reference to another value
+          specified in the swap document.
+      finalValuationPrice:
+        description: Specifies the net final valuation price(s) of the underlier at Performance Payout level. This price can
+          be expressed either as an actual amount/currency, as a determination method, or by reference to another value specified
+          in the swap document.
+    in_subset:
+      - cdm_product_template
+
+  PortfolioReturnTerms:
+    description: Specifies an individual type of return of a Performance Payout, when such individual return is part of an
+      aggregation of multiple similar returns, at Performance Payout level.
+    is_a: ReturnTerms
+    annotations:
+      metadata_key: true
+    slots:
+      - payerReceiver
+      - underlier
+      - quantity
+      - initialValuationPrice
+      - interimValuationPrice
+      - finalValuationPrice
+    slot_usage:
+      payerReceiver:
+        description: Canonical representation of the payer and receiver parties applicable to each individual return leg.
+        required: true
+      underlier:
+        range: Observable
+        description: Defines the product that is the subject of a tradable product definition, an underlying product definition,
+          a physical exercise, a position, or other purposes.
+      quantity:
+        range: NonNegativeQuantitySchedule
+        description: Specifies a quantity schedule for the underlier, which applies to each individual return leg.
+      initialValuationPrice:
+        description: Specifies the initial valuation price(s) of the underlier. This price can be expressed either as an actual
+          amount/currency, as a determination method, or by reference to another value specified in the swap document.
+      interimValuationPrice:
+        description: Specifies the initial valuation price(s) of the underlier. This price can be expressed either as an actual
+          amount/currency, as a determination method, or by reference to another value specified in the swap document.
+      finalValuationPrice:
+        description: '2018 ISDA CDM Equity Confirmation for Security Equity Swap: Final Price | Specifies the final valuation
+          price of the underlier. This price can be expressed either as an actual amount/currency, as a determination method,
+          or by reference to another value specified in the swap document.'
+    in_subset:
+      - cdm_product_template
+
+  NonTransferableProduct:
+    description: A data type to specify the financial product's economic terms, alongside the product identification and product
+      taxonomy. The non-transferable product data type represents a product that can be traded (as part of a TradableProduct)
+      but cannot be transferred to others.  It is meant to be used across the pre-execution, execution and (as part of the
+      Contract) post-execution lifecycle contexts.
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"UnderlierForOptionOrForwardProduct","description":"Extracts the underlier from an option
+        or a forward.","inputs":[{"name":"product","type":"NonTransferableProduct","cardinality":"1..1"}],"output":{"name":"underlierProduct","type":"Underlier","cardinality":"1..1"}},{"name":"FXFarLeg","description":"Extracts
+        the far leg of an FX swap (deliverable or not) based on two criteria: the forward payout with the latest value date
+        or the forward payout with the latest settlement date.","inputs":[{"name":"product","type":"NonTransferableProduct","cardinality":"1..1"}],"output":{"name":"nearLegPayout","type":"SettlementPayout","cardinality":"0..1"}}]'
+    comments:
+      - 'Rosetta condition: PrimaryAssetClass — if economicTerms -> nonStandardisedTerms = True then taxonomy -> primaryAssetClass
+        exists'
+      - 'Rosetta func: UnderlierForOptionOrForwardProduct — Extracts the underlier from an option or a forward.'
+      - 'Rosetta func: FXFarLeg — Extracts the far leg of an FX swap (deliverable or not) based on two criteria: the forward
+        payout with the latest value date or the forward payout with the latest settlement date.'
+    slots:
+      - identifier
+      - taxonomy
+      - economicTerms
+    slot_usage:
+      identifier:
+        range: ProductIdentifier
+        inlined_as_list: true
+        description: 'Comprises a identifier and a source to uniquely identify the nonTransferableProduct. '
+        required: false
+      taxonomy:
+        range: ProductTaxonomy
+        description: Specifies the product taxonomy, which is composed of a taxonomy value and a taxonomy source.
+    in_subset:
+      - cdm_product_template
+
+  TradeLot:
+    description: Specifies the price and quantity of a trade lot, where the same product could be traded multiple times with
+      the same counterparty but in different lots (at a different date, in a different quantity and at a different price).
+      One trade lot combined with a product definition specifies the entire economics of a trade. The lifecycle mechanics
+      of each such trade lot (e.g. cashflow payments) is independent of the other lots.
+    comments:
+      - 'Rosetta func: FilterTradeLot — Filter list of TradeLot based on TradeLot->lotIdentifier.'
+      - 'Rosetta func: AddTradeLot — Add a TradeLot to an existing list of TradeLots.'
+      - 'Rosetta func: ReplaceTradeLot — Replace TradeLot in with matching TradeLot->lotIdentifier.'
+      - 'Rosetta func: CompareTradeLot — Compare the Quantity in TradeLot 1 to the Quantity (with the same unit of amount)
+        in TradeLot 2, based on the CompareOp enum.'
+      - 'Rosetta func: CompareTradeLotToAmount — Compare the Quantity amount in TradeLot to the given amount (regardless of
+        unit of amount), based on the CompareOp enum.'
+      - 'Rosetta func: PriceQuantityTriangulation — Defines all the scenarios which triangulation can be helpful validation
+        between Prices and Quantities.'
+    annotations:
+      rosetta_functions: '[{"name":"FilterTradeLot","description":"Filter list of TradeLot based on TradeLot->lotIdentifier.","inputs":[{"name":"tradeLots","type":"TradeLot","cardinality":"0..*"},{"name":"lotIdentifier","type":"Identifier","cardinality":"0..*"}],"output":{"name":"filteredTradeLots","type":"TradeLot","cardinality":"0..*"}},{"name":"AddTradeLot","description":"Add
+        a TradeLot to an existing list of TradeLots.","inputs":[{"name":"tradableProduct","type":"TradableProduct","cardinality":"1..1"},{"name":"newTradeLot","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"updatedTradableProduct","type":"TradableProduct","cardinality":"1..1"}},{"name":"ReplaceTradeLot","description":"Replace
+        TradeLot in with matching TradeLot->lotIdentifier.","inputs":[{"name":"tradeLots","type":"TradeLot","cardinality":"0..*"},{"name":"newTradeLot","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"mergedTradeLots","type":"TradeLot","cardinality":"0..*"}},{"name":"CompareTradeLot","description":"Compare
+        the Quantity in TradeLot 1 to the Quantity (with the same unit of amount) in TradeLot 2, based on the CompareOp enum.","inputs":[{"name":"tradeLot1","type":"TradeLot","cardinality":"1..1"},{"name":"op","type":"CompareOp","cardinality":"1..1"},{"name":"tradeLot2","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"result","type":"boolean","cardinality":"1..1"}},{"name":"CompareTradeLotToAmount","description":"Compare
+        the Quantity amount in TradeLot to the given amount (regardless of unit of amount), based on the CompareOp enum.","inputs":[{"name":"tradeLot","type":"TradeLot","cardinality":"1..1"},{"name":"op","type":"CompareOp","cardinality":"1..1"},{"name":"amount","type":"number","cardinality":"1..1"}],"output":{"name":"result","type":"boolean","cardinality":"1..1"}},{"name":"PriceQuantityTriangulation","description":"Defines
+        all the scenarios which triangulation can be helpful validation between Prices and Quantities.","inputs":[{"name":"tradeLots","type":"TradeLot","cardinality":"0..*"}],"output":{"name":"success","type":"boolean","cardinality":"1..1"}}]'
+    slots:
+      - lotIdentifier
+      - priceQuantity
+    slot_usage:
+      lotIdentifier:
+        description: Specifies one or more identifiers for the lot, if any.
+        multivalued: true
+      priceQuantity:
+        description: 'Specifies the settlement characteristics of a trade lot: price, quantity, observable (optionally) and
+          the settlement terms. This attribute has a multiple cardinality to allow to specify the price, quantity and observable
+          of different legs in a single, composite product (e.g. a Swap).'
+    in_subset:
+      - cdm_product_template
+
+  TradableProduct:
+    description: Definition of a product as ready to be traded, i.e. included in an execution or contract, by associating
+      a specific price and quantity to this product plus an (optional) mechanism for any potential future quantity adjustment.
+    close_mappings:
+      - gist:ProductSpecification
+    comments:
+      - 'Rosetta condition: PriceQuantityTriangulation — PriceQuantityTriangulation(tradeLot) = True'
+      - 'Rosetta condition: NotionalAdjustment — if adjustment exists then product -> economicTerms -> payout -> PerformancePayout
+        -> returnTerms -> priceReturnTerms exists or product -> economicTerms -> payout -> PerformancePayout exists'
+      - 'Rosetta condition: PerformancePayout_ExtraordinaryDividendsParty — if product -> economicTerms -> payout -> PerformancePayout
+        -> returnTerms -> dividendReturnTerms -> extraordinaryDividendsParty exists then ancillaryParty -> role contains AncillaryRoleEnum
+        -> ExtraordinaryDividendsParty and if ancillaryParty -> role contains AncillaryRoleEnum -> ExtraordinaryDividendsParty
+        then product -> economicTerms -> payout -> PerformancePayout -> returnTerms -> dividendReturnTerms -> extraordinaryDividendsParty
+        exists'
+      - 'Rosetta condition: OptionPayout_PredeterminedClearingOrganizationParty — if product -> economicTerms -> payout ->
+        OptionPayout -> settlementTerms -> physicalSettlementTerms -> predeterminedClearingOrganizationParty exists then ancillaryParty
+        -> role contains AncillaryRoleEnum -> PredeterminedClearingOrganizationParty'
+      - 'Rosetta condition: ForwardPayout_PredeterminedClearingOrganizationParty — if product -> economicTerms -> payout ->
+        SettlementPayout -> settlementTerms -> physicalSettlementTerms -> predeterminedClearingOrganizationParty exists then
+        ancillaryParty -> role contains AncillaryRoleEnum -> PredeterminedClearingOrganizationParty'
+      - 'Rosetta condition: PredeterminedClearingOrganizationParty — if ancillaryParty -> role contains AncillaryRoleEnum
+        -> PredeterminedClearingOrganizationParty then product -> economicTerms -> payout -> SettlementPayout -> settlementTerms
+        -> physicalSettlementTerms -> predeterminedClearingOrganizationParty exists or product -> economicTerms -> payout
+        -> OptionPayout -> settlementTerms -> physicalSettlementTerms -> predeterminedClearingOrganizationParty exists'
+      - 'Rosetta condition: ExerciseNoticeReceiverPartyManual — if product -> economicTerms -> payout -> OptionPayout -> exerciseTerms
+        -> exerciseProcedure -> manualExercise -> exerciseNotice -> exerciseNoticeReceiver exists then ancillaryParty -> role
+        contains AncillaryRoleEnum -> ExerciseNoticeReceiverPartyManual and if ancillaryParty -> role contains AncillaryRoleEnum
+        -> ExerciseNoticeReceiverPartyManual then product -> economicTerms -> payout -> OptionPayout -> exerciseTerms -> exerciseProcedure
+        -> manualExercise -> exerciseNotice -> exerciseNoticeReceiver exists'
+      - 'Rosetta condition: ExerciseNoticeReceiverPartyOptionalEarlyTermination — if product -> economicTerms -> terminationProvision
+        -> earlyTerminationProvision -> optionalEarlyTermination -> exerciseNotice -> exerciseNoticeReceiver exists then ancillaryParty
+        -> role contains AncillaryRoleEnum -> ExerciseNoticeReceiverPartyOptionalEarlyTermination and if ancillaryParty ->
+        role contains AncillaryRoleEnum -> ExerciseNoticeReceiverPartyOptionalEarlyTermination then product -> economicTerms
+        -> terminationProvision -> earlyTerminationProvision -> optionalEarlyTermination -> exerciseNotice -> exerciseNoticeReceiver
+        exists'
+      - 'Rosetta condition: ExerciseNoticeReceiverPartyCancelableProvision — if product -> economicTerms -> terminationProvision
+        -> cancelableProvision -> exerciseNotice -> exerciseNoticeReceiver exists then ancillaryParty -> role contains AncillaryRoleEnum
+        -> ExerciseNoticeReceiverPartyCancelableProvision and if ancillaryParty -> role contains AncillaryRoleEnum -> ExerciseNoticeReceiverPartyCancelableProvision
+        then product -> economicTerms -> terminationProvision -> cancelableProvision -> exerciseNotice -> exerciseNoticeReceiver
+        exists'
+      - 'Rosetta condition: ExerciseNoticeReceiverPartyExtendibleProvision — if product -> economicTerms -> terminationProvision
+        -> extendibleProvision -> exerciseNotice -> exerciseNoticeReceiver exists then ancillaryParty -> role contains AncillaryRoleEnum
+        -> ExerciseNoticeReceiverPartyExtendibleProvision and if ancillaryParty -> role contains AncillaryRoleEnum -> ExerciseNoticeReceiverPartyExtendibleProvision
+        then product -> economicTerms -> terminationProvision -> extendibleProvision -> exerciseNotice -> exerciseNoticeReceiver
+        exists'
+      - 'Rosetta condition: CalculationAgentIndependent — if product -> economicTerms -> calculationAgent -> calculationAgentParty
+        exists then ancillaryParty -> role contains AncillaryRoleEnum -> CalculationAgentIndependent and if ancillaryParty
+        -> role contains AncillaryRoleEnum -> CalculationAgentIndependent then product -> economicTerms -> calculationAgent
+        -> calculationAgentParty exists'
+      - 'Rosetta condition: CalculationAgentOptionalEarlyTermination — if product -> economicTerms -> terminationProvision
+        -> earlyTerminationProvision -> optionalEarlyTermination -> calculationAgent -> calculationAgentParty exists then
+        ancillaryParty -> role contains AncillaryRoleEnum -> CalculationAgentOptionalEarlyTermination and if ancillaryParty
+        -> role contains AncillaryRoleEnum -> CalculationAgentOptionalEarlyTermination then product -> economicTerms -> terminationProvision
+        -> earlyTerminationProvision -> optionalEarlyTermination -> calculationAgent -> calculationAgentParty exists'
+      - 'Rosetta condition: CalculationAgentMandatoryEarlyTermination — if product -> economicTerms -> terminationProvision
+        -> earlyTerminationProvision -> mandatoryEarlyTermination -> calculationAgent -> calculationAgentParty exists then
+        ancillaryParty -> role contains AncillaryRoleEnum -> CalculationAgentMandatoryEarlyTermination and if ancillaryParty
+        -> role contains AncillaryRoleEnum -> CalculationAgentMandatoryEarlyTermination then product -> economicTerms -> terminationProvision
+        -> earlyTerminationProvision -> mandatoryEarlyTermination -> calculationAgent -> calculationAgentParty exists'
+      - 'Rosetta func: AddTradeLot — Add a TradeLot to an existing list of TradeLots.'
+    annotations:
+      rosetta_functions: '[{"name":"AddTradeLot","description":"Add a TradeLot to an existing list of TradeLots.","inputs":[{"name":"tradableProduct","type":"TradableProduct","cardinality":"1..1"},{"name":"newTradeLot","type":"TradeLot","cardinality":"1..1"}],"output":{"name":"updatedTradableProduct","type":"TradableProduct","cardinality":"1..1"}}]'
+    slots:
+      - product
+      - tradeLot
+      - counterparty
+      - ancillaryParty
+      - adjustment
+    slot_usage:
+      product:
+        description: The underlying product to be included in a contract or execution.
+      counterparty:
+        description: Specifies the parties which are the two counterparties to the transaction.  The product is agnostic to
+          the actual parties to the transaction, with the party references abstracted away from the product definition and
+          replaced by the counterparty enum (e.g. CounterpartyEnum values Party1 or Party2). The counterparty enum can then
+          be positioned in the product (e.g. to specify which counterparty is the payer, receiver etc) and this counterparties
+          attribute, which is positioned outside of the product definition, allows the counterparty enum to be associated
+          with an actual party reference.
+      ancillaryParty:
+        range: AncillaryParty
+        description: Specifies the parties with ancillary roles in the transaction. The product is agnostic to the actual
+          parties involved in the transaction, with the party references abstracted away from the product definition and replaced
+          by the AncillaryRoleEnum. The AncillaryRoleEnum can then be positioned in the product and this AncillaryParty type,
+          which is positioned outside of the product definition, allows the AncillaryRoleEnum to be associated with an actual
+          party reference.
+        multivalued: true
+      adjustment:
+        description: 'Specifies the conditions that govern the adjustment to the quantity of a product being traded: e.g.
+          execution, portfolio rebalancing etc. It is typically used in the context of Equity Swaps.'
+    in_subset:
+      - cdm_product_template
+
+  ConstituentWeight:
+    description: A class describing the weight of each of the underlier constituent within the basket, either in absolute
+      or relative terms.
+    rules:
+      - description: FpML specifies basketPercentage as a RestrictedPercentage type, meaning that the value needs to be comprised
+          between 0 and 1.
+        preconditions:
+          slot_conditions:
+            basketPercentage:
+              required: true
+        postconditions:
+          slot_conditions:
+            basketPercentage:
+              minimum_value: 0.0
+              maximum_value: 1.0
+    comments:
+      - 'Rosetta condition: BasketPercentage — if basketPercentage exists then basketPercentage >= 0.0 and basketPercentage
+        <= 1.0'
+    slots:
+      - openUnits
+      - basketPercentage
+    in_subset:
+      - cdm_product_template
+
+  SettlementPayout:
+    description: Represents a forward settling payout. The underlier attribute captures the underlying payout, which is settled
+      according to the settlementTerms attribute (which is part of PayoutBase). Both FX Spot and FX Forward should use this
+      component.
+    is_a: PayoutBase
+    comments:
+      - 'Rosetta condition: Underlier — underlier -> Product -> NonTransferableProduct is absent'
+      - 'Rosetta condition: Basket — if underlier -> Observable -> Basket exists then (underlier -> Observable -> Basket ->
+        basketConstituent extract Asset exists ) all = True'
+      - 'Rosetta condition: Index — if underlier -> Observable -> Index exists then settlementTerms -> cashSettlementTerms
+        exists'
+      - 'Rosetta condition: SettlementTerms — if underlier -> Observable -> Asset -> Cash exists then settlementTerms exists'
+      - 'Rosetta condition: DeliveryCapacity — if delivery -> deliveryCapacity exists then schedule -> schedulePeriod -> deliveryPeriod
+        -> deliveryCapacity is absent and delivery -> periods -> profile -> block -> deliveryCapacity is absent and schedule
+        -> schedulePeriod -> deliveryPeriod -> profile -> block -> deliveryCapacity is absent else if schedule -> schedulePeriod
+        -> deliveryPeriod -> deliveryCapacity exists then delivery -> deliveryCapacity is absent and delivery -> periods ->
+        profile -> block -> deliveryCapacity is absent and schedule -> schedulePeriod -> deliveryPeriod -> profile -> block
+        -> deliveryCapacity is absent else if delivery -> periods -> profile -> block -> deliveryCapacity exists then schedule
+        -> schedulePeriod -> deliveryPeriod -> deliveryCapacity is absent and schedule -> schedulePeriod -> deliveryPeriod
+        -> profile -> block -> deliveryCapacity is absent else if schedule -> schedulePeriod -> deliveryPeriod -> profile
+        -> block -> deliveryCapacity exists then delivery -> deliveryCapacity is absent and schedule -> schedulePeriod ->
+        deliveryPeriod -> deliveryCapacity is absent and delivery -> periods -> profile -> block -> deliveryCapacity is absent'
+      - 'Rosetta condition: PriceTimeIntervalQuantity — if schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity
+        exists then delivery -> periods -> profile -> block -> priceTimeIntervalQuantity is absent and schedule -> schedulePeriod
+        -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity is absent else if delivery -> periods -> profile
+        -> block -> priceTimeIntervalQuantity exists then schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity
+        is absent and schedule -> schedulePeriod -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity is absent
+        else if schedule -> schedulePeriod -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity exists then
+        schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity is absent and delivery -> periods -> profile
+        -> block -> priceTimeIntervalQuantity is absent'
+      - 'Rosetta func: Create_AssetFlowFromSettlementPayout — Generates two opposite cashflows that correspond to a settlement
+        payout. One leg is the asset leg, that settles the asset according to the quantity, direction and date defined in
+        the settlement payout. The other is the price leg, that settles the price as a currency amount going in the opposite
+        direction. The function''s applicability is limited on purpose to a single asset with a single price and quantity
+        specified.'
+      - 'Rosetta func: FXFarLeg — Extracts the far leg of an FX swap (deliverable or not) based on two criteria: the forward
+        payout with the latest value date or the forward payout with the latest settlement date.'
+    annotations:
+      rosetta_functions: '[{"name":"Create_AssetFlowFromSettlementPayout","description":"Generates two opposite cashflows
+        that correspond to a settlement payout. One leg is the asset leg, that settles the asset according to the quantity,
+        direction and date defined in the settlement payout. The other is the price leg, that settles the price as a currency
+        amount going in the opposite direction. The function''s applicability is limited on purpose to a single asset with
+        a single price and quantity specified.","inputs":[{"name":"payout","type":"SettlementPayout","cardinality":"1..1"}],"output":{"name":"cashflows","type":"AssetFlow","cardinality":"2..2"}},{"name":"FXFarLeg","description":"Extracts
+        the far leg of an FX swap (deliverable or not) based on two criteria: the forward payout with the latest value date
+        or the forward payout with the latest settlement date.","inputs":[{"name":"product","type":"NonTransferableProduct","cardinality":"1..1"}],"output":{"name":"nearLegPayout","type":"SettlementPayout","cardinality":"0..1"}}]'
+    slots:
+      - underlier
+      - deliveryTerm
+      - delivery
+      - schedule
+    slot_usage:
+      underlier:
+        description: The underlying financial product that will be physically or cash settled, which can be of any type, eg
+          an asset such as cash or a security, or the cash settlement of an index rate.
+      deliveryTerm:
+        description: Also called contract month or delivery month. However, it's not always a month. It is usually expressed
+          using a code, e.g. Z23 would be the Dec 2023 contract, (Z = December). For crude oil, the corresponding contract
+          might be called CLZ23.
+      schedule:
+        range: CalculationSchedule
+        description: Allows the full representation of a payout by defining a set of schedule periods. It supports standard
+          schedule customization by expressing all the dates, quantities, and pricing data in a non-parametric way.
+        multivalued: false
+    in_subset:
+      - cdm_product_template
+
+  CalculationSchedule:
+    description: A class that allows the full representation of a payout by defining a set of schedule periods. It supports
+      standard schedule customization by expressing all the dates, quantities, and pricing data in a non-parametric way.
+    slots:
+      - schedulePeriod
+    in_subset:
+      - cdm_product_template
+
+  SchedulePeriod:
+    description: A class that defines the period of a schedule. The period contains a set of start and end dates, quantities,
+      fixing, and pricing data.
+    slots:
+      - calculationPeriod
+      - paymentDate
+      - fixingPeriod
+      - deliveryPeriod
+    slot_usage:
+      calculationPeriod:
+        range: DateRange
+        description: Period for which the payment is generated.
+      paymentDate:
+        range: date
+        description: Adjusted payment date.
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  FixedPricePayout:
+    description: Represents a fixed price payout. There is no underlier associated with this payout type and is based on fixed
+      pricing per a given unit (e.g. in commodities price per barrel)
+    is_a: PayoutBase
+    rules:
+      - description: When there is an OptionPayout the quantity can be expressed as part of the payoutQuantity, or as part
+          of the underlier in the case of a Swaption.  For all other payouts that extend PayoutBase the payoutQuantity is
+          a mandatory attribute.
+        postconditions:
+          slot_conditions:
+            priceQuantity:
+              required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Quantity — priceQuantity exists'
+    slots:
+      - paymentDates
+      - fixedPrice
+      - schedule
+    slot_usage:
+      paymentDates:
+        description: Specifies the parameters to generate the payment date schedule, either through a parametric representation
+          or by reference to specified dates.
+      schedule:
+        range: CalculationSchedule
+        description: Allows the full representation of a payout by defining a set of schedule periods. It supports standard
+          schedule customization by expressing all the dates, quantities, and pricing data in a non-parametric way.
+        multivalued: false
+    in_subset:
+      - cdm_product_template
+
+  CancelableProvision:
+    description: 'A data defining:  the right of a party to cancel a swap transaction on the specified exercise dates. The
+      provision is for ''walk-away'' cancellation (i.e. the fair value of the swap is not paid). A fee payable on exercise
+      can be specified. As a difference from the FpML construct, the canonical model extends the BuyerSeller class.'
+    is_a: BuyerSeller
+    close_mappings:
+      - fpml_5_10:CancelableProvision
+    rules:
+      - description: Must select one of predefined cancellation types of effectiveDate or effectivePeriod.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                effectiveDate:
+                  required: true
+            - slot_conditions:
+                effectivePeriod:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: EffectiveDate — optional choice effectiveDate, effectivePeriod'
+      - 'Rosetta condition: CancelableProvisionExerciseNoticeReceiverParty — if exerciseNotice -> exerciseNoticeReceiver exists
+        then exerciseNotice -> exerciseNoticeReceiver = AncillaryRoleEnum -> ExerciseNoticeReceiverPartyCancelableProvision'
+    slots:
+      - exerciseNotice
+      - followUpConfirmation
+      - cancelableProvisionAdjustedDates
+      - finalCalculationPeriodDateAdjustment
+      - initialFee
+      - callingParty
+      - earliestDate
+      - expirationDate
+      - effectiveDate
+      - effectivePeriod
+      - earliestCancellationTime
+      - latestCancelationTime
+      - exerciseTerms
+    slot_usage:
+      effectiveDate:
+        range: AdjustableOrRelativeDates
+        description: The effective date if cancelation is invoked otherwise the cancellation period defines the cancellation
+          date.
+      exerciseTerms:
+        description: The exercise terms associated with the cancelable provision, including details such as exercise style,
+          exercise fees, and any other relevant conditions or terms governing the cancellation of the swap transaction.
+    in_subset:
+      - cdm_product_template
+
+  CancelableProvisionAdjustedDates:
+    description: 'A data to:  define the adjusted dates for a cancelable provision on a swap transaction.'
+    slots:
+      - cancellationEvent
+    in_subset:
+      - cdm_product_template
+
+  CancellationEvent:
+    description: The adjusted dates for a specific cancellation date, including the adjusted exercise date and adjusted termination
+      date.
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - fpml_5_10:CancellationEvent
+    slots:
+      - adjustedExerciseDate
+      - adjustedEarlyTerminationDate
+    slot_usage:
+      adjustedExerciseDate:
+        description: The date on which option exercise takes place. This date should already be adjusted for any applicable
+          business day convention.
+    in_subset:
+      - cdm_product_template
+
+  EarlyTerminationEvent:
+    description: 'A data to:  define the adjusted dates associated with an early termination provision.'
+    annotations:
+      metadata_key: true
+    rules:
+      - description: FpML validation rule ird-39 - AdjustedExerciseDate must be before or equal to adjustedEarlyTerminationDate.
+        comments:
+          - 'Rosetta comparison: adjustedExerciseDate <= adjustedEarlyTerminationDate'
+        preconditions: {}
+      - description: FpML validation rule ird-40 - AdjustedExerciseDate must be before or equal to adjustedCashSettlementValuationDate.
+        comments:
+          - 'Rosetta comparison: adjustedExerciseDate <= adjustedCashSettlementValuationDate'
+        preconditions: {}
+      - description: FpML validation rule ird-41 - AdjustedCashSettlementValuationDate must be before or equal to adjustedCashSettlementPaymentDate.
+        comments:
+          - 'Rosetta comparison: adjustedCashSettlementValuationDate <= adjustedCashSettlementPaymentDate'
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: FpML_ird_39 — adjustedExerciseDate <= adjustedEarlyTerminationDate'
+      - 'Rosetta condition: FpML_ird_40 — adjustedExerciseDate <= adjustedCashSettlementValuationDate'
+      - 'Rosetta condition: FpML_ird_41 — adjustedCashSettlementValuationDate <= adjustedCashSettlementPaymentDate'
+    slots:
+      - adjustedExerciseDate
+      - adjustedEarlyTerminationDate
+      - adjustedCashSettlementValuationDate
+      - adjustedCashSettlementPaymentDate
+      - adjustedExerciseFeePaymentDate
+    slot_usage:
+      adjustedExerciseDate:
+        description: The date on which option exercise takes place. This date should already be adjusted for any applicable
+          business day convention.
+      adjustedCashSettlementValuationDate:
+        required: true
+      adjustedCashSettlementPaymentDate:
+        description: The date on which the cash settlement amount is paid. This date should already be adjusted for any applicable
+          business date convention.
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  EarlyTerminationProvision:
+    description: 'A data defining:  an early termination provision for a swap. This early termination is at fair value, i.e.
+      on termination the fair value of the product must be settled between the parties.'
+    annotations:
+      metadata_key: true
+    comments:
+      - 'Rosetta condition: MandatoryEarlyTermination — (mandatoryEarlyTermination exists or optionalEarlyTermination exists)
+        or (mandatoryEarlyTermination exists and optionalEarlyTermination exists)'
+    slots:
+      - mandatoryEarlyTermination
+      - mandatoryEarlyTerminationDateTenor
+      - optionalEarlyTermination
+      - optionalEarlyTerminationParameters
+    in_subset:
+      - cdm_product_template
+
+  ExercisePeriod:
+    description: This defines the time interval to the start of the exercise period, i.e. the earliest exercise date, and
+      the frequency of subsequent exercise dates (if any).
+    annotations:
+      metadata_key: true
+    slots:
+      - earliestExerciseDateTenor
+      - exerciseFrequency
+    in_subset:
+      - cdm_product_template
+
+  ExtendibleProvision:
+    description: 'A data defining:  an option to extend an existing swap transaction on the specified exercise dates for a
+      term ending on the specified new termination date. As a difference from FpML, it extends the BuyerSeller class, which
+      represents the BuyerSeller.model.'
+    is_a: BuyerSeller
+    comments:
+      - 'Rosetta condition: ExtendibleProvisionExerciseNoticeReceiverParty — if exerciseNotice -> exerciseNoticeReceiver exists
+        then exerciseNotice -> exerciseNoticeReceiver = AncillaryRoleEnum -> ExerciseNoticeReceiverPartyExtendibleProvision'
+    slots:
+      - exerciseNotice
+      - followUpConfirmation
+      - extendibleProvisionAdjustedDates
+      - callingParty
+      - singlePartyOption
+      - noticeDeadlinePeriod
+      - noticeDeadlineDateTime
+      - extensionTerm
+      - extensionPeriod
+      - exerciseTerms
+    slot_usage:
+      followUpConfirmation:
+        required: false
+      noticeDeadlinePeriod:
+        range: RelativeDateOffset
+        description: Defines the minimum period before a contract is scheduled to terminate that notice can be given that
+          it will terminate beyond the scheduled termination date.
+      exerciseTerms:
+        description: The exercise terms associated with the extendible provision, including details such as exercise style,
+          exercise fees, and any other relevant conditions or terms governing the extension of the swap transaction.
+    in_subset:
+      - cdm_product_template
+
+  ExtendibleProvisionAdjustedDates:
+    description: 'A data defining:  the adjusted dates associated with a provision to extend a swap.'
+    slots:
+      - extensionEvent
+    in_subset:
+      - cdm_product_template
+
+  ExtensionEvent:
+    description: 'A data to:  define the adjusted dates associated with an individual extension event.'
+    annotations:
+      metadata_key: true
+    rules:
+      - description: FpML validation rule ird-42 - adjustedExerciseDate must be before adjustedExtendedTerminationDate.
+        comments:
+          - 'Rosetta comparison: adjustedExerciseDate < adjustedExtendedTerminationDate'
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: FpML_ird_42 — adjustedExerciseDate < adjustedExtendedTerminationDate'
+    slots:
+      - adjustedExerciseDate
+      - adjustedExtendedTerminationDate
+    slot_usage:
+      adjustedExerciseDate:
+        description: The date on which option exercise takes place. This date should already be adjusted for any applicable
+          business day convention.
+    in_subset:
+      - cdm_product_template
+
+  MandatoryEarlyTermination:
+    description: 'A data to:  define an early termination provision for which exercise is mandatory.'
+    annotations:
+      metadata_key: true
+    comments:
+      - 'Rosetta condition: MandatoryEarlyTerminationCalculationAgent — if calculationAgent -> calculationAgentParty exists
+        then calculationAgent -> calculationAgentParty = AncillaryRoleEnum -> CalculationAgentMandatoryEarlyTermination'
+    slots:
+      - mandatoryEarlyTerminationDate
+      - calculationAgent
+      - cashSettlement
+      - mandatoryEarlyTerminationAdjustedDates
+    slot_usage:
+      calculationAgent:
+        description: The ISDA Calculation Agent responsible for performing duties associated with an optional early termination.
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  MandatoryEarlyTerminationAdjustedDates:
+    description: 'A data defining:  the adjusted dates associated with a mandatory early termination provision.'
+    rules:
+      - description: FpML validation rule ird-44 - AdjustedEarlyTerminationDate must be before or equal to adjustedCashSettlementValuationDate
+          must be before or the same as adjustedCashSettlementPaymentDate
+        comments:
+          - 'Rosetta comparison: adjustedEarlyTerminationDate <= adjustedCashSettlementValuationDate'
+          - 'Rosetta comparison: adjustedCashSettlementValuationDate <= adjustedCashSettlementPaymentDate'
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: FpML_ird_44 — adjustedEarlyTerminationDate <= adjustedCashSettlementValuationDate and adjustedCashSettlementValuationDate
+        <= adjustedCashSettlementPaymentDate'
+    slots:
+      - adjustedEarlyTerminationDate
+      - adjustedCashSettlementValuationDate
+      - adjustedCashSettlementPaymentDate
+    slot_usage:
+      adjustedCashSettlementValuationDate:
+        required: true
+      adjustedCashSettlementPaymentDate:
+        description: The date on which the cash settlement amount is paid. This date should already be adjusted for any applicable
+          business date convention.
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  OptionalEarlyTermination:
+    description: 'A data defining:  an early termination provision where either or both parties have the right to exercise.'
+    comments:
+      - 'Rosetta condition: OptionalEarlyTerminationExerciseNoticeReceiverParty — if exerciseNotice -> exerciseNoticeReceiver
+        exists then exerciseNotice -> exerciseNoticeReceiver contains AncillaryRoleEnum -> ExerciseNoticeReceiverPartyOptionalEarlyTermination'
+      - 'Rosetta condition: MandatoryEarlyTerminationCalculationAgent — if calculationAgent -> calculationAgentParty exists
+        then calculationAgent -> calculationAgentParty = AncillaryRoleEnum -> CalculationAgentOptionalEarlyTermination'
+    slots:
+      - singlePartyOption
+      - mutualEarlyTermination
+      - exerciseNotice
+      - followUpConfirmation
+      - calculationAgent
+      - cashSettlement
+      - optionalEarlyTerminationAdjustedDates
+      - exerciseTerms
+    slot_usage:
+      singlePartyOption:
+        range: BuyerSeller
+        description: If optional early termination is not available to both parties then this component specifies the buyer
+          and seller of the option. In FpML, this attribute is of type SinglePsrtyOption, which actually consists of the BuyerSeller.model.
+      exerciseNotice:
+        multivalued: true
+      followUpConfirmation:
+        required: false
+      calculationAgent:
+        description: The ISDA Calculation Agent responsible for performing duties associated with an optional early termination.
+      cashSettlement:
+        required: false
+      exerciseTerms:
+        description: The exercise terms associated with the optional early termination, including details such as exercise
+          style, exercise fees, and any other relevant conditions or terms.
+    in_subset:
+      - cdm_product_template
+
+  OptionalEarlyTerminationAdjustedDates:
+    description: 'A data defining:  the adjusted dates associated with an optional early termination provision.'
+    slots:
+      - earlyTerminationEvent
+    in_subset:
+      - cdm_product_template
+
+  AveragingFeature:
+    description: As per ISDA 2002 Definitions.
+    close_mappings:
+      - fpml_5_10:AveragingFeature
+    slots:
+      - averagingCalculation
+      - averagingInOut
+      - strikeFactor
+      - averagingPeriodIn
+      - averagingPeriodOut
+    in_subset:
+      - cdm_product_template
+
+  AveragingCalculation:
+    description: Defines parameters for use in cases when a valuation or other term is based on an average of market observations.
+    close_mappings:
+      - fpml_5_10:AveragingCalculation
+    slots:
+      - averagingMethod
+      - precision
+    slot_usage:
+      averagingMethod:
+        range: AveragingCalculationMethod
+        required: true
+      precision:
+        range: Rounding
+        description: 'Rounding applied to the average calculation. '
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  AveragingStrikeFeature:
+    description: Defines the terms required to calculate the average observations associated with an averaging strike.
+    close_mappings:
+      - fpml_5_10:AveragingStrikeFeature
+    slots:
+      - averagingCalculation
+      - observationTerms
+    slot_usage:
+      observationTerms:
+        description: 'Class containing terms that are associated with observing a price/benchmark/index across either single
+          or multple observations. '
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  Barrier:
+    description: As per ISDA 2002 Definitions.
+    close_mappings:
+      - fpml_5_10:Barrier
+    slots:
+      - knockIn
+      - knockOut
+    in_subset:
+      - cdm_product_template
+
+  CalendarSpread:
+    description: A type for defining a calendar spread feature.
+    slots:
+      - expirationDateTwo
+    in_subset:
+      - cdm_product_template
+
+  Composite:
+    description: Specifies the conditions to be applied for converting into a reference currency when the actual currency
+      rate is not determined upfront.
+    slots:
+      - determinationMethod
+      - relativeDate
+      - fxSpotRateSource
+      - fixingTime
+    slot_usage:
+      determinationMethod:
+        required: false
+      fxSpotRateSource:
+        description: Specifies the methodology (reference source and, optionally, fixing time) to be used for determining
+          a currency conversion rate.
+        required: false
+      fixingTime:
+        description: The time at which the spot currency exchange rate will be observed. It is specified as a time in a business
+          day calendar location, e.g. 11:00am London time.
+    in_subset:
+      - cdm_product_template
+
+  FxFeature:
+    description: A type for defining FX Features.
+    rules:
+      - description: ' Choice rule to represent an FpML choice construct.'
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                composite:
+                  required: true
+            - slot_conditions:
+                quanto:
+                  required: true
+            - slot_conditions:
+                crossCurrency:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: FxFeatureChoice — required choice composite, quanto, crossCurrency'
+    slots:
+      - referenceCurrency
+      - composite
+      - quanto
+      - crossCurrency
+    slot_usage:
+      composite:
+        range: Composite
+        description: 'If ''Composite'' is specified as the Settlement Type in the relevant Transaction Supplement, an amount
+          in the Settlement Currency, determined by the Calculation Agent as being equal to the number of Options exercised
+          or deemed exercised, multiplied by: (Settlement Price – Strike Price) / (Strike Price – Settlement Price) x Multiplier
+          provided that if the above is equal to a negative amount the Option Cash Settlement Amount shall be deemed to be
+          zero.'
+    in_subset:
+      - cdm_product_template
+
+  OptionFeature:
+    description: Defines additional optional features that can be included in an option contract.
+    slots:
+      - fxFeature
+      - strategyFeature
+      - averagingFeature
+      - barrier
+      - passThrough
+    slot_usage:
+      fxFeature:
+        description: Describes a quanto or composite FX feature.
+        multivalued: true
+      averagingFeature:
+        range: AveragingFeature
+        description: Defines an option feature in which an average market observation price is determined on valuation and
+          compared to the strike to determine a settlement amount.
+    in_subset:
+      - cdm_product_template
+
+  TerminationProvision:
+    description: A class for defining option provisions.
+    rules:
+      - description: TerminationProvisionChoice
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                cancelableProvision:
+                  required: true
+            - slot_conditions:
+                extendibleProvision:
+                  required: true
+            - slot_conditions:
+                evergreenProvision:
+                  required: true
+            - slot_conditions:
+                earlyTerminationProvision:
+                  required: true
+            - slot_conditions:
+                recallProvision:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: TerminationProvisionChoice — required choice cancelableProvision, extendibleProvision, evergreenProvision,
+        earlyTerminationProvision, recallProvision'
+    slots:
+      - cancelableProvision
+      - earlyTerminationProvision
+      - evergreenProvision
+      - extendibleProvision
+      - recallProvision
+    in_subset:
+      - cdm_product_template
+
+  RecallProvision:
+    description: Defines the additional features that allow securities to be recalled by the lender before the term of the
+      loan. A recall is not the same as an early termination, but may result in the early termination of a loan.
+    slots:
+      - isRecallable
+      - issuanceCutoffTime
+      - notificationTime
+      - intendedSettlementDate
+    slot_usage:
+      notificationTime:
+        range: TimeZone
+        description: The time on the day of intended settlement by which the borrower must notify the lender that they will
+          be returning the requested security. For the UK, best practice recommends that this would be 30 minutes before the
+          CREST DVP cut-off time i.e. 15:15:00 GMT
+        required: false
+    in_subset:
+      - cdm_product_template
+
+  OptionStrike:
+    description: Defines the strike price of an option.
+    slots:
+      - strikePrice
+      - strikeReference
+      - referenceSwapCurve
+      - averagingStrikeFeature
+    in_subset:
+      - cdm_product_template
+
+  PassThrough:
+    description: Type which contains pass through payments.
+    slots:
+      - passThroughItem
+    in_subset:
+      - cdm_product_template
+
+  PassThroughItem:
+    description: Class to represent a single pass through payment.
+    slots:
+      - payerReceiver
+      - passThroughPercentage
+    slot_usage:
+      payerReceiver:
+        description: This attribute doesn't exists in the FpML construct, which makes use of the PayerReceiver.model group.
+        required: true
+    in_subset:
+      - cdm_product_template
+
+  Quanto:
+    description: Determines the currency rate that the seller of the equity amounts will apply at each valuation date for
+      converting the respective amounts into a currency that is different from the currency denomination of the underlier.
+    slots:
+      - fxRate
+      - fxSpotRateSource
+      - fixingTime
+    slot_usage:
+      fxSpotRateSource:
+        description: Specifies the methodology (reference source and, optionally, fixing time) to be used for determining
+          a currency conversion rate.
+        required: false
+      fixingTime:
+        description: The time at which the spot currency exchange rate will be observed. It is specified as a time in a business
+          day calendar location, e.g. 11:00am London time.
+    in_subset:
+      - cdm_product_template
+
+  StrategyFeature:
+    description: A class for defining option strategy features.
+    slots:
+      - strikeSpread
+      - calendarSpread
+    in_subset:
+      - cdm_product_template
+
+  StrikeSpread:
+    description: A class for defining a strike spread feature.
+    slots:
+      - upperStrike
+      - upperStrikeNumberOfOptions
+    in_subset:
+      - cdm_product_template
+
+  ExerciseTerms:
+    description: A class defining the exercise period for an option together with any rules governing the notional amount
+      of the underlying which can be exercised on any given exercise date and any associated exercise fees.
+    annotations:
+      metadata_key: true
+    rules:
+      - description: Required choice rule between exercise dates and expiration date. The exerciseDates field can be used
+          to extract the expiration date of a bermuda option, while the expirationDate field refers to the expiration date
+          of an american or european option.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                exerciseDates:
+                  required: true
+            - slot_conditions:
+                expirationDate:
+                  required: true
+        preconditions: {}
+      - description: Condition to check that expiration date is present when commencement date is present.
+        preconditions:
+          slot_conditions:
+            commencementDate:
+              required: true
+        postconditions:
+          slot_conditions:
+            expirationDate:
+              required: true
+      - description: Condition to check that only fields expected for a european option are present.
+        preconditions:
+          slot_conditions:
+            style:
+              equals_string: European
+        postconditions:
+          slot_conditions:
+            expirationDate:
+              required: true
+            exerciseFeeSchedule:
+              required: false
+            multipleExercise:
+              required: false
+            latestExerciseTime:
+              required: false
+            commencementDate:
+              required: false
+      - description: Condition to check that only fields expected for a bermuda option are present.
+        preconditions:
+          slot_conditions:
+            style:
+              equals_string: Bermuda
+        postconditions:
+          slot_conditions:
+            exerciseDates:
+              required: true
+            earliestExerciseTime:
+              required: true
+            partialExercise:
+              required: false
+            exerciseFee:
+              required: false
+    comments:
+      - 'Rosetta condition: ExerciseDateExpirationDateChoice — required choice exerciseDates, expirationDate'
+      - 'Rosetta condition: CommencementAndExpirationDate — if commencementDate exists then expirationDate exists'
+      - 'Rosetta condition: AmericanExercise — if style = OptionExerciseStyleEnum -> American then commencementDate exists
+        and exerciseFee is absent and partialExercise is absent and expirationDate count = 1'
+      - 'Rosetta condition: EuropeanExercise — if style = OptionExerciseStyleEnum -> European then expirationDate exists and
+        exerciseFeeSchedule is absent and multipleExercise is absent and latestExerciseTime is absent and commencementDate
+        is absent'
+      - 'Rosetta condition: BermudaExercise — if style = OptionExerciseStyleEnum -> Bermuda then exerciseDates exists and
+        earliestExerciseTime exists and partialExercise is absent and exerciseFee is absent'
+      - 'Rosetta condition: ExpirationTimeChoice — (if expirationTime exists then expirationTimeType = ExpirationTimeTypeEnum
+        -> SpecificTime and if expirationTimeType = ExpirationTimeTypeEnum -> SpecificTime then expirationTime exists)'
+    slots:
+      - style
+      - commencementDate
+      - exerciseDates
+      - expirationDate
+      - relevantUnderlyingDate
+      - earliestExerciseTime
+      - latestExerciseTime
+      - expirationTime
+      - expirationTimeType
+      - multipleExercise
+      - exerciseFeeSchedule
+      - exerciseProcedure
+      - exerciseFee
+      - partialExercise
+    slot_usage:
+      expirationDate:
+        description: The last day within an exercise period for an American style option. For a European style option it is
+          the only day within the exercise period.
+        multivalued: true
+    in_subset:
+      - cdm_product_template
+
+  AutomaticExercise:
+    description: A type to define automatic exercise of a swaption. With automatic exercise the option is deemed to have exercised
+      if it is in the money by more than the threshold amount on the exercise date.
+    close_mappings:
+      - fpml_5_10:AutomaticExercise
+    slots:
+      - thresholdRate
+      - isApplicable
+    slot_usage:
+      isApplicable:
+        description: Boolean that indicates if it has an automaticExercise
+        required: false
+    in_subset:
+      - cdm_product_template
+
+  ExerciseFee:
+    description: A class defining the fee payable on exercise of an option. This fee may be defined as an amount or a percentage
+      of the notional exercised. As a difference with FpML, it extends the BuyerSeller class.
+    is_a: PayerReceiver
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                feeAmount:
+                  required: true
+            - slot_conditions:
+                feeRate:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ExerciseFeeChoice — required choice feeAmount, feeRate'
+    slots:
+      - notionalReference
+      - feeAmount
+      - feeRate
+      - feePaymentDate
+    in_subset:
+      - cdm_product_template
+
+  ExerciseFeeSchedule:
+    description: A class to define a fee or schedule of fees to be payable on the exercise of an option. This fee may be defined
+      as an amount or a percentage of the notional exercised. As a difference with FpML, it extends the BuyerSeller class.
+    is_a: PayerReceiver
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                feeAmountSchedule:
+                  required: true
+            - slot_conditions:
+                feeRateSchedule:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ExerciseFeeScheduleChoice — required choice feeAmountSchedule, feeRateSchedule'
+    slots:
+      - notionalReference
+      - feeAmountSchedule
+      - feeRateSchedule
+      - feePaymentDate
+    in_subset:
+      - cdm_product_template
+
+  ExerciseNotice:
+    description: Defines to whom and where notice of execution should be given. The exerciseNoticeGiver refers to one or both
+      of the principal parties of the trade. If present the exerciseNoticeReceiver refers to a party, other than the principal
+      party, to whom notice should be given.
+    slots:
+      - exerciseNoticeGiver
+      - exerciseNoticeReceiver
+      - businessCenter
+    slot_usage:
+      businessCenter:
+        description: Specifies the location where the exercise must be reported, e.g. where the exercise notice receiver is
+          based.
+        required: true
+        multivalued: false
+    in_subset:
+      - cdm_product_template
+
+  ExerciseProcedure:
+    description: A class describing how notice of exercise should be given. This can be either manual or automatic.
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                manualExercise:
+                  required: true
+            - slot_conditions:
+                automaticExercise:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ExerciseProcedureChoice — required choice manualExercise, automaticExercise'
+    slots:
+      - manualExercise
+      - automaticExercise
+      - followUpConfirmation
+      - limitedRightToConfirm
+      - splitTicket
+    in_subset:
+      - cdm_product_template
+
+  ManualExercise:
+    description: A class defining manual exercise, i.e. that the option buyer counterparty must give notice to the option
+      seller of exercise.
+    comments:
+      - 'Rosetta condition: ManualExerciseNoticeReceiverParty — if exerciseNotice -> exerciseNoticeReceiver exists then exerciseNotice
+        -> exerciseNoticeReceiver = AncillaryRoleEnum -> ExerciseNoticeReceiverPartyManual'
+    slots:
+      - exerciseNotice
+      - fallbackExercise
+    in_subset:
+      - cdm_product_template
+
+  MultipleExercise:
+    description: A class defining multiple exercises. As defined in the 2000 ISDA Definitions, Section 12.4. Multiple Exercise,
+      the buyer of the option has the right to exercise all or less than all the unexercised notional amount of the underlying
+      swap on one or more days in the exercise period, but on any such day may not exercise less than the minimum notional
+      amount or more than the maximum notional amount, and if an integral multiple amount is specified, the notional exercised
+      must be equal to or, be an integral multiple of, the integral multiple amount. In FpML, MultipleExercise is built upon
+      the PartialExercise.model.
+    is_a: PartialExercise
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                maximumNotionalAmount:
+                  required: true
+            - slot_conditions:
+                maximumNumberOfOptions:
+                  required: true
+        preconditions: {}
+      - description: FpML MultipleExercise construct specifies the maximumNumberOfOptions as a positive integer.
+        preconditions:
+          slot_conditions:
+            maximumNumberOfOptions:
+              required: true
+        postconditions:
+          slot_conditions:
+            maximumNotionalAmount:
+              minimum_value: 0
+      - description: FpML MultipleExercise construct specifies the minimumNumberOfOptions as a positive integer.
+        preconditions:
+          slot_conditions:
+            minimumNumberOfOptions:
+              required: true
+        postconditions:
+          slot_conditions:
+            minimumNumberOfOptions:
+              minimum_value: 0
+    comments:
+      - 'Rosetta condition: MaximumChoice — required choice maximumNotionalAmount, maximumNumberOfOptions'
+      - 'Rosetta condition: MaximumNumberOfOptions — if maximumNumberOfOptions exists then maximumNotionalAmount >= 0'
+      - 'Rosetta condition: MinimumNumberOfOptions — if minimumNumberOfOptions exists then minimumNumberOfOptions >= 0'
+    slots:
+      - maximumNotionalAmount
+      - maximumNumberOfOptions
+    in_subset:
+      - cdm_product_template
+
+  PartialExercise:
+    description: A class defining partial exercise. As defined in the 2000 ISDA Definitions, Section 12.3 Partial Exercise,
+      the buyer of the option may exercise all or less than all the notional amount of the underlying swap but may not be
+      less than the minimum notional amount (if specified) and must be an integral multiple of the integral multiple amount
+      if specified.
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                minimumNotionalAmount:
+                  required: true
+            - slot_conditions:
+                minimumNumberOfOptions:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: MinimumChoice — required choice minimumNotionalAmount, minimumNumberOfOptions'
+    slots:
+      - notionalReference
+      - integralMultipleAmount
+      - minimumNotionalAmount
+      - minimumNumberOfOptions
+    slot_usage:
+      notionalReference:
+        description: A pointer style reference to the associated notional schedule defined elsewhere in the document. This
+          element has been made optional as part of its integration in the OptionBaseExtended, because not required for the
+          options on securities.
+        required: false
+    in_subset:
+      - cdm_product_template
+
+  Strike:
+    description: A class describing a single cap or floor rate.
+    annotations:
+      metadata_key: true
+    slots:
+      - strikeRate
+      - buyer
+      - seller
+    slot_usage:
+      buyer:
+        range: PayerReceiverEnum
+        description: The buyer of the option.
+        required: false
+      seller:
+        range: PayerReceiverEnum
+        description: The party that has sold.
+        required: false
+    in_subset:
+      - cdm_product_template
+
+  StrikeSchedule:
+    description: A class describing a schedule of cap or floor rates.
+    is_a: RateSchedule
+    slots:
+      - buyer
+      - seller
+    slot_usage:
+      buyer:
+        range: PayerReceiverEnum
+        description: The buyer of the option.
+        required: false
+      seller:
+        range: PayerReceiverEnum
+        description: The party that has sold.
+        required: false
+    in_subset:
+      - cdm_product_template
+
+  AssetPayout:
+    description: Security finance payout specification in case the product payout involves some form of security collateral,
+      as in a securities financing transaction. Plus additional description for ICMA.
+    is_a: PayoutBase
+    close_mappings:
+      - fpml_5_10:AssetPayout
+    rules:
+      - description: When there is an OptionPayout the quantity can be expressed as part of the payoutQuantity, or as part
+          of the underlier in the case of a Swaption.  For all other payouts that extend PayoutBase the payoutQuantity is
+          a mandatory attribute.
+        postconditions:
+          slot_conditions:
+            priceQuantity:
+              required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Quantity — priceQuantity exists'
+      - 'Rosetta condition: UnderlierNotCash — underlier -> Cash is absent'
+    slots:
+      - assetLeg
+      - underlier
+      - minimumFee
+      - dividendTerms
+      - tradeType
+    slot_usage:
+      underlier:
+        range: Asset
+        description: Specifies the Purchased Asset, usually a Security.
+      minimumFee:
+        description: A contractual minimum amount which the borrower will pay, regardless of the duration of the loan. A mechanism
+          for making sure that a trade generates enough income.
+      dividendTerms:
+        description: Specifies the terms under which dividends received by the borrower are passed through to the lender.
+    in_subset:
+      - cdm_product_template
+
+  DividendTerms:
+    description: Information related to dividends and payments.
+    slots:
+      - manufacturedIncomeRequirement
+      - dividendEntitlement
+      - minimumBillingAmount
+    in_subset:
+      - cdm_product_template
+
+  AssetLeg:
+    description: Defines each asset movement of an asset payout.
+    close_mappings:
+      - fpml_5_10:AssetLeg
+    slots:
+      - settlementDate
+      - deliveryMethod
+    slot_usage:
+      settlementDate:
+        range: AdjustableOrRelativeDate
+        description: Specifies the settlement date of securities.  In a repo transaction the purchase date would always be
+          the effective date as specified under Economic Terms, the repurchase date would always be the termination date as
+          specified under Economic Terms.
+    in_subset:
+      - cdm_product_template
+
+  EvergreenProvision:
+    description: Specifies a transaction which automatically extends for a specified timeframe until the exercise of an embedded
+      option.
+    slots:
+      - singlePartyOption
+      - noticePeriod
+      - noticeDeadlinePeriod
+      - noticeDeadlineDateTime
+      - extensionFrequency
+      - finalPeriodFeeAdjustment
+    slot_usage:
+      singlePartyOption:
+        description: If evergreen termination is not available to both parties then this component specifies the buyer and
+          seller of the option.
+      noticeDeadlinePeriod:
+        range: RelativeDateOffset
+        description: Defines the minimum period before an evergreen is scheduled to terminate that notice can be given that
+          it will terminate beyond the scheduled termination date.
+    in_subset:
+      - cdm_product_template
+
+  Payout:
+    abstract: true
+    description: 'Represents the set of future cashflow methodologies in the form of specific payout data type(s) which result
+      from the financial product.  Examples: a trade in a cash asset will use only a settlement payout; for derivatives, two
+      interest rate payouts can be combined to specify an interest rate swap; one interest rate payout can be combined with
+      a credit default payout to specify a credit default swap.'
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - AssetPayout
+      - CommodityPayout
+      - CreditDefaultPayout
+      - FixedPricePayout
+      - InterestRatePayout
+      - OptionPayout
+      - PerformancePayout
+      - SettlementPayout
+    in_subset:
+      - cdm_product_template
+
+  Underlier:
+    abstract: true
+    description: The underlying financial product that will be physically or cash settled, which can be of any type, eg an
+      asset such as cash or a security, a product, or the cash settlement of an index rate.  Conditions are usually applied
+      when used in a data type, such as a payout, to ensure this aligns with the use case.
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - Observable
+      - Product
+    in_subset:
+      - cdm_product_template
+
+  Product:
+    abstract: true
+    description: Enables either a TransferableProduct or a NonTransferableProduct to be used in an underlier.
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - TransferableProduct
+      - NonTransferableProduct
+    in_subset:
+      - cdm_product_template

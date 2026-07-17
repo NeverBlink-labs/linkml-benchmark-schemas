@@ -1,0 +1,288 @@
+id: https://w3id.org/nmdc/deprecated
+name: NMDC-Deprecated-Elements
+title: NMDC Schema Deprecated Elements
+description: Elements that have been deprecated over time, in the schema for National Microbiome Data Collaborative (NMDC).
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  linkml: "https://w3id.org/linkml/"
+  nmdc: "https://w3id.org/nmdc/"
+  OBI: "http://purl.obolibrary.org/obo/OBI_"
+
+default_prefix: nmdc
+default_range: string
+
+classes:
+  EnvironmentalMaterialTerm:
+    is_a: OntologyClass
+    class_uri: nmdc:EnvironmentalMaterialTerm
+    deprecated: "not used. 2024-07-10 https://github.com/microbiomedata/nmdc-schema/issues/1881"
+
+  Pathway:
+    class_uri: nmdc:Pathway
+    aliases:
+      - biological process
+      - metabolic pathway
+      - signaling pathway
+    is_a: FunctionalAnnotationTerm
+    description: >-
+      A pathway is a sequence of steps/reactions carried out by an organism or community of organisms
+    id_prefixes:
+      - KEGG_PATHWAY
+      - COG
+    exact_mappings:
+      - biolink:Pathway
+    todos:
+      - If we reverted to including Reaction in the schema, then a Reaction would be a reasonable part_of a Pathway
+      - is Pathway instantiated in an MongoDB collection? Aren't Pathways searchable in the Data Portal?
+    deprecated: "not used. 2024-07-10 https://github.com/microbiomedata/nmdc-schema/issues/1881"
+
+  PeptideQuantification:
+    class_uri: nmdc:PeptideQuantification
+    description: This is used to link a metaproteomics analysis workflow to a specific peptide sequence and related information
+    slots:
+      - type
+      - all_proteins
+      - best_protein
+      - min_q_value
+      - peptide_sequence
+      - peptide_spectral_count
+      - peptide_sum_masic_abundance
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+
+  ProteinQuantification:
+    class_uri: nmdc:ProteinQuantification
+    description: This is used to link a metaproteomics analysis workflow to a specific protein
+    slots:
+      - all_proteins
+      - best_protein
+      - peptide_sequence_count
+      - protein_spectral_count
+      - protein_sum_masic_abundance
+      - type
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+
+  ProtocolExecution:
+    class_uri: nmdc:ProtocolExecution
+    is_a: PlannedProcess
+    description: A PlannedProces that has PlannedProcess parts. Can be used to represent the case of someone following a Protocol.
+    slots:
+      - has_process_parts
+      - protocol_execution_category
+    slot_usage:
+      id:
+        required: true
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:pex-{id_shoulder}-{id_blade}$"
+          interpolated: true
+      has_input:
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:(bsm|procsm)-{id_shoulder}-{id_blade}$"
+          interpolated: true
+      has_output:
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:(procsm)-{id_shoulder}-{id_blade}$"
+          interpolated: true
+      has_process_parts:
+        required: true
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:(extrp|filtpr|dispro|poolp|libprp|subspr|mixpro|chcpr|cspro)-{id_shoulder}-{id_blade}$"
+          interpolated: true
+        description: The MaterialProcessing steps that are discrete parts of the ProtocolExecution.
+    deprecated: "not used, not fulfilling intended purpose https://github.com/microbiomedata/nmdc-schema/issues/2336"
+    
+  MetagenomeSequencing:
+    deprecated: Used in early versions of NMDC schema. Existing records have been migrated to nmdc:NucleotideSequencing records, and this class should be used instead. From issue https://github.com/microbiomedata/nmdc-schema/issues/1727.
+    last_updated_on: "2023-12-01T00:00:00Z"
+    modified_by: 0009-0004-8906-5907
+    class_uri: nmdc:MetagenomeSequencing
+    description: Initial sequencing activity that precedes any analysis.  This activity has output(s) that are the raw sequencing data.
+    title: Metagenome sequencing activity
+    is_a: WorkflowExecution
+    slot_usage:
+      id:
+        required: true
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:wfmsa-{id_shoulder}-{id_blade}{id_version}$"
+          interpolated: true
+      has_input:
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:(bsm|procsm)-{id_shoulder}-{id_blade}$"
+          interpolated: true
+        range: Sample
+      was_informed_by:
+        structured_pattern:
+          syntax: "{id_nmdc_prefix}:(omprc|dgns)-{id_shoulder}-{id_blade}$"
+          interpolated: true
+        range: NucleotideSequencing
+
+  ChemicalEntity:
+    deprecated: >-
+      true; as of Jan 2025, NMDC only needs a handful of chemicals and its use cases can be served via an enumeration
+      rather than supporting a full class.
+    class_uri: nmdc:ChemicalEntity
+    aliases:
+      - metabolite
+      - chemical substance
+      - chemical compound
+      - chemical
+    is_a: OntologyClass
+    description: >-
+      An atom or molecule that can be represented with a chemical formula. Include lipids, glycans, natural products, drugs.
+      There may be different terms for distinct acid-base forms, protonation states. A chemical entity is a
+      physical entity that pertains to chemistry or biochemistry.
+    comments:
+      - As with the parent OntologyClass, we will not assign an nmdc id pattern or typecode to this class.
+    slots:
+      - chemical_formula
+    see_also:
+      - https://bioconductor.org/packages/devel/data/annotation/vignettes/metaboliteIDmapping/inst/doc/metaboliteIDmapping.html
+    id_prefixes:
+      - CHEBI
+      - MS
+    exact_mappings:
+      - biolink:ChemicalSubstance
+
+slots:
+  dna_organisms:
+    description: List any organisms known or suspected to grow in co-culture, as well
+      as estimated % of the organism in that culture.
+    title: DNA expected organisms
+    examples:
+      - value: expected to contain microbes (59%) fungi (30%), viruses (10%), tadpoles
+          (1%)
+    rank: 14
+    recommended: true
+    deprecated: true; as of 2025-10-10, NMDC doesn't need to store this JGI metadata slot & it's now captured directly in the submission portal schema to support submissions
+  dna_collect_site:
+    description: Provide information on the site your DNA sample was collected from
+    title: DNA collection site
+    examples:
+      - value: untreated pond water
+    rank: 15
+    recommended: true
+    deprecated: true; as of 2025-10-10, NMDC doesn't need to store this JGI metadata slot & it's now captured directly in the submission portal schema to support submissions
+  rna_organisms:
+    description: List any organisms known or suspected to grow in co-culture, as well
+      as estimated % of the organism in that culture.
+    title: RNA expected organisms
+    examples:
+      - value: expected to contain microbes (59%) fungi (30%), viruses (10%), tadpoles
+          (1%)
+    rank: 14
+    recommended: true
+    deprecated: true; as of 2025-10-10, NMDC doesn't need to store this JGI metadata slot & it's now captured directly in the submission portal schema to support submissions
+  rna_collect_site:
+    description: Provide information on the site your RNA sample was collected from
+    title: RNA collection site
+    examples:
+      - value: untreated pond water
+    rank: 15
+    recommended: true
+    deprecated: true; as of 2025-10-10, NMDC doesn't need to store this JGI metadata slot & it's now captured directly in the submission portal schema to support submissions
+  chemical_entity_set:
+    deprecated: >-
+      Deprecation of the ChemicalEntity class, means deprecation of the chemical_entity_set as well.
+      https://github.com/microbiomedata/nmdc-schema/pull/2324
+    mixins:
+      - object_set
+    description:
+      This property links a database object to the set of chemical entities
+      within it.
+  inchi_key:
+    deprecated: "not used 2025-01-28, https://github.com/microbiomedata/nmdc-schema/pull/2324"
+    range: string
+    notes:
+      - "key set to false due to rare collisions: Pletnev I, Erin A, McNaught A, Blinov K, Tchekhovskoi D, Heller S (2012) InChIKey collision resistance: an experimental testing. J Cheminform. 4:12"
+  inchi:
+    deprecated: "not used 2025-01-28, https://github.com/microbiomedata/nmdc-schema/pull/2324"
+    range: string
+
+  smiles:
+    deprecated: "not used 2025-01-28, https://github.com/microbiomedata/nmdc-schema/pull/2324"
+    description: >-
+      A string encoding of a molecular graph, no chiral or isotopic information. There are usually a large number of valid SMILES which represent a given structure. For example, CCO, OCC and C(O)C all specify the structure of ethanol.
+    multivalued: true
+    range: string
+  
+  omics_type:
+    deprecated_element_has_exact_replacement: analyte_category
+    deprecated: "true"
+    description: The type of omics data
+    examples:
+      - value: metatranscriptome
+      - value: metagenome
+  all_proteins:
+    description: the list of protein identifiers that are associated with the peptide sequence
+    range: GeneProduct
+    multivalued: true
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  best_protein:
+    description: the specific protein identifier most correctly associated with the peptide sequence
+    range: GeneProduct
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  min_q_value:
+    description: smallest Q-Value associated with the peptide sequence as provided by MSGFPlus tool
+    range: float
+    see_also:
+      - OBI:0001442
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  peptide_sequence:
+    range: string
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  peptide_spectral_count:
+    description: sum of filter passing MS2 spectra associated with the peptide sequence within a given LC-MS/MS data file
+    range: integer
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  peptide_sum_masic_abundance:
+    description: >-
+      combined MS1 extracted ion chromatograms derived from MS2 spectra associated with the peptide sequence from a given LC-MS/MS data file using the MASIC tool
+    range: integer
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  peptide_sequence_count:
+    description: count of peptide sequences grouped to the best_protein
+    range: integer
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  protein_spectral_count:
+    description: sum of filter passing MS2 spectra associated with the best protein within a given LC-MS/MS data file
+    range: integer
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  protein_sum_masic_abundance:
+    description: >-
+      combined MS1 extracted ion chromatograms derived from MS2 spectra associated with the best protein from a given LC-MS/MS data file using the MASIC tool
+    range: integer
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  metagenome_annotation_id:
+    range: WorkflowExecution
+    description: The identifier for the analysis activity that generated the functional annotation results, where the analysis activity is an instance of the/an appropriate subclass of WorkflowExecution
+    required: true
+    deprecated: "not used. 2024-10 https://github.com/microbiomedata/nmdc-schema/issues/1253"
+  has_peptide_quantifications:
+    range: PeptideQuantification
+    multivalued: true
+    inlined_as_list: true
+    deprecated: "not used. 2024-11 https://github.com/microbiomedata/nmdc-schema/issues/2250"
+  protocol_execution_set:
+    mixins:
+      - object_set
+    range: ProtocolExecution
+    description: This property links a database object to the set of protocol executions within it.
+    deprecated: "not used https://github.com/microbiomedata/nmdc-schema/issues/2336"
+  protocol_execution_category:
+    range: ProtocolCategoryEnum
+    required: true
+    deprecated: "not used https://github.com/microbiomedata/nmdc-schema/issues/2336"
+  has_process_parts:
+    range: PlannedProcess
+    description: A list of process parts that make up a protocol.
+    required: true
+    multivalued: true
+    list_elements_ordered: true
+    deprecated: "not used https://github.com/microbiomedata/nmdc-schema/issues/2336"
+  sample_state_information:
+    description: >-
+      The chemical phase of a pure sample, or the state of a mixed sample
+    range: SampleStateEnum
+    deprecated: "not used https://github.com/microbiomedata/nmdc-schema/issues/2353"
+    last_updated_on: "2025-04-15T00:00:00Z"
+

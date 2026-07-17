@@ -1,0 +1,3002 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base_staticdata_asset_common
+name: cdm_base_staticdata_asset_common
+description: 'Basic static asset concepts that apply across asset classes: taxonomy etc.'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  icma: https://www.icmagroup.org/market-practice-and-regulatory-policy/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+  gist: https://w3id.org/lmodel/gist/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_party
+  - ./cdm_observable_asset
+
+comments:
+  - 'Rosetta func: AssetIdentifierByType — Returns all the Asset Identifiers of a certain Identifier Type. | inputs(identifiers:
+    AssetIdentifier (0..*), idType: AssetIdTypeEnum (1..1)) | output(filteredIdentifier: AssetIdentifier (0..*))'
+  - 'Rosetta func: GetCashCurrency — Returns the enumerated Currency Code of a Cash asset. | inputs(cash: Cash (1..1)) | output(currencyEnum:
+    CurrencyCodeEnum (1..1))'
+  - 'Rosetta func: SetCashCurrency — Sets (or updates) the string identifier of a Cash asset using an enumerated Currency
+    Code. | inputs(cash: Cash (0..1), currency: CurrencyCodeEnum (1..1)) | output(cashOutput: Cash (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"AssetIdentifierByType","description":"Returns all the Asset Identifiers of a certain Identifier
+    Type.","inputs":[{"name":"identifiers","type":"AssetIdentifier","cardinality":"0..*"},{"name":"idType","type":"AssetIdTypeEnum","cardinality":"1..1"}],"output":{"name":"filteredIdentifier","type":"AssetIdentifier","cardinality":"0..*"}},{"name":"GetCashCurrency","description":"Returns
+    the enumerated Currency Code of a Cash asset.","inputs":[{"name":"cash","type":"Cash","cardinality":"1..1"}],"output":{"name":"currencyEnum","type":"CurrencyCodeEnum","cardinality":"1..1"}},{"name":"SetCashCurrency","description":"Sets
+    (or updates) the string identifier of a Cash asset using an enumerated Currency Code.","inputs":[{"name":"cash","type":"Cash","cardinality":"0..1"},{"name":"currency","type":"CurrencyCodeEnum","cardinality":"1..1"}],"output":{"name":"cashOutput","type":"Cash","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_base_staticdata_asset_common:
+    description: Classes defined in the cdm_base_staticdata_asset_common module.
+
+enums:
+  AssetClassEnum:
+    description: The enumerated values to specify the FpML asset class categorization.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/asset-class
+    permissible_values:
+      Commodity:
+        description: Commodity.
+        meaning: http://www.fpml.org/coding-scheme/asset-class-2-1#Commodity
+      Credit:
+        description: Credit.
+        meaning: http://www.fpml.org/coding-scheme/asset-class-2-1#Credit
+      Equity:
+        description: Equity.
+        meaning: http://www.fpml.org/coding-scheme/asset-class-2-1#Equity
+      ForeignExchange:
+        description: ForeignExchange.
+        meaning: http://www.fpml.org/coding-scheme/asset-class-2-1#ForeignExchange
+      InterestRate:
+        description: InterestRate.
+        meaning: http://www.fpml.org/coding-scheme/asset-class-2-1#InterestRate
+      MoneyMarket:
+        description: Money Market Assets like CP and CD.
+
+  AssetIdTypeEnum:
+    description: Extends product identifiers with additional identifier sources for Assets.
+    inherits:
+      - ProductIdTypeEnum
+    permissible_values:
+      CurrencyCode:
+        description: Used to identify the currency of a Cash Asset.
+      ExchangeCode:
+        description: The identifier follows the symbology set by the exchange which lists the asset.
+      ClearingCode:
+        description: The identifier follows the symbology set by the clearing house which clears the asset.
+
+  ProductIdTypeEnum:
+    description: Provides the enumerated values to specify the product identifier source.
+    permissible_values:
+      BBGID:
+        description: Published by Bloomberg, the BBGID is a 12-digit alphanumeric randomly generated ID covering active and
+          non-active securities.
+      BBGTICKER:
+        description: Published by Bloomberg as a short code to identify publicly trades shares of a particular stock on a
+          specific exchange.
+      CUSIP:
+        description: Derived from the Committee on Uniform Security Identification Procedures, CUSIPs are 9-character identifiers
+          that capture an issue’s important differentiating characteristics for issuers and their financial instruments in
+          the U.S. and Canada.
+      FIGI:
+        description: Issued under the guidelines of the Object Management Group, the Financial Instrument Global Identifier
+          (FIGI) is a 12 character, alphanumeric, randomly generated ID covering hundreds of millions of active and inactive
+          instruments. The identifier acts as a Uniform Resource Identifier (URI) to link to a set of metadata that uniquely
+          and clearly describes the instrument.
+      ISDACRP:
+        description: Issued by the International Swaps Dealers Association as a string representing a Commodity Reference
+          Price used for purposes of determining a relevant price for an underlying commodity in an OTC derivatives contract.
+      ISIN:
+        description: Issued by The International Securities Identification Number (ISIN) Organization, the ISIN is a 12-character
+          alpha-numerical code used to uniformly identify a security for trading and settlement purposes. Securities with
+          which ISINs can be used include debt securities, such as notes or bonds as well shares, such as common stock or
+          shares of a fund, options, derivatives, and futures. The ISIN structure is defined in ISO 6166.
+      Name:
+        description: The name of the product.
+      REDID:
+        description: Assigned by S&P Global Market Intelligence, REDID (Reference Entity Data Identifier) is a unique alphanumeric
+          code to reference entities, primarily utilized within the credit derivatives market for the standardized identification
+          of underlying entities.
+      RIC:
+        description: Issued by Refinitiv (formerly Reuters), the Reuters Instrument Codes(RIC) uniquely identifies financial
+          instruments, including where they are traded.
+      Other:
+        description: Used when the source is not otherwise in this enumerated list because it is internal or other reasons.  The
+          source can be identified in the scheme which is part of the identifier attribute.
+      Sicovam:
+        description: Issued by the French Société Interprofessionnelle pour la Compensation des Valeurs Mobilières (SICOVAM)
+          to identify French securities listed on French stock exchanges.
+      SEDOL:
+        description: Assigned by the London Stock Exchange, the Stock Exchange Daily Official List (SEDOL) is a list of security
+          identifiers used in the United Kingdom and Ireland for clearing purposes.  SEDOLs serve as the National Securities
+          Identifying Number for all securities issued in the United Kingdom and are therefore part of the security's ISIN
+          as well.
+      UPI:
+        description: Assigned by the Derivatives Service Bureau Ltd (DSB), the Unique Product Identifier (UPI) is a unique
+          code to describe an over-the-counter (OTC) derivatives product.  The UPI is used for identifying the product in
+          transaction reporting data.
+      Valoren:
+        description: Assigned by SIX Financial Information, Valoren is a unique numerical identification number typically
+          ranging from six to nine digits primarily traded in Switzerland, Liechtenstein, and Belgium. This code enables the
+          identification of securities such as stocks, bonds, and investment funds within these markets.
+      Wertpapier:
+        description: Issued by the Institute for the Issuance and Administration of Securities in Germany (Securities Information),
+          the Wertpapierkennnummer (WKN, WPKN, WPK or simply Wert) consists of six digits or capital letters (excluding I
+          and O), and no check digit. It is used to identify German securities.
+
+  TaxonomySourceEnum:
+    description: Represents the enumerated values to specify taxonomy sources.
+    permissible_values:
+      CFI:
+        description: Represents the ISO 10962 Classification of Financial Instruments code.
+      ISDA:
+        description: Represents the ISDA product taxonomy.
+      ICAD:
+        description: Represents the ISDA Collateral Asset Definition Identifier code.
+      EMIR:
+        description: Represents the EMIR Article 9 Asset Definition Identifier code.
+      EU_EMIR_EligibleCollateralAssetClass:
+        description: Identifies European Union Eligible Collateral Assets classification categories based on EMIR Uncleared
+          Margin Rules.
+      UK_EMIR_EligibleCollateralAssetClass:
+        description: 'Identifies United Kingdom Eligible Collateral Assets classification categories based on UK Onshored
+          EMIR Uncleared Margin Rules Eligible Collateral asset classes for both initial margin (IM) and variation margin
+          (VM) posted and collected between specified entities.Please note: UK EMIR regulation will detail which eligible
+          collateral assets classes apply to each type of entity pairing (counterparty) and which apply to posting of IM and
+          VM.'
+      CFTC:
+        description: Represents the Commodity Futures Trading Commission (CFTC) as a taxonomy source.
+      US_CFTC_PR_EligibleCollateralAssetClass:
+        description: 'Identifies US Eligible Collateral Assets classification categories based on Uncleared Margin Rules published
+          by the CFTC and the US Prudential Regulator. Note: While the same basic categories exist in the CFTC and US Prudential
+          Regulators margin rules, the precise definitions or application of those rules could differ between the two rules.'
+      MAS:
+        description: Represents the Monetary Authority of Singapore (MAS) as a taxonomy source.
+      CSA:
+        description: Represents the Canadian Securities Administrators (CSA) as a taxonomy source.
+      Other:
+        description: Denotes a user-specific scheme or taxonomy or other external sources not listed here.
+
+  ISOCurrencyCodeEnum:
+    description: The enumerated values to specify standard currency codes according to the International Standards Organization
+      (ISO).  The set of codes in this enumerated list is sourced from ISO Standard 4217 (https://www.currency-iso.org/en/home/tables/table-a1.html),
+      as of 29-Aug-18.
+    exact_mappings:
+      - https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml
+    permissible_values:
+      AED:
+        description: UAE Dirham
+      AFN:
+        description: Afghani
+      ALL:
+        description: Lek
+      AMD:
+        description: Armenian Dram
+      AOA:
+        description: Kwanza
+      ARS:
+        description: Argentine Peso
+      AUD:
+        description: Australian Dollar
+      AWG:
+        description: Aruban Florin
+      AZN:
+        description: Azerbaijan Manat
+      BAM:
+        description: Convertible Mark
+      BBD:
+        description: Barbados Dollar
+      BDT:
+        description: Taka
+      BHD:
+        description: Bahraini Dinar
+      BIF:
+        description: Burundi Franc
+      BMD:
+        description: Bermudian Dollar
+      BND:
+        description: Brunei Dollar
+      BOB:
+        description: Boliviano
+      BOV:
+        description: Mvdol
+      BRL:
+        description: Brazilian Real
+      BSD:
+        description: Bahamian Dollar
+      BTN:
+        description: Ngultrum
+      BWP:
+        description: Pula
+      BYN:
+        description: Belarusian Ruble
+      BZD:
+        description: Belize Dollar
+      CAD:
+        description: Canadian Dollar
+      CDF:
+        description: Congolese Franc
+      CHE:
+        description: WIR Euro
+      CHF:
+        description: Swiss Franc
+      CHW:
+        description: WIR Franc
+      CLF:
+        description: Unidad de Fomento
+      CLP:
+        description: Chilean Peso
+      CNY:
+        description: Yuan Renminbi
+      COP:
+        description: Colombian Peso
+      COU:
+        description: Unidad de Valor Real
+      CRC:
+        description: Costa Rican Colon
+      CUP:
+        description: Cuban Peso
+      CVE:
+        description: Cabo Verde Escudo
+      CZK:
+        description: Czech Koruna
+      DJF:
+        description: Djibouti Franc
+      DKK:
+        description: Danish Krone
+      DOP:
+        description: Dominican Peso
+      DZD:
+        description: Algerian Dinar
+      EGP:
+        description: Egyptian Pound
+      ERN:
+        description: Nakfa
+      ETB:
+        description: Ethiopian Birr
+      EUR:
+        description: Euro
+      FJD:
+        description: Fiji Dollar
+      FKP:
+        description: Falkland Islands Pound
+      GBP:
+        description: Pound Sterling
+      GEL:
+        description: Lari
+      GHS:
+        description: Ghana Cedi
+      GIP:
+        description: Gibraltar Pound
+      GMD:
+        description: Dalasi
+      GNF:
+        description: Guinean Franc
+      GTQ:
+        description: Quetzal
+      GYD:
+        description: Guyana Dollar
+      HKD:
+        description: Hong Kong Dollar
+      HNL:
+        description: Lempira
+      HTG:
+        description: Gourde
+      HUF:
+        description: Forint
+      IDR:
+        description: Rupiah
+      ILS:
+        description: New Israeli Sheqel
+      INR:
+        description: Indian Rupee
+      IQD:
+        description: Iraqi Dinar
+      IRR:
+        description: Iranian Rial
+      ISK:
+        description: Iceland Krona
+      JMD:
+        description: Jamaican Dollar
+      JOD:
+        description: Jordanian Dinar
+      JPY:
+        description: Yen
+      KES:
+        description: Kenyan Shilling
+      KGS:
+        description: Som
+      KHR:
+        description: Riel
+      KMF:
+        description: 'Comorian Franc '
+      KPW:
+        description: North Korean Won
+      KRW:
+        description: Won
+      KWD:
+        description: Kuwaiti Dinar
+      KYD:
+        description: Cayman Islands Dollar
+      KZT:
+        description: Tenge
+      LAK:
+        description: Lao Kip
+      LBP:
+        description: Lebanese Pound
+      LKR:
+        description: Sri Lanka Rupee
+      LRD:
+        description: Liberian Dollar
+      LSL:
+        description: Loti
+      LYD:
+        description: Libyan Dinar
+      MAD:
+        description: Moroccan Dirham
+      MDL:
+        description: Moldovan Leu
+      MGA:
+        description: Malagasy Ariary
+      MKD:
+        description: Denar
+      MMK:
+        description: Kyat
+      MNT:
+        description: Tugrik
+      MOP:
+        description: Pataca
+      MRU:
+        description: Ouguiya
+      MUR:
+        description: Mauritius Rupee
+      MVR:
+        description: Rufiyaa
+      MWK:
+        description: Malawi Kwacha
+      MXN:
+        description: Mexican Peso
+      MXV:
+        description: Mexican Unidad de Inversion (UDI)
+      MYR:
+        description: Malaysian Ringgit
+      MZN:
+        description: Mozambique Metical
+      NAD:
+        description: Namibia Dollar
+      NGN:
+        description: Naira
+      NIO:
+        description: Cordoba Oro
+      NOK:
+        description: Norwegian Krone
+      NPR:
+        description: Nepalese Rupee
+      NZD:
+        description: New Zealand Dollar
+      OMR:
+        description: Rial Omani
+      PAB:
+        description: Balboa
+      PEN:
+        description: Sol
+      PGK:
+        description: Kina
+      PHP:
+        description: Philippine Peso
+      PKR:
+        description: Pakistan Rupee
+      PLN:
+        description: Zloty
+      PYG:
+        description: Guarani
+      QAR:
+        description: Qatari Rial
+      RON:
+        description: Romanian Leu
+      RSD:
+        description: Serbian Dinar
+      RUB:
+        description: Russian Ruble
+      RWF:
+        description: Rwanda Franc
+      SAR:
+        description: Saudi Riyal
+      SBD:
+        description: Solomon Islands Dollar
+      SCR:
+        description: Seychelles Rupee
+      SDG:
+        description: Sudanese Pound
+      SEK:
+        description: Swedish Krona
+      SGD:
+        description: Singapore Dollar
+      SHP:
+        description: Saint Helena Pound
+      SLE:
+        description: Leone
+      SOS:
+        description: Somali Shilling
+      SRD:
+        description: Surinam Dollar
+      SSP:
+        description: South Sudanese Pound
+      STN:
+        description: Dobra
+      SVC:
+        description: El Salvador Colon
+      SYP:
+        description: Syrian Pound
+      SZL:
+        description: Lilangeni
+      THB:
+        description: Baht
+      TJS:
+        description: Somoni
+      TMT:
+        description: Turkmenistan New Manat
+      TND:
+        description: Tunisian Dinar
+      TOP:
+        description: Pa’anga
+      TRY:
+        description: Turkish Lira
+      TTD:
+        description: Trinidad and Tobago Dollar
+      TWD:
+        description: New Taiwan Dollar
+      TZS:
+        description: Tanzanian Shilling
+      UAH:
+        description: Hryvnia
+      UGX:
+        description: Uganda Shilling
+      USD:
+        description: US Dollar
+      USN:
+        description: US Dollar (Next day)
+      UYI:
+        description: Uruguay Peso en Unidades Indexadas (UI)
+      UYU:
+        description: Peso Uruguayo
+      UYW:
+        description: Unidad Previsional
+      UZS:
+        description: Uzbekistan Sum
+      VED:
+        description: Bolívar Soberano
+      VES:
+        description: Bolívar Soberano
+      VND:
+        description: Dong
+      VUV:
+        description: Vatu
+      WST:
+        description: Tala
+      XAD:
+        description: Arab Accounting Dinar
+      XAF:
+        description: CFA Franc BEAC
+      XAG:
+        description: Silver
+      XAU:
+        description: Gold
+      XBA:
+        description: Bond Markets Unit European Composite Unit (EURCO)
+      XBB:
+        description: Bond Markets Unit European Monetary Unit (E.M.U.-6)
+      XBC:
+        description: Bond Markets Unit European Unit of Account 9 (E.U.A.-9)
+      XBD:
+        description: Bond Markets Unit European Unit of Account 17 (E.U.A.-17)
+      XCD:
+        description: East Caribbean Dollar
+      XCG:
+        description: Caribbean Guilder
+      XDR:
+        description: SDR (Special Drawing Right)
+      XOF:
+        description: CFA Franc BCEAO
+      XPD:
+        description: Palladium
+      XPF:
+        description: CFP Franc
+      XPT:
+        description: Platinum
+      XSU:
+        description: Sucre
+      XTS:
+        description: Codes specifically reserved for testing purposes
+      XUA:
+        description: ADB Unit of Account
+      XXX:
+        description: The codes assigned for transactions where no currency is involved
+      YER:
+        description: Yemeni Rial
+      ZAR:
+        description: Rand
+      ZMW:
+        description: Zambian Kwacha
+      ZWG:
+        description: Zimbabwe Gold
+
+  CurrencyCodeEnum:
+    description: Union of the enumerated values defined by the International Standards Organization (ISO) and the FpML nonISOCurrencyScheme
+      which consists of offshore and historical currencies (https://www.fpml.org/coding-scheme/non-iso-currency), as of 28-Oct-2016.
+    inherits:
+      - ISOCurrencyCodeEnum
+    permissible_values:
+      CNH:
+        description: Offshore Chinese Yuan traded in Hong Kong.
+      CNT:
+        description: Offshore Chinese Yuan traded in Taiwan.
+      GGP:
+        description: Guernsey Pound.
+      IMP:
+        description: Isle of Man Pound.
+      JEP:
+        description: Jersey Pound.
+      KID:
+        description: Tuvaluan Dollar.
+      MCF:
+        description: Monegasque Franc.
+      SML:
+        description: Sammarinese Lira.
+      VAL:
+        description: Vatican Lira.
+
+  CollateralEntityTypeEnum:
+    description: Represents an enumeration list to identify the type of entity issuing or guaranteeing the collateral asset.
+    permissible_values:
+      SupraNational:
+        description: Specifies international organisations and multilateral banks, entities constituted by treaties or with
+          multiple sovereign members includes Multilateral development Banks.
+      SovereignCentralBank:
+        description: Specifies Sovereign, Government Debt Securities including Central Banks.
+      QuasiGovernment:
+        description: Specifies institutions or bodies, typically constituted by statute, with a function mandated by the government
+          and subject to government supervision inclusive of profit- and non-profit making bodies. Includes the US Agencies
+          and GSEs and the EU concept of public sector entities. Excluding any entities which are also Regional Government.
+      RegionalGovernment:
+        description: Specifies Regional Governments including states within countries, local authorities and municipalities.
+      Corporate:
+        description: Specifies corporate bodies including Banks.
+      Fund:
+        description: Specifies a vehicle (with or without separate legal personality) designed for the purposes of collective
+          investment towards a defined investment goal.
+      SpecialPurposeVehicle:
+        description: Specifies a vehicle setup for the purpose of acquisition and financing of specific assets on a limited
+          recourse basis. E.g. asset backed securities, including securitisations.
+
+  SupraNationalIssuerTypeEnum:
+    description: Represents an enumeration list to identify the type of supranational entity issuing the asset.
+    permissible_values:
+      InternationalOrganisation:
+        description: Specifies International Financial Institution.
+      MultilateralBank:
+        description: Specifies Multilateral Bank or Multilateral Development Bank.
+
+  CreditRiskEnum:
+    description: Represents an enumeration list to identify tranched or untranched credit risk.
+    permissible_values:
+      TranchedCreditRisk:
+        description: Indicates tranched credit risk, including securitizations.
+      UntranchedCreditRisk:
+        description: Indicates tranched credit risk, including repackagings.
+
+  SecurityTypeEnum:
+    description: Represents an enumeration list to indentify the type of a security.
+    permissible_values:
+      Debt:
+        description: Identifies a security as a fixed income security of debt issued and securitized as a tradable asset.
+      Equity:
+        description: Identifies a security as an Equity value of holding of shares in listed company.
+      Fund:
+        description: Identifies a security as representing holding in an investment fund.
+      Warrant:
+        description: Identifies a security as a Warrant that give the right, but not the obligation, to buy or sell a security
+          — most commonly an equity — at a certain price before expiration, or to receive the cash equivalent.
+      Certificate:
+        description: Identifies a security as one that that offers a derivative-based economic return which is not structured
+          as a bond, an equity or a warrant. Note that this security type is not a Certificate of Deposit (aka CD).
+
+  PutCallEnum:
+    description: The enumerated values to specify the types of listed derivative options.
+    permissible_values:
+      Put:
+        description: A put option gives the holder the right to sell the underlying asset by a certain date for a certain
+          price.
+      Call:
+        description: A call option gives the holder the right to buy the underlying asset by a certain date for a certain
+          price.
+
+  EquityTypeEnum:
+    description: Represents an enumeration list to identify the type of Equity.
+    permissible_values:
+      Ordinary:
+        description: Identifies an Equity of Common stocks and shares.
+      NonConvertiblePreference:
+        description: Identifies an Equity of Non-Convertible Preference, Shares which hold priority to receive capital return
+          in event of issuer liquidation.
+      DepositaryReceipt:
+        description: Identifies a negotiable depositary receipt certificate issued by a bank representing shares in a foreign
+          company traded on a local stock exchange.
+      ConvertiblePreference:
+        description: Identifies an Equity of Convertible Preference, a stock which can be converted into a predetermined number
+          of common shares and holds priority to receive capital return in event of issuer liquidation.
+
+  DepositaryReceiptTypeEnum:
+    permissible_values:
+      ADR:
+        description: American Depositary Receipts. Identifies a depositary receipt that are issued only by U.S. banks for
+          foreign stocks that are traded on a U.S. exchange.
+      GDR:
+        description: Global Depositary Receipts. Identifies a depositary receipt that is listed on European and other international
+          exchanges.
+      IDR:
+        description: Indian Depositary Receipts. Identifies a depositary receipt that are issued only by domestic depositories
+          for foreign stocks that are traded on an Indian exchange.
+      EDR:
+        description: European Depositary Receipts. Identifies a depositary receipt that are issued only by European banks
+          for foreign stocks that are traded on a European exchange.
+
+  FundProductTypeEnum:
+    description: Represents an enumeration list to identify the fund product type.
+    permissible_values:
+      MoneyMarketFund:
+        description: Denotes a fund that invests only in highly liquid near-term instruments such as cash, cash equivalent
+          securities, and high credit rating debt instruments with a short-term maturity.
+      ExchangeTradedFund:
+        description: Denotes an investment fund consisting of stocks, bonds, and/or other assets that is passively managed
+          and traded on a stock exchange.
+      MutualFund:
+        description: Denotes an investment fund consisting of stocks, bonds, and/or other assets that is actively managed
+          and can only be purchased or sold through the investment manager.
+      OtherFund:
+        description: Denotes a fund that is not an Exchange Traded Fund, Money Market Fund or Mutual Fund.
+
+  MaturityTypeEnum:
+    description: Represents an enumeration list to identify the Maturity.
+    permissible_values:
+      RemainingMaturity:
+        description: Denotes a period from now until maturity date.
+      OriginalMaturity:
+        description: Denotes a period from issuance until maturity date.
+      FromIssuance:
+        description: Denotes a period from issuance date until now.
+
+  SecuredTypeEnum:
+    description: Specifies the type of secured debt.
+    permissible_values:
+      AssetBacked:
+        description: Debt instrument with periodic income payments and value derived from or backed by a specified pool of
+          underlying assets.
+      CollateralizedObligation:
+        description: Complex product that is backed by a pool of loans and other assets and sold to institutional investors.
+      CoveredBonds:
+        description: Specifies a debt obligations issued by credit institutions which offer a so-called double-recourse protection
+          to bondholders.
+
+  AssetBackedEnum:
+    description: Specifies the underlying asset or asset pool securing an Asset Backed debt instrument.
+    permissible_values:
+      HomeEquity:
+        description: When the asset(s) backing the debt are home equity loans, in which the borrower uses the equity of their
+          home as collateral.
+      AutoLoan:
+        description: When the asset(s) backing the debt are auto loans.
+      StudentLoan:
+        description: When the asset(s) backing the debt are student loans.
+      CreditCard:
+        description: When the asset(s) backing the debt are credit card loans.
+      Property:
+        description: When the asset(s) backing the debt are property, typically when the debt is a mortgage loan.
+      Mortgage:
+        description: When the asset(s) backing the debt instrument is a pool of mortgage loans, e.g. for a mortgage backed
+          security.
+      Other:
+        description: Any other asset which generates receivables for an Asset Backed Security.
+
+  PropertyTypeEnum:
+    description: Specifies different types of property.
+    permissible_values:
+      Commercial:
+        description: Commercial property.
+      Residential:
+        description: Residential property.
+
+  CollateralizedObligationEnum:
+    description: Specifies the type of Collateralized Obligation.
+    permissible_values:
+      CDO:
+        description: Collateralized Debt Obligation.
+      CMO:
+        description: Collateralized Mortgage Obligation.
+      CLO:
+        description: Collateralized Loan Obligation.
+      CBO:
+        description: Collateralized Bond Obligation.
+
+  CoveredBondEnum:
+    description: Specifies the type of Covered Bond.
+    permissible_values:
+      Pfandbriefe:
+        description: German bank debenture collateralized by long-term assets.
+      JumboPfandbriefe:
+        description: Pfandbriefe with an issuing syndicate and a minimum issuance volume of EUR 1 billion.
+
+  DebtSeniorityEnum:
+    description: Specifies the order of repayment in the event of a sale or bankruptcy of the issuer or a related party (eg
+      guarantor).
+    permissible_values:
+      Secured:
+        description: Denotes debt which is secured over assets of the issuer or a related party (eg guarantor).
+      Senior:
+        description: Denotes debt  which ranks pari passu with all other unsecured creditors of the issuer.
+      Subordinated:
+        description: Denotes debt  owed to an unsecured creditor that in the event of a liquidation can only be paid after
+          the claims of secured and senior creditors have been met.
+
+  DebtInterestEnum:
+    description: Represents an enumeration list that specifies the general rule for periodic interest rate payment.
+    permissible_values:
+      Fixed:
+        description: Denotes payment calculated with reference to a fixed interest rate.
+      Floating:
+        description: Denotes payment calculated with reference to a floating interest rate.
+      InflationLinked:
+        description: Denotes payment calculated with reference to one or more specified inflation rates.
+      IndexLinked:
+        description: Denotes payment calculated with reference to one or more price or other indices (other than inflation
+          rates).
+      InterestOnly:
+        description: Denotes a stripped bond representing only the interest component.
+      OtherStructured:
+        description: Denotes payment calculated with reference to other underlyings (not being floating interest rates, inflation
+          rates or indices) or with a non-linear relationship to floating interest rates, inflation rates or indices.
+      InverseFloating:
+        description: Denotes payment calculated with reference to the inverse of a floating interest rate.
+      ZeroCoupon:
+        description: Denotes a zero coupon bond that does not pay intetrest.
+
+  DebtPrincipalEnum:
+    description: Represents an enumeration list that specifies the general rule for repayment of principal.
+    permissible_values:
+      Bullet:
+        description: Denotes that the principal is paid all at once on maturity of the debt insrument. Bullet debt instruments
+          cannot be redeemed early by an issuer, which means they are non-callable.
+      Callable:
+        description: Denotes that the principal on the debt can be repaid early, in whole or in part, at the option of the
+          issuer.
+      Puttable:
+        description: Denotes that the principal on the debt can be repaid early, in whole or in part, at the option of the
+          holder.
+      Amortising:
+        description: Denotes that the principal on the debt is paid down regularly, along with its interest expense over the
+          life of the debt instrument.  Includes amortising instruments with a bullet balance repayment at maturity.
+      InflationLinked:
+        description: Denotes that the principal on the debt is calculated with reference to one or more specified inflation
+          rates.
+      IndexLinked:
+        description: Denotes that the  principal on the debt is calculated with reference to one or more price or other indices
+          (other than inflation rates).
+      OtherStructured:
+        description: Denotes that the  principal on the debt is calculated with reference to other underlyings (not being
+          floating interest rates, inflation rates or indices) or with a non-linear relationship to floating interest rates,
+          inflation rates or indices.
+      PrincipalOnly:
+        description: Denotes a stripped bond representing only the principal component.
+
+  RedemptionTypeEnum:
+    description: Specifies the contractual redemption or conversion features associated with a debt security.
+    permissible_values:
+      Convertible:
+        description: Specifies a debt instrument that can be converted into common shares.
+      Exchangeable:
+        description: Specifies a debt security that can be converted to equity in a company other than the issuing company.
+      ContingentConvertible:
+        description: Specifies a debt security that can be converted into equity if a pre-defined trigger event occurs.
+      Sinkable:
+        description: Specifies a debt security that requires the issuer to periodically set aside money to buy back portions
+          of the debt.
+      Extraordinary:
+        description: Specifies a debt security that can be redeemed early if certain extraordinary events occur.
+
+  RedemptionPartyEnum:
+    description: Specifies the redeeming party of a debt security.
+    permissible_values:
+      Holder:
+        description: Specifies the holder of a debt security.
+      Issuer:
+        description: Specifies the issuer of a debt security.
+
+  AssetTypeEnum:
+    description: Represents an enumeration list to identify the asset type.
+    permissible_values:
+      Security:
+        description: Identifies negotiable financial instrument of monetary value with an issue ownership position.
+      Cash:
+        description: Identifies cash in a currency form.
+      Commodity:
+        description: Identifies basic good used in commerce that is interchangeable with other goods of the same type.
+      ListedDerivative:
+        description: Identifies an asset as a listed derivative on an exchange.
+      Loan:
+        description: An asset that represents a loan or borrow obligation.
+      LetterOfCredit:
+        description: Identifies an asset as a letter of credit or documentary credit/ bankers commercial credit.  A payment
+          mechanism used in international trade to provide economic guarantee of payment by a creditworthy issuer for payment
+          of exported goods.
+      Other:
+        description: Identifies other asset types.
+
+  MoneyMarketTypeEnum:
+    permissible_values:
+      CommercialPaper: {}
+      CertificateOfDeposit: {}
+
+  DeliveryNearbyTypeEnum:
+    permissible_values:
+      CalculationPeriod:
+        description: Describes the reference contract as the one that pertains to the month-year of the calculation period.
+          If used, the nearby count is expected to be 0.
+      NearbyMonth:
+        description: Specifies that the reference delivery date of the underlying Commodity shall be the expiration date of
+          the futures contract in the nth nearby month.
+      NearbyWeek:
+        description: Specifies that the reference delivery date of the underlying Commodity shall be the expiration date of
+          the futures contract in the nth nearby week.
+
+  CommodityInformationPublisherEnum:
+    description: Defines a publication in which the price can be found. (e.g Gas Daily, Platts Bloomberg.
+    permissible_values:
+      Argus: {}
+      ArgusMcCloskeys: {}
+      ArgusAmericasCrudeReport: {}
+      ArgusBiofuelReport: {}
+      ArgusCrudeReport: {}
+      ArgusEuropeanProductsReport: {}
+      ArgusFMB: {}
+      ArgusInternationalLPGReport: {}
+      ArgusLPG: {}
+      ArgusNatGas: {}
+      AssocBanksSingapore: {}
+      BandD: {}
+      BalticExchange: {}
+      BankOfCanada: {}
+      BankOfEngland: {}
+      BankOfJapan: {}
+      Bloomberg: {}
+      BLUENEXT: {}
+      CAISO: {}
+      CanadianGasPriceReporter: {}
+      CanadianGasReporter: {}
+      ChemicalMarketsAssociation: {}
+      CMAIAromaticsMarketReport: {}
+      CMAIWeeklyMethanolMarketReport: {}
+      CRUSteelLongProductMonitor: {}
+      CRUSteelSheetProductsMonitor: {}
+      DowJonesEnergyService: {}
+      DowJonesEnergyServiceScreen: {}
+      DowJonesNatGas: {}
+      EEX: {}
+      ERCOT: {}
+      EuroCentralBank: {}
+      EURONEXMATIF: {}
+      FederalReserve: {}
+      FERTECON: {}
+      FertilizerWeek: {}
+      FHLBSF: {}
+      GasDaily: {}
+      GasDailyPriceGuide: {}
+      GlobalCoale: {}
+      GME: {}
+      HerenReport: {}
+      ICE: {}
+      ICE10XDailyNaturalGas: {}
+      ICE10XDailyPower: {}
+      ICE10XMonthly: {}
+      ICEDayAheadIndex: {}
+      ICEECX: {}
+      ICIS: {}
+      InsideFERC: {}
+      IPE: {}
+      ISDA: {}
+      ISONewEngland: {}
+      JAPANMOFTSRR: {}
+      LEBA: {}
+      LondonBullionMarketAssociation: {}
+      LONDONPLATINUMPALLADIUMMARKET: {}
+      MegawattDaily: {}
+      MetalBulletin: {}
+      MISO: {}
+      NaturalGasWeek: {}
+      NGIBidweekSurvey: {}
+      NYISO: {}
+      OBM: {}
+      OMEL: {}
+      OPIS: {}
+      PaperTrader: {}
+      PIX: {}
+      PJM: {}
+      PlattsAsiaPacific: {}
+      PlattsAsiaPacificArabMarketscan: {}
+      PlattsCleanTankerwire: {}
+      PlattsCoalTrader: {}
+      PlattsCrudeOilMarketwire: {}
+      PlattsDirtyTakerwire: {}
+      PlattsENGR: {}
+      PlattsEuropean: {}
+      PlattsEuropeanMarketscan: {}
+      PlattsGasDaily: {}
+      PlattsGasDailyPriceGuide: {}
+      PlattsInsideFERC: {}
+      PlattsLPG: {}
+      PlattsMarketwire: {}
+      PlattsMegawattDaily: {}
+      PlattsMetalsAlert: {}
+      PlattsOilgram: {}
+      PlattsOilgramBunkerwire: {}
+      PlattsPolymerscan: {}
+      PlattsTSIIronOre: {}
+      TSIScrap: {}
+      TSISteel: {}
+      PlattsUS: {}
+      PlattsUSMarketscan: {}
+      PPM: {}
+      PPMEurope: {}
+      PPW: {}
+      ReserveBankAustralia: {}
+      ReserveBankNewZealand: {}
+      Reuters: {}
+      ReutersScreen: {}
+      RIMIntelligenceProducts: {}
+      SeaPac: {}
+      Telerate: {}
+      TelerateScreen: {}
+      UXWEEKLY: {}
+      WorldCrudeReport: {}
+      WorldPulpMonthly: {}
+
+  EU_EMIR_EligibleCollateralEnum:
+    description: 'Identifies European Union Eligible Collateral Assets classification categories based on EMIR Uncleared Margin
+      Rules. Eligible Collateral asset classes for both initial margin (IM) and variation margin (VM) posted and collected
+      between specified entities. Please note: EMIR regulation will detail which eligible collateral assets classes apply
+      to each type of entity pairing (counterparty) and which apply to posting of IM and VM.'
+    permissible_values:
+      EU_EMIRTypeA:
+        description: Denotes Cash in the form of money credited to an account in any currency, or similar claims for the repayment
+          of money, such as money market deposits.
+      EU_EMIRTypeB:
+        description: ' Denotes gold in the form of allocated pure gold bullion of recognised good delivery.'
+      EU_EMIRTypeC:
+        description: ' Denotes debt securities issued by Member States'' central governments or central banks.'
+      EU_EMIRTypeD:
+        description: ' Denotes debt securities issued by Member States'' regional governments or local authorities whose exposures
+          are treated as exposures to the central government of that Member State in accordance with Article 115(2) of Regulation
+          (EU) No 575/2013.'
+      EU_EMIRTypeE:
+        description: ' Denotes debt securities issued by Member States'' public sector entities whose exposures are treated
+          as exposures to the central government, regional government or local authority of that Member State in accordance
+          with Article 116(4) of Regulation (EU) No 575/2013.'
+      EU_EMIRTypeF:
+        description: ' Denotes debt securities issued by Member States'' regional governments or local authorities other than
+          those referred to in (TypeD.)'
+      EU_EMIRTypeG:
+        description: ' Denotes debt securities issued by Member States'' public sector entities other than those referred
+          to in (TypeE).'
+      EU_EMIRTypeH:
+        description: ' Denotes debt securities issued by multilateral development banks listed in Article 117(2) of Regulation
+          (EU) No 575/2013.'
+      EU_EMIRTypeI:
+        description: ' Denotes debt securities issued by the international organisations listed in Article 118 of Regulation
+          (EU) No 575/2013.'
+      EU_EMIRTypeJ:
+        description: ' Denotes debt securities issued by third countries'' governments or central banks.'
+      EU_EMIRTypeK:
+        description: ' Denotes debt securities issued by third countries'' regional governments or local authorities that
+          meet the requirements of (TypeD) and (TypeE).'
+      EU_EMIRTypeL:
+        description: ' Denotes debt securities issued by third countries'' regional governments or local authorities other
+          than those referred to in (TypeD) and (TypeE).'
+      EU_EMIRTypeM:
+        description: ' Denotes debt securities issued by credit institutions or investment firms including bonds referred
+          to in Article 52(4) of Directive 2009/65/EC of the European Parliament and of the Council.'
+      EU_EMIRTypeN:
+        description: ' Denotes corporate bonds.'
+      EU_EMIRTypeO:
+        description: ' Denotes the most senior tranche of a securitisation, as defined in Article 4(61) of Regulation (EU)
+          No 575/2013, that is not a re-securitisation as defined in Article 4(63) of that Regulation.'
+      EU_EMIRTypeP:
+        description: ' Denotes convertible bonds provided that they can be converted only into equities which are included
+          in an index specified pursuant to point (a) of Article 197 (8) of Regulation (EU) No 575/2013.'
+      EU_EMIRTypeQ:
+        description: ' Denotes equities included in an index specified pursuant to point (a) of Article 197(8) of Regulation
+          (EU) No 575/2013.'
+      EU_EMIRTypeR:
+        description: ' Denotes shares or units in undertakings for collective investments in transferable securities (UCITS),
+          provided that the conditions set out in Article 5 of EU Regulation 2016/2251 are met.'
+
+  UK_EMIR_EligibleCollateralEnum:
+    description: 'Identifies United Kingdom Eligible Collateral Assets classification categories based on UK Onshored EMIR
+      Uncleared Margin Rules. Eligible Collateral asset classes for both initial margin (IM) and variation margin (VM) posted
+      and collected between specified entities. Please note: UK EMIR regulation will detail which eligible collateral assets
+      classes apply to each type of entity pairing (counterparty) and which apply to posting of IM and VM.'
+    permissible_values:
+      UK_EMIRTypeA:
+        description: Denotes cash in the form of money credited to an account in any currency, or similar claims for the repayment
+          of money, such as money market deposits.
+      UK_EMIRTypeB:
+        description: Denotes gold in the form of allocated pure gold bullion of recognised good delivery.
+      UK_EMIRTypeC:
+        description: Denotes debt securities issued by the central government of the United Kingdom or the Bank of England.
+      UK_EMIRTypeD:
+        description: Denotes debt securities issued by United Kingdom regional governments or local authorities whose exposures
+          are treated as exposures to the central government of the United Kingdom in accordance with Article 115(2) of Regulation
+          (EU) No 575/2013.
+      UK_EMIRTypeE:
+        description: Denotes debt securities issued by United Kingdom public sector entities whose exposures are treated as
+          exposures to the central government, regional government or local authority of the United Kingdom in accordance
+          with Article 116(4) of Regulation (EU) No 575/2013.
+      UK_EMIRTypeF:
+        description: Denotes debt securities issued by United Kingdom regional governments or local authorities other than
+          those referred to in (TypeD).
+      UK_EMIRTypeG:
+        description: Denotes debt securities issued by United Kingdom public sector entities other than those referred to
+          in (TypeE).
+      UK_EMIRTypeH:
+        description: Denotes debt securities issued by multilateral development banks listed in Article 117(2) of Regulation
+          (EU) No 575/2013.
+      UK_EMIRTypeI:
+        description: Denotes debt securities issued by the international organisations listed in Article 118 of Regulation
+          (EU) No 575/2013.
+      UK_EMIRTypeJ:
+        description: Denotes debt securities issued by third countries' governments or central banks.
+      UK_EMIRTypeK:
+        description: Denotes debt securities issued by third countries' regional governments or local authorities that meet
+          the requirements of (TypeD) and (TypeE).
+      UK_EMIRTypeL:
+        description: Denotes debt securities issued by third countries' regional governments or local authorities other than
+          those referred to in (TypeD) and (TypeE).
+      UK_EMIRTypeM:
+        description: Denotes debt securities issued by credit institutions or investment firms including bonds admitted to
+          the register of regulated covered bonds maintained under Regulation 7(1)(b) of the Regulated Covered Bonds Regulations
+          2008 (SI 2008/346).
+      UK_EMIRTypeN:
+        description: Denotes corporate bonds.
+      UK_EMIRTypeO:
+        description: Denotes the most senior tranche of a securitisation, as defined in Article 4(61) of Regulation (EU) No
+          575/2013, that is not a re-securitisation as defined in Article 4(63) of that Regulation.
+      UK_EMIRTypeP:
+        description: Denotes convertible bonds provided that they can be converted only into equities which are included in
+          an index specified pursuant to point (a) of Article 197 (8) of Regulation (EU) No 575/2013.
+      UK_EMIRTypeQ:
+        description: Denotes equities included in an index specified pursuant to point (a) of Article 197(8) of Regulation
+          (EU) No 575/2013.
+      UK_EMIRTypeR:
+        description: Denotes shares or units in undertakings for UK UCITS, provided that the conditions set out in Article
+          5 of EU Regulation 2016/2251 (as modified by the Technical Standards (European Market Infrastructure) (EU Exit)
+          (No. 3) Instrument 2019) are met.
+
+  US_CFTC_PR_EligibleCollateralEnum:
+    description: 'Identifies US Eligible Collateral Assets classification categories based on Uncleared Margin Rules published
+      by the CFTC and the US Prudential Regulator. Note: While the same basic categories exist in the CFTC and US Prudential
+      Regulators margin rules, the precise definitions or application of those rules could differ between the two rules.'
+    permissible_values:
+      US_CFTC_PRType1:
+        description: Denotes immediately available cash funds denominated in USD, a major currency, a currency of settlement
+          for the uncleared swap.
+      US_CFTC_PRType2:
+        description: Denotes a security that is issued by, or unconditionally guaranteed as to the timely payment of principal
+          and interest by, the U.S. Department of the Treasury.
+      US_CFTC_PRType3:
+        description: Denotes a security that is issued by, or unconditionally guaranteed as to the timely payment of principal
+          and interest by, a U.S. government agency (other than the U.S. Department of Treasury) whose obligations are fully
+          guaranteed by the full faith and credit of the United States government.
+      US_CFTC_PRType4:
+        description: Denotes a security that is issued by, or fully guaranteed as to the payment of principal and interest
+          by, the European Central Bank or a sovereign entity that is assigned no higher than a 20 percent risk weight under
+          the capital rules applicable to swap dealers subject to regulation by a prudential regulator.
+      US_CFTC_PRType5A:
+        description: Denotes a publicly traded debt security issued by, or an asset-backed security fully guaranteed as to
+          the timely payment of principal and interest by, a U.S. Government-sponsored enterprise that is operating with capital
+          support or another form of direct financial assistance received from the U.S. government that enables the repayments
+          of the U.S. Government-sponsored enterprise's eligible securities.
+      US_CFTC_PRType5B:
+        description: Denotes a publicly traded debt security, but not an asset backed security, that is investment grade and
+          issued by a U.S. Government-sponsored enterprise that is not operating with capital support or another form of direct
+          financial assistance received from the U.S. government.
+      US_CFTC_PRType6:
+        description: Denotes a security that is issued by, or fully guaranteed as to the payment of principal and interest
+          by, the Bank for International Settlements, the International Monetary Fund, or a multilateral development bank.
+      US_CFTC_PRType7:
+        description: 'Denotes publicly-traded debt, but not an asset backed security, that is investment grade and is not
+          a debt security issued by a  U.S. Government-sponsored enterprise. This category excludes a security issued by a
+          non-bank financial institution supervised by the board of governors of the Federal Reserve System under Title I
+          of the Dodd-Frank Wall Street Reform and Consumer Protection Act. This category also excludes a security issued
+          by any of the following entities, by a company that would be any of the following entities if it were the organized
+          under the laws of the United States or any State, or in either case by an affiliate of such an entity: the party
+          posting the collateral, a bank holding company, a savings and loan holding company, a U.S. intermediate holding
+          company, a foreign bank, a depositary institution, a securities holding company, a broker, a dealer, a futures commission
+          merchant, a swap dealer, or a security-based swap dealer.'
+      US_CFTC_PRType8A:
+        description: 'Denotes a publicly traded common equity security that is included in the Standard & Poor''s Composite
+          500 Index or related indexes. This category excludes a security issued by a non-bank financial institution supervised
+          by the board of governors of the Federal Reserve System under Title I of the Dodd-Frank Wall Street Reform and Consumer
+          Protection Act. This category also excludes a security issued by any of the following entities, by a company that
+          would be any of the following entities if it were the organized under the laws of the United States or any State,
+          or in either case by an affiliate of such an entity: the party posting the collateral, a bank holding company, a
+          savings and loan holding company, a U.S. intermediate holding company, a foreign bank, a depositary institution,
+          a securities holding company, a broker, a dealer, a futures commission merchant, a swap dealer, or a security-based
+          swap dealer.'
+      US_CFTC_PRType8B:
+        description: ' Denotes a publicly traded common equity security that is included in the Standard & Poor''s Composite
+          1500 Index or related indexes. This category excludes a security issued by a non-bank financial institution supervised
+          by the board of governors of the Federal Reserve System under Title I of the Dodd-Frank Wall Street Reform and Consumer
+          Protection Act. This category also excludes a security issued by any of the following entities, by a company that
+          would be any of the following entities if it were the organized under the laws of the United States or any State,
+          or in either case by an affiliate of such an entity: the party posting the collateral, a bank holding company, a
+          savings and loan holding company, a U.S. intermediate holding company, a foreign bank, a depositary institution,
+          a securities holding company, a broker, a dealer, a futures commission merchant, a swap dealer, or a security-based
+          swap dealer.'
+      US_CFTC_PRType8C:
+        description: 'Denotes a publicly traded common equity security that is included in an index that a regulated swap
+          entity''s supervisor in a foreign jurisdiction recognizes for purposes of including publicly traded common equity
+          as initial margin under applicable regulatory policy, if held in that foreign jurisdiction. This category excludes
+          a security issued by a non-bank financial institution supervised by the board of governors of the Federal Reserve
+          System under Title I of the Dodd-Frank Wall Street Reform and Consumer Protection Act. This category also excludes
+          a security issued by any of the following entities, by a company that would be any of the following entities if
+          it were the organized under the laws of the United States or any State, or in either case by an affiliate of such
+          an entity: the party posting the collateral, a bank holding company, a savings and loan holding company, a U.S.
+          intermediate holding company, a foreign bank, a depositary institution, a securities holding company, a broker,
+          a dealer, a futures commission merchant, a swap dealer, or a security-based swap dealer.'
+      US_CFTC_PRType9:
+        description: 'Denotes securities in the form of redeemable securities in a pooled investment fund representing the
+          security-holder''s proportional interest in the fund''s net assets and that are issued and redeemed only on the
+          basis of the market value of the fund''s net assets prepared each business day after the security-holder makes its
+          investment commitment or redemption request to the fund, if the fund''s investments are limited to the following:
+          (A) securities that are issued by, or unconditionally guaranteed as to the timely payment of principal and interest
+          by, the U.S. Department of the Treasury, and immediately-available cash funds denominated in U.S. dollars; or (B)
+          securities denominated in a common currency and issued by, or fully guaranteed as to the payment of principal and
+          interest by, the European Central Bank or a sovereign entity that is assigned no higher than a 20 percent risk weight
+          under the capital rules applicable to swap dealers subject to regulation by a prudential regulator, and immediately-available
+          cash funds denominated in the same currency; and (C) assets of the fund may not be transferred through securities
+          lending, securities borrowing, repurchase agreements, reverse repurchase agreements, or other means that involve
+          the fund having rights to acquire the same or similar assets from the transferee.'
+      US_CTFC_PRType10:
+        description: Denotes Gold.
+
+  ISOCountryCodeEnum:
+    description: The enumerated values to specify standard currency codes according to the International Standards Organization
+      (ISO). The set of codes in this enumerated list is sourced from ISO Standard 3166 (ISO-3166-1alpha-2)(https://www.iso.org/iso-3166-country-codes.html)
+      as at 14-Aug-23.
+    permissible_values:
+      AF:
+        description: Afghanistan
+      AL:
+        description: Albania
+      DZ:
+        description: Algeria
+      AS:
+        description: American Samoa
+      AD:
+        description: Andorra
+      AO:
+        description: Angola
+      AI:
+        description: Anguilla
+      AQ:
+        description: Antarctica
+      AG:
+        description: Antigua and Barbuda
+      AR:
+        description: Argentina
+      AM:
+        description: Armenia
+      AW:
+        description: Aruba
+      AU:
+        description: Australia
+      AT:
+        description: Austria
+      AZ:
+        description: Azerbaijan
+      BS:
+        description: Bahamas (the)
+      BH:
+        description: Bahrain
+      BD:
+        description: Bangladesh
+      BB:
+        description: Barbados
+      BY:
+        description: Belarus
+      BE:
+        description: Belgium
+      BZ:
+        description: Belize
+      BJ:
+        description: Benin
+      BM:
+        description: Bermuda
+      AX:
+        description: Aland Islands
+      BT:
+        description: Bhutan
+      BO:
+        description: Bolivia (Plurinational State of)
+      BQ:
+        description: Bonaire, Sint Eustatius and Saba
+      BA:
+        description: Bosnia and Herzegovina
+      BW:
+        description: Botswana
+      BV:
+        description: Bouvet Island
+      BR:
+        description: Brazil
+      IO:
+        description: British Indian Ocean Territory (the)
+      BN:
+        description: Brunei Darussalam
+      BG:
+        description: Bulgaria
+      BF:
+        description: Burkina Faso
+      BI:
+        description: Burundi
+      CV:
+        description: Cabo Verde
+      KH:
+        description: Cambodia
+      CM:
+        description: Cameroon
+      CA:
+        description: Canada
+      KY:
+        description: Cayman Islands (the)
+      CF:
+        description: Central African Republic (the)
+      TD:
+        description: Chad
+      CL:
+        description: Chile
+      CN:
+        description: China
+      CX:
+        description: Christmas Island
+      CC:
+        description: Cocos (Keeling) Islands (the)
+      CO:
+        description: Colombia
+      KM:
+        description: Comoros (the)
+      CD:
+        description: Congo (the Democratic Republic of the)
+      CG:
+        description: Congo (the)
+      CK:
+        description: Cook Islands (the)
+      CR:
+        description: Costa Rica
+      HR:
+        description: Croatia
+      CU:
+        description: Cuba
+      CW:
+        description: Curaao
+      CY:
+        description: Cyprus
+      CZ:
+        description: Czechia
+      CI:
+        description: Cte d'Ivoire
+      DK:
+        description: Denmark
+      DJ:
+        description: Djibouti
+      DM:
+        description: Dominica
+      DO:
+        description: Dominican Republic (the)
+      EC:
+        description: Ecuador
+      EG:
+        description: Egypt
+      SV:
+        description: El Salvador
+      GQ:
+        description: Equatorial Guinea
+      ER:
+        description: Eritrea
+      EE:
+        description: Estonia
+      SZ:
+        description: Eswatini
+      ET:
+        description: Ethiopia
+      FK:
+        description: Falkland Islands (the) [Malvinas]
+      FO:
+        description: Faroe Islands (the)
+      FJ:
+        description: Fiji
+      FI:
+        description: Finland
+      FR:
+        description: France
+      GF:
+        description: French Guiana
+      PF:
+        description: French Polynesia
+      TF:
+        description: French Southern Territories (the)
+      GA:
+        description: Gabon
+      GM:
+        description: Gambia (the)
+      GE:
+        description: Georgia
+      DE:
+        description: Germany
+      GH:
+        description: Ghana
+      GI:
+        description: Gibraltar
+      GR:
+        description: Greece
+      GL:
+        description: Greenland
+      GD:
+        description: Grenada
+      GP:
+        description: Guadeloupe
+      GU:
+        description: Guam
+      GT:
+        description: Guatemala
+      GG:
+        description: Guernsey
+      GN:
+        description: Guinea
+      GW:
+        description: Guinea-Bissau
+      GY:
+        description: Guyana
+      HT:
+        description: Haiti
+      HM:
+        description: Heard Island and McDonald Islands
+      VA:
+        description: Holy See (the)
+      HN:
+        description: Honduras
+      HK:
+        description: Hong Kong
+      HU:
+        description: Hungary
+      IS:
+        description: Iceland
+      IN:
+        description: India
+      ID:
+        description: Indonesia
+      IR:
+        description: Iran (Islamic Republic of)
+      IQ:
+        description: Iraq
+      IE:
+        description: Ireland
+      IM:
+        description: Isle of Man
+      IL:
+        description: Israel
+      IT:
+        description: Italy
+      JM:
+        description: Jamaica
+      JP:
+        description: Japan
+      JE:
+        description: Jersey
+      JO:
+        description: Jordan
+      KZ:
+        description: Kazakhstan
+      KE:
+        description: Kenya
+      KI:
+        description: Kiribati
+      KP:
+        description: Korea (the Democratic People's Republic of)
+      KR:
+        description: Korea (the Republic of)
+      KW:
+        description: Kuwait
+      KG:
+        description: Kyrgyzstan
+      LA:
+        description: Lao People's Democratic Republic (the)
+      LV:
+        description: Latvia
+      LB:
+        description: Lebanon
+      LS:
+        description: Lesotho
+      LR:
+        description: Liberia
+      LY:
+        description: Libya
+      LI:
+        description: Liechtenstein
+      LT:
+        description: Lithuania
+      LU:
+        description: Luxembourg
+      MO:
+        description: Macao
+      MG:
+        description: Madagascar
+      MW:
+        description: Malawi
+      MY:
+        description: Malaysia
+      MV:
+        description: Maldives
+      ML:
+        description: Mali
+      MT:
+        description: Malta
+      MH:
+        description: Marshall Islands (the)
+      MQ:
+        description: Martinique
+      MR:
+        description: Mauritania
+      MU:
+        description: Mauritius
+      YT:
+        description: Mayotte
+      MX:
+        description: Mexico
+      FM:
+        description: Micronesia (Federated States of)
+      MD:
+        description: Moldova (the Republic of)
+      MC:
+        description: Monaco
+      MN:
+        description: Mongolia
+      ME:
+        description: Montenegro
+      MS:
+        description: Montserrat
+      MA:
+        description: Morocco
+      MZ:
+        description: Mozambique
+      MM:
+        description: Myanmar
+      NA:
+        description: Namibia
+      NR:
+        description: Nauru
+      NP:
+        description: Nepal
+      NL:
+        description: Netherlands (Kingdom of the)
+      NC:
+        description: New Caledonia
+      NZ:
+        description: New Zealand
+      NI:
+        description: Nicaragua
+      NE:
+        description: Niger (the)
+      NG:
+        description: Nigeria
+      NU:
+        description: Niue
+      NF:
+        description: Norfolk Island
+      MK:
+        description: North Macedonia
+      MP:
+        description: Northern Mariana Islands (the)
+      'NO':
+        description: Norway
+      OM:
+        description: Oman
+      PK:
+        description: Pakistan
+      PW:
+        description: Palau
+      PS:
+        description: Palestine, State of
+      PA:
+        description: Panama
+      PG:
+        description: Papua New Guinea
+      PY:
+        description: Paraguay
+      PE:
+        description: Peru
+      PH:
+        description: Philippines (the)
+      PN:
+        description: Pitcairn
+      PL:
+        description: Poland
+      PT:
+        description: Portugal
+      PR:
+        description: Puerto Rico
+      QA:
+        description: Qatar
+      RO:
+        description: Romania
+      RU:
+        description: Russian Federation (the)
+      RW:
+        description: Rwanda
+      RE:
+        description: Runion
+      BL:
+        description: Saint Barthlemy
+      SH:
+        description: Saint Helena, Ascension and Tristan da Cunha
+      KN:
+        description: Saint Kitts and Nevis
+      LC:
+        description: Saint Lucia
+      MF:
+        description: Saint Martin (French part)
+      PM:
+        description: Saint Pierre and Miquelon
+      VC:
+        description: Saint Vincent and the Grenadines
+      WS:
+        description: Samoa
+      SM:
+        description: San Marino
+      ST:
+        description: Sao Tome and Principe
+      SA:
+        description: Saudi Arabia
+      SN:
+        description: Senegal
+      RS:
+        description: Serbia
+      SC:
+        description: Seychelles
+      SL:
+        description: Sierra Leone
+      SG:
+        description: Singapore
+      SX:
+        description: Sint Maarten (Dutch part)
+      SK:
+        description: Slovakia
+      SI:
+        description: Slovenia
+      SB:
+        description: Solomon Islands
+      SO:
+        description: Somalia
+      ZA:
+        description: South Africa
+      GS:
+        description: South Georgia and the South Sandwich Islands
+      SS:
+        description: South Sudan
+      ES:
+        description: Spain
+      LK:
+        description: Sri Lanka
+      SD:
+        description: Sudan (the)
+      SR:
+        description: Suriname
+      SJ:
+        description: Svalbard and Jan Mayen
+      SE:
+        description: Sweden
+      CH:
+        description: Switzerland
+      SY:
+        description: Syrian Arab Republic (the)
+      TW:
+        description: Taiwan (Province of China)
+      TJ:
+        description: Tajikistan
+      TZ:
+        description: Tanzania, the United Republic of
+      TH:
+        description: Thailand
+      TL:
+        description: Timor-Leste
+      TG:
+        description: Togo
+      TK:
+        description: Tokelau
+      TO:
+        description: Tonga
+      TT:
+        description: Trinidad and Tobago
+      TN:
+        description: Tunisia
+      TM:
+        description: Turkmenistan
+      TC:
+        description: Turks and Caicos Islands (the)
+      TV:
+        description: Tuvalu
+      TR:
+        description: Trkiye
+      UG:
+        description: Uganda
+      UA:
+        description: Ukraine
+      AE:
+        description: United Arab Emirates (the)
+      GB:
+        description: United Kingdom of Great Britain and Northern Ireland (the)
+      UM:
+        description: United States Minor Outlying Islands (the)
+      US:
+        description: United States of America (the)
+      UY:
+        description: Uruguay
+      UZ:
+        description: Uzbekistan
+      VU:
+        description: Vanuatu
+      VE:
+        description: Venezuela (Bolivarian Republic of)
+      VN:
+        description: Viet Nam
+      VG:
+        description: Virgin Islands (British)
+      VI:
+        description: Virgin Islands (U.S.)
+      WF:
+        description: Wallis and Futuna
+      EH:
+        description: Western Sahara*
+      YE:
+        description: Yemen
+      ZM:
+        description: Zambia
+      ZW:
+        description: Zimbabwe
+
+slots:
+  identifier:
+    range: AssetIdentifier
+    description: Asset Identifiers are used to uniquely identify an Asset, using a specified Asset Identifier Type.
+    required: true
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:AssetBase.identifier
+
+  taxonomy:
+    range: Taxonomy
+    description: Defines the taxonomy of an object by combining a taxonomy source (i.e. the rules to classify the object)
+      and a value (i.e. the output of those rules on the object.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AssetBase.taxonomy
+
+  isExchangeListed:
+    range: boolean
+    description: Defines whether the Asset is listed on a public exchange.
+    close_mappings:
+      - fpml_5_10:AssetBase.isExchangeListed
+
+  exchange:
+    range: LegalEntity
+    description: If the Asset is listed, defines the public exchange of the listing.
+    close_mappings:
+      - fpml_5_10:AssetBase.exchange
+
+  relatedExchange:
+    range: LegalEntity
+    description: Provides the related Exchanges, if applicable.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AssetBase.relatedExchange
+
+  assetType:
+    range: AssetTypeEnum
+    description: Specifies the type of asset.
+    required: true
+    close_mappings:
+      - fpml_5_10:AssetBase.assetType
+
+  identifierType:
+    range: AssetIdTypeEnum
+    description: Defines the symbology source of the Asset Identifier, eg CUSIP, ISIN, etc.
+    required: true
+    close_mappings:
+      - fpml_5_10:AssetIdentifier.identifierType
+
+  source:
+    range: ProductIdTypeEnum
+    description: Defines the source of the identifier.
+    required: true
+
+  name:
+    range: string
+    description: Specifies the taxonomy value as a simple string, which may be associated to an external scheme.
+    annotations:
+      metadata_scheme: true
+
+  classification:
+    range: TaxonomyClassification
+    description: Specifies the taxonomy value as a set of class names and values for each class.
+    multivalued: true
+    inlined_as_list: true
+
+  primaryAssetClass:
+    range: AssetClassEnum
+    description: Classifies the most important risk class of the trade.
+    annotations:
+      metadata_scheme: true
+
+  secondaryAssetClass:
+    range: AssetClassEnum
+    description: ' Classifies additional risk classes of the trade, if any.'
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+
+  productQualifier:
+    range: string
+    description: Derived from the product payout features using a CDM product qualification function that determines the product
+      type based on the product payout features.
+
+  commodityProductDefinition:
+    range: CommodityProductDefinition
+    description: Specifies the commodity underlier in the event that no ISDA Commodity Reference Benchmark exists.
+    close_mappings:
+      - fpml_5_10:Commodity.commodityProductDefinition
+
+  priceQuoteType:
+    range: QuotationSideEnum
+    description: Describes the required quote type of the underlying price that will be observed. Example values include 'Bid,
+      'Ask', 'Settlement' (for a futures contract) and 'WeightedAverage' (for some published prices and indices).
+    required: true
+    close_mappings:
+      - fpml_5_10:Commodity.priceQuoteType
+
+  deliveryDateReference:
+    range: DeliveryDateParameters
+    description: Specifies the parameters for identifying the relevant contract date when the commodity reference price is
+      a futures contract.
+    close_mappings:
+      - fpml_5_10:Commodity.deliveryDateReference
+
+  description:
+    range: string
+    description: Provides additional information about the commodity underlier.
+    close_mappings:
+      - fpml_5_10:Commodity.description
+
+  referenceFramework:
+    range: CommodityReferenceFramework
+    description: Specifies the type of commodity.
+    required: true
+    close_mappings:
+      - fpml_5_10:CommodityProductDefinition.referenceFramework
+
+  priceSource:
+    range: PriceSource
+    description: Specifies a publication that provides the commodity price, including, where applicable the details of where
+      in the publication the price is published.  Applicable when the commodity reference price is not a futures contract
+    close_mappings:
+      - fpml_5_10:CommodityProductDefinition.priceSource
+
+  commodityInfoPublisher:
+    range: CommodityInformationPublisherEnum
+    description: Specifies the publication where the commodity prices can be found.
+    close_mappings:
+      - fpml_5_10:CommodityProductDefinition.commodityInfoPublisher
+
+  exchangeId:
+    range: string
+    description: ' Identifies the exchange from which the reference price should be sourced, using the scheme at the following
+      url: http://www.fpml.org/coding-scheme/external/exchange-id-MIC-1-0'
+    required: true
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:CommodityProductDefinition.exchangeId
+
+  commodityName:
+    range: string
+    description: Identifies the commodity more specifically. Where possible, this should follow the naming convention used
+      in the 2005 ISDA Commodity Definitions SubAnnex A, including the subCommodity and additional qualifiers, but should
+      be limited to 256 characters or less.
+    required: true
+    close_mappings:
+      - fpml_5_10:CommodityReferenceFramework.commodityName
+
+  deliveryTerm:
+    range: string
+    description: Also called contract month or delivery month. However, it's not always a month. It is usually expressed using
+      a code, e.g. Z23 would be the Dec 2023 contract, (Z = December). For crude oil, the corresponding contract might be
+      called CLZ23. Optional as this can be uniquely identified in the identifier.
+
+  optionType:
+    range: PutCallEnum
+    description: The type of option, ie Put or Call. Left empty if it is a Future.
+
+  strike:
+    range: decimal
+    description: Specifies the strike of the option.
+
+  borrower:
+    range: LegalEntity
+    description: Specifies the borrower. There can be more than one borrower. It is meant to be used in the event that there
+      is no Bloomberg Id or the Secured List isn't applicable.
+    multivalued: true
+    inlined_as_list: true
+
+  lien:
+    range: string
+    description: Specifies the seniority level of the lien.
+    annotations:
+      metadata_scheme: true
+
+  facilityType:
+    range: string
+    description: Specifies the type of loan facility (letter of credit, revolving, ...).
+    annotations:
+      metadata_scheme: true
+
+  creditAgreementDate:
+    range: date
+    description: 'Specifies the credit agreement date is the closing date (the date where the agreement has been signed) for
+      the loans in the credit agreement. Funding of the facilities occurs on (or sometimes a little after) the Credit Agreement
+      date. This underlier attribute is used to help identify which of the company''s outstanding loans are being referenced
+      by knowing to which credit agreement it belongs. ISDA Standards Terms Supplement term: Date of Original Credit Agreement.'
+
+  tranche:
+    range: string
+    description: 'Denotes the loan tranche that is subject to the derivative transaction. It will typically be referenced
+      as the Bloomberg tranche number. ISDA Standards Terms Supplement term: Bloomberg Tranche Number.'
+    annotations:
+      metadata_scheme: true
+
+  taxonomyValue:
+    range: CollateralTaxonomyValue
+    description: Specifies the taxonomy value.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomy.taxonomyValue
+
+  taxonomySource:
+    range: TaxonomySourceEnum
+    description: Specifies the taxonomy source.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomy.taxonomySource
+
+  eu_EMIR_EligibleCollateral:
+    range: EU_EMIR_EligibleCollateralEnum
+    description: 'Identifies European Union Eligible Collateral Assets classification categories based on EMIR Uncleared Margin
+      Rules. Eligible Collateral asset classes for both initial margin (IM) and variation margin (VM) posted and collected
+      between specified entities. Please note: EMIR regulation will detail which eligible collateral assets classes apply
+      to each type of entity pairing (counterparty) and which apply to posting of IM and VM'
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomyValue.eu_EMIR_EligibleCollateral
+
+  uk_EMIR_EligibleCollateral:
+    range: UK_EMIR_EligibleCollateralEnum
+    description: 'Identifies United Kingdom Eligible Collateral Assets classification categories based on UK Onshored EMIR
+      Uncleared Margin Rules Eligible Collateral asset classes for both initial margin (IM) and variation margin (VM) posted
+      and collected between specified entities. Please note: UK EMIR regulation will detail which eligible collateral assets
+      classes apply to each type of entity pairing (counterparty) and which apply to posting of IM and VM.'
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomyValue.uk_EMIR_EligibleCollateral
+
+  us_CFTC_PR_EligibleCollateral:
+    range: US_CFTC_PR_EligibleCollateralEnum
+    description: 'Identifies US Eligible Collateral Assets classification categories based on Uncleared Margin Rules published
+      by the CFTC and the US Prudential Regulator. Note: While the same basic categories exist in the CFTC and US Prudential
+      Regulators’ margin rules, the precise definitions or application of those rules could differ between the two rules.'
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomyValue.us_CFTC_PR_EligibleCollateral
+
+  nonEnumeratedTaxonomyValue:
+    range: string
+    description: Identifies the taxonomy value when not specified as an enumeration.
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomyValue.nonEnumeratedTaxonomyValue
+
+  securityType:
+    range: SecurityTypeEnum
+    description: Identifies the type of security using an enumerated list.
+    required: true
+
+  debtType:
+    range: DebtType
+    description: Identifies the type of debt and selected debt economics.
+
+  equityType:
+    range: EquityType
+    description: Identifies the type of equity.
+
+  fundType:
+    range: FundProductTypeEnum
+    description: Identifies the type of fund.
+
+  depositaryReceipt:
+    range: DepositaryReceiptTypeEnum
+
+  debtEconomics:
+    range: DebtEconomics
+    description: Specifies selected financial terms of a debt security.
+    multivalued: true
+    inlined_as_list: true
+
+  seniority:
+    range: DebtSeniorityEnum
+    description: Specifies the order of repayment in the event of a sale or bankruptcy of the issuer or a related party (eg
+      guarantor).
+
+  interest:
+    range: DebtInterestEnum
+    description: Specifies the general rule for periodic interest rate payment.
+
+  principal:
+    range: DebtPrincipalEnum
+    description: Specifies the general rule for repayment of principal.
+
+  secured:
+    range: SecuredDebt
+    description: Specifies the type of secured debt.
+
+  redemption:
+    range: DebtRedemption
+    description: Specifies the general rule for redemption of a debt security.
+
+  redemptionType:
+    range: RedemptionTypeEnum
+    description: Specifies the contractual redemption or conversion features associated with a debt security.
+
+  putCall:
+    range: PutCallEnum
+    description: Specifies the embedded option feature of a debt security.
+
+  party:
+    range: RedemptionPartyEnum
+    description: Specifies whether the debt security is redeemed at the election of the Issuer/Holder.
+
+  securedType:
+    range: SecuredTypeEnum
+    description: Specifies the type of secured debt product.
+
+  assetBacked:
+    range: AssetBackedEnum
+    description: Specifies the type of Asset Backed Security.
+
+  collateralizedObligation:
+    range: CollateralizedObligationEnum
+    description: Specifies the type of Collateralized Obligation.
+
+  coveredBond:
+    range: CoveredBondEnum
+    description: Specifies the type of Covered Bond.
+
+  propertyType:
+    range: PropertyTypeEnum
+    description: Specifies the type of property when the security is linked to a property asset.
+
+  guarantorType:
+    range: CollateralEntityTypeEnum
+    description: Specifies the origin of entity guaranteeing the collateral.
+    required: true
+
+  issuerType:
+    range: CollateralEntityTypeEnum
+    description: Specifies the origin of entity issuing the collateral.
+    required: true
+    close_mappings:
+      - fpml_5_10:CollateralIssuerType.issuerType
+
+  supraNationalType:
+    range: SupraNationalIssuerTypeEnum
+    description: Specifies debt issued by international organisations and multilateral banks.
+    close_mappings:
+      - fpml_5_10:CollateralIssuerType.supraNationalType
+
+  quasiGovernmentType:
+    range: QuasiGovernmentIssuerType
+    description: Specifies debt issues by institutions or bodies, typically constituted by statute, with a function mandated
+      by the government and subject to government supervision inclusive of profit- and non-profit making bodies. Includes
+      the US Agencies and GSEs and the EU concept of public sector entities. Excluding any entities which are also Regional
+      Government.
+    close_mappings:
+      - fpml_5_10:CollateralIssuerType.quasiGovernmentType
+
+  regionalGovernmentType:
+    range: RegionalGovernmentIssuerType
+    description: Specifies Regional government, local authority or municipal.
+    close_mappings:
+      - fpml_5_10:CollateralIssuerType.regionalGovernmentType
+
+  specialPurposeVehicleType:
+    range: SpecialPurposeVehicleIssuerType
+    description: Specifies a subsidiary company that is formed to undertake a specific business purpose of acquisition and
+      financing of specific assets on a potentially limited recourse basis dependent of how it is designed. E.g. asset backed
+      securities, including securitisations.
+    close_mappings:
+      - fpml_5_10:CollateralIssuerType.specialPurposeVehicleType
+
+  sovereignEntity:
+    range: boolean
+    description: True if sovereign entity (e.g. not separate legal personality from sovereign) or false if non-sovereign entity
+      (e.g. separate legal personality from sovereign).
+    required: true
+
+  sovereignRecourse:
+    range: boolean
+    description: Applies to non-sovereign entity (e.g. separate legal personality from sovereign).  True if entity has recourse
+      to sovereign (e.g. debt guaranteed by government).  False if entity does not have recourse to sovereign.
+
+  creditRisk:
+    range: CreditRiskEnum
+    description: Indicates tranched or untranched credit risk.
+
+  className:
+    range: string
+    description: The name defined by the classification system for a specific attribute in the taxonomy
+
+  ordinal:
+    range: integer
+    description: In the case of multi-layered hierarchical classification systems such as commodity classification, the layer
+      the value and className occupy in the classification hierarchy, where 1 represents the top-layer.
+
+  otherAssetType:
+    range: string
+    description: Specifies the eligible asset type when not enumerated.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:AssetType.otherAssetType
+
+  pricePublisher:
+    range: string
+    description: 'Defines a publication in which the price can be found. (e.g Gas Daily, Platts Bloomberg. Commodity publishers
+      can be found at this URL:  http://www.fpml.org/coding-scheme/commodity-information-provider>'
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  priceSourceLocation:
+    range: string
+    description: Specifies the location of the price which may be a specific page, electornic screen name, or a code (e.g.
+      a RIC code) where the price can be found.
+
+  priceSourceHeading:
+    range: string
+    description: Specifies the heading or field name for the price  on a given page or screen, where applicable.
+
+  priceSourceTime:
+    range: time
+    description: Specifies the time at which the price should be observed.
+
+classes:
+  AssetBase:
+    description: The base data type to specify common attributes for all Assets.
+    close_mappings:
+      - fpml_5_10:AssetBase
+    rules:
+      - description: If Exchange is specified, it must be an exchange-listed Instrument.
+        preconditions:
+          slot_conditions:
+            exchange:
+              required: true
+        postconditions:
+          slot_conditions:
+            isExchangeListed:
+              equals_string: 'True'
+      - description: Related Exchange should only be specified if an Exchange is also specified.
+        preconditions:
+          slot_conditions:
+            exchange:
+              required: false
+        postconditions:
+          slot_conditions:
+            relatedExchange:
+              required: false
+    comments:
+      - 'Rosetta condition: ExchangeListed — if exchange exists then isExchangeListed'
+      - 'Rosetta condition: RelatedExchange — if exchange is absent then relatedExchange is absent'
+    slots:
+      - identifier
+      - taxonomy
+      - isExchangeListed
+      - exchange
+      - relatedExchange
+      - assetType
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  AssetIdentifier:
+    description: The unique identifier for an Asset, specified using an Asset Identifier Type enumerator.
+    close_mappings:
+      - fpml_5_10:AssetIdentifier
+    comments:
+      - 'Rosetta func: AssetIdentifierByType — Returns all the Asset Identifiers of a certain Identifier Type.'
+    annotations:
+      rosetta_functions: '[{"name":"AssetIdentifierByType","description":"Returns all the Asset Identifiers of a certain Identifier
+        Type.","inputs":[{"name":"identifiers","type":"AssetIdentifier","cardinality":"0..*"},{"name":"idType","type":"AssetIdTypeEnum","cardinality":"1..1"}],"output":{"name":"filteredIdentifier","type":"AssetIdentifier","cardinality":"0..*"}}]'
+    slots:
+      - identifier
+      - identifierType
+    slot_usage:
+      identifier:
+        range: string
+        description: The identifier value.
+        multivalued: false
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  InstrumentBase:
+    description: Defines the common attributes for all Instrument data types.
+    is_a: AssetBase
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  ProductIdentifier:
+    description: Comprises an identifier and a source. The associated metadata key denotes the ability to associate a hash
+      value to the ProductIdentifier instantiations for the purpose of model cross-referencing, in support of functionality
+      such as the event effect and the lineage.
+    annotations:
+      metadata_key: true
+    slots:
+      - identifier
+      - source
+    slot_usage:
+      identifier:
+        range: string
+        description: Provides an identifier associated with a specific product.  The identifier is unique within the public
+          source specified in the source attribute.
+        multivalued: false
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  TaxonomyValue:
+    description: Defines a taxonomy value as either a simple string or a more granular expression with class names and values
+      for each class.
+    rules:
+      - description: ValueExists
+        postconditions:
+          any_of:
+            - slot_conditions:
+                name:
+                  required: true
+            - slot_conditions:
+                classification:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ValueExists — name exists or classification exists'
+    slots:
+      - name
+      - classification
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Taxonomy:
+    description: Defines the taxonomy of an object by combining a taxonomy source (i.e. the rules to classify the object)
+      and a value (i.e. the output of those rules on the object).
+    comments:
+      - 'Rosetta condition: OrdinalExists — if value -> classification count > 1 then value -> classification -> ordinal count
+        = value -> classification count'
+      - 'Rosetta condition: DifferentOrdinals — if value -> classification -> ordinal exists then value -> classification
+        -> ordinal count = value -> classification -> ordinal distinct count'
+      - 'Rosetta condition: SequentialOrdinals — if value -> classification count > 1 then value -> classification -> ordinal
+        count = value -> classification -> ordinal max'
+    slots:
+      - source
+      - value
+    slot_usage:
+      source:
+        range: TaxonomySourceEnum
+        description: The source of the taxonomy that defines the rules for classifying the object. The taxonomy source is
+          taken from a enumerated list of taxonomy names. Optional as the taxonomy source may not be provided.
+        required: false
+      value:
+        range: TaxonomyValue
+        description: The value according to that taxonomy. Optional as it may not be possible to classify the object in that
+          taxonomy.
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  ProductTaxonomy:
+    description: Specifies the product taxonomy, which is composed of a taxonomy value and a taxonomy source.
+    is_a: Taxonomy
+    rules:
+      - description: Requires a taxonomy type to be chosen, either from a taxonomy source or using asset classes.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                source:
+                  required: true
+            - slot_conditions:
+                primaryAssetClass:
+                  required: true
+            - slot_conditions:
+                secondaryAssetClass:
+                  required: true
+        preconditions: {}
+      - description: A taxonomy source can only be associated with a taxonomy value or productQualifier
+        preconditions:
+          slot_conditions:
+            source:
+              required: true
+        postconditions:
+          any_of:
+            - slot_conditions:
+                value:
+                  required: true
+            - slot_conditions:
+                productQualifier:
+                  required: true
+      - description: A taxonomy value and product qualifier are mutually exclusive. Choice is optional as it only applies
+          when source exists.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                value:
+                  required: true
+            - slot_conditions:
+                productQualifier:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: TaxonomyType — required choice source, primaryAssetClass, secondaryAssetClass'
+      - 'Rosetta condition: TaxonomySource — if source exists then (value exists or productQualifier exists)'
+      - 'Rosetta condition: TaxonomyValue — optional choice value, productQualifier'
+    slots:
+      - primaryAssetClass
+      - secondaryAssetClass
+      - productQualifier
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Cash:
+    description: An Asset that consists solely of a monetary holding in a currency. The currency of the Cash asset is held
+      in the string Identifier (from AssetBase) and the AssetIdTypeEnum must be set to define that a CurrencyCode is set.  The
+      function SetCashCurrency can be used to create (or update) a Cash object and the function GetCashCurrency can be used
+      to retrieve the currency of a Cash object.
+    is_a: AssetBase
+    close_mappings:
+      - gist:Magnitude
+    rules:
+      - description: Taxonomy is not applicable for a Cash asset.
+        postconditions:
+          slot_conditions:
+            taxonomy:
+              required: false
+        preconditions: {}
+      - description: Cash cannot be a listed Asset.
+        postconditions:
+          slot_conditions:
+            exchange:
+              required: false
+            isExchangeListed:
+              required: false
+        preconditions: {}
+      - description: AssetType must be cash.
+        postconditions:
+          slot_conditions:
+            assetType:
+              equals_string: Cash
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: CurrencyExists — AssetIdentifierByType(identifier, AssetIdTypeEnum -> CurrencyCode) count = 1
+        and AssetIdentifierByType(identifier, AssetIdTypeEnum -> CurrencyCode) -> identifier first to-enum CurrencyCodeEnum
+        exists'
+      - 'Rosetta condition: NoTaxonomy — taxonomy is absent'
+      - 'Rosetta condition: NoExchange — exchange is absent and isExchangeListed is absent'
+      - 'Rosetta condition: AssetType — assetType = Cash'
+      - 'Rosetta func: GetCashCurrency — Returns the enumerated Currency Code of a Cash asset.'
+      - 'Rosetta func: SetCashCurrency — Sets (or updates) the string identifier of a Cash asset using an enumerated Currency
+        Code.'
+    annotations:
+      rosetta_functions: '[{"name":"GetCashCurrency","description":"Returns the enumerated Currency Code of a Cash asset.","inputs":[{"name":"cash","type":"Cash","cardinality":"1..1"}],"output":{"name":"currencyEnum","type":"CurrencyCodeEnum","cardinality":"1..1"}},{"name":"SetCashCurrency","description":"Sets
+        (or updates) the string identifier of a Cash asset using an enumerated Currency Code.","inputs":[{"name":"cash","type":"Cash","cardinality":"0..1"},{"name":"currency","type":"CurrencyCodeEnum","cardinality":"1..1"}],"output":{"name":"cashOutput","type":"Cash","cardinality":"1..1"}}]'
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Commodity:
+    description: Identifies a specific commodity by referencing a product identifier or by a product definition.
+    is_a: AssetBase
+    close_mappings:
+      - fpml_5_10:Commodity
+    rules:
+      - description: AssetType must be commodity.
+        postconditions:
+          slot_conditions:
+            assetType:
+              equals_string: Commodity
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ValueSource — if taxonomy exists then (taxonomy -> source exists and taxonomy -> value exists)'
+      - 'Rosetta condition: AssetType — assetType = Commodity'
+    slots:
+      - commodityProductDefinition
+      - priceQuoteType
+      - deliveryDateReference
+      - description
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  CommodityProductDefinition:
+    description: Specifies the commodity underlier in the event that no ISDA Commodity Reference Price exists.
+    close_mappings:
+      - fpml_5_10:CommodityProductDefinition
+    rules:
+      - description: Requires the definition of either delivery date parameters or non-exchange price source.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                exchangeId:
+                  required: true
+            - slot_conditions:
+                priceSource:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: CommodityProductDefinitionChoice — optional choice exchangeId, priceSource'
+    slots:
+      - referenceFramework
+      - priceSource
+      - commodityInfoPublisher
+      - exchangeId
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  DeliveryDateParameters:
+    description: Specifies a specific date or the parameters for identifying the relevant contract date when the commodity
+      reference price is a futures contract.
+    rules:
+      - description: Requires definition of a delivery date or delieryNearby parameters.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                deliveryNearby:
+                  required: true
+            - slot_conditions:
+                deliveryDate:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: DeliveryDateParametersChoice — optional choice deliveryNearby, deliveryDate'
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  CommodityReferenceFramework:
+    description: Specifies the type of commodity.
+    close_mappings:
+      - fpml_5_10:CommodityReferenceFramework
+    rules:
+      - description: Requires that either the capacity unit or weather unit is populated.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                capacityUnit:
+                  required: true
+            - slot_conditions:
+                weatherUnit:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: CommodityReferenceFrameworkChoice — optional choice capacityUnit, weatherUnit'
+    slots:
+      - commodityName
+      - capacityUnit
+      - weatherUnit
+      - currency
+    slot_usage:
+      currency:
+        description: Defines the currency in which the commodity is priced.
+        required: true
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  DigitalAsset:
+    description: An Asset that exists only in digital form, eg Bitcoin or Ethereum, that is not backed by other Assets; excludes
+      the digital representation of other Assets, eg coins or Tokenised assets.
+    is_a: AssetBase
+    rules:
+      - description: Asset type must be Other.
+        postconditions:
+          slot_conditions:
+            assetType:
+              equals_string: Other
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: AssetType — assetType = Other'
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  ListedDerivative:
+    description: A securitized derivative on another asset.
+    is_a: InstrumentBase
+    rules:
+      - description: Options must have a strike price.
+        preconditions:
+          slot_conditions:
+            optionType:
+              required: true
+        postconditions:
+          slot_conditions:
+            strike:
+              required: true
+      - description: Asset type must be ListedDerivative.
+        postconditions:
+          slot_conditions:
+            assetType:
+              equals_string: ListedDerivative
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Options — if optionType exists then strike exists else strike is absent'
+      - 'Rosetta condition: AssetType — assetType = ListedDerivative'
+    slots:
+      - deliveryTerm
+      - optionType
+      - strike
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Loan:
+    description: Identifies a loan by referencing an asset identifier and through an optional set of attributes.
+    is_a: InstrumentBase
+    rules:
+      - description: Asset type must be Loan.
+        postconditions:
+          slot_conditions:
+            assetType:
+              equals_string: Loan
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: AssetType — assetType = Loan'
+    slots:
+      - borrower
+      - lien
+      - facilityType
+      - creditAgreementDate
+      - tranche
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  CollateralTaxonomy:
+    description: Specifies the collateral taxonomy, which is composed of a taxonomy value and a taxonomy source.
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomy
+    comments:
+      - 'Rosetta condition: Eu_EligibleCollateralTaxonomy — if taxonomySource = TaxonomySourceEnum -> EU_EMIR_EligibleCollateralAssetClass
+        then taxonomyValue -> eu_EMIR_EligibleCollateral exists'
+      - 'Rosetta condition: UkEligibleCollateralTaxonomy — if taxonomySource = TaxonomySourceEnum -> UK_EMIR_EligibleCollateralAssetClass
+        then taxonomyValue -> uk_EMIR_EligibleCollateral exists'
+      - 'Rosetta condition: UsEligibleCollateralTaxonomy — if taxonomySource = TaxonomySourceEnum -> US_CFTC_PR_EligibleCollateralAssetClass
+        then taxonomyValue -> us_CFTC_PR_EligibleCollateral exists'
+      - 'Rosetta condition: TaxonomyValue — if taxonomyValue -> nonEnumeratedTaxonomyValue exists then taxonomySource <> TaxonomySourceEnum
+        -> EU_EMIR_EligibleCollateralAssetClass and taxonomySource <> TaxonomySourceEnum -> UK_EMIR_EligibleCollateralAssetClass
+        and taxonomySource <> TaxonomySourceEnum -> US_CFTC_PR_EligibleCollateralAssetClass'
+    slots:
+      - taxonomyValue
+      - taxonomySource
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  CollateralTaxonomyValue:
+    description: Specifies the collateral taxonomy value, either as a specified enumeration or as a string.
+    close_mappings:
+      - fpml_5_10:CollateralTaxonomyValue
+    slots:
+      - eu_EMIR_EligibleCollateral
+      - uk_EMIR_EligibleCollateral
+      - us_CFTC_PR_EligibleCollateral
+      - nonEnumeratedTaxonomyValue
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Security:
+    description: Identifies a security by referencing an identifier and by specifying the sector.
+    is_a: InstrumentBase
+    notes:
+      - ICMA GMRA namingConvention "Purchased Security"
+    see_also:
+      - icma:GMRA
+    rules:
+      - description: DebtSubType
+        comments:
+          - 'Rosetta negation: securityType <> Debt'
+        preconditions:
+          slot_conditions:
+            securityType:
+              none_of:
+                - equals_string_in:
+                    - Debt
+        postconditions:
+          slot_conditions:
+            debtType:
+              required: false
+      - description: EquitySubType
+        comments:
+          - 'Rosetta negation: securityType <> Equity'
+        preconditions:
+          slot_conditions:
+            securityType:
+              none_of:
+                - equals_string_in:
+                    - Equity
+        postconditions:
+          slot_conditions:
+            equityType:
+              required: false
+      - description: FundSubType
+        comments:
+          - 'Rosetta negation: securityType <> Fund'
+        preconditions:
+          slot_conditions:
+            securityType:
+              none_of:
+                - equals_string_in:
+                    - Fund
+        postconditions:
+          slot_conditions:
+            fundType:
+              required: false
+      - description: Asset type must be Security.
+        postconditions:
+          slot_conditions:
+            assetType:
+              equals_string: Security
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: DebtSubType — if securityType <> Debt then debtType is absent'
+      - 'Rosetta condition: EquitySubType — if securityType <> Equity then equityType is absent'
+      - 'Rosetta condition: FundSubType — if securityType <> Fund then fundType is absent'
+      - 'Rosetta condition: AssetType — assetType = Security'
+    slots:
+      - securityType
+      - debtType
+      - equityType
+      - fundType
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  EquityType:
+    rules:
+      - description: DepositaryReceiptSubType
+        comments:
+          - 'Rosetta negation: equityType <> EquityTypeEnum -> DepositaryReceipt'
+        preconditions:
+          slot_conditions:
+            equityType:
+              none_of:
+                - equals_string_in:
+                    - DepositaryReceipt
+        postconditions:
+          slot_conditions:
+            depositaryReceipt:
+              required: false
+    comments:
+      - 'Rosetta condition: DepositaryReceiptSubType — if equityType <> EquityTypeEnum -> DepositaryReceipt then depositaryReceipt
+        is absent'
+    slots:
+      - equityType
+      - depositaryReceipt
+    slot_usage:
+      equityType:
+        range: EquityTypeEnum
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  DebtType:
+    description: Specifies the type of debt security.
+    slots:
+      - debtEconomics
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  DebtEconomics:
+    description: Specifies selected economics of a debt security.
+    slots:
+      - seniority
+      - interest
+      - principal
+      - secured
+      - redemption
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  DebtRedemption:
+    description: Specifies the redemption features and whether the redemption right is exercised at the discretion of the
+      issuer or the holder.
+    rules:
+      - description: A type of redemption must be specified if the redeeming party is specified.
+        preconditions:
+          slot_conditions:
+            party:
+              required: true
+        postconditions:
+          any_of:
+            - slot_conditions:
+                redemptionType:
+                  required: true
+            - slot_conditions:
+                putCall:
+                  required: true
+    comments:
+      - 'Rosetta condition: ConvertibleExchangablePartyElectionExists — if party exists then redemptionType exists or putCall
+        exists'
+    slots:
+      - redemptionType
+      - putCall
+      - party
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  SecuredDebt:
+    rules:
+      - description: Condition to restrict selection of the assetBacked attribute if AssetBacked is not set as the securedType
+          value.
+        comments:
+          - 'Rosetta negation: securedType <> SecuredTypeEnum -> AssetBacked'
+        preconditions:
+          slot_conditions:
+            securedType:
+              none_of:
+                - equals_string_in:
+                    - AssetBacked
+        postconditions:
+          slot_conditions:
+            assetBacked:
+              required: false
+      - description: Condition to restrict selection of the collateralizedObligations attribute if CollateralizedObligation
+          is not set as the securedType value.
+        comments:
+          - 'Rosetta negation: securedType <> CollateralizedObligation'
+        preconditions:
+          slot_conditions:
+            securedType:
+              none_of:
+                - equals_string_in:
+                    - CollateralizedObligation
+        postconditions:
+          slot_conditions:
+            collateralizedObligation:
+              required: false
+      - description: Condition to restrict selection of the coveredBonds attribute if CoveredBonds is not set as the securedType
+          value.
+        comments:
+          - 'Rosetta negation: securedType <> CoveredBonds'
+        preconditions:
+          slot_conditions:
+            securedType:
+              none_of:
+                - equals_string_in:
+                    - CoveredBonds
+        postconditions:
+          slot_conditions:
+            coveredBond:
+              required: false
+    comments:
+      - 'Rosetta condition: AssetBackedExists — if securedType <> SecuredTypeEnum -> AssetBacked then assetBacked is absent'
+      - 'Rosetta condition: PropertyExists — if assetBacked <> Mortgage or assetBacked <> Property or collateralizedObligation
+        <> CMO then propertyType is absent'
+      - 'Rosetta condition: CollateralizedObligationExists — if securedType <> CollateralizedObligation then collateralizedObligation
+        is absent'
+      - 'Rosetta condition: CoveredBondsExists — if securedType <> CoveredBonds then coveredBond is absent'
+    slots:
+      - securedType
+      - assetBacked
+      - collateralizedObligation
+      - coveredBond
+      - propertyType
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  CollateralGuarantorType:
+    description: Specifies the origin of entity guaranteeing the collateral.
+    slots:
+      - guarantorType
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  CollateralIssuerType:
+    description: Represents a class to allow specification of the type of entity issuing the collateral.
+    close_mappings:
+      - fpml_5_10:CollateralIssuerType
+    rules:
+      - description: SupraNationalSubType
+        comments:
+          - 'Rosetta negation: issuerType <> SupraNational'
+        preconditions:
+          slot_conditions:
+            issuerType:
+              none_of:
+                - equals_string_in:
+                    - SupraNational
+        postconditions:
+          slot_conditions:
+            supraNationalType:
+              required: false
+      - description: QuasiGovernmentSubType
+        comments:
+          - 'Rosetta negation: issuerType <> QuasiGovernment'
+        preconditions:
+          slot_conditions:
+            issuerType:
+              none_of:
+                - equals_string_in:
+                    - QuasiGovernment
+        postconditions:
+          slot_conditions:
+            quasiGovernmentType:
+              required: false
+      - description: RegionalGovernmentSubType
+        comments:
+          - 'Rosetta negation: issuerType <> RegionalGovernment'
+        preconditions:
+          slot_conditions:
+            issuerType:
+              none_of:
+                - equals_string_in:
+                    - RegionalGovernment
+        postconditions:
+          slot_conditions:
+            regionalGovernmentType:
+              required: false
+      - description: SpecialPurposeVehicleSubType
+        comments:
+          - 'Rosetta negation: issuerType <> SpecialPurposeVehicle'
+        preconditions:
+          slot_conditions:
+            issuerType:
+              none_of:
+                - equals_string_in:
+                    - SpecialPurposeVehicle
+        postconditions:
+          slot_conditions:
+            specialPurposeVehicleType:
+              required: false
+    comments:
+      - 'Rosetta condition: SupraNationalSubType — if issuerType <> SupraNational then supraNationalType is absent'
+      - 'Rosetta condition: QuasiGovernmentSubType — if issuerType <> QuasiGovernment then quasiGovernmentType is absent'
+      - 'Rosetta condition: RegionalGovernmentSubType — if issuerType <> RegionalGovernment then regionalGovernmentType is
+        absent'
+      - 'Rosetta condition: SpecialPurposeVehicleSubType — if issuerType <> SpecialPurposeVehicle then specialPurposeVehicleType
+        is absent'
+    slots:
+      - issuerType
+      - supraNationalType
+      - quasiGovernmentType
+      - regionalGovernmentType
+      - specialPurposeVehicleType
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  QuasiGovernmentIssuerType:
+    description: Represents a class to allow specification of different types of Quasi Government collateral.
+    rules:
+      - description: NonSovereignEntityRecourse
+        preconditions:
+          slot_conditions:
+            sovereignRecourse:
+              required: true
+        postconditions:
+          slot_conditions:
+            sovereignEntity:
+              equals_string: 'False'
+    comments:
+      - 'Rosetta condition: NonSovereignEntityRecourse — if sovereignRecourse exists then sovereignEntity = False'
+    slots:
+      - sovereignEntity
+      - sovereignRecourse
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  RegionalGovernmentIssuerType:
+    description: Represents a class to allow specification of different type of Regional government collateral.
+    slots:
+      - sovereignRecourse
+    slot_usage:
+      sovereignRecourse:
+        description: Applies to regional governments, local authorities or municipals.  True if entity has recourse to sovereign
+          (e.g. debt guaranteed by government).  False if entity does not have recourse to sovereign.
+        required: true
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  SpecialPurposeVehicleIssuerType:
+    description: Represents a class to allow specification of different types of special purpose vehicle (SPV) collateral.
+    slots:
+      - creditRisk
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  TaxonomyClassification:
+    slots:
+      - className
+      - value
+      - description
+      - ordinal
+    slot_usage:
+      value:
+        range: string
+        description: The value set by the taxonomy that is specific to the className attribute.
+        required: true
+      description:
+        description: A description of the class.
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  AssetType:
+    description: Represents a class to allow specification of the asset product type.
+    close_mappings:
+      - fpml_5_10:AssetType
+    rules:
+      - description: SecuritySubType
+        comments:
+          - 'Rosetta negation: assetType <> Security'
+        preconditions:
+          slot_conditions:
+            assetType:
+              none_of:
+                - equals_string_in:
+                    - Security
+        postconditions:
+          slot_conditions:
+            securityType:
+              required: false
+      - description: BondSubType
+        comments:
+          - 'Rosetta negation: securityType <> Debt'
+        preconditions:
+          slot_conditions:
+            securityType:
+              none_of:
+                - equals_string_in:
+                    - Debt
+        postconditions:
+          slot_conditions:
+            debtType:
+              required: false
+      - description: EquitySubType
+        comments:
+          - 'Rosetta negation: securityType <> Equity'
+        preconditions:
+          slot_conditions:
+            securityType:
+              none_of:
+                - equals_string_in:
+                    - Equity
+        postconditions:
+          slot_conditions:
+            equityType:
+              required: false
+      - description: FundSubType
+        comments:
+          - 'Rosetta negation: securityType <> Fund'
+        preconditions:
+          slot_conditions:
+            securityType:
+              none_of:
+                - equals_string_in:
+                    - Fund
+        postconditions:
+          slot_conditions:
+            fundType:
+              required: false
+      - description: OtherAssetSubType
+        preconditions:
+          slot_conditions:
+            assetType:
+              equals_string: Other
+        postconditions:
+          slot_conditions:
+            otherAssetType:
+              required: true
+    comments:
+      - 'Rosetta condition: SecuritySubType — if assetType <> Security then securityType is absent'
+      - 'Rosetta condition: BondSubType — if securityType <> Debt then debtType is absent'
+      - 'Rosetta condition: EquitySubType — if securityType <> Equity then equityType is absent'
+      - 'Rosetta condition: FundSubType — if securityType <> Fund then fundType is absent'
+      - 'Rosetta condition: OtherAssetSubType — if assetType = Other then otherAssetType exists'
+    slots:
+      - assetType
+      - securityType
+      - debtType
+      - equityType
+      - fundType
+      - otherAssetType
+    slot_usage:
+      assetType:
+        description: Represents a filter based on the type of collateral asset.
+      securityType:
+        description: Represents a filter based on the type of security.
+        required: false
+      debtType:
+        description: Represents a filter based on the type of bond.
+      equityType:
+        description: Represents a filter based on the type of equity.
+      fundType:
+        description: Represents a filter based on the type of fund.
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  PriceSource:
+    description: Specifies a publication that provides the commodity price, including, where applicable, the details of where
+      in the publication the price is published.
+    rules:
+      - description: Requires that if a priceSourceHeading is specified, then a priceSourceLocation must be speficified
+        preconditions:
+          slot_conditions:
+            priceSourceHeading:
+              required: true
+        postconditions:
+          slot_conditions:
+            priceSourceLocation:
+              required: true
+    comments:
+      - 'Rosetta condition: PriceSourceHeading — if priceSourceHeading exists then priceSourceLocation exists'
+    slots:
+      - pricePublisher
+      - priceSourceLocation
+      - priceSourceHeading
+      - priceSourceTime
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Asset:
+    abstract: true
+    description: An Asset is defined as something that can be owned and transferred in the financial markets. As a choice
+      data type, one and only one of the attributes must be used.
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - Cash
+      - Commodity
+      - DigitalAsset
+      - Instrument
+    in_subset:
+      - cdm_base_staticdata_asset_common
+
+  Instrument:
+    abstract: true
+    description: A type of Asset that is issued by one party to one or more others.
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - ListedDerivative
+      - Loan
+      - Security
+    in_subset:
+      - cdm_base_staticdata_asset_common

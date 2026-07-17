@@ -1,0 +1,29 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_legaldocumentation_master_icma
+name: cdm_legaldocumentation_master_icma
+description: LinkML schema for cdm.legaldocumentation.master.icma
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_legaldocumentation_master
+
+subsets:
+  cdm_legaldocumentation_master_icma:
+    description: Classes defined in the cdm_legaldocumentation_master_icma module.
+
+classes:
+  GlobalMasterRepoAgreement:
+    description: The set of elections that define a GMRA
+    is_a: MasterAgreementBase
+    in_subset:
+      - cdm_legaldocumentation_master_icma

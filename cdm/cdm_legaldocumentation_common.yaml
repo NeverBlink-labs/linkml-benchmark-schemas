@@ -1,0 +1,1446 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_legaldocumentation_common
+name: cdm_legaldocumentation_common
+description: Common legal agreement concepts.
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+  gist: https://w3id.org/lmodel/gist/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_legaldocumentation_master
+  - ./cdm_legaldocumentation_transaction
+  - ./cdm_product_collateral
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_datetime
+  - ./cdm_event_common
+
+subsets:
+  cdm_legaldocumentation_common:
+    description: Classes defined in the cdm_legaldocumentation_common module.
+
+enums:
+  ContractualDefinitionsEnum:
+    description: The enumerated values to specify a set of standard contract definitions relevant to the transaction.
+    permissible_values:
+      ISDA1991InterestRate:
+        description: ISDA 1991 Interest Rate Definitions
+      ISDA1993CommodityDerivatives:
+        description: ISDA 1993 Commodity Derivatives Definitions
+      ISDA1996EquityDerivatives:
+        description: ISDA 1996 Equity Derivatives Definitions
+      ISDA1997Bullion:
+        description: ISDA 1997 Bullion Definitions
+      ISDA1997GovernmentBondOption:
+        description: ISDA 1997 Government Bond Option Definitions
+      ISDA1998FxAndCurrencyOption:
+        description: ISDA 1998 FX and Currency Option Definitions
+      ISDA1999CreditDerivatives:
+        description: ISDA 1999 Credit Derivatives Definitions
+      ISDA2000:
+        description: ISDA 2000 Definitions
+      ISDA2002EquityDerivatives:
+        description: ISDA 2002 Equity Derivatives Definitions
+      ISDA2003CreditDerivatives:
+        description: ISDA 2003 Credit Derivatives Definitions
+      ISDA2004Novation:
+        description: ISDA 2004 Novation Definitions
+      ISDA2005Commodity:
+        description: ISDA 2005 Commodity Definitions
+      ISDA2006:
+        description: ISDA 2006 Definitions
+      ISDA2006InflationDerivatives:
+        description: ISDA 2006 Inflation Derivatives Definitions
+      ISDA2008InflationDerivatives:
+        description: ISDA 2008 Inflation Derivatives Definitions
+      ISDA2011EquityDerivatives:
+        description: ISDA 2011 Equity Derivatives Definitions
+      ISDA2014CreditDerivatives:
+        description: ISDA 2014 Credit Derivatives Definitions
+      ISDA2021InterestRateDerivatives:
+        description: ISDA 2021 Interest Rate Derivatives Definitions
+      ISDA2022VerifiedCarbonCredit:
+        description: ISDA 2022 Verified Carbon Credit Transactions Definitions
+      ISDA2023DigitalAssetDerivatives:
+        description: ISDA 2023 Digital Asset Derivatives Definitions
+
+  ContractualSupplementTypeEnum:
+    description: The enumerated values to define the supplements to a base set of ISDA Definitions that are applicable to
+      the transaction.
+    permissible_values:
+      ABX:
+        description: Standard Terms Supplement for ABX Transactions.
+      ABXTranche:
+        description: Standard Terms Supplement for Asset-Backed Tranche Transactions.
+      CDSonLeveragedLoans:
+        description: ISDA Standard Terms Supplement for use with Credit Derivative Transactions on Leveraged Loans.
+      CDSonMBS:
+        description: ISDA Standard Terms Supplement for use with Credit Derivative Transactions on Mortgage-backed Security
+          with Pay-As-You-Go or Physical Settlement.
+      CDX:
+        description: Standard Terms Supplement for CDX Untranched Transactions.
+      CDXEmergingMarkets:
+        description: Standard Terms Supplement for CDX Emerging Markets Untranched Transactions.
+      CDXEmergingMarketsDiversified:
+        description: Standard Terms Supplement for CDX Emerging Markets Diversified Untranched Transactions..
+      CDXSwaption:
+        description: Standard Terms Supplement for CDX Swaption Transactions.
+      CDXTranche:
+        description: Standard Terms Supplement for Dow Jones CDX Tranche Transactions.
+      CMBX:
+        description: Standard Terms Supplement for CMBX Transactions.
+      EuropeanCMBS:
+        description: Standard Terms Supplement for Single Name European CMBS Transactions.
+      EuropeanRMBS:
+        description: Standard Terms Supplement for Single Name European RMBS Transactions.
+      IOS:
+        description: Standard Terms Supplement for IOS Transactions.
+      ISDA1999CreditConvertibleExchangeableAccretingObligations:
+        description: Supplement to the 1999 ISDA Credit Derivatives Definitions Relating to Convertible, Exchangeable or Accreting
+          Obligations dated November 9, 2001.
+      ISDA1999CreditRestructuring:
+        description: Restructuring Supplement to the 1999 ISDA Credit Derivatives Definitions dated May 11, 2001.
+      ISDA1999CreditSuccessorAndCreditEvents:
+        description: Supplement Relating to Successor and Credit Events to the 1999 ISDA Credit Derivatives Definitions dated
+          November 28, 2001.
+      ISDA2003AdditionalProvisionsLPN:
+        description: Additional Provisions for LPN dated December 6, 2007.
+      ISDA2003ContingentCreditSpreadTransaction:
+        description: Additional Provisions for Contingent Credit Spread Transactions dated August 15, 2008.
+      ISDA2003Credit2005MatrixSupplement:
+        description: 2005 Matrix Supplement to the 2003 ISDA Credit Derivatives.
+      ISDA2003CreditArgentineRepublic:
+        description: 'Additional Provisions for the Argentine Republic: Excluded Obligations and Excluded Deliverable Obligations
+          dated December 21, 2005.'
+      ISDA2003CreditAuctionSupplement:
+        description: ISDA Credit Derivatives Determinations Committees and Auction Settlement Supplement to the 2003 ISDA
+          Credit Derivatives Definitions (published on [TBD]).
+      ISDA2003CreditMay2003:
+        description: May 2003 Supplement to the 2003 ISDA Credit Derivatives Definitions.
+      ISDA2003CreditMonolineInsurers:
+        description: Additional Provisions for Physically Settled Default Swaps Monoline Insurer as Reference Entity dated
+          May 9, 2003.
+      ISDA2003CreditMonolineInsurers2005:
+        description: Additional Provisions for Physically Settled Default Swaps Monoline Insurer as Reference Entity dated
+          January 21, 2005.
+      ISDA2003CreditRepublicOfHungary:
+        description: 'Additional Provisions for the Republic of Hungary: Obligation Characteristics and Deliverable Obligation
+          Characteristics dated August 13, 2004.'
+      ISDA2003CreditRepublicOfHungary2005:
+        description: 'Additional Provisions for the Republic of Hungary: Obligation Characteristics and Deliverable Obligation
+          Characteristics dated February 14, 2005. '
+      ISDA2003CreditRussianFederation:
+        description: 'Additional Provisions for the Russian Federation: Obligation Characteristics and Deliverable Obligation
+          Characteristics dated August 13, 2004.'
+      ISDA2003CreditUSMunicipals:
+        description: Additional Provisions for Credit Derivative Transactions - U.S. Municipal Entity as Reference Entity
+          dated September 17, 2004.
+      ISDA2003STMicroelectronicsNV:
+        description: Additional Provisions for STMicroelectronics NV dated December 6, 2007.
+      ISDA2007FullLookthroughDepositoryReceiptSupplement:
+        description: 2007 Full Lookthrough Depository Receipt Supplement to the 2002 Equity Derivatives Definitions.
+      ISDA2007PartialLookthroughDepositoryReceiptSupplement:
+        description: 2007 Partial Lookthrough Depository Receipt Supplement to the 2002 ISDA Equity Derivatives Definitions.
+      ISDACreditMonolineInsurers:
+        description: Additional Provisions for Physically Settled Default Swaps Monoline Insurer.
+      ISDADeliveryRestrictions:
+        description: Additional Provisions for Fixed Recovery Credit Default Swap Transactions
+      ISDAFixedRecovery:
+        description: Additional Provisions for Fixed Recovery Credit Default Swap Transactions.
+      ISDALPNReferenceEntities:
+        description: Additional Provisions for LPN Reference Entities.
+      ISDAMarch2004EquityCanadianSupplement:
+        description: Canadian Supplement to the 2004 Americas Interdealer Master Equity Derivatives Confirmation Agreement
+          dated March 29, 2004.
+      ISDARecoveryLock:
+        description: Additional Provisions for Recovery Lock Credit Default Swap Transactions.
+      ISDASecuredDeliverableObligationCharacteristic:
+        description: Additional Provisions for Secured Deliverable Obligation Characteristic.
+      LCDX:
+        description: Standard Terms Supplement for Syndicated Secured Loan Credit Default Swap Index Transactions.
+      LCDXTranche:
+        description: Standard Terms Supplement for Syndicated Secured Loan Credit Default Swap Index Tranche Transactions.
+      MBX:
+        description: Standard Terms Supplement for MBX Transactions.
+      MCDX:
+        description: Standard Terms Supplement for Municipal CDX Untranched Transactions.
+      PO:
+        description: Standard Terms Supplement for PO Index Transactions.
+      PrimeX:
+        description: Standard Terms Supplement for PrimeX Transactions.
+      StandardCDXTranche:
+        description: Standard Terms Supplement for Standard CDX Tranche Transactions.
+      StandardLCDS:
+        description: Standard Syndicated Secured Loan Credit Default Swap Standard Terms Supplement.
+      StandardLCDSBullet:
+        description: Standard Terms Supplement for Standard Syndicated Secured Loan Credit Default Swap Bullet Transactions.
+      StandardLCDXBullet:
+        description: Standard Terms Supplement for Standard Syndicated Secured Loan Credit Default Swap Index Bullet Transactions.
+      StandardLCDXBulletTranche:
+        description: Standard Terms Supplement for Standard Syndicated Secured Loan Credit Default Swap Index Bullet Tranche
+          Transactions.
+      StandardiTraxxEuropeTranche:
+        description: Standard Terms Supplement for Standard iTraxx Europe Tranched Transactions.
+      SyndicatedSecuredLoanCDS:
+        description: Syndicated Secured Loan Credit Default Swap Standard Terms Supplement.
+      TRX:
+        description: Standard Terms Supplement for TRX Transactions.
+      TRX_II:
+        description: Standard Terms Supplement for TRX.II Transactions.
+        aliases:
+          - TRX.II
+      iTraxxAsiaExJapan:
+        description: Standard Terms Supplement for iTraxx Asia Excluding Japan.
+      iTraxxAsiaExJapanSwaption:
+        description: Standard Terms Supplement for iTraxx Asia Ex-Japan Swaption Transactions.
+      iTraxxAsiaExJapanTranche:
+        description: Standard Terms Supplement for iTraxx Asia Excluding Japan Tranched Transactions.
+      iTraxxAustralia:
+        description: Standard Terms Supplement for iTraxx Australia.
+      iTraxxAustraliaSwaption:
+        description: Standard Terms Supplement for iTraxx Australia Swaption Transactions.
+      iTraxxAustraliaTranche:
+        description: Standard Terms Supplement for iTraxx Australia Tranched Transactions.
+      iTraxxCJ:
+        description: Standard Terms Supplement for iTraxx CJ.
+      iTraxxCJTranche:
+        description: Standard Terms Supplement for iTraxx CJ Tranched Transactions.
+      iTraxxEurope:
+        description: Standard Terms Supplement for iTraxx Europe Transactions.
+      iTraxxEuropeDealer:
+        description: Standard Terms Supplement for iTraxx Europe Dealer Form.
+      iTraxxEuropeNonDealer:
+        description: Standard Terms Supplement for iTraxx Europe Non-Dealer Form.
+      iTraxxEuropeSwaption:
+        description: Standard Terms Supplement for iTraxx Europe Swaption Transactions.
+      iTraxxEuropeTranche:
+        description: Standard Terms Supplement for iTraxx Europe Tranched Transactions.
+      iTraxxJapan:
+        description: Standard Terms Supplement for iTraxx Japan.
+      iTraxxJapanSwaption:
+        description: Standard Terms Supplement for iTraxx Japan Swaption Transactions.
+      iTraxxJapanTranche:
+        description: Standard Terms Supplement for iTraxx Japan Tranched Transactions.
+      iTraxxLevX:
+        description: Standard Terms Supplement for iTraxx LevX.
+      iTraxxSDI75Dealer:
+        description: Standard Terms Supplement for iTraxx SDI 75 Dealer Transactions.
+      iTraxxSDI75NonDealer:
+        description: Standard Terms Supplement for iTraxx SDI 75 Non-Dealer Transactions.
+      iTraxxSovX:
+        description: Standard Terms Supplement for iTraxx SovX.
+
+  GoverningLawEnum:
+    description: The enumerated values to specify the law governing the contract or legal document.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/governing-law
+    permissible_values:
+      AsSpecifiedInMasterAgreement:
+        description: The Governing Law is determined by reference to the relevant master agreement.
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#AsSpecifiedInMasterAgreement
+      BE:
+        description: Belgian law
+      CAAB:
+        description: Alberta law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#CAAB
+      CABC:
+        description: British Columbia Law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#CABC
+      CAMN:
+        description: Manitoba law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#CAMN
+      CAON:
+        description: Ontario law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#CAON
+      CAQC:
+        description: Quebec law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#CAQC
+      DE:
+        description: German law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#DE
+      FR:
+        description: French law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#FR
+      GBEN:
+        description: English law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#GBEN
+      GBGY:
+        description: The law of the island of Guernsey
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#GBGY
+      GBIM:
+        description: The law of the Isle of Man
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#GBIM
+      GBJY:
+        description: The law of the island of Jersey
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#GBJY
+      GBSC:
+        description: Scottish law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#GBSC
+      IE:
+        description: Irish law
+      JP:
+        description: Japanese law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#JP
+      LU:
+        description: Luxembourg law
+      RelatedMasterAgreement:
+        description: As agreed in the ISDA Master Agreement
+      USCA:
+        description: Californian law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#USCA
+      USDE:
+        description: Delaware law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#USDE
+      USIL:
+        description: Illinois law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#USIL
+      USNY:
+        description: New York law
+        meaning: http://www.fpml.org/coding-scheme/governing-law-1-2#USNY
+
+  LengthUnitEnum:
+    description: The enumerated values to specify the length unit in the Resource type.
+    permissible_values:
+      Pages: {}
+      TimeUnit: {}
+
+  MatrixTermEnum:
+    description: The enumerated values to specify a scheme of transaction types specified in the Equity Derivatives Settlement
+      Matrix.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/equity-matrix-transaction-type
+    permissible_values:
+      AsiaCorporate:
+        description: Matrix Transaction Type of ASIA CORPORATE.
+      AsiaFinancialCorporate:
+        description: Matrix Transaction Type of ASIA FINANCIAL CORPORATE.
+      AsiaSovereign:
+        description: Matrix Transaction Type of ASIA SOVEREIGN.
+      AustraliaCorporate:
+        description: Matrix Transaction Type of AUSTRALIA CORPORATE.
+      AustraliaFinancialCorporate:
+        description: Matrix Transaction Type of AUSTRALIA FINANCIAL CORPORATE.
+      AustraliaSovereign:
+        description: Matrix Transaction Type of AUSTRALIA SOVEREIGN.
+      EmergingEuropeanAndMiddleEasternSovereign:
+        description: Matrix Transaction Type of EMERGING EUROPEAN AND MIDDLE EASTERN SOVEREIGN.
+      EmergingEuropeanCorporate:
+        description: Matrix Transaction Type of EMERGING EUROPEAN CORPORATE.
+      EmergingEuropeanCorporateLPN:
+        description: Matrix Transaction Type of EMERGING EUROPEAN CORPORATE LPN.
+      EmergingEuropeanFinancialCorporate:
+        description: Matrix Transaction Type of EMERGING EUROPEAN FINANCIAL CORPORATE.
+      EmergingEuropeanFinancialCorporateLPN:
+        description: Matrix Transaction Type of EMERGING EUROPEAN FINANCIAL CORPORATE LPN.
+      EuropeanCoCoFinancialCorporate:
+        description: Matrix Transaction Type of EUROPEAN COCO FINANCIAL CORPORATE.
+      EuropeanCorporate:
+        description: Matrix Transaction Type of EUROPEAN CORPORATE.
+      EuropeanFinancialCorporate:
+        description: Matrix Transaction Type of EUROPEAN FINANCIAL CORPORATE.
+      EuropeanSeniorNonPreferredFinancialCorporate:
+        description: Matrix Transaction Type of EUROPEAN SENIOR NON PREFERRED FINANCIAL CORPORATE.
+      IVS1OpenMarkets:
+        description: The ISDA-published 2011 Index Volatility Swap Agreement for Open Markets.
+        meaning: http://www.fpml.org/coding-scheme/equity-matrix-transaction-type-1-0#IVS1OpenMarkets
+      JapanCorporate:
+        description: Matrix Transaction Type of JAPAN CORPORATE.
+      JapanFinancialCorporate:
+        description: Matrix Transaction Type of JAPAN FINANCIAL CORPORATE.
+      JapanSovereign:
+        description: Matrix Transaction Type of JAPAN SOVEREIGN.
+      LatinAmericaCorporate:
+        description: Matrix Transaction Type of LATIN AMERICA CORPORATE.
+      LatinAmericaCorporateBond:
+        description: Matrix Transaction Type of LATIN AMERICA CORPORATE B.
+      LatinAmericaCorporateBondOrLoan:
+        description: Matrix Transaction Type of LATIN AMERICA CORPORATE BL.
+      LatinAmericaFinancialCorporateBond:
+        description: Matrix Transaction Type of LATIN AMERICA FINANCIAL CORPORATE B.
+      LatinAmericaFinancialCorporateBondOrLoan:
+        description: Matrix Transaction Type of LATIN AMERICA FINANCIAL CORPORATE BL.
+      LatinAmericaSovereign:
+        description: Matrix Transaction Type of LATIN AMERICA SOVEREIGN.
+      NewZealandCorporate:
+        description: Matrix Transaction Type of NEW ZEALAND CORPORATE.
+      NewZealandFinancialCorporate:
+        description: Matrix Transaction Type of NEW ZEALAND FINANCIAL CORPORATE.
+      NewZealandSovereign:
+        description: Matrix Transaction Type of NEW ZEALAND SOVEREIGN.
+      NorthAmericanCorporate:
+        description: Matrix Transaction Type of NORTH AMERICAN CORPORATE.
+      NorthAmericanFinancialCorporate:
+        description: Matrix Transaction Type of NORTH AMERICAN FINANCIAL CORPORATE.
+      SingaporeCorporate:
+        description: Matrix Transaction Type of SINGAPORE CORPORATE.
+      SingaporeFinancialCorporate:
+        description: Matrix Transaction Type of SINGAPORE FINANCIAL CORPORATE.
+      SingaporeSovereign:
+        description: Matrix Transaction Type of SINGAPORE SOVEREIGN.
+      StandardAsiaCorporate:
+        description: Matrix Transaction Type of STANDARD ASIA CORPORATE.
+      StandardAsiaFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD ASIA FINANCIAL CORPORATE.
+      StandardAsiaSovereign:
+        description: Matrix Transaction Type of STANDARD ASIA SOVEREIGN.
+      StandardAustraliaCorporate:
+        description: Matrix Transaction Type of STANDARD AUSTRALIA CORPORATE.
+      StandardAustraliaFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD AUSTRALIA FINANCIAL CORPORATE.
+      StandardAustraliaSovereign:
+        description: Matrix Transaction Type of STANDARD AUSTRALIA SOVEREIGN.
+      StandardEmergingEuropeanAndMiddleEasternSovereign:
+        description: Matrix Transaction Type of STANDARD EMERGING EUROPEAN AND MIDDLE EASTERN SOVEREIGN.
+      StandardEmergingEuropeanCorporate:
+        description: Matrix Transaction Type of STANDARD EMERGING EUROPEAN CORPORATE.
+      StandardEmergingEuropeanCorporateLPN:
+        description: Matrix Transaction Type of STANDARD EMERGING EUROPEAN CORPORATE LPN.
+      StandardEmergingEuropeanFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD EMERGING EUROPEAN FINANCIAL CORPORATE.
+      StandardEmergingEuropeanFinancialCorporateLPN:
+        description: Matrix Transaction Type of STANDARD EMERGING EUROPEAN FINANCIAL CORPORATE LPN.
+      StandardEuropeanCoCoFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD EUROPEAN COCO FINANCIAL CORPORATE.
+      StandardEuropeanCorporate:
+        description: Matrix Transaction Type of STANDARD EUROPEAN CORPORATE.
+      StandardEuropeanFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD EUROPEAN FINANCIAL CORPORATE.
+      StandardEuropeanSeniorNonPreferredFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD EUROPEAN SENIOR NON PREFERRED FINANCIAL CORPORATE.
+      StandardJapanCorporate:
+        description: Matrix Transaction Type of STANDARD JAPAN CORPORATE.
+      StandardJapanFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD JAPAN FINANCIAL CORPORATE.
+      StandardJapanSovereign:
+        description: Matrix Transaction Type of STANDARD JAPAN SOVEREIGN.
+      StandardLatinAmericaCorporateBond:
+        description: Matrix Transaction Type of STANDARD LATIN AMERICA CORPORATE B.
+      StandardLatinAmericaCorporateBondOrLoan:
+        description: Matrix Transaction Type of STANDARD LATIN AMERICA CORPORATE BL.
+      StandardLatinAmericaFinancialCorporateBond:
+        description: Matrix Transaction Type of STANDARD LATIN AMERICA FINANCIAL CORPORATE B.
+      StandardLatinAmericaFinancialCorporateBondOrLoan:
+        description: Matrix Transaction Type of STANDARD LATIN AMERICA FINANCIAL CORPORATE BL.
+      StandardLatinAmericaSovereign:
+        description: Matrix Transaction Type of STANDARD LATIN AMERICA SOVEREIGN.
+      StandardNewZealandCorporate:
+        description: Matrix Transaction Type of STANDARD NEW ZEALAND CORPORATE.
+      StandardNewZealandFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD NEW ZEALAND FINANCIAL CORPORATE.
+      StandardNewZealandSovereign:
+        description: Matrix Transaction Type of STANDARD NEW ZEALAND SOVEREIGN.
+      StandardNorthAmericanCorporate:
+        description: Matrix Transaction Type of STANDARD NORTH AMERICAN CORPORATE.
+      StandardNorthAmericanFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD NORTH AMERICAN FINANCIAL CORPORATE.
+      StandardSingaporeCorporate:
+        description: Matrix Transaction Type of STANDARD SINGAPORE CORPORATE.
+      StandardSingaporeFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD SINGAPORE FINANCIAL CORPORATE.
+      StandardSingaporeSovereign:
+        description: Matrix Transaction Type of STANDARD SINGAPORE SOVEREIGN.
+      StandardSubordinatedEuropeanInsuranceCorporate:
+        description: Transaction Type of STANDARD SUBORDINATED EUROPEAN INSURANCE CORPORATE.
+      StandardSukukFinancialCorporate:
+        description: Matrix Transaction Type of STANDARD SUKUK FINANCIAL CORPORATE.
+      StandardUSMunicipalFullFaithAndCredit:
+        description: Matrix Transaction Type of STANDARD U.S. MUNICIPAL FULL FAITH AND CREDIT.
+      StandardUSMunicipalGeneralFund:
+        description: Matrix Transaction Type of STANDARD U.S. MUNICIPAL GENERAL FUND.
+      StandardUSMunicipalRevenue:
+        description: Matrix Transaction Type of STANDARD U.S. MUNICIPAL REVENUE.
+      StandardWesternEuropeanSovereign:
+        description: Matrix Transaction Type of STANDARD WESTERN EUROPEAN SOVEREIGN.
+      SubordinatedEuropeanInsuranceCorporate:
+        description: Matrix Transaction Type of SUBORDINATED EUROPEAN INSURANCE CORPORATE.
+      SukukCorporate:
+        description: Matrix Transaction Type of SUKUK CORPORATE.
+      SukukFinancialCorporate:
+        description: Matrix Transaction Type of SUKUK FINANCIAL CORPORATE.
+      SukukSovereign:
+        description: Matrix Transaction Type of SUKUK SOVEREIGN.
+      USMunicipalFullFaithAndCredit:
+        description: Matrix Transaction Type of U.S. MUNICIPAL FULL FAITH AND CREDIT.
+      USMunicipalGeneralFund:
+        description: Matrix Transaction Type of U.S. MUNICIPAL GENERAL FUND.
+      USMunicipalRevenue:
+        description: Matrix Transaction Type of U.S. MUNICIPAL REVENUE.
+      WesternEuropeanSovereign:
+        description: Matrix Transaction Type of WESTERN EUROPEAN SOVEREIGN.
+
+  MatrixTypeEnum:
+    description: The enumerated values to specify the identification the form of applicable matrix.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/matrix-type
+    permissible_values:
+      CreditDerivativesPhysicalSettlementMatrix:
+        description: The ISDA-published Credit Derivatives Physical Settlement Matrix.
+        meaning: http://www.fpml.org/coding-scheme/matrix-type-1-1#CreditDerivativesPhysicalSettlementMatrix
+      EquityDerivativesMatrix:
+        description: The ISDA-published Equity Derivatives Matrix.
+        meaning: http://www.fpml.org/coding-scheme/matrix-type-1-1#EquityDerivativesMatrix
+      SettlementMatrix:
+        description: The ISDA-published 2000 ISDA Definitions Settlement Matrix for Early Terminations and Swaptions.
+        meaning: http://www.fpml.org/coding-scheme/matrix-type-1-1#SettlementMatrix
+
+  ResourceTypeEnum:
+    description: The enumerated values to specify the type of a resource (e.g. document).
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/resource-type
+    permissible_values:
+      Confirmation:
+        description: Document describing the legal terms of a transaction.
+        meaning: http://www.fpml.org/coding-scheme/resource-type-1-1#Confirmation
+      SupplementalMaterialEconomicTerms:
+        description: Document providing supplemental material economic terms to the FpML data representation. The initial
+          intended usage is to fulfill the CFTC Part 45 rule requirement to report ‘Any other terms(s) of the swap matched
+          or affirmed by the counterparties in verifying the swap’ when the reporting is done via the generic FpML representation.
+        meaning: http://www.fpml.org/coding-scheme/resource-type-1-1#SupplementalMaterialEconomicTerms
+      TermSheet:
+        description: Document describing the economic characteristics of a transaction.
+        meaning: http://www.fpml.org/coding-scheme/resource-type-1-1#TermSheet
+
+  LegalAgreementTypeEnum:
+    description: The enumerated values to specify the legal agreement type.
+    notes:
+      - AcadiaSoft AM_1_0 namingConvention "DocumentNameEnum"
+    permissible_values:
+      BrokerConfirmation:
+        description: A Broker Confirmation.
+      Confirmation:
+        description: A Transaction Confirmation.
+      CreditSupportAgreement:
+        description: A Credit Support Agreement.
+      MasterAgreement:
+        description: A Master Agreement.
+      MasterConfirmation:
+        description: A Master Confirmation.
+      SecurityAgreement:
+        description: A Security Agreement related to a Collateral Transfer Agreement (CTA).
+      Other:
+        description: Another type of agreement.
+
+  LegalAgreementPublisherEnum:
+    description: The enumerated values to specify the legal agreement publisher.
+    notes:
+      - AcadiaSoft AM_1_0 namingConvention "PublisherEnum"
+    permissible_values:
+      AFB:
+        description: Association Française des Banques.
+      BNYM:
+        description: BNY Mellon
+      ISDAClearstream:
+        description: ISDA and Clearstream
+      EMTA:
+        description: Emerging Markets Traders Association
+      TheFXCommittee:
+        description: The Foreign Exchange Committee
+      ISDAEuroclear:
+        description: ISDA and Euroclear
+      ISDA:
+        description: International Swaps and Derivatives Association, Inc.
+      ISLA:
+        description: International Securities Lending Association
+      JPMorgan:
+        description: JP Morgan
+      ICMA:
+        description: International Capital Markets Association
+
+  ExecutionLocationEnum:
+    description: The enumerated values to specify the Execution Location of a Security Agreement
+    permissible_values:
+      ExecutedOutsideBelgium:
+        description: The Agreement was executed outside of Belgium
+      ExecutedInBelgium:
+        description: The Agreement was executed outside of Belgium
+      OtherLocation:
+        description: An alternative approach is described in the document as follows.
+
+  CreditSupportDocumentTermsEnum:
+    description: The enumerated values to specify the Credit Support Document Terms
+    permissible_values:
+      Specified:
+        description: A specified Credit Support Document is provided
+      Any:
+        description: Any guarantee, collateral arrangement and/or other agreement or arrangement which provides for credit
+          support with respect to the party’s obligations under this Agreement.
+      None:
+        description: No Credit Support Document is specified.
+
+  CreditSupportProviderTermsEnum:
+    description: The enumerated values to specify the Credit Support Provider Terms
+    permissible_values:
+      Specified:
+        description: A specified Credit Support Provider is provided
+      Any:
+        description: Any party or parties who now or in the future may provide a Credit Support Document or other form of
+          credit support.
+      None:
+        description: No Credit Support Provider is specified.
+
+  SpecifiedEntityClauseEnum:
+    description: The enumerated values to specify the Event of Default or Termination event for which Specified Entities terms
+      are being defined.
+    permissible_values:
+      DefaultUnderSpecifiedTransaction: {}
+      CrossDefault: {}
+      Bankruptcy: {}
+      CreditEventUponMerger: {}
+
+  SpecifiedEntityTermsEnum:
+    description: The enumerated values to specify the specified entity terms for the Event of Default or Termination Event
+      specified.
+    permissible_values:
+      None:
+        description: No Specified Entity is provided
+      AnyAffiliate:
+        description: Any Affiliate is a Specified Entity.
+      NamedSpecifiedEntity:
+        description: The Specified Entity is provided.
+      MaterialSubsidiary:
+        description: Any Material Subsidiary.
+      OtherSpecifiedEntity:
+        description: Non standard Specified Entity terms are provided.
+
+  TerminationCurrencyConditionEnum:
+    permissible_values:
+      PaymentsDue:
+        description: A currency in which payments would be due under one or more Transactions.
+      FreelyAvailable:
+        description: A currency that is freely available.
+      PaymentsDueAndFreelyAvailable:
+        description: A currency in which payments would be due under one or more Transactions and that is freely available.
+      Specified:
+        description: Termination Currency Conditions are specified.
+
+  UmbrellaPartyRoleEnum:
+    permissible_values:
+      Agent:
+        description: Represents a Contractual Party who has authority to negotiate, execute and deliver confirmations on behalf
+          of each unique party to the agreement that is linked to the Agent.
+      InvestmentManager:
+        description: Represents a Contractual Party who has been authorised to act as a centralised authority empowered to
+          negotiate, execute and manage transactions on behalf of multiple affiliated funds or accounts.
+      Principal:
+        description: Represents a Contractual Party that enters into and assumes direct responsibility for transactions.
+      SubAccount:
+        description: Represents an individual trading party, fund, portfolio or managed account associated to a principal,
+          Investment Manager or Agent Contractual Party.
+      Sleeve:
+        description: Represents a distinct trading strategy, portfolio, or sub account managed within a broader legal entity
+          or fund. It is not a legal party to the agreement.
+
+slots:
+  matrixType:
+    range: MatrixTypeEnum
+    description: Identifies the form of applicable matrix.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  matrixTerm:
+    range: MatrixTermEnum
+    description: Defines any applicable key into the relevant matrix. For example, the Transaction Type would be the single
+      term required for the Credit Derivatives Physical Settlement Matrix. This element should be omitted in the case of the
+      2000 ISDA Definitions Settlement Matrix for Early Termination and Swaptions.
+    annotations:
+      metadata_scheme: true
+
+  contractualTermsSupplementType:
+    range: ContractualSupplementTypeEnum
+    description: Identifies the form of applicable contractual supplement.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  otherAgreementType:
+    range: string
+    description: The agreement executed between the parties and intended to govern product-specific derivatives transactions
+      between those parties.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  resourceId:
+    range: string
+    description: The unique identifier of the resource within the event. FpML specifies this element of type resourceIdScheme
+      but with no specified value.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  resourceType:
+    range: ResourceTypeEnum
+    description: A description of the type of the resource, e.g. a confirmation.
+    annotations:
+      metadata_scheme: true
+
+  language:
+    range: string
+    description: Indicates the language of the resource, described using the ISO 639-2/T Code.
+    annotations:
+      metadata_scheme: true
+
+  sizeInBytes:
+    range: decimal
+    description: Indicates the size of the resource in bytes. It could be used by the end user to estimate the download time
+      and storage needs.
+
+  length:
+    range: ResourceLength
+    description: Indicates the length of the resource. For example, if the resource were a PDF file, the length would be in
+      pages.
+
+  mimeType:
+    range: string
+    description: Indicates the type of media used to store the content. mimeType is used to determine the software product(s)
+      that can read the content. MIME Types are described in RFC 2046.
+    annotations:
+      metadata_scheme: true
+
+  comments:
+    range: string
+    description: Any additional comments that are deemed necessary. For example, which software version is required to open
+      the document? Or, how does this resource relate to the others for this event?
+
+  string:
+    range: string
+    description: Provides extra information as string. In case the extra information is in XML format, a CDATA section must
+      be placed around the source message to prevent its interpretation as XML content.
+
+  url:
+    range: string
+    description: Indicates where the resource can be found, as a URL that references the information on a web server accessible
+      to the message recipient.
+
+  lengthUnit:
+    range: LengthUnitEnum
+    description: The length unit of the resource. For example, pages (pdf, text documents) or time (audio, video files).
+    required: true
+
+  lengthValue:
+    range: decimal
+    description: The length value of the resource.
+    required: true
+
+  agreement:
+    range: Agreement
+    description: Specification of the standard set of terms that define a legal agreement.
+    required: true
+    close_mappings:
+      - fpml_5_10:AgreementTerms.agreement
+
+  clauseLibrary:
+    range: boolean
+    description: Specification of whether the agreement terms have been negotiated using the clause library methodology.
+    close_mappings:
+      - fpml_5_10:AgreementTerms.clauseLibrary
+
+  agreementTerms:
+    range: AgreementTerms
+    description: Specification of the content of the legal agreement.
+
+  relatedAgreements:
+    range: LegalAgreement
+    description: Specifies the agreement(s) that govern the agreement, either as a reference to such agreements when specified
+      as part of the CDM, or through identification of some of the key terms of those agreements, such as the type of agreement,
+      the publisher, the vintage, the agreement identifier and the agreement date.
+    multivalued: true
+    inlined_as_list: true
+
+  umbrellaAgreement:
+    range: UmbrellaAgreement
+    description: Specifies a set of legal entities which are part of a legal agreement beyond the two contracting parties
+      to that agreement.
+
+  agreementDate:
+    range: date
+    description: The date on which the legal agreement has been agreed between the parties. This corresponds to the Date of
+      Deed in an English Law document.
+
+  legalAgreementIdentification:
+    range: LegalAgreementIdentification
+    description: 'The type of legal agreement, identified via a set of composable attributes: agreementName, publisher, governing
+      law and version, e.g. ISDA 2013 Standard Credit Support Annex English Law.'
+    required: true
+
+  contractualParty:
+    range: Party
+    description: The two contractual parties to the legal agreement, which reference information is positioned as part of
+      the partyInformation attribute.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+    annotations:
+      metadata_reference: true
+
+  otherParty:
+    range: PartyRole
+    description: The role(s) that other party(ies) may have in relation to the legal agreement, further to the contractual
+      parties.
+    multivalued: true
+
+  attachment:
+    range: Resource
+    description: A human readable document, for example a confirmation.
+    multivalued: true
+    inlined_as_list: true
+
+  agreementName:
+    range: AgreementName
+    description: The legal agreement name, e.g. Credit Support Annex for Variation Margin.
+    required: true
+    related_mappings:
+      - icma:AM_1_0#documentName
+
+  publisher:
+    range: LegalAgreementPublisherEnum
+    description: The legal agreement publisher, e.g. ISDA.
+    related_mappings:
+      - icma:AM_1_0#publisher
+
+  vintage:
+    range: integer
+    description: In the case where successive definitions of the legal agreement have been developed, the vintage identification.
+      This is typically (but not necessarily) done by referencing the year, e.g. 2013 in the case of the ISDA 2013 Standard
+      Credit Support Annex.
+    related_mappings:
+      - icma:AM_1_0#csaVersion
+
+  agreementType:
+    range: LegalAgreementTypeEnum
+    description: Specification of the legal agreement type.
+    required: true
+    close_mappings:
+      - fpml_5_10:AgreementName.agreementType
+
+  creditSupportAgreementType:
+    range: CreditSupportAgreementTypeEnum
+    description: Specification of the credit support agreement type.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:AgreementName.creditSupportAgreementType
+
+  creditSupportAgreementMarginType:
+    range: CollateralMarginTypeEnum
+    description: specifies the type of margin for which a legal agreement is named.
+    close_mappings:
+      - fpml_5_10:AgreementName.creditSupportAgreementMarginType
+
+  contractualDefinitionsType:
+    range: ContractualDefinitionsEnum
+    description: The definitions such as those published by ISDA that will define the terms of the trade.
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:AgreementName.contractualDefinitionsType
+
+  contractualTermsSupplement:
+    range: ContractualTermsSupplement
+    description: A contractual supplement (such as those published by ISDA) that will apply to the trade.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AgreementName.contractualTermsSupplement
+
+  contractualMatrix:
+    range: ContractualMatrix
+    description: A reference to a contractual matrix of elected terms/values (such as those published by ISDA) that shall
+      be deemed to apply to the trade. The applicable matrix is identified by reference to a name and optionally a publication
+      date. Depending on the structure of the matrix, an additional term (specified in the matrixTerm element) may be required
+      to further identify a subset of applicable terms/values within the matrix.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AgreementName.contractualMatrix
+
+  masterAgreementType:
+    range: MasterAgreementTypeEnum
+    description: Specification of the master agreement type.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:AgreementName.masterAgreementType
+
+  masterConfirmationType:
+    range: MasterConfirmationTypeEnum
+    description: The type of master confirmation executed between the parties.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:AgreementName.masterConfirmationType
+
+  masterConfirmationAnnexType:
+    range: MasterConfirmationAnnexTypeEnum
+    description: The type of master confirmation annex executed between the parties.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:AgreementName.masterConfirmationAnnexType
+
+  otherAgreement:
+    range: string
+    description: Definition of an agreement that is not enumerated in the CDM.
+    close_mappings:
+      - fpml_5_10:AgreementName.otherAgreement
+
+  brokerConfirmationType:
+    range: BrokerConfirmationTypeEnum
+    close_mappings:
+      - fpml_5_10:AgreementName.brokerConfirmationType
+
+  agreementSet:
+    range: UmbrellaAgreementSet
+    description: The language associated with the umbrella agreement, and which applies to all the parties to the umbrella
+      agreement.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  actingAs:
+    range: CounterpartyRoleEnum
+    description: Specifies the CounterpartyRoleEnum, e.g. either Party1 or Party2, that is associated to the party.
+
+  nonLegalEntity:
+    range: NonLegalEntity
+    description: Specifies a non-legal entity that exists in the agreement with a defined relationship to a Legal entity to
+      the agreement.
+
+  parentParty:
+    range: Party
+    description: Represents the identification of a parent child relationship between two entities in the Umbrella agreement,
+      allowing non-legal entities to be linked to the appropriate legal entity and allowing funds, portfolio or managed accounts
+      to be linked to their applicable Investment Manager or Agent within the agreement.
+
+  additionalLanguage:
+    range: string
+    description: Represents any additional language that may need to be captured regarding the structure or application of
+      terms that may exist for the agreement.
+
+  primaryContactInformation:
+    range: ContactInformation
+    description: The main notice/address information of the party.
+
+  additionalContactInformation:
+    range: NoticeContactInformation
+    description: Additional notice/address information of the party.
+    multivalued: true
+    inlined_as_list: true
+
+  naturalPerson:
+    range: NaturalPerson
+    description: Optional information about people involved in a transaction or business process.
+    multivalued: true
+    inlined_as_list: true
+
+  additionalInformation:
+    range: string
+    description: Additional information on the recipient.
+
+  isSpecified:
+    range: boolean
+    description: The qualification of whether some other related agreement is specified (True) or not (False).
+    required: true
+
+  legalDocument:
+    range: string
+    description: The specification of this other agreement, when the qualification is True.
+
+  creditSupportAgreementElections:
+    range: CreditSupportAgreementElections
+    description: Elections to specify a Credit Support Annex or Credit Support Deed for Intial or Variation Margin.
+    any_of:
+      - range: CreditSupportAgreementInitialMarginElections
+      - range: CreditSupportAgreementVariationMarginElections
+      - range: CreditSupportAgreementLegacyElections
+    close_mappings:
+      - fpml_5_10:Agreement.creditSupportAgreementElections
+
+  collateralTransferAgreementElections:
+    range: CollateralTransferAgreementElections
+    description: Elections to specify a Collateral Transfer Agreement.
+    close_mappings:
+      - fpml_5_10:Agreement.collateralTransferAgreementElections
+
+  securityAgreementElections:
+    range: SecurityAgreementElections
+    description: Elections to specify a Security agreement.
+    close_mappings:
+      - fpml_5_10:Agreement.securityAgreementElections
+
+  masterAgreementSchedule:
+    range: MasterAgreementSchedule
+    description: Elections to specify a Master Agreement Schedule.
+    close_mappings:
+      - fpml_5_10:Agreement.masterAgreementSchedule
+
+  transactionAdditionalTerms:
+    range: TransactionAdditionalTerms
+    description: Any additional terms which mainly intend to specify the extraordinary events that may affect a trade and
+      the related contractual rights and obligation of the parties when this happens
+    close_mappings:
+      - fpml_5_10:Agreement.transactionAdditionalTerms
+
+  masterAgreementElections:
+    range: MasterAgreementElections
+    description: A legal representation of the different possible master agreements
+    close_mappings:
+      - fpml_5_10:Agreement.masterAgreementElections
+
+classes:
+  ContractualMatrix:
+    slots:
+      - matrixType
+      - matrixTerm
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  ContractualTermsSupplement:
+    description: A contractual supplement (such as those published by ISDA) and its publication date that will apply to the
+      trade.
+    slots:
+      - contractualTermsSupplementType
+      - publicationDate
+    slot_usage:
+      publicationDate:
+        range: date
+        description: Specifies the publication date of the applicable version of the contractual supplement.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  OtherAgreement:
+    description: A class for defining an agreement executed between parties.
+    slots:
+      - identifier
+      - otherAgreementType
+      - version
+      - date
+    slot_usage:
+      identifier:
+        range: string
+        description: An identifier that has been created to identify the agreement.
+        required: false
+        multivalued: false
+      version:
+        description: The version of the agreement.
+        required: false
+      date:
+        description: The date on which the agreement was signed.
+        required: false
+        multivalued: false
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  Resource:
+    description: Describes the resource that contains the media representation of a business event (i.e used for stating the
+      Publicly Available Information). For example, can describe a file or a URL that represents the event. This type is an
+      extended version of a type defined by RIXML (www.rixml.org).  Rosetta restricts the FpML implementation by not providing
+      the ability to associated a document in hexadecimalBinary or base64Binary until such time that actual use cases will
+      come up.
+    rules:
+      - description: Choice rule to represent an FpML choice construct. Note that FpML also provides the ability to have hexadecimalBinary
+          or base64Binary, which have not been implemented in Rosetta until we see actual use cases.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                string:
+                  required: true
+            - slot_conditions:
+                url:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ResourceChoice — optional choice string, url'
+    slots:
+      - resourceId
+      - resourceType
+      - language
+      - sizeInBytes
+      - length
+      - mimeType
+      - name
+      - comments
+      - string
+      - url
+    slot_usage:
+      name:
+        description: The name of the resource.  It is specified as a NormalizedString in FpML.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  ResourceLength:
+    description: A class to indicate the length of the resource.
+    slots:
+      - lengthUnit
+      - lengthValue
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  AgreementTerms:
+    description: Specification of the content of a legal agreement.
+    close_mappings:
+      - fpml_5_10:AgreementTerms
+    slots:
+      - agreement
+      - clauseLibrary
+      - counterparty
+    slot_usage:
+      counterparty:
+        description: Specification of the roles of the counterparties to the agreement.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  LegalAgreement:
+    description: The specification of a legal agreement between two parties, being negotiated or having been executed. This
+      includes the baseline information and the optional specialised elections
+    is_a: LegalAgreementBase
+    tree_root: true
+    annotations:
+      metadata_key: true
+    rules:
+      - description: Either the Agreement Terms (i.e. a bilateral or one way agreement) or an Umbrella Agreement (i.e. an
+          agreement where multiple parties and variations of terms are described within a single document but represent multiple
+          agreements for operational purposes) should be included, but not both.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                agreementTerms:
+                  required: true
+            - slot_conditions:
+                umbrellaAgreement:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ConsistentlyExecutedAgreements — if relatedAgreements exists and agreementDate exists then relatedAgreements
+        -> agreementDate exists'
+      - 'Rosetta condition: AgreementVerification — if agreementTerms -> agreement -> securityAgreementElections exists then
+        legalAgreementIdentification -> agreementName -> agreementType = LegalAgreementTypeEnum -> SecurityAgreement else
+        if agreementTerms -> agreement -> creditSupportAgreementElections exists then legalAgreementIdentification -> agreementName
+        -> creditSupportAgreementType = CreditSupportAgreementTypeEnum -> CreditSupportAnnex or legalAgreementIdentification
+        -> agreementName -> creditSupportAgreementType = CreditSupportAgreementTypeEnum -> CreditSupportDeed else if agreementTerms
+        -> agreement -> collateralTransferAgreementElections exists then legalAgreementIdentification -> agreementName ->
+        creditSupportAgreementType = CreditSupportAgreementTypeEnum -> CollateralTransferAgreement else if agreementTerms
+        -> agreement -> masterAgreementSchedule exists then legalAgreementIdentification -> agreementName -> agreementType
+        = LegalAgreementTypeEnum -> MasterAgreement'
+      - 'Rosetta condition: AgreementType — required choice agreementTerms, umbrellaAgreement'
+    slots:
+      - agreementTerms
+      - relatedAgreements
+      - umbrellaAgreement
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  LegalAgreementBase:
+    description: Specifies the legal agreement baseline information, being negotiated or having been executed. It excludes
+      specialized elections
+    slots:
+      - agreementDate
+      - effectiveDate
+      - identifier
+      - legalAgreementIdentification
+      - contractualParty
+      - otherParty
+      - attachment
+    slot_usage:
+      effectiveDate:
+        description: The date on which, or as of which, the agreement is effective, if different from the agreement date.
+          It is expected that it will most often correspond to the agreement date, although there could be situations where
+          the parties will explicitly agree on a distinct effective date.
+      identifier:
+        range: Identifier
+        inlined_as_list: true
+        description: The legal agreement identifier. Several identifiers can be specified.
+        required: false
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  LegalAgreementIdentification:
+    description: 'Specifies the type of legal agreement, identified via a set of composable attributes: agreementName, publisher,
+      governing law and version, e.g. ISDA 2013 Standard Credit Support Annex English Law.'
+    comments:
+      - 'Rosetta condition: CSAMarginType — if agreementName -> creditSupportAgreementMarginType exists then agreementName
+        -> creditSupportAgreementType exists and vintage >= 2016'
+    slots:
+      - governingLaw
+      - agreementName
+      - publisher
+      - vintage
+    slot_usage:
+      governingLaw:
+        description: The law governing the legal agreement, e.g. English Law, New York Law or Japanese Law.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  AgreementName:
+    description: Specifies the agreement name through an agreement type and optional detailed sub agreement type.
+    close_mappings:
+      - fpml_5_10:AgreementName
+    rules:
+      - description: A condition to ensure that the credit supoort agreement type is specified when required.
+        preconditions:
+          slot_conditions:
+            agreementType:
+              equals_string: CreditSupportAgreement
+        postconditions:
+          slot_conditions:
+            creditSupportAgreementType:
+              required: true
+      - description: If a master confirmation annex type is specified a master confirmation type must exist.
+        preconditions:
+          slot_conditions:
+            masterConfirmationAnnexType:
+              required: true
+        postconditions:
+          slot_conditions:
+            masterConfirmationType:
+              required: true
+      - description: A condition to ensure that CSA margin type is only specified if a credit support agreemnt type is specified.
+        preconditions:
+          slot_conditions:
+            creditSupportAgreementMarginType:
+              required: true
+        postconditions:
+          slot_conditions:
+            creditSupportAgreementType:
+              required: true
+    comments:
+      - 'Rosetta condition: AgreementType — if agreementType <> LegalAgreementTypeEnum -> Other then otherAgreement is absent
+        else if agreementType <> LegalAgreementTypeEnum -> MasterAgreement then masterAgreementType is absent else if agreementType
+        <> LegalAgreementTypeEnum -> MasterConfirmation then masterConfirmationType is absent and masterConfirmationAnnexType
+        is absent else if agreementType <> LegalAgreementTypeEnum -> Confirmation then contractualDefinitionsType is absent
+        and contractualTermsSupplement is absent and contractualMatrix is absent'
+      - 'Rosetta condition: CreditSupportAgreement — if agreementType = LegalAgreementTypeEnum -> CreditSupportAgreement then
+        creditSupportAgreementType exists'
+      - 'Rosetta condition: MasterConfirmation — if masterConfirmationAnnexType exists then masterConfirmationType exists'
+      - 'Rosetta condition: CSAMarginType — if creditSupportAgreementMarginType exists then creditSupportAgreementType exists'
+    slots:
+      - agreementType
+      - creditSupportAgreementType
+      - creditSupportAgreementMarginType
+      - contractualDefinitionsType
+      - contractualTermsSupplement
+      - contractualMatrix
+      - masterAgreementType
+      - masterConfirmationType
+      - masterConfirmationAnnexType
+      - otherAgreement
+      - brokerConfirmationType
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  UmbrellaAgreement:
+    description: Specifies the set of agreements, the parties of which are set within UmbrellaAgreementSet, beyond the two
+      contracting parties to that agreement.
+    slots:
+      - agreementSet
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  UmbrellaAgreementParty:
+    description: Specifies the entities that are part of the umbrella agreement.
+    rules:
+      - description: Specifies that certain defined roles require that a parent party is identified.
+        preconditions:
+          slot_conditions:
+            partyRole:
+              equals_string: Sleeve
+        postconditions:
+          slot_conditions:
+            parentParty:
+              required: true
+      - description: Only a Party or a non-Legal entity can be set.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                party:
+                  required: true
+            - slot_conditions:
+                nonLegalEntity:
+                  required: true
+        preconditions: {}
+      - description: Non-Legal entity must have a Parent Party.
+        preconditions:
+          slot_conditions:
+            nonLegalEntity:
+              required: true
+        postconditions:
+          slot_conditions:
+            parentParty:
+              required: true
+    comments:
+      - 'Rosetta condition: ParentParty — if partyRole = UmbrellaPartyRoleEnum -> Sleeve then parentParty exists'
+      - 'Rosetta condition: UmbrellaParty — required choice party, nonLegalEntity'
+      - 'Rosetta condition: NonLegalEntityParent — if nonLegalEntity exists then parentParty exists'
+    slots:
+      - party
+      - actingAs
+      - partyRole
+      - nonLegalEntity
+      - parentParty
+    slot_usage:
+      party:
+        range: Party
+        description: Specifies the party to the umbrella agreement
+      partyRole:
+        range: UmbrellaPartyRoleEnum
+        description: Represents the legal role that each defined entity to the agreement performs within the structure of
+          that agreement.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  NonLegalEntity:
+    description: Specifies a non-legal entity that exists in the agreement with a defined relationship to a Legal entity to
+      the agreement
+    slots:
+      - identifier
+      - identifierType
+    slot_usage:
+      identifier:
+        range: string
+        description: Specifies the unique identifier value for a non-legal entity such as a sleeve, or sub account, that is
+          a party to the agreement and has a relationship with a legal entity defined on the agreement.
+        multivalued: false
+      identifierType:
+        range: string
+        description: Specifies the Identifier type for a non-Legal entity to the agreement, for example the use of an alert
+          code to uniquely identify a non-Legal entity.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  UmbrellaAgreementSet:
+    description: Represents the groups of agreement term elections that exist within the agreement and to which entities that
+      particular group of elections apply. Where all entities under the umbrella have the same set of elections only one agreement
+      set will exist. At least one agreement set must be defined for an Umbrella agreement
+    comments:
+      - 'Rosetta condition: ExcludeGMSLA — agreement -> masterAgreementElections -> islaGmsla is absent'
+    slots:
+      - agreement
+      - party
+      - additionalLanguage
+    slot_usage:
+      party:
+        range: UmbrellaAgreementParty
+        description: Specifies the underlying parties to the agreement that either act as legal parties to the agreement or
+          represent legal constructs that are managed by a party to the agreement but do not represent a Legal Entity as of
+          themselves.
+        required: true
+        multivalued: true
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  ContactInformationElection:
+    description: Specifies the party reference and the associated contact information.
+    slots:
+      - partyReference
+      - primaryContactInformation
+    slot_usage:
+      partyReference:
+        range: CounterpartyRoleEnum
+        description: The party to which the election and details apply.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  NoticeInformationElection:
+    description: Specifies the party reference and the associated notice and contact information.
+    is_a: ContactInformationElection
+    slots:
+      - additionalContactInformation
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  NoticeContactInformation:
+    description: Specifies notice information including address and, optionally, an associated person. This type also supports
+      the ISDA CSA representation as a single string, through the address attribute in Contact Information.
+    is_a: ContactInformation
+    slots:
+      - naturalPerson
+      - additionalInformation
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  TransferInformationElection:
+    description: Specifies the party reference and the associated transfer & contact information.
+    is_a: ContactInformationElection
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  TransferContactInformation:
+    description: Specifies transfer information including address and, optionally, an associated account. This type also supports
+      the ISDA CSA representation as a single string, through the address attribute in Contact Information.
+    is_a: ContactInformation
+    slots:
+      - account
+      - additionalInformation
+    slot_usage:
+      account:
+        description: Specifies the account infomation for transfers to a party.
+        multivalued: true
+      additionalInformation:
+        description: Additional transfer information.
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  OtherAgreementTerms:
+    description: 'A class to specify a related legal agreement. For example, ISDA 2016 Credit Support Annex for Initial Margin,
+      paragraph 13, General Principles, (s): Other CSA and Japanese Law CSA (VM). | ISDA 2016 Credit Support Annex for Variation
+      Margin, paragraph 13, (o): Other CSA.'
+    rules:
+      - description: A data rule to enforce that the related legal agreement should not be referenced if it is deemed as not
+          specified as part of the boolean attribute.
+        preconditions:
+          slot_conditions:
+            isSpecified:
+              equals_string: 'False'
+        postconditions:
+          slot_conditions:
+            legalDocument:
+              required: false
+      - description: A data rule to enforce that the related legal agreement should be referenced if it is deemed as specified
+          as part of the boolean attribute.
+        preconditions:
+          slot_conditions:
+            isSpecified:
+              equals_string: 'True'
+        postconditions:
+          slot_conditions:
+            legalDocument:
+              required: true
+    comments:
+      - 'Rosetta condition: LegalDocumentNotSpecified — if isSpecified = False then legalDocument is absent'
+      - 'Rosetta condition: LegalDocumentSpecified — if isSpecified = True then legalDocument exists'
+    slots:
+      - isSpecified
+      - legalDocument
+    in_subset:
+      - cdm_legaldocumentation_common
+
+  Agreement:
+    description: Specification of the standard set of terms that define a legal agreement.
+    close_mappings:
+      - fpml_5_10:Agreement
+    exact_mappings:
+      - gist:Agreement
+    slots:
+      - creditSupportAgreementElections
+      - collateralTransferAgreementElections
+      - securityAgreementElections
+      - masterAgreementSchedule
+      - transactionAdditionalTerms
+      - masterAgreementElections
+    in_subset:
+      - cdm_legaldocumentation_common

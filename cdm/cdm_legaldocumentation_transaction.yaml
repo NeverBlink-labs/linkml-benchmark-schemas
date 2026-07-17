@@ -1,0 +1,693 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_legaldocumentation_transaction
+name: cdm_legaldocumentation_transaction
+description: LinkML schema for cdm.legaldocumentation.transaction
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  isda: https://www.isda.org/specifications/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_staticdata_party
+  - ./cdm_legaldocumentation_master
+  - ./cdm_legaldocumentation_transaction_additionalterms
+  - ./cdm_observable_asset
+  - ./cdm_product_asset
+  - ./cdm_product_common_schedule
+  - ./cdm_product_common_settlement
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_legaldocumentation_common
+
+subsets:
+  cdm_legaldocumentation_transaction:
+    description: Classes defined in the cdm_legaldocumentation_transaction module.
+
+enums:
+  BrokerConfirmationTypeEnum:
+    description: The enumerated values to specify the type of Broker Confirm that the FpML trade represents.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/broker-confirmation-type
+    permissible_values:
+      ABX:
+        description: Broker Confirmation Type representing ABX index trades.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#ABX
+      AsiaCorporate:
+        description: Broker Confirmation Type of Asia Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#AsiaCorporate
+      AsiaSovereign:
+        description: Broker Confirmation Type of Asia Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#AsiaSovereign
+      AustraliaCorporate:
+        description: Broker Confirmation Type of Australia Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#AustraliaCorporate
+      AustraliaSovereign:
+        description: Broker Confirmation Type of Australia Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#AustraliaSovereign
+      CDSonLeveragedLoans:
+        description: Broker Confirmation Type for use with Credit Derivative Transactions on Leveraged Loans.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CDSonLeveragedLoans
+      CDSonMBS:
+        description: Broker Confirmation Type for use with Credit Derivative Transactions on Mortgage-backed Security with
+          Pay-As-You-Go or Physical Settlement.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CDSonMBS
+      CDXEmergingMarkets:
+        description: Broker Confirmation Type for CDX Emerging Markets Untranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CDXEmergingMarkets
+      CDXEmergingMarketsDiversified:
+        description: Broker Confirmation Type for CDX Emerging Markets Diversified Untranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CDXEmergingMarketsDiversified
+      CDXSwaption:
+        description: Broker Confirmation Type for CDX Swaption Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CDXSwaption
+      CDXTranche:
+        description: Broker Confirmation Type for Dow Jones CDX Tranche Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CDXTranche
+      CMBX:
+        description: Broker Confirmation Type representing CMBX index trades.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#CMBX
+      DJ_CDX_EM_:
+        description: Broker Confirmation Type for CDS Index trades relating to Dow Jones CDX.EM index series.
+        aliases:
+          - 'DJ.CDX.EM '
+      DJ_CDX_NA:
+        description: Broker Confirmation Type for CDS Index trades relating to Dow Jones CDX.NA.IG and Dow Jones CDX.NA.HY
+          index series.
+        aliases:
+          - DJ.CDX.NA
+      EmergingEuropeanAndMiddleEasternSovereign:
+        description: Broker Confirmation Type of Emerging European and Middle Eastern Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#EmergingEuropeanAndMiddleEasternSovereign
+      EmergingEuropeanCorporate:
+        description: Broker Confirmation Type for EMERGING EUROPEAN CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#EmergingEuropeanCorporate
+      EmergingEuropeanCorporateLPN:
+        description: Broker Confirmation Type for EMERGING EUROPEAN CORPORATE LPN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#EmergingEuropeanCorporateLPN
+      EuropeanCMBS:
+        description: Broker Confirmation Type for Single Name European CMBS Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#EuropeanCMBS
+      EuropeanCorporate:
+        description: Broker Confirmation Type of European Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#EuropeanCorporate
+      EuropeanRMBS:
+        description: Broker Confirmation Type for Single Name European RMBS Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#EuropeanRMBS
+      JapanCorporate:
+        description: Broker Confirmation Type of Japan Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#JapanCorporate
+      JapanSovereign:
+        description: Broker Confirmation Type of Japan Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#JapanSovereign
+      LatinAmericaCorporate:
+        description: Broker Confirmation Type of Latin America Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#LatinAmericaCorporate
+      LatinAmericaCorporateBond:
+        description: Broker Confirmation Type for LATIN AMERICA CORPORATE B.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#LatinAmericaCorporateBond
+      LatinAmericaCorporateBondOrLoan:
+        description: Broker Confirmation Type for LATIN AMERICA CORPORATE BL.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#LatinAmericaCorporateBondOrLoan
+      LatinAmericaSovereign:
+        description: Broker Confirmation Type of Latin America Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#LatinAmericaSovereign
+      MBX:
+        description: Broker Confirmation Type for MBX Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#MBX
+      MCDX:
+        description: Broker Confirmation Type for Municipal CDX Untranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#MCDX
+      NewZealandCorporate:
+        description: Broker Confirmation Type of New Zealand Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#NewZealandCorporate
+      NewZealandSovereign:
+        description: Broker Confirmation Type of New Zealand Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#NewZealandSovereign
+      NorthAmericanCorporate:
+        description: Broker ConfirmationType of North American Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#NorthAmericanCorporate
+      PO:
+        description: Broker Confirmation Type for PO Index Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#PO
+      SingaporeCorporate:
+        description: Broker Confirmation Type of Singapore Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#SingaporeCorporate
+      SingaporeSovereign:
+        description: Broker Confirmation Type of Singapore Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#SingaporeSovereign
+      StandardAsiaCorporate:
+        description: Broker Confirmation Type of STANDARD ASIA CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardAsiaCorporate
+      StandardAsiaSovereign:
+        description: Broker Confirmation Type of STANDARD ASIA SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardAsiaSovereign
+      StandardAustraliaCorporate:
+        description: Broker Confirmation Type of STANDARD AUSTRALIA CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardAustraliaCorporate
+      StandardAustraliaSovereign:
+        description: Broker Confirmation Type of STANDARD AUSTRALIA SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardAustraliaSovereign
+      StandardCDXTranche:
+        description: Broker Confirmation Type for Standard CDX Tranche Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardCDXTranche
+      StandardEmergingEuropeanAndMiddleEasternSovereign:
+        description: Broker Confirmation Type of STANDARD EMERGING EUROPEAN AND MIDDLE EASTERN SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardEmergingEuropeanAndMiddleEasternSovereign
+      StandardEmergingEuropeanCorporate:
+        description: Broker Confirmation Type of STANDARD EMERGING EUROPEAN CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardEmergingEuropeanCorporate
+      StandardEmergingEuropeanCorporateLPN:
+        description: Broker Confirmation Type of STANDARD EMERGING EUROPEAN CORPORATE LPN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardEmergingEuropeanCorporateLPN
+      StandardEuropeanCorporate:
+        description: Broker Confirmation Type for STANDARD EUROPEAN CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardEuropeanCorporate
+      StandardJapanCorporate:
+        description: Broker Confirmation Type of STANDARD JAPAN CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardJapanCorporate
+      StandardJapanSovereign:
+        description: Broker Confirmation Type of STANDARD JAPAN SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardJapanSovereign
+      StandardLCDS:
+        description: Standard Syndicated Secured Loan Credit Default Swap Broker Confirmation Type.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLCDS
+      StandardLCDSBullet:
+        description: Broker Confirmation Type for Standard Syndicated Secured Loan Credit Default Swap Bullet Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLCDSBullet
+      StandardLCDXBullet:
+        description: Broker Confirmation Type for Standard Syndicated Secured Loan Credit Default Swap Index Bullet Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLCDXBullet
+      StandardLCDXBulletTranche:
+        description: Broker Confirmation Type for Standard Syndicated Secured Loan Credit Default Swap Index Bullet Tranche
+          Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLCDXBulletTranche
+      StandardLatinAmericaCorporateBond:
+        description: Broker Confirmation Type of STANDARD LATIN AMERICA CORPORATE B.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLatinAmericaCorporateBond
+      StandardLatinAmericaCorporateBondOrLoan:
+        description: Broker Confirmation Type of STANDARD LATIN AMERICA CORPORATE BL.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLatinAmericaCorporateBondOrLoan
+      StandardLatinAmericaSovereign:
+        description: Broker Confirmation Type of STANDARD LATIN AMERICA SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardLatinAmericaSovereign
+      StandardNewZealandCorporate:
+        description: Broker Confirmation Type of STANDARD NEW ZEALAND CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardNewZealandCorporate
+      StandardNewZealandSovereign:
+        description: Broker Confirmation Type of STANDARD NEW ZEALAND SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardNewZealandSovereign
+      StandardNorthAmericanCorporate:
+        description: Broker Confirmation Type for STANDARD NORTH AMERICAN CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardNorthAmericanCorporate
+      StandardSingaporeCorporate:
+        description: Broker Confirmation Type of STANDARD SINGAPORE CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardSingaporeCorporate
+      StandardSingaporeSovereign:
+        description: Broker Confirmation Type of STANDARD SINGAPORE SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardSingaporeSovereign
+      StandardSubordinatedEuropeanInsuranceCorporate:
+        description: Broker Confirmation Type for STANDARD SUBORDINATED EUROPEAN INSURANCE CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardSubordinatedEuropeanInsuranceCorporate
+      StandardWesternEuropeanSovereign:
+        description: Broker Confirmation Type for STANDARD WESTERN EUROPEAN SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardWesternEuropeanSovereign
+      StandardiTraxxEuropeTranche:
+        description: Broker Confirmation Type for Standard iTraxx Europe Tranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#StandardiTraxxEuropeTranche
+      SubordinatedEuropeanInsuranceCorporate:
+        description: Broker Confirmation Type of Subordinated European Insurance Corporate.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#SubordinatedEuropeanInsuranceCorporate
+      SukukCorporate:
+        description: Broker Confirmation Type of SUKUK CORPORATE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#SukukCorporate
+      SukukSovereign:
+        description: Broker Confirmation Type of SUKUK SOVEREIGN.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#SukukSovereign
+      SyndicatedSecuredLoanCDS:
+        description: Syndicated Secured Loan Credit Default Swap Broker Confirmation Type.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#SyndicatedSecuredLoanCDS
+      TRX:
+        description: Broker Confirmation Type for TRX Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#TRX
+      TRX_II:
+        description: Broker Confirmation Type for TRX.II Transactions.
+        aliases:
+          - TRX.II
+      USMunicipalFullFaithAndCredit:
+        description: Broker Confirmation Type for U.S. MUNICIPAL FULL FAITH AND CREDIT.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#USMunicipalFullFaithAndCredit
+      USMunicipalGeneralFund:
+        description: Broker Confirmation Type for U.S. MUNICIPAL GENERAL FUND.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#USMunicipalGeneralFund
+      USMunicipalRevenue:
+        description: Broker Confirmation Type for U.S. MUNICIPAL REVENUE.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#USMunicipalRevenue
+      WesternEuropeanSovereign:
+        description: Broker Confirmation Type of Western European Sovereign.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#WesternEuropeanSovereign
+      iTraxxAsiaExJapan:
+        description: Broker Confirmation Type for iTraxx Asia Excluding Japan.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxAsiaExJapan
+      iTraxxAsiaExJapanSwaption:
+        description: Broker Confirmation Type for iTraxx Asia Ex-Japan Swaption Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxAsiaExJapanSwaption
+      iTraxxAsiaExJapanTranche:
+        description: Broker Confirmation Type for iTraxx Asia Excluding Japan Tranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxAsiaExJapanTranche
+      iTraxxAustralia:
+        description: Broker Confirmation Type for iTraxx Australia.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxAustralia
+      iTraxxAustraliaSwaption:
+        description: Broker Confirmation Type for iTraxx Australia Swaption Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxAustraliaSwaption
+      iTraxxAustraliaTranche:
+        description: Broker Confirmation Type for iTraxx Australia Tranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxAustraliaTranche
+      iTraxxCJ:
+        description: Broker Confirmation Type for iTraxx CJ.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxCJ
+      iTraxxCJTranche:
+        description: Broker Confirmation Type for iTraxx CJ Tranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxCJTranche
+      iTraxxEurope:
+        description: Broker Confirmation Type for iTraxx Europe Transactions
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxEurope
+      iTraxxEuropeSwaption:
+        description: Broker Confirmation Type for iTraxx Europe Swaption Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxEuropeSwaption
+      iTraxxEuropeTranche:
+        description: Broker Confirmation Type for iTraxx Europe Tranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxEuropeTranche
+      iTraxxJapan:
+        description: Broker Confirmation Type for iTraxx Japan.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxJapan
+      iTraxxJapanSwaption:
+        description: Broker Confirmation Type for iTraxx Japan Swaption Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxJapanSwaption
+      iTraxxJapanTranche:
+        description: Broker Confirmation Type for iTraxx Japan Tranched Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxJapanTranche
+      iTraxxLevX:
+        description: Broker Confirmation Type for iTraxx LevX.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxLevX
+      iTraxxSDI75:
+        description: Broker Confirmation Type for iTraxx SDI 75 Transactions.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxSDI75
+      iTraxxSovX:
+        description: Broker Confirmation Type for iTraxx SovX.
+        meaning: http://www.fpml.org/coding-scheme/broker-confirmation-type-5-0#iTraxxSovX
+
+slots:
+  equityAdditionalTerms:
+    range: EquityAdditionalTerms
+
+  foreignExchangeAdditionalTerms:
+    range: FxAdditionalTerms
+
+  commoditiesAdditionalTerms:
+    range: string
+
+  creditAdditionalTerms:
+    range: string
+
+  interestRateAdditionalTerms:
+    range: string
+
+  digitalAssetAdditionalTerms:
+    range: string
+
+  extraordinaryEvents:
+    range: ExtraordinaryEvents
+
+  determinationTerms:
+    range: DeterminationRolesAndTerms
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  substitutionProvision:
+    range: UnderlierSubstitutionProvision
+
+  whoMaySubstitute:
+    range: CounterpartyRoleEnum
+    description: Designates which Counterparty to the transaction who has the right to trigger a substitution or to provide
+      related determination e.g. for instance to qualify the effectiveness of an Event which may be a trigger for substitution,
+      determine the replacement Share to substitute, etc. ; cardinality of this object is 2, in case parties jointly have
+      this role.
+    required: true
+    multivalued: true
+
+  substitutionBeSpokeTerms:
+    range: Clause
+    description: Where parties describe any substitution terms e.g. for instance the election criteria for an Asset to be
+      eligible as the Substitute Asset to the prior Affected Asset in terms of sector of activity, currency, market capitalisation,
+      liquidity, volatility, or any additional features that parties would agree to take into considerations, etc.
+    multivalued: true
+    inlined_as_list: true
+
+  substitutionTriggerEvents:
+    range: ExtraordinaryEvents
+    description: Where the parties may optionnally explictly specify the list of Events to be considered as a trigger for
+      a Substitution.
+    multivalued: true
+    inlined_as_list: true
+
+  disputingParty:
+    range: CounterpartyRoleEnum
+    description: Where the party who is not granted with the substitution role at least has a right to dispute the determination
+      given by the counterparty with such role. As an example, a given PartyA is the unique Counterparty with the Role of
+      WhoMaySubstitute, yet PartyB could be Disputing Party in regard of such Role.
+
+  mergerEvents:
+    range: EquityCorporateEvents
+
+  tenderOfferEvents:
+    range: EquityCorporateEvents
+
+  compositionOfCombinedConsideration:
+    range: boolean
+
+  indexAdjustmentEvents:
+    range: IndexAdjustmentEvents
+    notes:
+      - ISDA EquityDerivativesDefinitions_2002 section "Adjustment to Indices"
+
+  additionalDisruptionEvents:
+    range: AdditionalDisruptionEvents
+
+  failureToDeliver:
+    range: boolean
+    description: If true, failure to deliver is applicable.
+
+  representations:
+    range: Representations
+
+  nationalizationOrInsolvency:
+    range: NationalizationOrInsolvencyOrDelistingEventEnum
+
+  delisting:
+    range: NationalizationOrInsolvencyOrDelistingEventEnum
+
+  changeInLaw:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.changeInLaw
+
+  insolvencyFiling:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.insolvencyFiling
+
+  hedgingDisruption:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.hedgingDisruption
+
+  increasedCostOfHedging:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.increasedCostOfHedging
+
+  foreignOwnershipEvent:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.foreignOwnershipEvent
+
+  lossOfStockBorrow:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.lossOfStockBorrow
+
+  maximumStockLoanRate:
+    range: decimal
+    description: Specifies the maximum stock loan rate for Loss of Stock Borrow. A percentage of 5% is represented as 0.05.
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.maximumStockLoanRate
+
+  increasedCostOfStockBorrow:
+    range: boolean
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.increasedCostOfStockBorrow
+
+  initialStockLoanRate:
+    range: decimal
+    description: Specifies the initial stock loan per ISDA Def. A percentage of 5% is represented as 0.05.
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.initialStockLoanRate
+
+  determiningParty:
+    range: AncillaryRoleEnum
+    description: Specifies the party which determines additional disruption events.
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents.determiningParty
+
+  terms:
+    range: string
+    description: Content of this bespoke clause.
+    close_mappings:
+      - fpml_5_10:Clause.terms
+
+  subcomponents:
+    range: Clause
+    description: Additional hierarchical components of the clause if relevant.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:Clause.subcomponents
+
+  typeOfSwapElection:
+    range: ReturnTypeEnum
+    description: Per Part 1 Section 4, 'Dividend Obligations', of the 2018 ISDA CDM Equity Confirmation, Para 4.2 'Dividend
+      Returns'.
+    required: true
+
+  pricingMethodElection:
+    range: PriceReturnTerms
+    description: Per Part 1 Section 5, 'Pricing', of the 2018 ISDA CDM Equity Confirmation, Para 5.1.
+    required: true
+
+  linearInterpolationElection:
+    range: InterpolationMethodEnum
+    description: Per Part 1 Section 3, 'Floating Obligations', of the 2018 ISDA CDM Equity Confirmation. Para 3.3.
+    required: true
+
+  settlementTerms:
+    range: SettlementTerms
+    description: Per Part 1 Section 8, 'Settlement', of the 2018 ISDA CDM Equity Confirmation for Security Equity Swap.
+    required: true
+
+  valuationDates:
+    range: ValuationDates
+    description: The parameters used to generate the 'Equity Valuation Dates' schedule, including the Effective Date and Termination
+      Date for the Swap.
+    required: true
+
+  equityCashSettlementDates:
+    range: PaymentDates
+    description: The parameters used to generate the payment date schedule, relative to the equityCalculationPeriod. Per Part
+      1 Section 12, 'Definitions', of the 2018 ISDA CDM Equity Confirmation. Para 73.
+    required: true
+
+classes:
+  TransactionAdditionalTerms:
+    description: Additional specification for the extraordinary events that may affect a trade and the related contractual
+      rights and obligation of the parties when this happens. Such terms are typically required to extend the economics terms,
+      for the purpose of producing the final legal contractual form of the Transaction.
+    slots:
+      - equityAdditionalTerms
+      - foreignExchangeAdditionalTerms
+      - commoditiesAdditionalTerms
+      - creditAdditionalTerms
+      - interestRateAdditionalTerms
+      - digitalAssetAdditionalTerms
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  EquityAdditionalTerms:
+    description: Transaction AdditionalTerms that apply to Equity asset class.
+    slots:
+      - extraordinaryEvents
+      - determinationTerms
+      - substitutionProvision
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  UnderlierSubstitutionProvision:
+    description: Where parties describe any substitution terms.
+    comments:
+      - 'Rosetta condition: DisputingPartyCannotHaveOriginalRole — whoMaySubstitute all <> disputingParty'
+    slots:
+      - whoMaySubstitute
+      - substitutionBeSpokeTerms
+      - substitutionTriggerEvents
+      - disputingParty
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  ExtraordinaryEvents:
+    description: Where the underlying is shares, defines market events affecting the issuer of those shares that may require
+      the terms of the transaction to be adjusted.
+    notes:
+      - ISDA SecurityEquitySwapConfirmation_2018
+      - ISDA EquityDerivativesDefinitions_2002
+    see_also:
+      - isda:SecurityEquitySwapConfirmation_2018
+      - isda:EquityDerivativesDefinitions_2002
+    rules:
+      - description: condition to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                additionalDisruptionEvents:
+                  required: true
+            - slot_conditions:
+                failureToDeliver:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ExtraordinaryEventsChoice — required choice additionalDisruptionEvents, failureToDeliver'
+    slots:
+      - additionalBespokeTerms
+      - mergerEvents
+      - tenderOfferEvents
+      - compositionOfCombinedConsideration
+      - indexAdjustmentEvents
+      - additionalDisruptionEvents
+      - failureToDeliver
+      - representations
+      - nationalizationOrInsolvency
+      - delisting
+    slot_usage:
+      additionalBespokeTerms:
+        range: Clause
+        description: Where parties may optionnaly describe any extra bespoke agreements, in regards of the standardized Extraordinary
+          Events.
+        multivalued: true
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  AdditionalDisruptionEvents:
+    description: A type for defining the Additional Disruption Events.
+    notes:
+      - ISDA EquityDerivativesDefinitions_2002
+    see_also:
+      - isda:EquityDerivativesDefinitions_2002
+    close_mappings:
+      - fpml_5_10:AdditionalDisruptionEvents
+    rules:
+      - description: ' FpML specifies the maximumStockLoanRate as a RestrictedPercentage, meaning that its value is comprised
+          between 0 and 1.'
+        preconditions:
+          slot_conditions:
+            maximumStockLoanRate:
+              required: true
+        postconditions:
+          slot_conditions:
+            maximumStockLoanRate:
+              minimum_value: 0
+              maximum_value: 1
+      - description: ' FpML specifies the initialStockLoanRate as a RestrictedPercentage, meaning that its value is comprised
+          between 0 and 1.'
+        preconditions:
+          slot_conditions:
+            initialStockLoanRate:
+              required: true
+        postconditions:
+          slot_conditions:
+            initialStockLoanRate:
+              minimum_value: 0
+              maximum_value: 1
+    comments:
+      - 'Rosetta condition: MaximumStockLoanRate — if maximumStockLoanRate exists then maximumStockLoanRate >= 0 and maximumStockLoanRate
+        <= 1'
+      - 'Rosetta condition: InitialStockLoanRate — if initialStockLoanRate exists then initialStockLoanRate >= 0 and initialStockLoanRate
+        <= 1'
+      - 'Rosetta condition: DisruptionEventsDeterminingParty — if determiningParty exists then determiningParty = AncillaryRoleEnum
+        -> DisruptionEventsDeterminingParty'
+    slots:
+      - changeInLaw
+      - failureToDeliver
+      - insolvencyFiling
+      - hedgingDisruption
+      - increasedCostOfHedging
+      - foreignOwnershipEvent
+      - lossOfStockBorrow
+      - maximumStockLoanRate
+      - increasedCostOfStockBorrow
+      - initialStockLoanRate
+      - determiningParty
+      - additionalBespokeTerms
+    slot_usage:
+      additionalBespokeTerms:
+        range: Clause
+        description: Where parties may optionnaly describe any extra bespoke agreements, in regards of the standardized Extraordinary
+          Events.
+        multivalued: true
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  Clause:
+    description: A type for documenting additional clause that cannot yet be represented with the model and yet needed for
+      a digital representation of the agreement.
+    close_mappings:
+      - fpml_5_10:Clause
+    slots:
+      - identifier
+      - terms
+      - subcomponents
+    slot_usage:
+      identifier:
+        range: string
+        description: The  name or identifier associated to this clause.
+        required: false
+        multivalued: false
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  MasterConfirmationBase:
+    description: Legal agreement specification for General Terms and Elections that are applicable across multiple confirmations
+      and are referenced by these confirmations.
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  BrokerConfirmation:
+    description: Identifies the market sector in which the trade has been arranged.
+    slots:
+      - brokerConfirmationType
+    slot_usage:
+      brokerConfirmationType:
+        description: The type of broker confirmation executed between the parties.
+        required: true
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  EquitySwapMasterConfirmation2018:
+    description: Specification for the General Terms and Relationship Supplement Elections as provided in the 2018 ISDA CDM
+      Equity Confirmation for Security Equity Swap.
+    is_a: EquityMasterConfirmation
+    slots:
+      - typeOfSwapElection
+      - pricingMethodElection
+      - linearInterpolationElection
+      - settlementTerms
+      - valuationDates
+      - equityCashSettlementDates
+    in_subset:
+      - cdm_legaldocumentation_transaction
+
+  EquityMasterConfirmation:
+    description: Specification for General Terms and Elections of an Equity Master Confirmation that is applicable across
+      multiple Equity confirmations and is referenced by each of these confirmations, an example of which being the 2018 ISDA
+      CDM Equity Confirmation for Security Equity Swap.
+    is_a: MasterConfirmationBase
+    in_subset:
+      - cdm_legaldocumentation_transaction

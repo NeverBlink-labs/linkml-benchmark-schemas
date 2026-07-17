@@ -1,0 +1,431 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_observable_asset_calculatedrate
+name: cdm_observable_asset_calculatedrate
+description: Support for calculated floating rates such as lookback compound or observation shift compound rates
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_datetime
+  - ./cdm_base_staticdata_asset_rates
+  - ./cdm_base_math
+  - ./cdm_observable_asset
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_event_common
+
+comments:
+  - 'Rosetta func: EvaluateCalculatedRate — Evaluate a calculated rate as described in the 2021 ISDA Definitions. | inputs(interestRateIndex:
+    InterestRateIndex (1..1), calculationParameters: FloatingRateCalculationParameters (1..1), resetDates: ResetDates (0..1),
+    calculationPeriod: CalculationPeriodBase (1..1), priorCalculationPeriod: CalculationPeriodBase (0..1), dayCount: DayCountFractionEnum
+    (1..1)) | output(results: FloatingRateSettingDetails (1..1))'
+  - 'Rosetta func: GenerateObservationDatesAndWeights — Apply shifts to generate the list of observation dates and weights
+    for each of those date. | inputs(calculationParams: FloatingRateCalculationParameters (1..1), resetDates: ResetDates (0..1),
+    calculationPeriod: CalculationPeriodBase (1..1), priorCalculationPeriod: CalculationPeriodBase (0..1)) | output(results:
+    CalculatedRateObservationDatesAndWeights (1..1))'
+  - 'Rosetta func: ComputeCalculationPeriod — Determine the calculation period to use for computing the calculated rate (it
+    may not be the same as the normal calculation period, for instance if the rate is set in advance. | inputs(calculationPeriod:
+    CalculationPeriodBase (1..1), priorCalculationPeriod: CalculationPeriodBase (0..1), calculateRelativeTo: ObservationPeriodDatesEnum
+    (0..1), resetDates: ResetDates (0..1)) | output(result: CalculationPeriodBase (1..1))'
+  - 'Rosetta func: DetermineObservationPeriod — Determine any applicable offsets/shifts for the period for observing an index,
+    and then generate the date range to be used for observing the index, based on the calculation period, plus any applicable
+    offsets/shift. | inputs(adjustedCalculationPeriod: CalculationPeriodBase (1..1), calculationParams: FloatingRateCalculationParameters
+    (1..1)) | output(observationPeriod: CalculationPeriodBase (1..1))'
+  - 'Rosetta func: GenerateObservationPeriod — Generate the date range to be used for observing the index, based on the calculation
+    period, plus any applicable offsets/shifts. | inputs(calculationPeriod: CalculationPeriodBase (1..1), businessCenters:
+    BusinessCenter (0..*), shiftDays: int (0..1)) | output(observationPeriod: CalculationPeriodBase (1..1))'
+  - 'Rosetta func: GenerateObservationDates — Generate the list of observation dates given an observation period. | inputs(observationPeriod:
+    CalculationPeriodBase (1..1), businessCenters: BusinessCenter (0..*), lockoutDays: int (0..1)) | output(observationDates:
+    date (0..*))'
+  - 'Rosetta func: GenerateWeightings — Determine the weighting dates and the corresponding weights to be used for weighting
+    observation. | inputs(calculationParams: FloatingRateCalculationParameters (1..1), observationDates: date (0..*), observationPeriod:
+    CalculationPeriodBase (1..1), adjustedCalculationPeriod: CalculationPeriodBase (1..1), lockoutDays: int (1..1)) | output(weights:
+    number (0..*))'
+  - 'Rosetta func: DetermineWeightingDates — Determine the dates to be used for weighting observation. | inputs(calculationParams:
+    FloatingRateCalculationParameters (1..1), observationDates: date (0..*), observationPeriod: CalculationPeriodBase (1..1),
+    adjustedCalculationPeriod: CalculationPeriodBase (1..1), lockoutDays: int (1..1)) | output(weightingDates: date (0..*))'
+  - 'Rosetta func: ProcessObservations — Apply daily observation parameters to rate observation.  These are discussed in the
+    2021 ISDA Definitions, section 7.2.3 and 7.2.4. | inputs(calculationParameters: FloatingRateCalculationParameters (1..1),
+    rawObservations: number (0..*)) | output(processedObservations: number (0..*))'
+  - 'Rosetta func: GenerateWeights — Recursively creates a list of weights based on the date difference between successive
+    days. | inputs(weightingDates: date (0..*)) | output(weights: number (0..*))'
+  - 'Rosetta func: ApplyCompoundingFormula — Implements the compounding formula:   Product of ( 1 + (rate * weight) / basis),
+    then backs out the final rate. This is used to support section 7.3 of the 2021 ISDA Definitions. | inputs(observations:
+    number (0..*), weights: number (0..*), yearFrac: number (1..1)) | output(results: CalculatedRateDetails (1..1))'
+  - 'Rosetta func: ApplyAveragingFormula — Implements the weighted arithmetic averaging formula.  Sums the weighted rates
+    and divides by the total weight.  This is used to support section 7.4 of the 2021 ISDA Definitions. | inputs(observations:
+    number (0..*), weights: number (0..*)) | output(results: CalculatedRateDetails (1..1))'
+  - 'Rosetta func: IndexValueObservation — Retrieve the values of the supplied index on the specified observation date. |
+    inputs(observationDate: date (1..1), interestRateIndex: InterestRateIndex (1..1)) | output(observedValue: number (1..1))'
+  - 'Rosetta func: IndexValueObservationMultiple — Retrieve the values of the supplied index on the specified observation
+    dates. | inputs(observationDate: date (0..*), interestRateIndex: InterestRateIndex (1..1)) | output(observedValues: number
+    (0..*))'
+annotations:
+  rosetta_functions: '[{"name":"EvaluateCalculatedRate","description":"Evaluate a calculated rate as described in the 2021
+    ISDA Definitions.","inputs":[{"name":"interestRateIndex","type":"InterestRateIndex","cardinality":"1..1"},{"name":"calculationParameters","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"0..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"priorCalculationPeriod","type":"CalculationPeriodBase","cardinality":"0..1"},{"name":"dayCount","type":"DayCountFractionEnum","cardinality":"1..1"}],"output":{"name":"results","type":"FloatingRateSettingDetails","cardinality":"1..1"}},{"name":"GenerateObservationDatesAndWeights","description":"Apply
+    shifts to generate the list of observation dates and weights for each of those date.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"0..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"priorCalculationPeriod","type":"CalculationPeriodBase","cardinality":"0..1"}],"output":{"name":"results","type":"CalculatedRateObservationDatesAndWeights","cardinality":"1..1"}},{"name":"ComputeCalculationPeriod","description":"Determine
+    the calculation period to use for computing the calculated rate (it may not be the same as the normal calculation period,
+    for instance if the rate is set in advance.","inputs":[{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"priorCalculationPeriod","type":"CalculationPeriodBase","cardinality":"0..1"},{"name":"calculateRelativeTo","type":"ObservationPeriodDatesEnum","cardinality":"0..1"},{"name":"resetDates","type":"ResetDates","cardinality":"0..1"}],"output":{"name":"result","type":"CalculationPeriodBase","cardinality":"1..1"},"code_implementation":true},{"name":"DetermineObservationPeriod","description":"Determine
+    any applicable offsets/shifts for the period for observing an index, and then generate the date range to be used for observing
+    the index, based on the calculation period, plus any applicable offsets/shift.","inputs":[{"name":"adjustedCalculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"}],"output":{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}},{"name":"GenerateObservationPeriod","description":"Generate
+    the date range to be used for observing the index, based on the calculation period, plus any applicable offsets/shifts.","inputs":[{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"businessCenters","type":"BusinessCenter","cardinality":"0..*"},{"name":"shiftDays","type":"int","cardinality":"0..1"}],"output":{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}},{"name":"GenerateObservationDates","description":"Generate
+    the list of observation dates given an observation period.","inputs":[{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"businessCenters","type":"BusinessCenter","cardinality":"0..*"},{"name":"lockoutDays","type":"int","cardinality":"0..1"}],"output":{"name":"observationDates","type":"date","cardinality":"0..*"}},{"name":"GenerateWeightings","description":"Determine
+    the weighting dates and the corresponding weights to be used for weighting observation.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"observationDates","type":"date","cardinality":"0..*"},{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"adjustedCalculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"lockoutDays","type":"int","cardinality":"1..1"}],"output":{"name":"weights","type":"number","cardinality":"0..*"}},{"name":"DetermineWeightingDates","description":"Determine
+    the dates to be used for weighting observation.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"observationDates","type":"date","cardinality":"0..*"},{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"adjustedCalculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"lockoutDays","type":"int","cardinality":"1..1"}],"output":{"name":"weightingDates","type":"date","cardinality":"0..*"}},{"name":"ProcessObservations","description":"Apply
+    daily observation parameters to rate observation.  These are discussed in the 2021 ISDA Definitions, section 7.2.3 and
+    7.2.4.","inputs":[{"name":"calculationParameters","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"rawObservations","type":"number","cardinality":"0..*"}],"output":{"name":"processedObservations","type":"number","cardinality":"0..*"}},{"name":"GenerateWeights","description":"Recursively
+    creates a list of weights based on the date difference between successive days.","inputs":[{"name":"weightingDates","type":"date","cardinality":"0..*"}],"output":{"name":"weights","type":"number","cardinality":"0..*"}},{"name":"ApplyCompoundingFormula","description":"Implements
+    the compounding formula:   Product of ( 1 + (rate * weight) / basis), then backs out the final rate. This is used to support
+    section 7.3 of the 2021 ISDA Definitions.","inputs":[{"name":"observations","type":"number","cardinality":"0..*"},{"name":"weights","type":"number","cardinality":"0..*"},{"name":"yearFrac","type":"number","cardinality":"1..1"}],"output":{"name":"results","type":"CalculatedRateDetails","cardinality":"1..1"}},{"name":"ApplyAveragingFormula","description":"Implements
+    the weighted arithmetic averaging formula.  Sums the weighted rates and divides by the total weight.  This is used to
+    support section 7.4 of the 2021 ISDA Definitions.","inputs":[{"name":"observations","type":"number","cardinality":"0..*"},{"name":"weights","type":"number","cardinality":"0..*"}],"output":{"name":"results","type":"CalculatedRateDetails","cardinality":"1..1"}},{"name":"IndexValueObservation","description":"Retrieve
+    the values of the supplied index on the specified observation date.","inputs":[{"name":"observationDate","type":"date","cardinality":"1..1"},{"name":"interestRateIndex","type":"InterestRateIndex","cardinality":"1..1"}],"output":{"name":"observedValue","type":"number","cardinality":"1..1"},"code_implementation":true},{"name":"IndexValueObservationMultiple","description":"Retrieve
+    the values of the supplied index on the specified observation dates.","inputs":[{"name":"observationDate","type":"date","cardinality":"0..*"},{"name":"interestRateIndex","type":"InterestRateIndex","cardinality":"1..1"}],"output":{"name":"observedValues","type":"number","cardinality":"0..*"}}]'
+
+subsets:
+  cdm_observable_asset_calculatedrate:
+    description: Classes defined in the cdm_observable_asset_calculatedrate module.
+
+enums:
+  CalculationMethodEnum:
+    description: What calculation type is required, averaging or compounding. This enumeration is used to represent the definitions
+      of modular calculated rates as described in the 2021 ISDA Definitions, section 7.
+    permissible_values:
+      Averaging:
+        description: Averaging, i.e. arithmetic averaging.
+      Compounding:
+        description: Compounding, i.e. geometric averaging following an ISDA defined formula.
+      CompoundedIndex:
+        description: A rate based on an index that is computed by a rate administrator.  The user is responsible for backing
+          out the rate by applying a simple formula.
+
+  InflationCalculationMethodEnum:
+    description: Indicates how to use the inflation index to calculate the payment (e.g. Ratio, Return, Spread). Added for
+      Inflation Asset Swap
+    permissible_values:
+      Ratio:
+        description: (Inflation Index Final / Inflation Index Base). Inflation Index Final is inflation index for Reference
+          Month that is the Lag number of months prior to Payment Date (subject to interpolation). Inflation Index Base subject
+          to the Calculation Style. Used in inflation asset swaps to calculate the inflation coupons and principal exchange.
+      Return:
+        description: (Inflation Index Final / Inflation Index Base -1). Inflation Index Final is the inflation index for Reference
+          Month that is the Lag number of months prior to Payment Date (subject to interp). Inflation Index Base subject to
+          the Calculation Style. Used in market standard ZC Inflation swaps.
+      Spread:
+        description: Inflation Index Final - Inflation Index Base). Inflation Index Final is Index for Ref month the Lag months
+          prior to Payment Date (subject to interp). Inflation Index Base subject to the Calculation Style. Typically used
+          for fixing locks.
+
+  InflationCalculationStyleEnum:
+    description: Indicates the style of how the inflation index calculates the payment (e.g. YearOnYear, ZeroCoupon).
+    permissible_values:
+      YearOnYear:
+        description: YearOnYear means Inflation Index Base is the inflation index for Reference Month that is 12 months prior
+          to Inflation Index Final (subject to interpolation). Inflation Index Base is cashflow dependent.
+      ZeroCoupon:
+        description: ZeroCoupon means Inflation Index Base used in the CalculationMethod is the inflation index for the Reference
+          Month that is the lag number of months prior to Effective Date in the case of a swap, or Bond Interest Accrual Date
+          in the case of an Asset Swap (subject to interpolation). Inflation Index Base has the same value for each inflation
+          cashflow and Principal Exchange calculation within the trade.
+
+  ObservationPeriodDatesEnum:
+    description: The enumerated values to specify whether rate calculations occur relative to the first or last day of a calculation
+      period. Done in uppercase due to a bug in code generation. This enumeration is used to represent the definitions of
+      modular calculated rates as described in the 2021 ISDA Definitions, section 7.
+    permissible_values:
+      SetInAdvance:
+        description: Calculations occur relative to the first day of a calculation period.
+      Standard:
+        description: Calculations occur relative to the last day of a calculation period (set in arrears).
+      FixingDate:
+        description: Calculations occur relative to a previously defined reset date, e.g. for a fallback rate.
+
+  CalculationShiftMethodEnum:
+    description: ' the specific calculation method, e.g. lookback. This enumeration is used to represent the definitions of
+      modular calculated rates as described in the 2021 ISDA Definitions, section 7.'
+    permissible_values:
+      Lookback:
+        description: Calculations and weighting are done with respect to the calculation period, but observations are shifted
+          back by several days.
+      ObservationPeriodShift:
+        description: the observation period is shifted by several days prior to rate setting, and weightings are done with
+          respect to the obseration period.
+      RateCutOff:
+        description: Calculations cut the rate off several business days prior to rate setting (Lockout).
+      NoShift:
+        description: calculations occur without any shifting, e.g. OIS Compounding/Basic Averaging style.
+
+slots:
+  observationShiftCalculation:
+    range: ObservationShiftCalculation
+    description: any obervation shift parameters if applicable.
+
+  lookbackCalculation:
+    range: OffsetCalculation
+    description: any lookback  parameters if applicable.
+
+  lockoutCalculation:
+    range: OffsetCalculation
+    description: any lockout  parameters if applicable.
+
+  applicableBusinessDays:
+    range: BusinessCenters
+    description: the business days that are applicable for the calculation.
+
+  observationParameters:
+    range: ObservationParameters
+    description: ' any applicable observation parameters, such as daily caps or floors.'
+
+  calculationParameters:
+    range: FloatingRateCalculationParameters
+    description: Support for modular calculated rates, such such as lockout compound calculations.
+
+  spreadAdjustment:
+    range: decimal
+    description: The economic spread applied to the underlying fallback rate to replicate the original risky rate.
+
+  calculationBase:
+    range: ObservationPeriodDatesEnum
+    description: Whether the rate is calculated in advance, in arrears, or relative to a reset date.
+
+  additionalBusinessDays:
+    range: BusinessCenters
+    description: Any additional business days that be applicable.
+
+  observationCapRate:
+    range: decimal
+    description: A daily observation cap rate.
+
+  observationFloorRate:
+    range: decimal
+    description: A daily observation floor rate.
+
+  weightedRates:
+    range: decimal
+    description: The weighted value of each observation.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateDetails.weightedRates
+
+  growthFactor:
+    range: decimal
+    description: The daily growth factors, showing the weighted rates divided by the day count basis plus one, giving how
+      much the value grows for each step in the calculation.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateDetails.growthFactor
+
+  compoundedGrowth:
+    range: decimal
+    description: The compounding curve, showing how the initial value grew during the calculation period.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateDetails.compoundedGrowth
+
+  aggregateWeight:
+    range: decimal
+    description: The total weight of all the terms that went into the calculated rate.
+    close_mappings:
+      - fpml_5_10:CalculatedRateDetails.aggregateWeight
+
+  calculatedRate:
+    range: decimal
+    description: The resulting calculated weight.
+    close_mappings:
+      - fpml_5_10:CalculatedRateDetails.calculatedRate
+
+  observationDates:
+    range: date
+    description: The observation date upon which the rate is observed.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateObservations.observationDates
+
+  weights:
+    range: decimal
+    description: The corresponding weight for each date.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateObservations.weights
+
+  observedRates:
+    range: decimal
+    description: The value observed for that date
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateObservations.observedRates
+
+  processedRates:
+    range: decimal
+    description: The value after any processing, such as application of caps or floors.
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:CalculatedRateObservations.processedRates
+
+classes:
+  FloatingRateCalculationParameters:
+    description: Defines the structures needed to represent the calculation parameters for daily averaged and compounded modular
+      rates as defined in the 2021 ISDA Definitions in Section 7. This type is used to represent modular computed rates in
+      interestRatePayouts.
+    comments:
+      - 'Rosetta func: EvaluateCalculatedRate — Evaluate a calculated rate as described in the 2021 ISDA Definitions.'
+      - 'Rosetta func: GenerateObservationDatesAndWeights — Apply shifts to generate the list of observation dates and weights
+        for each of those date.'
+      - 'Rosetta func: DetermineObservationPeriod — Determine any applicable offsets/shifts for the period for observing an
+        index, and then generate the date range to be used for observing the index, based on the calculation period, plus
+        any applicable offsets/shift.'
+      - 'Rosetta func: GenerateWeightings — Determine the weighting dates and the corresponding weights to be used for weighting
+        observation.'
+      - 'Rosetta func: DetermineWeightingDates — Determine the dates to be used for weighting observation.'
+      - 'Rosetta func: ProcessObservations — Apply daily observation parameters to rate observation.  These are discussed
+        in the 2021 ISDA Definitions, section 7.2.3 and 7.2.4.'
+    annotations:
+      rosetta_functions: '[{"name":"EvaluateCalculatedRate","description":"Evaluate a calculated rate as described in the
+        2021 ISDA Definitions.","inputs":[{"name":"interestRateIndex","type":"InterestRateIndex","cardinality":"1..1"},{"name":"calculationParameters","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"0..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"priorCalculationPeriod","type":"CalculationPeriodBase","cardinality":"0..1"},{"name":"dayCount","type":"DayCountFractionEnum","cardinality":"1..1"}],"output":{"name":"results","type":"FloatingRateSettingDetails","cardinality":"1..1"}},{"name":"GenerateObservationDatesAndWeights","description":"Apply
+        shifts to generate the list of observation dates and weights for each of those date.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"0..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"priorCalculationPeriod","type":"CalculationPeriodBase","cardinality":"0..1"}],"output":{"name":"results","type":"CalculatedRateObservationDatesAndWeights","cardinality":"1..1"}},{"name":"DetermineObservationPeriod","description":"Determine
+        any applicable offsets/shifts for the period for observing an index, and then generate the date range to be used for
+        observing the index, based on the calculation period, plus any applicable offsets/shift.","inputs":[{"name":"adjustedCalculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"}],"output":{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}},{"name":"GenerateWeightings","description":"Determine
+        the weighting dates and the corresponding weights to be used for weighting observation.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"observationDates","type":"date","cardinality":"0..*"},{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"adjustedCalculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"lockoutDays","type":"int","cardinality":"1..1"}],"output":{"name":"weights","type":"number","cardinality":"0..*"}},{"name":"DetermineWeightingDates","description":"Determine
+        the dates to be used for weighting observation.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"observationDates","type":"date","cardinality":"0..*"},{"name":"observationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"adjustedCalculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"lockoutDays","type":"int","cardinality":"1..1"}],"output":{"name":"weightingDates","type":"date","cardinality":"0..*"}},{"name":"ProcessObservations","description":"Apply
+        daily observation parameters to rate observation.  These are discussed in the 2021 ISDA Definitions, section 7.2.3
+        and 7.2.4.","inputs":[{"name":"calculationParameters","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"rawObservations","type":"number","cardinality":"0..*"}],"output":{"name":"processedObservations","type":"number","cardinality":"0..*"}}]'
+    slots:
+      - calculationMethod
+      - observationShiftCalculation
+      - lookbackCalculation
+      - lockoutCalculation
+      - applicableBusinessDays
+      - observationParameters
+    slot_usage:
+      calculationMethod:
+        range: CalculationMethodEnum
+        description: calculation type (averaging or compounding).
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  FallbackRateParameters:
+    description: Defines the structure needed to represent fallback rate parameters. This type is used to represent modular
+      computed rates in interestRatePayouts.
+    slots:
+      - floatingRateIndex
+      - effectiveDate
+      - calculationParameters
+      - spreadAdjustment
+    slot_usage:
+      floatingRateIndex:
+        description: The floating rate index that is used as the basis of the fallback rate.
+      effectiveDate:
+        description: The date the fallback rate takes effect.
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  OffsetCalculation:
+    description: Defines business day shifts for daily componded or averaged rates.  This type is used for lookback and lockout
+      rates. This type is used to represent modular computed rates in interestRatePayouts.
+    slots:
+      - offsetDays
+    slot_usage:
+      offsetDays:
+        range: integer
+        description: The number of business days offset.
+        required: false
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  ObservationShiftCalculation:
+    description: Parameters to describe the observation shift for a daily compounded or averaged floating rate. This type
+      is used to represent modular computed rates in interestRatePayouts.
+    slots:
+      - offsetDays
+      - calculationBase
+      - additionalBusinessDays
+    slot_usage:
+      offsetDays:
+        range: integer
+        description: The number of days of observation shift.
+        required: false
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  ObservationParameters:
+    description: Parameters on daily observed computed rates, specifically daily caps and floors. This type is used to represent
+      modular computed rates in interestRatePayouts.
+    slots:
+      - observationCapRate
+      - observationFloorRate
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  CalculatedRateDetails:
+    description: Type for reporting details of calculated rates, including the observations that went into the final reported
+      rate.
+    close_mappings:
+      - fpml_5_10:CalculatedRateDetails
+    comments:
+      - 'Rosetta func: ApplyCompoundingFormula — Implements the compounding formula:   Product of ( 1 + (rate * weight) /
+        basis), then backs out the final rate. This is used to support section 7.3 of the 2021 ISDA Definitions.'
+      - 'Rosetta func: ApplyAveragingFormula — Implements the weighted arithmetic averaging formula.  Sums the weighted rates
+        and divides by the total weight.  This is used to support section 7.4 of the 2021 ISDA Definitions.'
+    annotations:
+      rosetta_functions: '[{"name":"ApplyCompoundingFormula","description":"Implements the compounding formula:   Product
+        of ( 1 + (rate * weight) / basis), then backs out the final rate. This is used to support section 7.3 of the 2021
+        ISDA Definitions.","inputs":[{"name":"observations","type":"number","cardinality":"0..*"},{"name":"weights","type":"number","cardinality":"0..*"},{"name":"yearFrac","type":"number","cardinality":"1..1"}],"output":{"name":"results","type":"CalculatedRateDetails","cardinality":"1..1"}},{"name":"ApplyAveragingFormula","description":"Implements
+        the weighted arithmetic averaging formula.  Sums the weighted rates and divides by the total weight.  This is used
+        to support section 7.4 of the 2021 ISDA Definitions.","inputs":[{"name":"observations","type":"number","cardinality":"0..*"},{"name":"weights","type":"number","cardinality":"0..*"}],"output":{"name":"results","type":"CalculatedRateDetails","cardinality":"1..1"}}]'
+    slots:
+      - observations
+      - weightedRates
+      - growthFactor
+      - compoundedGrowth
+      - aggregateValue
+      - aggregateWeight
+      - calculatedRate
+    slot_usage:
+      observations:
+        range: CalculatedRateObservations
+        description: The observation dates and weights for each observation date.
+        required: false
+        multivalued: false
+      aggregateValue:
+        range: decimal
+        description: The total sum or product of all the individual terms that went into the calculated rate.
+        required: false
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  CalculatedRateObservations:
+    description: Type for reporting observations that went into the final reported rate.
+    close_mappings:
+      - fpml_5_10:CalculatedRateObservations
+    slots:
+      - observationDates
+      - weights
+      - observedRates
+      - processedRates
+    in_subset:
+      - cdm_observable_asset_calculatedrate
+
+  CalculatedRateObservationDatesAndWeights:
+    description: Type for reporting the observations dates and the corresponding weights going into a daily calculated rate
+    close_mappings:
+      - fpml_5_10:CalculatedRateObservationDatesAndWeights
+    comments:
+      - 'Rosetta func: GenerateObservationDatesAndWeights — Apply shifts to generate the list of observation dates and weights
+        for each of those date.'
+    annotations:
+      rosetta_functions: '[{"name":"GenerateObservationDatesAndWeights","description":"Apply shifts to generate the list of
+        observation dates and weights for each of those date.","inputs":[{"name":"calculationParams","type":"FloatingRateCalculationParameters","cardinality":"1..1"},{"name":"resetDates","type":"ResetDates","cardinality":"0..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"priorCalculationPeriod","type":"CalculationPeriodBase","cardinality":"0..1"}],"output":{"name":"results","type":"CalculatedRateObservationDatesAndWeights","cardinality":"1..1"}}]'
+    slots:
+      - observationDates
+      - weights
+    in_subset:
+      - cdm_observable_asset_calculatedrate

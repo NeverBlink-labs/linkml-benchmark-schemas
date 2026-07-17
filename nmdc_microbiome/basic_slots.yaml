@@ -1,0 +1,1511 @@
+id: https://w3id.org/nmdc/basic_slots
+name: NMDC-Basic-Slots
+title: Basic Slots for NMDC Schema
+description: >-
+  Basic Linkml slots that are used across the Schema for National Microbiome Data Collaborative (NMDC).
+  Examples include "id", "name", "description". These slots have primitive data types (e.g., sting) as ranges.
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+prefixes:
+  MIXS: "https://w3id.org/mixs/"
+  NCIT: "http://purl.obolibrary.org/obo/NCIT_" # for Biosample, Study, StudyCategoryEnum PVs, doi_provider, funding_sources, extraction_targets, 'BAI File' only
+  OBI: "http://purl.obolibrary.org/obo/OBI_"
+  SIO: "http://semanticscience.org/resource/SIO_" # for Study, StudyCategoryEnum PVs, objective
+  dcterms: "http://purl.org/dc/terms/"
+  doi: 'https://bioregistry.io/doi:'
+  edam.data: "http://edamontology.org/data_" # for doi_value and DataCategoryEnum only
+  edam.format: "http://edamontology.org/format_" # for 'Configuration toml' PV only only
+  linkml: "https://w3id.org/linkml/"
+  nmdc: "https://w3id.org/nmdc/"
+  prov: "http://www.w3.org/ns/prov#" # for startedAtTime, endedAtTime, Association, Activity, wasInformedBy, wasGeneratedBy, qualifiedAssociation
+  qudt: "http://qudt.org/1.1/schema/qudt#"
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  ror: 'https://bioregistry.io/ror:' # https://ror.org/
+  schema: "http://schema.org/"
+  skos: "http://www.w3.org/2004/02/skos/core#"
+  wgs84: "http://www.w3.org/2003/01/geo/wgs84_pos#"
+
+imports:
+  - nmdc_types
+
+default_prefix: nmdc
+default_range: string
+
+subsets:
+  jgi_isolate:
+    description: >-
+      Slots that map to a field on the JGI Isolate (NA) v19 submission form,
+      identified by a structured_alias whose literal_form is the exact form
+      field name. Membership is the alias: a slot is in this subset if and only
+      if it carries a JGI Isolate v19 structured_alias. Most members are new
+      NMDC slots for organism identity, strain verification, purity assessment,
+      and biosafety classification; a few are reused MIxS slots (for example
+      host_taxid, source_mat_id, estimated_size) whose JGI mapping is recorded
+      via the alias rather than by a new slot.
+    see_also:
+      - https://github.com/microbiomedata/nmdc-schema/issues/2803
+    comments:
+      - >-
+        The form template itself is access-restricted; each alias source points
+        to the public JGI submission overview. To keep this subset exhaustive,
+        add in_subset jgi_isolate wherever a JGI Isolate v19 structured_alias is
+        added, at the same scope the alias lives (global slot or class slot_usage).
+
+slots:
+  library_strategy:
+    description: Sequencing technique intended for this library
+    range: LibraryStrategyEnum
+    see_also:
+      - https://github.com/enasequence/webin-xml/blob/2.1.0/src/main/resources/uk/ac/ebi/ena/sra/schema/SRA.experiment.xsd
+
+  library_source:
+    description: The molecular source of the sequencing library
+    range: LibrarySourceEnum
+    see_also:
+      - https://github.com/enasequence/webin-xml/blob/2.1.0/src/main/resources/uk/ac/ebi/ena/sra/schema/SRA.experiment.xsd
+
+  library_selection:
+    description: Library selection or enrichment method used
+    range: LibrarySelectionEnum
+    see_also:
+      - https://github.com/enasequence/webin-xml/blob/2.1.0/src/main/resources/uk/ac/ebi/ena/sra/schema/SRA.experiment.xsd
+
+  processing_institution_workflow_metadata:
+    range: string
+    description: >- 
+      Information about how workflow results were generated when the processing is done by an external organziation (e.g., JGI) such
+      as software tool name and version or pipeline name and version.
+    mappings:
+      - NCIT:C165211
+    examples:
+      - value: metaspades v. 3.15.2
+      - value: IMG Annotation Pipeline v.5.0.25
+      
+  qc_comment:
+    range: string
+    description: >-
+      Slot to store additional comments about laboratory or workflow output. For workflow output
+      it may describe the particular workflow stage that failed. (ie Failed at call-stage due to a malformed fastq file).
+
+
+  objective:
+    range: string
+    description: >-
+      The scientific objectives associated with the entity.
+      It SHOULD correspond to scientific norms for objectives field in a structured abstract.
+    mappings:
+      - SIO:000337
+
+  md5_checksum:
+    range: string
+    description: MD5 checksum of file (pre-compressed)
+
+  data_object_type:
+    range: FileTypeEnum
+    description: The type of file represented by the data object.
+    examples:
+      - value: Direct Infusion FT-ICR MS Analysis Results
+      - value: GC-MS Metabolomics Results
+    structured_aliases:
+      - literal_form: data_object_type
+        contexts:
+          - https://bitbucket.org/berkeleylab/jgi-jat/macros/nmdc_metadata.yaml
+        predicate: EXACT_SYNONYM
+  data_category:
+    range: DataCategoryEnum
+    description: The category of the file, such as instrument data from data generation or processed data from a workflow execution.
+
+
+  compression_type:
+    range: string
+    description: If provided, specifies the compression type
+    examples:
+      - value: gzip
+    todos:
+      - consider setting the range to an enum
+
+  started_at_time:
+    range: string
+    #    range: datetime
+    pattern: ^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$
+    notes:
+      - 'The regex for ISO-8601 format was taken from here: https://www.myintervals.com/blog/2009/05/20/iso-8601-date-validation-that-doesnt-suck/ It may not be complete, but it is good enough for now.'
+    mappings:
+      - prov:startedAtTime
+
+  ended_at_time:
+    #    range: datetime
+    pattern: ^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$
+    notes:
+      - 'The regex for ISO-8601 format was taken from here: https://www.myintervals.com/blog/2009/05/20/iso-8601-date-validation-that-doesnt-suck/ It may not be complete, but it is good enough for now.'
+    mappings:
+      - prov:endedAtTime
+
+  git_url:
+    description: A url that points to a software repository
+    range: string
+    examples:
+      - value: "https://github.com/microbiomedata/mg_annotation/releases/tag/0.1"
+      - value: "https://github.com/microbiomedata/metaMS/blob/master/metaMS/gcmsWorkflow.py"
+
+  execution_resource:
+    range: ExecutionResourceEnum
+    description: The computing resource or facility where the workflow was executed.
+    examples:
+      - value: NERSC-Cori
+
+  homepage_website:
+    is_a: websites
+    maximum_cardinality: 1
+    description: The website address (URL) of an entity's homepage.
+    examples:
+      - value: https://www.neonscience.org/
+
+  has_boolean_value:
+    description: Links a quantity value to a boolean
+    range: boolean
+
+  infiltrations:
+    description: The amount of time it takes to complete each infiltration activity
+    examples:
+      - value: '00:01:32'
+      - value: '00:00:53'
+    aliases:
+      - infiltration_1
+      - infiltration_2
+    multivalued: true
+    list_elements_ordered: true
+    range: string
+    pattern: ^(?:[0-9]|[1-9][0-9]|9[0-9]|0[0-9]|0[0-5][0-9]):[0-5][0-9]:[0-5][0-9]$
+    see_also:
+      - https://www.protocols.io/view/field-sampling-protocol-kqdg3962pg25/v1
+
+  soluble_iron_micromol:
+    range: string
+
+  sample_collection_site:
+    description: >-
+      Free-text description of the place where the sample was collected: the
+      geographic or environmental site or named location.
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Collection Site or Growth Conditions
+        predicate: NARROW_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+          - JGI label bundles two concepts; this slot covers only the collection-site half.
+    range: string
+
+  salinity_category:
+    description:
+      "Categorical description of the sample's salinity. Examples: halophile,
+        halotolerant, hypersaline, huryhaline"
+    range: string
+    see_also:
+      - https://github.com/microbiomedata/nmdc-metadata/pull/297
+    notes:
+      - "maps to gold:salinity"
+
+  proport_woa_temperature:
+    range: string
+
+  location:
+    range: string
+
+  host_name:
+    range: string
+
+  community:
+    range: string
+
+  embargoed:
+    description: >-
+      If true, the data are embargoed and not available for public access.
+    range: boolean
+    recommended: true
+    todos:
+      - make this required?
+      - first apply to Biosample
+      - try to apply to all Biosamples in a particular nmdc-server SubmissionMetadata?
+      - applying to a Study may not be granular enough
+
+  habitat:
+    range: string
+
+  version:
+    range: string
+    description: >- 
+      The version associated with a resource. 
+    exact_mappings:
+      - schema:version
+    examples:
+      - value: v1.2.0
+
+  doi_value:
+    description: >-
+      A digital object identifier, which is intended to persistantly identify some resource on the web.
+    required: true
+    aliases:
+      - DOI
+      - digital object identifier
+    range: uriorcurie
+    pattern: '^doi:10\.\d{2,9}/.*$'
+    examples:
+      - value: doi:10.46936/10.25585/60000880
+        description: The DOI links to an electronic document.
+    exact_mappings:
+      - OBI:0002110
+    related_mappings:
+      - edam.data:1188
+
+  doi_provider:
+    description: >-
+      The authority, or organization, the DOI is associated with.
+    range: DoiProviderEnum
+    close_mappings:
+      - NCIT:C74932
+    examples:
+      - value: ess_dive
+        description: The corresponding DOI is associated with ESS-DIVE.
+
+  doi_category:
+    description: >-
+      The resource type the corresponding doi resolves to.
+    range: DoiCategoryEnum
+    required: true
+    examples:
+      - value: dataset_doi
+        description: The corresponding DOI is a dataset resource type.
+
+  related_identifiers:
+    title: Related Identifiers
+    description: Identifiers assigned to a thing that is similar to that which is represented in NMDC. Related identifier are not an identical match and may have some variation.
+
+  notes: { }
+
+  funding_sources:
+    multivalued: true
+    range: string
+    description: >-
+      A list of organizations, along with the award numbers, that underwrite financial support for projects of
+      a particular type. Typically, they process applications and award funds to the chosen qualified
+      applicants.
+    comments:
+      - Include only the name of the funding organization and the award or contract number.
+    examples:
+      - value: National Sciences Foundation Dimensions of Biodiversity (award no. 1342701)
+      - value: >-
+          U.S. Department of Energy, Office of Science, Office of Biological and Environmental Research
+          (BER) under contract DE-AC05-00OR2275
+    close_mappings:
+      - NCIT:C39409
+
+  ecosystem_path_id:
+    range: integer
+    description: A unique id representing the GOLD classifiers associated with a sample.
+    examples:
+      - value: "6026"
+    see_also:
+    - https://gold.jgi.doe.gov/ecosystem_classification  
+
+  ## GOLD PATHS
+  gold_path_field:
+    range: string
+    abstract: true
+    description: >-
+      This is a grouping for any of the gold path fields
+    annotations:
+      tooltip:
+        tag: tooltip
+        value: GOLD Ecosystem Classification paths describe the surroundings from which an environmental sample or an organism is collected.
+        annotations:
+          source: https://gold.jgi.doe.gov/ecosystem_classification
+  ecosystem:
+    is_a: gold_path_field
+    description:
+      An ecosystem is a combination of a physical environment (abiotic
+      factors) and all the organisms (biotic factors) that interact with this environment.
+      Ecosystem is in position 1/5 in a GOLD path.
+    comments:
+      - The abiotic factors play a profound role on the type and composition
+        of organisms in a given environment. The GOLD Ecosystem at the top of the five-level
+        classification system is aimed at capturing the broader environment from which
+        an organism or environmental sample is collected. The three broad groups under
+        Ecosystem are Environmental, Host-associated, and Engineered. They represent
+        samples collected from a natural environment or from another organism or from
+        engineered environments like bioreactors respectively.
+    see_also:
+      - https://gold.jgi.doe.gov/help
+  ecosystem_category:
+    is_a: gold_path_field
+    description:
+      Ecosystem categories represent divisions within the ecosystem based
+      on specific characteristics of the environment from where an organism or sample
+      is isolated. Ecosystem category is in position 2/5 in a GOLD path.
+    comments:
+      - The Environmental ecosystem (for example) is divided into Air, Aquatic
+        and Terrestrial. Ecosystem categories for Host-associated samples can be individual
+        hosts or phyla and for engineered samples it may be manipulated environments
+        like bioreactors, solid waste etc.
+    see_also:
+      - https://gold.jgi.doe.gov/help
+  ecosystem_type:
+    is_a: gold_path_field
+    description:
+      Ecosystem types represent things having common characteristics within
+      the Ecosystem Category. These common characteristics based grouping is still
+      broad but specific to the characteristics of a given environment. Ecosystem
+      type is in position 3/5 in a GOLD path.
+    comments:
+      - The Aquatic ecosystem category (for example) may have ecosystem types
+        like Marine or Thermal springs etc. Ecosystem category Air may have Indoor air
+        or Outdoor air as different Ecosystem Types. In the case of Host-associated
+        samples, ecosystem type can represent Respiratory system, Digestive system,
+        Roots etc.
+    see_also:
+      - https://gold.jgi.doe.gov/help
+  ecosystem_subtype:
+    is_a: gold_path_field
+    description:
+      Ecosystem subtypes represent further subdivision of Ecosystem types
+      into more distinct subtypes. Ecosystem subtype is in position 4/5 in a GOLD
+      path.
+    comments:
+      - Ecosystem Type Marine (Environmental -> Aquatic -> Marine) is further
+        divided (for example) into Intertidal zone, Coastal, Pelagic, Intertidal zone
+        etc. in the Ecosystem subtype category.
+    see_also:
+      - https://gold.jgi.doe.gov/help
+  specific_ecosystem:
+    is_a: gold_path_field
+    description:
+      Specific ecosystems represent specific features of the environment
+      like aphotic zone in an ocean or gastric mucosa within a host digestive system.
+      Specific ecosystem is in position 5/5 in a GOLD path.
+    comments:
+      - Specific ecosystems help to define samples based on very specific characteristics
+        of an environment under the five-level classification system.
+    see_also:
+      - https://gold.jgi.doe.gov/help
+
+
+  add_date:
+    range: string
+    description: The date on which information was added to a database.
+
+  mod_date:
+    range: string
+    description: The date on which information was last modified in a database.
+
+  ncbi_taxonomy_name:
+    range: string
+  ncbi_project_name:
+    range: string
+
+  processing_institution:
+    range: ProcessingInstitutionEnum
+    description: The organization that processed the sample.
+
+  qc_status:
+    description: Stores information about the result of a process (ie the process of sequencing a library may have for qc_status of 'fail' if not enough data was generated)
+    range: StatusEnum
+
+  file_size_bytes:
+    range: bytes
+    description: Size of the file in bytes
+
+  analyte_category:
+    required: true
+    description: >
+      The type of analyte(s) that were measured in the data generation process
+      
+
+  external_database_identifiers:
+    abstract: true
+    description: Link to corresponding identifier in external database
+    is_a: alternative_identifiers
+    multivalued: true
+    pattern: '^[a-zA-Z0-9][a-zA-Z0-9_\.]+:[a-zA-Z0-9_][a-zA-Z0-9_\-\/\.,]*$'
+    range: external_identifier
+    comments:
+      - The value of this field is always a registered CURIE
+    close_mappings:
+      - skos:closeMatch
+
+  dna_concentration:
+    see_also:
+      - nmdc:nucleic_acid_concentration
+    title: DNA concentration in ng/ul
+    comments:
+      - Units must be in ng/uL. Enter the numerical part only. Must be calculated using
+        a fluorometric method. Acceptable values are 0-2000.
+    examples:
+      - value: '100'
+    rank: 5
+    range: float
+    slot_group: JGI-Metagenomics
+    recommended: true
+    minimum_value: 0
+    maximum_value: 2000
+
+  extraction_targets:
+    description: Provides the target biomolecule that has been separated from a sample during an extraction process.
+    rank: 1000
+    multivalued: true
+    range: ExtractionTargetEnum
+    notes:
+      - todos, remove nucl_acid_ext from OmicsProcessing (DataGeneration)
+    narrow_mappings:
+      - NCIT:C177560
+      - MIXS:0000037
+
+  id:
+    required: true
+    identifier: true
+    range: uriorcurie
+    description: >-
+      A unique identifier for a thing.
+      Must be either a CURIE shorthand for a URI or a complete URI
+    structured_aliases:
+      - literal_form: workflow_execution_id
+        contexts:
+          - https://bitbucket.org/berkeleylab/jgi-jat/macros/nmdc_metadata.yaml
+        predicate: NARROW_SYNONYM
+      - literal_form: data_object_id
+        contexts:
+          - https://bitbucket.org/berkeleylab/jgi-jat/macros/nmdc_metadata.yaml
+        predicate: NARROW_SYNONYM
+    notes:
+      - "abstracted pattern: prefix:typecode-authshoulder-blade(.version)?(_seqsuffix)?"
+      - 'a minimum length of 3 characters is suggested for typecodes, but 1 or 2 characters will be accepted'
+      - 'typecodes must correspond 1:1 to a class in the NMDC schema. this will be checked via per-class id slot usage assertions'
+      - 'minting authority shoulders should probably be enumerated and checked in the pattern'
+    examples:
+      - value: nmdc:mgmag-00-x012.1_7_c1
+        description: 'https://github.com/microbiomedata/nmdc-schema/pull/499#discussion_r1018499248'
+    pattern: '^[a-zA-Z0-9][a-zA-Z0-9_\.]+:[a-zA-Z0-9_][a-zA-Z0-9_\-\/\.,]*$'
+
+  title:
+    range: string
+    description: >-
+      A name given to the entity that differs from the name/label programmatically assigned to it.
+    exact_mappings:
+      - dcterms:title
+
+  alternative_titles:
+    range: string
+    multivalued: true
+    description: >-
+      A list of alternative titles for the entity.
+      The distinction between title and alternative titles is application-specific.
+    exact_mappings:
+      - dcterms:alternative
+
+  alternative_names:
+    range: string
+    multivalued: true
+    description: >-
+      A list of alternative names used to refer to the entity.
+      The distinction between name and alternative names is application-specific. 
+      This should not be used for identifers which have their own slots (e.g., bioproject:PRJNA406974)
+    exact_mappings:
+      - dcterms:alternative
+      - skos:altLabel
+
+  alternative_descriptions:
+    range: string
+    multivalued: true
+    description: >-
+      A list of alternative descriptions for the entity.
+      The distinction between description and alternative descriptions is application-specific.
+
+  alternative_identifiers:
+    range: uriorcurie
+    multivalued: true
+    description: >-
+      A list of alternative identifiers for the entity.
+    pattern: '^[a-zA-Z0-9][a-zA-Z0-9_\.]+:[a-zA-Z0-9_][a-zA-Z0-9_\-\/\.,\(\)\=\#]*$'
+
+  start_date:
+    range: string
+    description: The date on which any process or activity was started
+    comments:
+      - We are using string representations of dates until all components of our ecosystem can handle ISO 8610 dates
+      - The date should be formatted as YYYY-MM-DD
+    todos:
+      - add date string validation pattern
+
+  end_date:
+    range: string
+    description: The date on which any process or activity was ended
+    comments:
+      - We are using string representations of dates until all components of our ecosystem can handle ISO 8610 dates
+      - The date should be formatted as YYYY-MM-DD
+    todos:
+      - add date string validation pattern
+
+  # --- Organism identity slots (from JGI Isolate v19 form) ---
+
+  organism_genus:
+    description: Genus of the organism.
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Genus
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: Shewanella
+      - value: Ruegeria
+      - value: Campylobacter
+    comments:
+      - >-
+        Free-text submitter-provided genus name. For an ontology-grounded classification,
+        use `classified_as` with a NcbiTaxon instance on the parent Organism class.
+    notes:  
+      - GOLD organism_v2 Go0000189 (Shewanella loihica PV-4, queried 2026-04-21)
+      - GOLD organism_v2 Go0000514 (Ruegeria pomeroyi DSS-3, queried 2026-04-21)
+      - GOLD organism_v2 (Go0000058, queried 2026-04-14)
+
+  organism_species:
+    description: Species of the organism.
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Species
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: loihica
+      - value: pomeroyi
+      - value: sp.
+        description: use when the isolate has not yet been assigned a species name
+    comments:
+      - >-
+        Free-text submitter-provided species name. For an ontology-grounded classification,
+        use `classified_as` with a NcbiTaxon instance on the parent Organism class.
+    notes:
+      - GOLD organism_v2 Go0000189 (Shewanella loihica PV-4, queried 2026-04-21)
+      - GOLD organism_v2 Go0000514 (Ruegeria pomeroyi DSS-3, queried 2026-04-21)
+
+  strain_name:
+    description: Strain or cultivar name of the organism.
+    notes:
+      - >-
+        Microbial strain identifiers and plant cultivar names (governed by the
+        International Code of Nomenclature for Cultivated Plants, ICNCP) are
+        nomenclaturally distinct, but this slot accepts both for now to match
+        the JGI Isolate (NA) v19 form's combined "Strain or cultivar" field.
+        A separate `cultivar_name` slot may be added if a plant-specific use
+        case emerges; see #3056.
+      - >-
+        MIxS `subspecf_gen_lin` (MIXS:0000020) covers this concept along with
+        cultivar, serovar, biotype, ecotype, and other sub-species lineage types
+        in a single slot using a rank-prefix encoding (e.g. "strain:PV-4"). NMDC
+        splits the concept into separate slots; this slot covers the strain
+        rank specifically.
+      - Example values are strain names from GOLD organism_v2.
+    related_mappings:
+      - MIXS:0000020
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Strain or cultivar
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: PV-4
+      - value: DSS-3
+      - value: DSM 6724
+
+  isolate_name:
+    description: Isolate or mutant name.
+    notes:
+      - >-
+        MIxS `subspecf_gen_lin` (MIXS:0000020) covers this concept along with
+        strain, cultivar, serovar, biotype, ecotype, and other sub-species
+        lineage types in a single slot using a rank-prefix encoding. NMDC uses
+        a separate slot for the isolate rank specifically.
+      - Example values are from GOLD dw_sample_taxonomy_info.isolate; "Isolate" is a generic placeholder used when no specific mutant or isolate name is recorded.
+    related_mappings:
+      - MIXS:0000020
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Isolate
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: Bd21-3
+      - value: MR164
+      - value: Isolate
+
+  gc_content:
+    range: float
+    description: Estimated GC content as a percentage.
+    minimum_value: 0
+    maximum_value: 100
+    examples:
+      - value: "45"
+      - value: "60"
+    unit:
+      ucum_code: "%"
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: GC Content %
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+
+  expected_organism:
+    range: Organism
+    description: >-
+      The organism that the submitter expects to be present in this sample. May be
+      contradicted by sequencing results.
+    examples:
+      - value: nmdc:orgn-99-abc123
+        description: Reference to an Organism instance in organism_set
+
+  # --- Host-of-sample slots (from JGI Isolate v19 form) ---
+
+  host_genus:
+    description: Genus of the host organism that the sample was collected from.
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Host Genus
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: Zea
+      - value: Escherichia
+    comments:
+      - >-
+        Free-text submitter-provided host genus. For an ontology-grounded host
+        identification, use `host_taxid` (MIXS:0000250) on the same class.
+    notes:
+      - GOLD organism_v2 host_name "Zea mays" (n=432 records, queried 2026-04-30)
+      - GOLD organism_v2 host_name "Escherichia coli K-12" (Go0084483 Escherichia phage JSE, queried 2026-04-30)
+
+  host_species:
+    description: Species of the host organism that the sample was collected from.
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Host Species
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: mays
+      - value: coli
+    comments:
+      - >-
+        Free-text submitter-provided host species. For an ontology-grounded host
+        identification, use `host_taxid` (MIXS:0000250) on the same class.
+    notes:
+      - GOLD organism_v2 host_name "Zea mays" (n=432 records, queried 2026-04-30)
+      - GOLD organism_v2 host_name "Escherichia coli K-12" (Go0084483 Escherichia phage JSE, queried 2026-04-30)
+
+  host_strain:
+    description: Strain of the host organism that the sample was collected from.
+    in_subset:
+      - jgi_isolate
+    structured_aliases:
+      - literal_form: Host Strain
+        predicate: EXACT_SYNONYM
+        source: https://jgi.doe.gov/user-programs/pmo-overview/project-materials-submission-overview/
+        notes:
+          - Exact JGI form template is access-restricted; source is the public submission overview.
+    examples:
+      - value: K-12
+    comments:
+      - >-
+        Free-text submitter-provided host strain. For an ontology-grounded host
+        identification, use `host_taxid` (MIXS:0000250) on the same class.
+    notes:
+      - GOLD organism_v2 host_name "Escherichia coli K-12" (Go0084483 Escherichia phage JSE, queried 2026-04-30)
+
+enums:
+
+  LibraryStrategyEnum:
+    description: Sequencing strategy used for library preparation
+    comments:
+      - NMDC intentionally supports a curated subset of the INSDC library strategy vocabulary. The complete controlled vocabulary is defined in the referenced SRA.experiment.xsd; values can be added as needed.
+    see_also:
+      - https://github.com/enasequence/webin-xml/blob/2.1.0/src/main/resources/uk/ac/ebi/ena/sra/schema/SRA.experiment.xsd
+    permissible_values:
+      WGA:
+        title: Whole Genome Amplification
+        description: Whole genome amplification followed by random sequencing.
+        see_also:
+          - pubmed:1631067
+          - pubmed:8962113
+      WGS:
+        description: Random sequencing of the whole genome.
+        title: Whole Genome Sequencing 
+        see_also:
+          - pubmed:10731132
+      RNA-Seq:
+        description: Random sequencing of whole transcriptome
+        aliases: 
+          - Whole Transcriptome Shotgun Sequencing
+          - WTSS
+        see_also: 
+          - pubmed:18611170
+      AMPLICON:
+        description: Sequencing of overlapping or distinct PCR or RT-PCR products
+        comments:
+          -  metagenomic community profiling using SSU rRNA, for example
+        
+  LibrarySourceEnum:
+    description: Molecular source of the sequencing library
+    see_also:
+      - https://github.com/enasequence/webin-xml/blob/2.1.0/src/main/resources/uk/ac/ebi/ena/sra/schema/SRA.experiment.xsd
+    permissible_values:
+      GENOMIC:
+        description: Genomic DNA (includes PCR products from genomic DNA)
+      TRANSCRIPTOMIC:
+        description: Transcription products or non-genomic DNA
+        comments: 
+          - for example EST cDNA, RT-PCR, or screened libraries
+      METAGENOMIC:
+        description: Mixed material from metagenome
+      METATRANSCRIPTOMIC:
+        description: Transcription products from community targets
+      SYNTHETIC:
+        description: Synthetic DNA
+      VIRAL RNA:
+        description: Viral RNA
+      GENOMIC SINGLE CELL:
+        description: Single cell genomic DNA source
+      TRANSCRIPTOMIC SINGLE CELL:
+        description: Single cell transcriptomic source
+      OTHER:
+        description: "Other, unspecified, or unknown library source material "
+  LibrarySelectionEnum:
+    description: Library selection or enrichment method
+    comments:
+      - NMDC intentionally supports a curated subset of the INSDC library selection vocabulary. The complete controlled vocabulary is defined in the referenced SRA.experiment.xsd; values can be added as needed.
+    see_also:
+      - https://github.com/enasequence/webin-xml/blob/2.1.0/src/main/resources/uk/ac/ebi/ena/sra/schema/SRA.experiment.xsd
+    permissible_values:
+      RANDOM:
+        description: Random selection by shearing or other method
+      PCR:
+        description: Source material was selected by designed primers
+      MDA:
+        description: Multiple displacement amplification
+      other:
+        description: Other library enrichment, screening, or selection process (please
+          include additional info in the design description)
+      PolyA:
+        description: PolyA selection or enrichment for messenger RNA (mRNA)
+      size fractionation:
+        description: Physical selection of size appropriate targets
+
+  ExecutionResourceEnum:
+    see_also:
+      - nmdc:DoiProviderEnum
+      - nmdc:ProcessingInstitutionEnum
+      - nmdc:ExecutionResourceEnum
+    permissible_values:
+      NERSC-Cori:
+        description: NERSC Cori supercomputer
+        aliases:
+          - Cori
+      NERSC-Perlmutter:
+        description: NERSC Perlmutter supercomputer
+        aliases:
+          - Perlmutter
+          - Saul
+      EMSL-RZR:
+        description: Environmental Molecular Sciences Laboratory RZR cluster
+        aliases:
+          - RZR
+      EMSL-Tahoma:
+        description: Environmental Molecular Sciences Laboratory RZR Tahoma cluster
+        aliases:
+          - Tahoma 
+
+  FileTypeEnum:
+    permissible_values:
+      
+      Virus Summary:
+        description: Tab separated file listing the viruses found by geNomad.
+        see_also: 
+          - https://portal.nersc.gov/genomad/
+        annotations:
+          file_name_pattern: '^_virus_summary\.tsv?$'
+      
+      Plasmid Summary:
+        description: Tab separated file listing the plasmids found by geNomad.
+        see_also: 
+          - https://portal.nersc.gov/genomad/
+        annotations:
+          file_name_pattern: '^_plasmid_summary\.tsv?$'
+        
+      GeNomad Aggregated Classification:
+        description: >-
+          Tab separated file which combines the results from neural network-based classification
+          and marker-based classification for virus and plasmid detection with geNomad.
+        see_also: 
+          - https://portal.nersc.gov/genomad/
+        annotations:
+          file_name_pattern: '^_aggregated_classification\.tsv?$'  
+        
+      Reference Calibration File:
+        description: A file that contains data used to calibrate a natural organic matter or metabolomics analysis.
+      
+      Metagenome Raw Reads:
+        description: Interleaved paired-end raw metagenome sequencing data
+        annotations:
+          file_name_pattern: '^\.fastq(\.gz)?$'
+
+      Metagenome Raw Read 1:
+        description: Read 1 raw metagenome sequencing data, aka forward reads
+        examples:
+          - value: "BMI_H25VYBGXH_19S_31WellG1_R1.fastq.gz"
+        annotations:
+          file_name_pattern: '^.+_R1\.fastq(\.gz)?$'
+
+      Metagenome Raw Read 2:
+        description: Read 2 raw metagenome sequencing data, aka reverse reads
+        examples:
+          - value: "BMI_H25VYBGXH_19S_31WellG1_R2.fastq.gz"
+        annotations:
+          file_name_pattern: '^.+_R2\.fastq(\.gz)?$'
+
+      Metatranscriptome Raw Reads:
+        description: Interleaved paired-end raw metatranscriptome sequencing data
+        annotations:
+          file_name_pattern: '^\.fastq(\.gz)?$'
+
+      Metatranscriptome Raw Read 1:
+        description: Read 1 raw metatranscriptome sequencing data, aka forward reads
+        examples:
+          - value: "BMI_H25VYBGXH_19S_31WellG1_R1.fastq.gz"
+        annotations:
+          file_name_pattern: '^.+_R1\.fastq(\.gz)?$'
+
+      Metatranscriptome Raw Read 2:
+        description: Read 2 raw metatranscriptome sequencing data, aka reverse reads
+        examples:
+          - value: "BMI_H25VYBGXH_19S_31WellG1_R2.fastq.gz"
+        annotations:
+          file_name_pattern: '^.+_R2\.fastq(\.gz)?$'
+
+      Unpaired raw sequencing data:
+        description: Reads from a single-end sequencing library (not forward/reverse pairs).
+        comments:
+          - Use when the analyte category is not part of the value, for example amplicon or isolate data. For metagenome or metatranscriptome reads, prefer the analyte-specific values above.
+          - Oxford Nanopore and PacBio runs commonly have a single (unpaired) library layout.
+        see_also:
+          - https://www.ebi.ac.uk/ena/browser/about/read-formats
+
+      Paired interleaved raw sequencing data:
+        description: Paired-end reads with forward and reverse mates interleaved in a single file.
+        comments:
+          - Use when the analyte category is not part of the value, for example amplicon or isolate data. For metagenome or metatranscriptome interleaved reads, prefer "Metagenome Raw Reads" or "Metatranscriptome Raw Reads" above.
+        see_also:
+          - https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump
+
+      Raw sequencing data read 1:
+        description: Read 1 (forward) of a paired-end run, as a separate file.
+        comments:
+          - Use when the analyte category is not part of the value, for example amplicon or isolate data. For metagenome or metatranscriptome forward reads, prefer "Metagenome Raw Read 1" or "Metatranscriptome Raw Read 1" above.
+        see_also:
+          - https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump
+
+      Raw sequencing data read 2:
+        description: Read 2 (reverse) of a paired-end run, as a separate file.
+        comments:
+          - Use when the analyte category is not part of the value, for example amplicon ingest or isolate data. For metagenome or metatranscriptome reverse reads, prefer "Metagenome Raw Read 2" or "Metatranscriptome Raw Read 2" above.
+        see_also:
+          - https://github.com/ncbi/sra-tools/wiki/HowTo:-fasterq-dump
+
+      SRA toolkit-accessible sequence data:
+        description: Files that are available for download via SRA Toolkit by providing an INSDC accession
+        comments:
+           - File format will depend on options specified to SRA Toolkit
+        see_also:
+          - https://github.com/ncbi/sra-tools/wiki
+
+      Direct Infusion FT-ICR MS Analysis Results:
+        description: FT-ICR MS based molecular formula assignment results table
+      
+      Direct Infusion FT-ICR MS QC Plots:
+        description:
+          Quality control plots for FT-ICR MS raw data acquired by direct infusion
+
+      LC FT-ICR MS Analysis Results:
+        description: LC FT-ICR MS-based molecular formula assignment results tables
+
+      LC FT-ICR MS QC Plots:
+        description:
+          Quality control plots for FT-ICR MS raw data acquired with liquid chromatography
+
+      GC-MS Metabolomics Results:
+        description: GC-MS-based metabolite assignment results table
+
+      LC-MS Metabolomics Results:
+        description: LC-MS-based metabolite assignment results table
+      
+      Mass Spectrometry Reference Spectral Library:
+        description: Spectral library used for mass spectrometry based metabolite identification
+
+      Metaproteomics Workflow Statistics:
+        description: Aggregate workflow statistics file
+
+      Protein Report:
+        description: Filtered protein report file
+
+      Peptide Report:
+        description: Filtered peptide report file
+
+      Unfiltered Metaproteomics Results:
+        description: MSGFjobs and MASIC output file
+
+      Read Count and RPKM:
+        description: Annotation read count and RPKM per feature JSON
+
+      QC non-rRNA R2:
+        description: QC removed rRNA reads (R2) fastq
+
+      QC non-rRNA R1:
+        description: QC removed rRNA reads (R1) fastq
+
+      Metagenome HQMQ Bins Compression File:
+        description: Compressed file containing high quality and medium quality metagenome bins and associated files
+        annotations:
+          file_name_pattern: "[mag_wf_activity_id]_hqmq_bin.zip"
+
+      Metagenome LQ Bins Compression File:
+        description: Compressed file containing low quality metagenome bins and associated files
+        annotations:
+          file_name_pattern: "[mag_wf_activity_id]_lq_bin.zip"
+
+      Metagenome Bins Info File:
+        description: File containing version information on the binning workflow
+        annotations:
+          file_name_pattern: "[mag_wf_activity_id]_bin.info"
+
+      CheckM Statistics:
+        description: CheckM statistics report
+
+      Metagenome Bins Heatmap:
+        description: The Heatmap presents the pdf file containing the KO analysis results for metagenome bins
+        annotations:
+          file_name_pattern:
+            value: "[mag_wf_activity_id]_heatmap.pdf"
+
+      Metagenome Bins Barplot:
+        description: The Bar chart presents the pdf file containing the KO analysis results for metagenome bins
+        annotations:
+          file_name_pattern:
+            value: "[mag_wf_activity_id]_barplot.pdf"
+
+      Metagenome Bins Krona Plot:
+        description: The Krona plot presents the HTML file containing the KO analysis results for metagenome bins
+        annotations:
+          file_name_pattern:
+            value: "[mag_wf_activity_id]_kronaplot.html"
+
+      Read Based Analysis Info File:
+        description: File containing reads based analysis information
+        annotations:
+          file_name_pattern: "profiler.info"
+
+      GTDBTK Bacterial Summary:
+        description: GTDBTK bacterial summary
+
+      GTDBTK Archaeal Summary:
+        description: GTDBTK archaeal summary
+
+      GTDBTK Summary JSON:
+        description: GTDBTK bacterial and archaeal summary in JSON format
+        see_also:
+          - https://ecogenomics.github.io/GTDBTk/
+        annotations:
+          file_name_pattern:
+            value: "[mag_wf_activity_id]_gtdbtk.json"
+        examples:
+          - value: nmdc_wfmag-11-0abycm66.1_gtdbtk.json
+
+      GOTTCHA2 Krona Plot:
+        description: GOTTCHA2 krona plot HTML file
+
+      GOTTCHA2 Classification Report:
+        description: GOTTCHA2 classification report file
+
+      GOTTCHA2 Report Full:
+        description: GOTTCHA2 report file
+
+      Kraken2 Krona Plot:
+        description: Kraken2 krona plot HTML file
+
+      Centrifuge Krona Plot:
+        description: Centrifuge krona plot HTML file
+
+      Centrifuge output report file:
+        description: Centrifuge output report file
+
+      Kraken2 Classification Report:
+        description: Kraken2 output report file
+
+      Kraken2 Taxonomic Classification:
+        description: Kraken2 output read classification file
+
+      Centrifuge Taxonomic Classification:
+        description: Centrifuge output read classification file
+
+      SingleM Taxonomic Classification:
+        description: SingleM taxonomic classification file
+
+      SingleM Krona Plot:
+        description: SingleM krona plot HTML file
+
+      SingleM Clustered Report:
+        description: SingleM taxonomic classification results, clustered by OTU
+
+      Structural Annotation GFF:
+        description: GFF3 format file with structural annotations
+        annotations:
+          file_name_pattern: "[GOLD-AP]_structural_annotation.gff"
+
+      Structural Annotation Stats Json:
+        description: Structural annotations stats json
+        annotations:
+          file_name_pattern: "[GOLD-AP]_structural_annotation_stats.json"
+
+      Functional Annotation GFF:
+        description: GFF3 format file with functional annotations
+        annotations:
+          file_name_pattern: "[GOLD-AP]_functional_annotation.gff"
+
+      Annotation Info File:
+        description: File containing annotation info
+        annotations:
+          file_name_pattern: "[GOLD-AP]_imgap.info"
+
+      Annotation Amino Acid FASTA:
+        description: FASTA amino acid file for annotated proteins
+        annotations:
+          file_name_pattern: "[GOLD-AP]_proteins.faa"
+
+      Annotation Enzyme Commission:
+        description: Tab delimited file for EC annotation
+        annotations:
+          file_name_pattern: "[GOLD-AP]_ec.tsv"
+
+      Annotation KEGG Orthology:
+        description: Tab delimited file for KO annotation
+        annotations:
+          file_name_pattern: "[GOLD-AP]_ko.tsv"
+
+      Assembly Info File:
+        description: File containing assembly info
+        annotations:
+          file_name_pattern: "README.txt"
+
+      Assembly Coverage BAM:
+        description: Sorted bam file of reads mapping back to the final assembly
+        annotations:
+          file_name_pattern: "[GOLD-AP]_pairedMapped.sam.gz"
+
+      Assembly AGP:
+        description: An AGP format file that describes the assembly
+
+      Assembly Scaffolds:
+        description: Final assembly scaffolds fasta
+        annotations:
+          file_name_pattern: "[GOLD-AP]_assembly.contigs.fasta"
+
+      Assembly Contigs:
+        description: Final assembly contigs fasta
+        annotations:
+          file_name_pattern: "assembly.contigs.fasta"
+
+      Assembly Coverage Stats:
+        description: Assembled contigs coverage information
+        annotations:
+          file_name_pattern: "[GOLD-AP]_pairedMapped_sorted.bam.cov"
+
+      Contig Mapping File:
+        description: Contig mappings between contigs and scaffolds
+        annotations:
+          file_name_pattern: "[GOLD-AP]_contig_names_mapping.tsv"
+
+      Error Corrected Reads:
+        description: Error corrected reads fastq
+        annotations:
+          file_name_pattern: "input.corr.fastq.gz"
+
+      Filtered Sequencing Reads:
+        description: Reads QC result fastq (clean data)
+        annotations:
+          file_name_pattern: "/.+?(?=filter)/filter-METAGENOME.fastq.gz"
+
+      Read Filtering Info File:
+        description: File containing read filtering information
+        annotations:
+          file_name_pattern: "[rqc_wf_activity_id]_readsQC.info"
+
+      QC Statistics Extended:
+        description: Extended report including methods and results for read filtering
+        annotations:
+          file_name_pattern: "/.+?(?=filter)/filtered-report.txt"
+
+      QC Statistics:
+        description: Reads QC summary statistics
+        annotations:
+          file_name_pattern: "[rqc_wf_activity_id]_filterStats2.txt"
+
+      TIGRFam Annotation GFF:
+        description: GFF3 format file with TIGRfam
+        annotations:
+          file_name_pattern: "[GOLD-AP]_tigrfam.gff"
+
+      CRT Annotation GFF:
+        description: GFF3 format file with CRT
+        annotations:
+          file_name_pattern: "[GOLD-AP]_crt.gff"
+
+      Genemark Annotation GFF:
+        description: GFF3 format file with Genemark
+        annotations:
+          file_name_pattern: "[GOLD-AP]_genemark.gff"
+
+      Prodigal Annotation GFF:
+        description: GFF3 format file with Prodigal
+        annotations:
+          file_name_pattern: "[GOLD-AP]_prodigal.gff"
+
+      TRNA Annotation GFF:
+        description: GFF3 format file with TRNA
+        annotations:
+          file_name_pattern: "[GOLD-AP]_trna.gff"
+
+      Misc Annotation GFF:
+        description: GFF3 format file with Misc
+        annotations:
+          file_name_pattern: "[GOLD-AP]_rfam_misc_bind_misc_feature_regulatory.gff"
+
+      RFAM Annotation GFF:
+        description: GFF3 format file with RFAM
+        annotations:
+          file_name_pattern: "[GOLD-AP]_rfam.gff"
+
+      TMRNA Annotation GFF:
+        description: GFF3 format file with TMRNA
+        annotations:
+          file_name_pattern: "[GOLD-AP]_rfam_ncrna_tmrna.gff"
+
+      Crispr Terms:
+        description: Crispr Terms
+        annotations:
+          file_name_pattern: "[GOLD-AP]_crt.crisprs"
+
+      Product Names:
+        description: Product names file
+        annotations:
+          file_name_pattern: "[GOLD-AP]_product_names.tsv"
+
+      Gene Phylogeny tsv:
+        description: Gene Phylogeny tsv
+        annotations:
+          file_name_pattern: "[GOLD-AP]_gene_phylogeny.tsv"
+
+      Scaffold Lineage tsv:
+        description: phylogeny at the scaffold level
+        annotations:
+          file_name_pattern: "[GOLD-AP]_scaffold_lineage.tsv"
+
+      Clusters of Orthologous Groups (COG) Annotation GFF:
+        description: GFF3 format file with COGs
+        annotations:
+          file_name_pattern: "[GOLD-AP]_cog.gff"
+
+      KO_EC Annotation GFF:
+        description: GFF3 format file with KO_EC
+        annotations:
+          file_name_pattern: "[GOLD-AP]_ko_ec.gff"
+
+      CATH FunFams (Functional Families) Annotation GFF:
+        description: GFF3 format file with CATH FunFams
+        annotations:
+          file_name_pattern: "[GOLD-AP]_cath_funfam.gff"
+
+      SUPERFam Annotation GFF:
+        description: GFF3 format file with SUPERFam
+        annotations:
+          file_name_pattern: "[GOLD-AP]_supfam.gff"
+
+      SMART Annotation GFF:
+        description: GFF3 format file with SMART
+        annotations:
+          file_name_pattern: "[GOLD-AP]_smart.gff"
+
+      Pfam Annotation GFF:
+        description: GFF3 format file with Pfam
+        annotations:
+          file_name_pattern: "[GOLD-AP]_pfam.gff"
+
+      Annotation Statistics:
+        description: Annotation statistics report
+
+      Direct Infusion FT ICR-MS Raw Data:
+        description:
+          Direct infusion Fourier transform ion cyclotron resonance
+          mass spectrometry raw data
+      
+      LC FT-ICR MS Raw Data:
+        description:
+          Fourier transform ion cyclotron resonance mass spectrometry raw data acquired with liquid chromatography
+
+      LC-DDA-MS/MS Raw Data:
+        description: Liquid chromatographically separated MS1 and Data-Dependent MS2 binary instrument file
+
+      GC-MS Raw Data:
+        description: Gas chromatography-mass spectrometry raw data, full scan mode.
+
+      Configuration toml:
+        description: >-
+          A configuration toml file used by various programs to store settings that are specific to their
+          respective software.
+        broad_mappings:
+          - edam.format:4005
+
+      LC-MS Lipidomics Results:
+        description: >-
+          LC-MS-based lipidomics analysis results table
+
+      LC-MS Lipidomics Processed Data:
+        description: >-
+          Processed data for the LC-MS-based lipidomics analysis in hdf5 format
+      
+      LC-MS Metabolomics Processed Data:
+        description: >-
+          Processed data for the LC-MS-based metabolomics analysis in hdf5 format
+
+      Contaminants Amino Acid FASTA:
+        description: FASTA amino acid file for contaminant proteins commonly observed in proteomics data.
+
+      Analysis Tool Parameter File:
+        description: A configuration file used by a single computational software tool that stores settings that are specific to that tool.
+
+      Workflow Operation Summary:
+        description: A human readable record of analysis steps applied during an instance of a workflow operation.
+
+      Metatranscriptome Expression:
+        description: Metatranscriptome expression values and read counts for gene features predicted on contigs
+        annotations:
+          file_name_pattern: "*.rnaseq_gea.txt"
+
+      Metatranscriptome Expression Intergenic:
+        description: Metatranscriptome expression values and read counts for intergenic regions.
+        annotations:
+          file_name_pattern: "*.rnaseq_gea.intergenic.txt"
+
+      Metatranscriptome Expression Info File:
+        description: File containing version information on the expression workflow
+        annotations:
+          file_name_pattern: "*_readcount.info"
+
+      rRNA Filtered Sequencing Reads:
+        description: File containing ribosomal reads from the read qc filtering step.
+        annotations:
+          file_name_pattern: "*.rRNA.fastq.gz"
+
+      BAI File:
+        description: An index file found in the same directory as the binary alignment map (BAM) file, a compressed binary version of a sequence alignment/map (SAM) file.
+        exact_mappings:
+          - NCIT:C190163
+        annotations:
+          file_name_pattern: "*.pairedMapped_sorted.bam.bai"
+
+
+  DoiProviderEnum:
+    see_also:
+      - nmdc:DoiProviderEnum
+      - nmdc:ProcessingInstitutionEnum
+      - nmdc:ExecutionResourceEnum
+    permissible_values:
+      emsl:
+        aliases:
+          - Environmental Molecular Sciences Laboratory
+          - EMSL
+        title: EMSL
+        meaning: ror:04rc0xn13
+      jgi:
+        aliases:
+          - Joint Genome Institute
+          - JGI
+        title: JGI
+        meaning: ror:04xm1d337
+      kbase:
+        aliases:
+          - KBase
+        title: KBase
+        meaning: ror:01znn6x10
+      osti:
+        aliases:
+          - Office of Scientific and Technical Information
+          - OSTI
+        title: OSTI
+        meaning: ror:031478740
+      ess_dive:
+        aliases:
+          - ESS-DIVE
+          - Environmental System Science Data Infrastructure for a Virtual Ecosystem
+        title: ESS-DIVE
+        meaning: ror:01t14bp54
+      massive:
+        aliases:
+          - MassIVE
+          - Mass Spectrometry Virtual Environment
+        title: MassIVE
+      gsc:
+        aliases:
+          - GSC
+          - Genomic Standards Consortium
+        title: GSC
+      zenodo:
+        aliases:
+          - Zenodo
+        title: Zenodo
+      edi:
+        aliases:
+          - EDI
+          - Environmental Data Initiative
+        title: EDI
+        meaning: ror:0330j0z60
+      figshare:
+        title: Figshare
+        meaning: ror:041mxqs23
+
+  DoiCategoryEnum:
+    permissible_values:
+      award_doi:
+        description: A type of DOI that resolves to a funding authority.
+      dataset_doi:
+        description: A type of DOI that resolves to generated data.
+      publication_doi:
+        description: A type of DOI that resolves to a publication.
+      data_management_plan_doi:
+        description: A type of DOI that resolves to a data management plan.
+    see_also:
+      - https://schema.datacite.org/meta/kernel-4.4/doc/DataCite-MetadataKernel_v4.4.pdf
+      - https://api.crossref.org/types
+    comments:
+      - See especially the resourceTypeGeneral section of the DataCite PDF, on pp48-53 as of 2023-07-19
+
+  StatusEnum:
+    permissible_values:
+      pass: { }
+      fail: { }
+  
+  NucleotideSequencingEnum:
+    permissible_values:
+      metagenome:
+        aliases:
+          - metaG
+        title: Metagenome
+      metatranscriptome:
+        aliases:
+          - metaT  
+        title: Metatranscriptome
+      amplicon_sequencing_assay:
+        meaning: OBI:0002767
+        title: Amplicon
+        
+  MassSpectrometryEnum:
+    permissible_values:
+      metaproteome:
+        aliases:
+          - metaP
+        title: Metaproteome
+      metabolome:
+        aliases:
+          - metaB
+        title: Metabolome
+      lipidome: 
+        title: Lipidome
+      nom:
+        aliases:
+          - natural organic matter
+        title: Natural Organic Matter
+        
+  ExtractionTargetEnum:
+    permissible_values:
+      DNA: { }
+      RNA: { }
+      metabolite: { }
+      protein: { }
+      lipid: { }
+      natural organic matter: { }
+
+  ProcessingInstitutionEnum:
+    notes:
+      - use ROR meanings like ror:0168r3w48 for UCSD
+    permissible_values:
+      NMDC:
+        title: National Microbiome Data Collaborative
+        meaning: ror:05cwx3318
+      UCSD:
+        title: University of California, San Diego
+        meaning: ror:0168r3w48
+
+      JGI:
+        title: Joint Genome Institute
+        meaning: ror:04xm1d337
+
+      EMSL:
+        title: Environmental Molecular Sciences Laboratory
+        meaning: ror:04rc0xn13
+        aliases:
+          - Environmental Molecular Science Laboratory
+          - Environmental Molecular Sciences Lab
+
+      Battelle:
+        title: Battelle Memorial Institute
+        meaning: ror:01h5tnr73
+
+      ANL:
+        title: Argonne National Laboratory
+        meaning: ror:05gvnxz63
+
+      UCD_Genome_Center:
+        title: University of California, Davis Genome Center
+        meaning: https://genomecenter.ucdavis.edu/
+
+      Azenta:
+        title: Azenta Life Sciences
+        meaning: https://www.azenta.com/
+
+  DataCategoryEnum:
+    permissible_values:
+      instrument_data:
+        description: Data generated by a DataGeneration PlannedProcess
+      processed_data:
+        description: Data generated by a WorkflowExecution PlannedProcess
+      workflow_parameter_data:
+        description: Data used as input into a workflow providing workflow specification.
+        related_mappings:
+          - edam.data:0949

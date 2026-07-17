@@ -1,0 +1,3024 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_product_asset
+name: cdm_product_asset
+description: Product concepts applicable to specific asset classes.
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_datetime
+  - ./cdm_base_datetime_daycount
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_asset_commodity
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_staticdata_asset_credit
+  - ./cdm_base_staticdata_asset_rates
+  - ./cdm_base_staticdata_identifier
+  - ./cdm_base_staticdata_party
+  - ./cdm_observable_asset
+  - ./cdm_observable_asset_calculatedrate
+  - ./cdm_observable_common
+  - ./cdm_observable_event
+  - ./cdm_product_common_schedule
+  - ./cdm_product_common_settlement
+  - ./cdm_product_template
+  - ./cdm_event_common
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_event_position
+  - ./cdm_base_staticdata_codelist
+
+comments:
+  - 'Rosetta func: FixedAmount — 2006 ISDA Definition Article 5 Section 5.1. Calculation of a Fixed Amount: The Fixed Amount
+    payable by a party on a Payment Date will be: (a) if an amount is specified for the Swap Transaction as the Fixed Amount
+    payable by that party for that Payment Date or for the related Calculation Period, that amount; or (b) if an amount is
+    not specified for the Swap Transaction as the Fixed Amount payable by that party for that Payment Date or for the related
+    Calculation Period, an amount calculated on a formula basis for that Payment Date or for the related Calculation Period
+    as follows: Fixed Amount = Calculation Amount × Fixed Rate × Day Count Fraction. | inputs(interestRatePayout: InterestRatePayout
+    (1..1), notional: number (0..1), date: date (0..1), calculationPeriodData: CalculationPeriodData (0..1)) | output(fixedAmount:
+    number (1..1))'
+  - 'Rosetta func: FloatingAmount — 2006 ISDA Definition Article 6 Section 6.1. Calculation of a Floating Amount: Subject
+    to the provisions of Section 6.4 (Negative Interest Rates), the Floating Amount payable by a party on a Payment Date will
+    be: (a) if Compounding is not specified for the Swap Transaction or that party, an amount calculated on a formula basis
+    for that Payment Date or for the related Calculation Period as follows: Floating Amount = Calculation Amount × Floating
+    Rate + Spread × Floating Rate Day Count Fraction (b) if ''Compounding'' is specified to be applicable to the Swap Transaction
+    or that party and ''Flat Compounding'' is not specified, an amount equal to the sum of the Compounding Period Amounts
+    for each of the Compounding Periods in the related Calculation Period; or (c) if ''Flat Compounding'' is specified to
+    be applicable to the Swap Transaction or that party, an amount equal to the sum of the Basic Compounding Period Amounts
+    for each of the Compounding Periods in the related Calculation Period plus the sum of the Additional Compounding Period
+    Amounts for each such Compounding Period. | inputs(interestRatePayout: InterestRatePayout (1..1), rate: number (0..1),
+    notional: number (0..1), date: date (0..1), calculationPeriodData: CalculationPeriodData (0..1)) | output(floatingAmount:
+    number (1..1))'
+  - 'Rosetta func: ResolveRateIndex — The function to specify that the floating rate index enumeration will be expressed as
+    a number once the rate is observed. | inputs(index: FloatingRateIndexEnum (1..1)) | output(rate: number (1..1))'
+  - 'Rosetta func: ResolvePerformancePeriodStartPrice — Resolves the price from the end of the previous period. If first period,
+    then take the initial price. | inputs(performancePayout: PerformancePayout (1..1), price: PriceSchedule (0..*), observable:
+    Observable (0..1), adjustedDate: date (1..1)) | output(startPrice: PriceSchedule (1..1))'
+  - 'Rosetta func: ResolveEquityInitialPrice — To be replaced by full resolve price function implementation. | inputs(price:
+    PriceSchedule (0..*)) | output(initialPrice: PriceSchedule (0..1))'
+  - 'Rosetta func: DividendCashSettlementAmount — Based on the following legal text: means, in respect of a Dividend Period
+    and the related Dividend Cash Settlement Date, an amount in the Settlement Currency determined by the Calculation Agent
+    for such Dividend Period to which the Dividend Cash Settlement Amount relates, pursuant to the following formula: Dividend
+    Cash Settlement Amount = Record Amount × Number Of Securities. | inputs(numberOfSecurities: number (1..1), declaredDividend:
+    number (1..1)) | output(dividendCashSettlementAmount: number (1..1))'
+  - 'Rosetta func: ExtractFixedLeg — Extract interest rate payout containing fix rate specification. | inputs(interestRatePayouts:
+    InterestRatePayout (0..*)) | output(fixedRatePayout: InterestRatePayout (0..1))'
+  - 'Rosetta func: FixedAmountCalculation — Calculates the fixed amount for a calculation period by looking up the notional
+    and the fixed rate and multiplying by the year fraction. | inputs(interestRatePayout: InterestRatePayout (1..1), calculationPeriod:
+    CalculationPeriodBase (1..1), notional: number (0..1)) | output(fixedAmountDetails: FixedAmountCalculationDetails (1..1))'
+  - 'Rosetta func: GetFixedRate — Look up the fixed rate for a calculation period. | inputs(interestRatePayout: InterestRatePayout
+    (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(fixedRate: number (0..1))'
+  - 'Rosetta func: FloatingAmountCalculation — Calculate a floating amount for a calculation period by determining the raw
+    floating rate, applying any rate treatments, looking up the calculation period notional, then performing the multiplication
+    of the notional, rate, and year fraction.  Floating amount calculations are described in the 2021 ISDA Definitions in
+    Section 6 and 7. | inputs(interestRatePayout: InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase (1..1),
+    isInitialPeriod: boolean (1..1), suppliedNotional: number (0..1), suppliedRate: number (0..1)) | output(result: FloatingAmountCalculationDetails
+    (1..1))'
+  - 'Rosetta func: ApplyFloatingRateSetting — Calculate a floating amount for a calculation period by determining the raw
+    floating rate, applying any rate treatments, looking up the calculation period notional, then performing the multiplication
+    of the notional, rate, and year fraction.  Floating amount calculations are described in the 2021 ISDA Definitions in
+    Section 6 and 7. | inputs(interestRatePayout: InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase (1..1),
+    isInitialPeriod: boolean (1..1), suppliedNotional: number (0..1), suppliedRate: number (0..1), floatingRateSetting: FloatingRateSettingDetails
+    (0..1)) | output(result: FloatingAmountCalculationDetails (1..1))'
+  - 'Rosetta func: DefaultFloatingRate | inputs(suppliedRate: number (1..1)) | output(processedRateDetails: FloatingRateProcessingDetails
+    (1..1))'
+  - 'Rosetta func: CalculateFloatingCashFlow | inputs(interestRatePayout: InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase
+    (1..1), notional: number (0..1), currency: string (0..1), floatingRateSetting: FloatingRateSettingDetails (0..1), processedRateDetails:
+    FloatingRateProcessingDetails (1..1)) | output(result: FloatingAmountCalculationDetails (1..1))'
+  - 'Rosetta func: Create_CalculationPeriodBase — Create a CalculationPeriodBase type from CalculationPeriodData type. | inputs(calcPeriodData:
+    CalculationPeriodData (1..1)) | output(calcPeriod: CalculationPeriodBase (1..1))'
+  - 'Rosetta func: GetNotionalAmount — Look up the notional amount in effect for a calculation period. | inputs(interestRatePayout:
+    InterestRatePayout (1..1), calculationPeriod: CalculationPeriodBase (1..1)) | output(notional: Money (1..1))'
+  - 'Rosetta func: GetQuantityScheduleStepValues — Find all schedule step values whose stepDate is before or equal to the
+    supplied periodStartDate.  Returns a list of step values starting from the initial quantity value, to the last step value
+    before the periodStartDate. | inputs(schedule: NonNegativeQuantitySchedule (1..1), periodStartDate: date (1..1)) | output(stepValues:
+    number (0..*))'
+  - 'Rosetta func: CalculateYearFraction — Calculate the year fraction for a single calculation period, by invoking the base
+    year fraction logic | inputs(interestRatePayout: InterestRatePayout (1..1), dcf: DayCountFractionEnum (1..1), calculationPeriod:
+    CalculationPeriodBase (1..1)) | output(yearFrac: number (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"FixedAmount","description":"2006 ISDA Definition Article 5 Section 5.1. Calculation of a Fixed
+    Amount: The Fixed Amount payable by a party on a Payment Date will be: (a) if an amount is specified for the Swap Transaction
+    as the Fixed Amount payable by that party for that Payment Date or for the related Calculation Period, that amount; or
+    (b) if an amount is not specified for the Swap Transaction as the Fixed Amount payable by that party for that Payment
+    Date or for the related Calculation Period, an amount calculated on a formula basis for that Payment Date or for the related
+    Calculation Period as follows: Fixed Amount = Calculation Amount \u00d7 Fixed Rate \u00d7 Day Count Fraction.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"},{"name":"date","type":"date","cardinality":"0..1"},{"name":"calculationPeriodData","type":"CalculationPeriodData","cardinality":"0..1"}],"output":{"name":"fixedAmount","type":"number","cardinality":"1..1"}},{"name":"FloatingAmount","description":"2006
+    ISDA Definition Article 6 Section 6.1. Calculation of a Floating Amount: Subject to the provisions of Section 6.4 (Negative
+    Interest Rates), the Floating Amount payable by a party on a Payment Date will be: (a) if Compounding is not specified
+    for the Swap Transaction or that party, an amount calculated on a formula basis for that Payment Date or for the related
+    Calculation Period as follows: Floating Amount = Calculation Amount \u00d7 Floating Rate + Spread \u00d7 Floating Rate
+    Day Count Fraction (b) if ''Compounding'' is specified to be applicable to the Swap Transaction or that party and ''Flat
+    Compounding'' is not specified, an amount equal to the sum of the Compounding Period Amounts for each of the Compounding
+    Periods in the related Calculation Period; or (c) if ''Flat Compounding'' is specified to be applicable to the Swap Transaction
+    or that party, an amount equal to the sum of the Basic Compounding Period Amounts for each of the Compounding Periods
+    in the related Calculation Period plus the sum of the Additional Compounding Period Amounts for each such Compounding
+    Period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"rate","type":"number","cardinality":"0..1"},{"name":"notional","type":"number","cardinality":"0..1"},{"name":"date","type":"date","cardinality":"0..1"},{"name":"calculationPeriodData","type":"CalculationPeriodData","cardinality":"0..1"}],"output":{"name":"floatingAmount","type":"number","cardinality":"1..1"}},{"name":"ResolveRateIndex","description":"The
+    function to specify that the floating rate index enumeration will be expressed as a number once the rate is observed.","inputs":[{"name":"index","type":"FloatingRateIndexEnum","cardinality":"1..1"}],"output":{"name":"rate","type":"number","cardinality":"1..1"},"code_implementation":true},{"name":"ResolvePerformancePeriodStartPrice","description":"Resolves
+    the price from the end of the previous period. If first period, then take the initial price.","inputs":[{"name":"performancePayout","type":"PerformancePayout","cardinality":"1..1"},{"name":"price","type":"PriceSchedule","cardinality":"0..*"},{"name":"observable","type":"Observable","cardinality":"0..1"},{"name":"adjustedDate","type":"date","cardinality":"1..1"}],"output":{"name":"startPrice","type":"PriceSchedule","cardinality":"1..1"}},{"name":"ResolveEquityInitialPrice","description":"To
+    be replaced by full resolve price function implementation.","inputs":[{"name":"price","type":"PriceSchedule","cardinality":"0..*"}],"output":{"name":"initialPrice","type":"PriceSchedule","cardinality":"0..1"}},{"name":"DividendCashSettlementAmount","description":"Based
+    on the following legal text: means, in respect of a Dividend Period and the related Dividend Cash Settlement Date, an
+    amount in the Settlement Currency determined by the Calculation Agent for such Dividend Period to which the Dividend Cash
+    Settlement Amount relates, pursuant to the following formula: Dividend Cash Settlement Amount = Record Amount \u00d7 Number
+    Of Securities.","inputs":[{"name":"numberOfSecurities","type":"number","cardinality":"1..1"},{"name":"declaredDividend","type":"number","cardinality":"1..1"}],"output":{"name":"dividendCashSettlementAmount","type":"number","cardinality":"1..1"}},{"name":"ExtractFixedLeg","description":"Extract
+    interest rate payout containing fix rate specification.","inputs":[{"name":"interestRatePayouts","type":"InterestRatePayout","cardinality":"0..*"}],"output":{"name":"fixedRatePayout","type":"InterestRatePayout","cardinality":"0..1"}},{"name":"FixedAmountCalculation","description":"Calculates
+    the fixed amount for a calculation period by looking up the notional and the fixed rate and multiplying by the year fraction.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"}],"output":{"name":"fixedAmountDetails","type":"FixedAmountCalculationDetails","cardinality":"1..1"}},{"name":"GetFixedRate","description":"Look
+    up the fixed rate for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"fixedRate","type":"number","cardinality":"0..1"}},{"name":"FloatingAmountCalculation","description":"Calculate
+    a floating amount for a calculation period by determining the raw floating rate, applying any rate treatments, looking
+    up the calculation period notional, then performing the multiplication of the notional, rate, and year fraction.  Floating
+    amount calculations are described in the 2021 ISDA Definitions in Section 6 and 7.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"},{"name":"suppliedNotional","type":"number","cardinality":"0..1"},{"name":"suppliedRate","type":"number","cardinality":"0..1"}],"output":{"name":"result","type":"FloatingAmountCalculationDetails","cardinality":"1..1"}},{"name":"ApplyFloatingRateSetting","description":"Calculate
+    a floating amount for a calculation period by determining the raw floating rate, applying any rate treatments, looking
+    up the calculation period notional, then performing the multiplication of the notional, rate, and year fraction.  Floating
+    amount calculations are described in the 2021 ISDA Definitions in Section 6 and 7.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"},{"name":"suppliedNotional","type":"number","cardinality":"0..1"},{"name":"suppliedRate","type":"number","cardinality":"0..1"},{"name":"floatingRateSetting","type":"FloatingRateSettingDetails","cardinality":"0..1"}],"output":{"name":"result","type":"FloatingAmountCalculationDetails","cardinality":"1..1"}},{"name":"DefaultFloatingRate","inputs":[{"name":"suppliedRate","type":"number","cardinality":"1..1"}],"output":{"name":"processedRateDetails","type":"FloatingRateProcessingDetails","cardinality":"1..1"}},{"name":"CalculateFloatingCashFlow","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"},{"name":"currency","type":"string","cardinality":"0..1"},{"name":"floatingRateSetting","type":"FloatingRateSettingDetails","cardinality":"0..1"},{"name":"processedRateDetails","type":"FloatingRateProcessingDetails","cardinality":"1..1"}],"output":{"name":"result","type":"FloatingAmountCalculationDetails","cardinality":"1..1"}},{"name":"Create_CalculationPeriodBase","description":"Create
+    a CalculationPeriodBase type from CalculationPeriodData type.","inputs":[{"name":"calcPeriodData","type":"CalculationPeriodData","cardinality":"1..1"}],"output":{"name":"calcPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}},{"name":"GetNotionalAmount","description":"Look
+    up the notional amount in effect for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"notional","type":"Money","cardinality":"1..1"}},{"name":"GetQuantityScheduleStepValues","description":"Find
+    all schedule step values whose stepDate is before or equal to the supplied periodStartDate.  Returns a list of step values
+    starting from the initial quantity value, to the last step value before the periodStartDate.","inputs":[{"name":"schedule","type":"NonNegativeQuantitySchedule","cardinality":"1..1"},{"name":"periodStartDate","type":"date","cardinality":"1..1"}],"output":{"name":"stepValues","type":"number","cardinality":"0..*"}},{"name":"CalculateYearFraction","description":"Calculate
+    the year fraction for a single calculation period, by invoking the base year fraction logic","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"dcf","type":"DayCountFractionEnum","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"yearFrac","type":"number","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_product_asset:
+    description: Classes defined in the cdm_product_asset module.
+
+enums:
+  BankHolidayTreatmentEnum:
+    description: Defines whether the bank holidays are treated as weekdays or weekends in terms of delivery profile in the
+      context of commodity products, in particular those with peak or off-peak delivery profiles.
+    permissible_values:
+      AsWeekday:
+        description: Bank holidays treated as weekdays.
+      AsWeekend:
+        description: Bank holidays treated as weekends.
+
+  CompoundingMethodEnum:
+    description: The enumerated values to specify the type of compounding, e.g. flat, straight.
+    permissible_values:
+      Flat:
+        description: Flat compounding. Compounding excludes the spread. Note that the first compounding period has it's interest
+          calculated including any spread then subsequent periods compound this at a rate excluding the spread.
+      None:
+        description: No compounding is to be applied.
+      Straight:
+        description: Straight compounding. Compounding includes the spread.
+      SpreadExclusive:
+        description: Spread Exclusive compounding.
+
+  DayDistributionEnum:
+    description: Denotes the method by which the pricing days are distributed across the pricing period.
+    permissible_values:
+      All: {}
+      First: {}
+      Last: {}
+      Penultimate: {}
+
+  DiscountingTypeEnum:
+    description: The enumerated values to specify the method of calculating discounted payment amounts. This enumerations
+      combines the FpML DiscountingTypeEnum and FraDiscountingEnum enumerations.
+    permissible_values:
+      Standard:
+        description: As specified by the 2006 ISDA Definitions, Section 8.4. Discounting, paragraph (a).
+      FRA:
+        description: As specified by the 2006 ISDA Definitions, Section 8.4. Discounting, paragraph (b).
+      FRAYield:
+        description: As specified by the 2006 ISDA Definitions, Section 8.4. Discounting, paragraph (e).
+      AFMA:
+        description: As specified by the Australian Financial Markets Association (AFMA) OTC Financial Product Conventions.
+          This discounting method should not be used for a trade documented under a legal framework where the 2006 ISDA Definitions
+          have been incorporated.
+
+  DividendAmountTypeEnum:
+    description: The enumerated values to specify whether the dividend is paid with respect to the Dividend Period.
+    permissible_values:
+      RecordAmount:
+        description: The record date for a dividend occurs during a dividend period.
+      ExAmount:
+        description: The ex-date for a dividend occurs during a dividend period.
+      PaidAmount:
+        description: The payment date for a dividend occurs during a dividend period.
+      AsSpecifiedInMasterConfirmation:
+        description: The Amount is determined as provided in the relevant Master Confirmation.
+
+  DividendCompositionEnum:
+    description: The enumerated values to specify how the composition of Dividends is to be determined.
+    permissible_values:
+      EquityAmountReceiverElection:
+        description: The Equity Amount Receiver determines the composition of dividends (subject to conditions).
+      CalculationAgentElection:
+        description: The Calculation Agent determines the composition of dividends (subject to conditions).
+
+  DividendDateReferenceEnum:
+    description: The enumerated values to specify the date by reference to which the dividend will be paid.
+    permissible_values:
+      AdHocDate:
+        description: The dividend date will be specified ad-hoc by the parties, typically on the dividend ex-date.
+      CashSettlementPaymentDate:
+        description: If 'Dividend Payment Date(s)' is specified in the Transaction Supplement as 'Cash Settlement Payment
+          Date', then the Dividend Payment Date in respect of a Dividend Amount shall be the Cash Settlement Payment Date
+          relating to the end of the Dividend Period during which the Shares commenced trading 'ex' the relevant dividend
+          on the Exchange.
+      CashSettlePaymentDateExDiv:
+        description: If 'Dividend Payment Date(s)' is specified in the Transaction Supplement as 'Cash Settlement Payment
+          Date – Ex Dividend'', then the Dividend Payment Date in respect of a Dividend Amount shall be the Cash Settlement
+          Payment Date relating to the end of the Dividend Period during which the Shares commenced trading 'ex' the relevant
+          dividend on the Exchange.
+      CashSettlePaymentDateIssuerPayment:
+        description: If 'Dividend Payment Date(s)' is specified in the Transaction Supplement as 'Cash Settlement Payment
+          Date – Issuer Payment', then the Dividend Payment Date in respect of a Dividend Amount shall be the Cash Settlement
+          Payment Date relating to the end of the Dividend Period during which the issuer pays the relevant dividend to a
+          holder of record provided that in the case where the Equity Amount Payer is the party specified to be the sole Hedging
+          Party and the Hedging Party has not received the Dividend Amount by such date, then the date falling a number of
+          Currency Business Days as specified in the Cash Settlement Payment Date after actual receipt by the Hedging Party
+          of the Received Ex Amount or Paid Ex Amount (as applicable).
+      CumulativeEquityExDiv:
+        description: Total of dividends which go ex, paid on next following Equity Payment Date, which is immediately following
+          the Dividend Period during which the Shares commence trading ex-dividend on the Exchange.
+      CumulativeEquityPaid:
+        description: Total of paid dividends, paid on next following Equity Payment Date, which is immediately following the
+          Dividend Period during which the dividend is paid by the Issuer to the holders of record of a Share.
+      CumulativeEquityExDivBeforeReset:
+        description: Total of paid dividends, paid on next following Equity Payment Date, which is immediately following the
+          Dividend Ex Date, unless the Dividend Ex Date is between the Equity Valuation and Payment Date in which case the
+          dividend is deferred to the following Equity Payment Date
+      CumulativeEquityPaidBeforeReset:
+        description: Total of paid dividends, paid on next following Equity Payment Date, which is immediately following the
+          Dividend Pay Date, unless the Dividend Pay Date is between the Equity Valuation and Payment Date (not including
+          the Valuation Date) in which case the dividend is deferred to the following Equity Payment Date
+      CumulativeEquityPaidInclReset:
+        description: Total of paid dividends, paid on next following Equity Payment Date, which is immediately following the
+          Dividend Pay Date, unless the Dividend Pay Date is between the Equity Valuation and Payment Date (including the
+          Valuation Date) in which case the dividend is deferred to the following Equity Payment Date
+      CumulativeInterestExDiv:
+        description: Total of dividends which go ex, paid on next following Interest Payment Date, which is immediately following
+          the Dividend Period during which the Shares commence trading ex-dividend on the Exchange, or where the date on which
+          the Shares commence trading ex-dividend is a Payment Date, such Payment Date.
+      CumulativeInterestPaid:
+        description: Total of paid dividends, paid on next following Interest Payment Date, which is immediately following
+          the Dividend Period during which the dividend is paid by the Issuer to the holders of record of a Share.
+      CumulativeInterestPaidInclReset:
+        description: Total of paid dividends, paid on next following Interest Payment Date, which is immediately following
+          the Dividend Pay Date, unless the Dividend Pay Date is between the Equity Valuation and Payment Date (including
+          the Valuation Date) in which case the dividend is deferred to the following Interest Payment Date.
+      CumulativeInterestPaidBeforeReset:
+        description: Total of paid dividends, paid on next following Interest Payment Date, which is immediately following
+          the Dividend Pay Date, unless the Dividend Pay Date is between the Equity Valuation and Payment Date (not including
+          the Valuation Date) in which case the dividend is deferred to the following Interest Payment Date.
+      DividendPaymentDate:
+        description: Date on which the dividend will be paid by the issuer.
+      DividendValuationDate:
+        description: In respect of each Dividend Period, the relevant Dividend Valuation Date.
+      EquityPaymentDate:
+        description: Equity payment date of the swap.
+      ExDate:
+        description: Date on which a holder of the security is entitled to the dividend.
+      FloatingAmountPaymentDate:
+        description: If 'Dividend Payment Date(s)' is specified in the Transaction Supplement as 'Floating Amount Payment
+          Date', then the Dividend Payment Date in respect of a Dividend Amount shall be the first Payment Date falling at
+          least one Settlement Cycle after the date that the Shares have commenced trading 'ex' the relevant dividend on the
+          Exchange.
+      FollowingPaymentDate:
+        description: The next payment date of the swap.
+      RecordDate:
+        description: Date on which the dividend will be recorded in the books of the paying agent.
+      SharePayment:
+        description: If 'Dividend Payment Date(s)' is specified in the Transaction Supplement as 'Share Payment', then the
+          Dividend Payment Date in respect of a Dividend Amount shall fall on a date on or before the date that is two (or
+          any other number that is specified in the Transaction Supplement) Currency Business Days following the day on which
+          the Issuer of the Shares pays the relevant dividend to holders of record of the Shares.
+      TerminationDate:
+        description: Termination date of the swap.
+      TradeDate:
+        description: Trade date of the swap
+      UnwindOrEquityExDiv:
+        description: Pays a fraction of the Dividend Amount on each Unwind Trade Settlement Date which occurs after the Dividend
+          Ex Date, until position is fully unwound OR on the next Equity Pay Date after the Dividend Pay Date. This will be
+          whichever date comes first or a combination of both.
+      UnwindOrEquityPaid:
+        description: Pays a fraction of the Dividend Amount on each Unwind Trade Settlement Date which occurs after the Dividend
+          Pay Date, until position is fully unwound OR on the next Equity Pay Date after the Dividend Pay Date. This will
+          be whichever date comes first or a combination of both.
+      UnwindOrInterestExDiv:
+        description: Pays a fraction of the Dividend Amount on each Unwind Trade Settlement Date which occurs after the Dividend
+          Ex Date, until position is fully unwound OR on the next Interest Pay Date after the Dividend Ex Date. This will
+          be whichever date comes first or a combination of both.
+      UnwindOrInterestPaid:
+        description: Pays a fraction of the Dividend Amount on each Unwind Trade Settlement Date which occurs after the Dividend
+          Pay Date, until position is fully unwound OR on the next Interest Pay Date after the Dividend Pay Date. This will
+          be whichever date comes first or a combination of both.
+      UnwindExDiv:
+        description: Pays a fraction of the total on each Unwind Trade Settlement Date which occurs after the Dividend Ex
+          Date, until trade is fully unwound.
+      UnwindPaid:
+        description: Pays a fraction of the total on each Unwind Trade Settlement Date which occurs after the Dividend Pay
+          Date, until trade is fully unwound.
+
+  DividendEntitlementEnum:
+    description: The enumerated values to specify the date on which the receiver of the equity payout is entitled to the dividend.
+    permissible_values:
+      ExDate:
+        description: Dividend entitlement is on the dividend ex-date.
+      RecordDate:
+        description: Dividend entitlement is on the dividend record date.
+
+  DividendPeriodEnum:
+    description: '2002 ISDA Equity Derivatives Definitions: First Period, Second Period |'
+    permissible_values:
+      FirstPeriod:
+        description: '2002 ISDA Equity Derivatives Definitions: First Period means each period from, and including, one Cash
+          Settlement Payment Date or Settlement Date, as the case may be, to, but excluding, the next following Cash Settlement
+          Payment Date or Settlement Date, as the case may be, except that (i) the initial Dividend Period will commence on,
+          and include, the Clearance System Business Day that is one Settlement Cycle following the Trade Date and (ii) the
+          final Dividend Period will end on, but exclude, the final Cash Settlement Payment Date or Settlement Date, as the
+          case may be.'
+      SecondPeriod:
+        description: '2002 ISDA Equity Derivatives Definitions: Second Period means each period from, but excluding, one Valuation
+          Date to, and including, the next Valuation Date, except that (i) the initial Dividend Period will commence on, but
+          exclude, the Trade Date and (ii) the final Dividend Period will end on, and include, the final Valuation Date or,
+          in respect of a Physically-settled Forward Transaction to which Variable Obligation is not applicable, the date
+          that is one Settlement Cycle prior to the Settlement Date.'
+
+  IndexAnnexSourceEnum:
+    description: The enumerated values to specify the CDX index annex source.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/cdx-index-annex-source
+    permissible_values:
+      MasterConfirmation:
+        description: As defined in the relevant form of Master Confirmation applicable to the confirmation of Dow Jones CDX
+          indices.
+        meaning: http://www.fpml.org/coding-scheme/cdx-index-annex-source-1-0#MasterConfirmation
+      Publisher:
+        description: As defined in the relevant form of Master Confirmation applicable to the confirmation of Dow Jones CDX
+          indices.
+        meaning: http://www.fpml.org/coding-scheme/cdx-index-annex-source-1-0#Publisher
+
+  InterestShortfallCapEnum:
+    description: The enumerated values to specify the interest shortfall cap, applicable to mortgage derivatives.
+    permissible_values:
+      Fixed: {}
+      Variable: {}
+
+  LoadTypeEnum:
+    description: Specifies the load type of the delivery.
+    permissible_values:
+      BaseLoad:
+        description: Base load
+      PeakLoad:
+        description: Peak load
+      OffPeak:
+        description: Off-peak load
+      BlockHours:
+        description: Block Hours
+      Shaped:
+        description: Shaped
+      GasDay:
+        description: Gas Day
+      Other:
+        description: Other
+
+  NegativeInterestRateTreatmentEnum:
+    description: The enumerated values to specify the method of calculating payment obligations when a floating rate is negative
+      (either due to a quoted negative floating rate or by operation of a spread that is subtracted from the floating rate).
+    permissible_values:
+      NegativeInterestRateMethod:
+        description: Negative Interest Rate Method. Per 2000 ISDA Definitions, Section 6.4 Negative Interest Rates, paragraphs
+          (b) and (c).
+      ZeroInterestRateMethod:
+        description: Zero Interest Rate Method. Per 2000 ISDA Definitions, Section 6.4. Negative Interest Rates, paragraphs
+          (d) and (e).
+      ZeroInterestRateExcludingSpreadMethod:
+        description: Per 2021 ISDA Definitions section 6.8.6
+
+  NonCashDividendTreatmentEnum:
+    description: The enumerated values to specify the treatment of Non-Cash Dividends.
+    permissible_values:
+      PotentialAdjustmentEvent:
+        description: The treatment of any non-cash dividend shall be determined in accordance with the Potential Adjustment
+          Event provisions.
+      CashEquivalent:
+        description: Any non-cash dividend shall be treated as a Declared Cash Equivalent Dividend.
+
+  RateTreatmentEnum:
+    description: The enumerated values to specify the methods for converting rates from one basis to another.
+    permissible_values:
+      BondEquivalentYield:
+        description: Bond Equivalent Yield. Per Annex to the 2000 ISDA Definitions (June 2000 Version), Section 7.3. Certain
+          General Definitions Relating to Floating Rate Options, paragraph (g).
+      MoneyMarketYield:
+        description: Money Market Yield. Per Annex to the 2000 ISDA Definitions (June 2000 Version), Section 7.3. Certain
+          General Definitions Relating to Floating Rate Options, paragraph (h).
+
+  ReturnTypeEnum:
+    description: The enumerated values to specify the type of return associated the equity payout.
+    permissible_values:
+      Price:
+        description: Price return, i.e. excluding dividends.
+      Total:
+        description: Total return, i.e. including dividend and price components.
+
+  SettledEntityMatrixSourceEnum:
+    description: The enumerated values to specify the relevant settled entity matrix source.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/settled-entity-matrix-source
+    permissible_values:
+      ConfirmationAnnex:
+        description: The Relevant Settled Entity Matrix shall be the list agreed for this purpose by the parties. The list
+          is not included as part of the electronic confirmation.
+        meaning: http://www.fpml.org/coding-scheme/settled-entity-matrix-source-1-0#ConfirmationAnnex
+      NotApplicable:
+        description: The term is not applicable.
+        meaning: http://www.fpml.org/coding-scheme/settled-entity-matrix-source-1-0#NotApplicable
+      Publisher:
+        description: The Settled Entity Matrix published by the Index Publisher.
+        meaning: http://www.fpml.org/coding-scheme/settled-entity-matrix-source-1-0#Publisher
+
+  SpreadScheduleTypeEnum:
+    description: The enumerated values to specify a long or short spread value.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/spread-schedule-type
+    permissible_values:
+      Long:
+        description: Represents a Long Spread Schedule. Spread schedules defined as 'Long' will be applied to Long Positions.
+        meaning: http://www.fpml.org/coding-scheme/spread-schedule-type-1-0#Long
+      Short:
+        description: Represents a Short Spread Schedule. Spread schedules defined as 'Short' will be applied to Short Positions.
+        meaning: http://www.fpml.org/coding-scheme/spread-schedule-type-1-0#Short
+
+  RollSourceCalendarEnum:
+    description: Used in conjunction with an exchange-based pricing source. Identifies a date source calendar from which the
+      pricing dates and thus roll to the next contract will be based off (e.g. pricing is based on the NYMEX WTI First Nearby
+      Futures Contract, if Future is chosen, the pricing will roll to the next futures contract on expiration, if ListedOption
+      is chosen, the pricing will roll to the next futures contract on the Option expiration date which is three business
+      days before the expiration of the NYMEX WTI futures contract.) Omitting this element will result in the default behavior
+      expected with the pricing source described within the commodity element.
+    permissible_values:
+      ListedOption: {}
+      Future: {}
+
+  CreditSeniorityEnum:
+    description: Seniority of debt instruments comprising the index.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/credit-seniority
+    permissible_values:
+      Other:
+        description: Other as defined under EMIR.
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#Other
+      SeniorLossAbsorbingCapacity:
+        description: 'Senior Loss Absorbing Capacity (RED Tier Code: SNRLAC).'
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SeniorLossAbsorbingCapacity
+      SeniorSec:
+        description: 'Senior domestic (RED Tier Code: SECDOM).'
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SeniorSec
+      SeniorUnSec:
+        description: 'Senior foreign (RED Tier Code: SNRFOR).'
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SeniorUnSec
+      SubLowerTier2:
+        description: 'Subordinate, Lower Tier 2 (RED Tier Code: SUBLT2).'
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SubLowerTier2
+      SubTier1:
+        description: 'Subordinate Tier 1 (RED Tier Code: PREFT1).'
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SubTier1
+      SubTier3:
+        description: Subordinate, Tier 3.
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SubTier3
+      SubUpperTier2:
+        description: 'Subordinate, Upper Tier 2 (RED Tier Code: JRSUBUT2).'
+        meaning: http://www.fpml.org/coding-scheme/credit-seniority-2-3#SubUpperTier2
+
+  RealisedVarianceMethodEnum:
+    description: The contract specifies which price must satisfy the boundary condition.  Used for variance, volatility and
+      correlation caps and floors.
+    permissible_values:
+      Previous:
+        description: For a return on day T, the observed price on T-1 must be in range.
+      Last:
+        description: For a return on day T, the observed price on T must be in range.
+      Both:
+        description: For a return on day T, the observed prices on both T and T-1 must be in range
+
+  FPVFinalPriceElectionFallbackEnum:
+    description: Specifies the fallback provisions in respect to the applicable Futures Price Valuation.
+    permissible_values:
+      FPVClose:
+        description: In respect of the Early Final Valuation Date, the provisions for FPV Close shall apply.
+      FPVHedgeExecution:
+        description: In respect of the Early Final Valuation Date, the provisions for FPV Hedge Execution shall apply.
+
+  FinalPrincipalExchangeCalculationEnum:
+    description: To be specified only for products that embed a redemption payment.
+    permissible_values:
+      Floored:
+        description: 'If Floored is set then Principal Exchange takes the form: Notional Amount * Max(1, Index Final/ Index
+          Base).'
+      NonFloored:
+        description: 'If NonFloored is set then the Principal Exchange takes the form: Notional Amount * Index Final / Index
+          Base.'
+
+  SpreadCalculationMethodEnum:
+    description: 'Method by which spread is calculated. For example on an asset swap: ''ParPar'' or ''Proceeds'' may be the
+      method indicated.'
+    permissible_values:
+      ParPar: {}
+      Proceeds: {}
+
+slots:
+  averagingFeature:
+    range: AveragingCalculation
+    description: Indicates if the averaging calculation, when applicable, is weighted or unweighted.
+    close_mappings:
+      - fpml_5_10:CommodityPayout.averagingFeature
+
+  commodityPriceReturnTerms:
+    range: CommodityPriceReturnTerms
+    description: Defines parameters in which the commodity price is assessed.
+    close_mappings:
+      - fpml_5_10:CommodityPayout.commodityPriceReturnTerms
+
+  pricingDates:
+    range: PricingDates
+    description: Specifies specific dates or parametric rules for the dates on which the price will be determined.
+    required: true
+    close_mappings:
+      - fpml_5_10:CommodityPayout.pricingDates
+
+  calculationPeriodDates:
+    range: CalculationPeriodDates
+    description: Defines the calculation period dates schedule.
+    close_mappings:
+      - fpml_5_10:CommodityPayout.calculationPeriodDates
+
+  paymentDates:
+    range: PaymentDates
+    description: Defines the payment date schedule, as defined by the parameters that are needed to specify it, either in
+      a parametric way or by reference to another schedule of dates (e.g. the valuation dates).
+    required: true
+    close_mappings:
+      - fpml_5_10:CommodityPayout.paymentDates
+
+  fxFeature:
+    range: FxFeature
+    description: Defines quanto or composite FX features that are included in the swap leg.
+    close_mappings:
+      - fpml_5_10:CommodityPayout.fxFeature
+
+  delivery:
+    range: AssetDeliveryInformation
+    description: Contains the information relative to the delivery of the asset.
+    close_mappings:
+      - fpml_5_10:CommodityPayout.delivery
+
+  periods:
+    range: AssetDeliveryPeriods
+    description: Defines the periods of delivery, including the delivery profile.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryInformation.periods
+
+  deliveryCapacity:
+    range: Quantity
+    description: The number of units included in the transaction for each delivery interval
+    close_mappings:
+      - fpml_5_10:AssetDeliveryInformation.deliveryCapacity
+
+  commodityGrade:
+    range: ProductGradeEnum
+    description: Grade of product being delivered (e.g., grade of oil).
+    multivalued: true
+    close_mappings:
+      - fpml_5_10:AssetDeliveryInformation.commodityGrade
+
+  profile:
+    range: AssetDeliveryProfile
+    description: Defines the delivery profile of the asset, including the load type and the delivery intervals.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AssetDeliveryPeriods.profile
+
+  priceTimeIntervalQuantity:
+    range: Price
+    description: Price per quantity per delivery time interval.
+    close_mappings:
+      - fpml_5_10:CalculationScheduleDeliveryPeriods.priceTimeIntervalQuantity
+
+  loadType:
+    range: LoadTypeEnum
+    description: Identification of the delivery profile.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfile.loadType
+
+  block:
+    range: AssetDeliveryProfileBlock
+    description: Defines a delivery profile block, including start and end time, days of the week, duration, delivery capacity
+      and price time interval quantity.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfile.block
+
+  bankHolidaysTreatment:
+    range: BankHolidayTreatmentEnum
+    description: Specifies whether the dates defined include holidays or not.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfile.bankHolidaysTreatment
+
+  startTime:
+    range: time
+    description: The start time of the delivery interval for each block or shape.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfileBlock.startTime
+
+  endTime:
+    range: time
+    description: The end time of the delivery interval for each block or shape.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfileBlock.endTime
+
+  generalTerms:
+    range: GeneralTerms
+    description: The specification of the non-monetary terms for the Credit Derivative Transaction, including the buyer and
+      seller and selected items from the ISDA 2014 Credit Definition article II, such as the reference obligation and related
+      terms.
+    required: true
+
+  protectionTerms:
+    range: ProtectionTerms
+    description: Specifies the terms for calculating a payout to protect the buyer of the swap in the case of a qualified
+      credit event. These terms include the applicable credit events, the reference obligation, and in the case of a CDS on
+      mortgage-backed securities, the floatingAmountEvents.
+    multivalued: true
+    inlined_as_list: true
+
+  transactedPrice:
+    range: TransactedPrice
+    description: The qualification of the price at which the contract has been transacted, in terms of market fixed rate,
+      initial points, market price and/or quotation style. In FpML, those attributes are positioned as part of the fee leg.
+
+  indexReferenceInformation:
+    range: CreditIndex
+    description: This attribute contains all the terms relevant to the underlying Index.
+
+  basketReferenceInformation:
+    range: BasketReferenceInformation
+    description: This attribute contains all the terms relevant to defining the Credit Default Swap Basket.
+
+  additionalTerm:
+    range: string
+    description: This attribute is used for representing information contained in the Additional Terms field of the 2003 Master
+      Credit Derivatives confirm.
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+
+  modifiedEquityDelivery:
+    range: boolean
+    description: Value of this attribute set to 'true' indicates that modified equity delivery is applicable.
+
+  rateSpecification:
+    range: RateSpecification
+    description: The specification of the rate value(s) applicable to the contract using either a floating rate calculation,
+      a single fixed rate, a fixed rate schedule, or an inflation rate calculation.
+    any_of:
+      - range: FixedRateSpecification
+      - range: FloatingRateSpecification
+      - range: InflationRateSpecification
+
+  paymentDelay:
+    range: boolean
+    description: Applicable to CDS on MBS to specify whether payment delays are applicable to the fixed Amount. RMBS typically
+      have a payment delay of 5 days between the coupon date of the reference obligation and the payment date of the synthetic
+      swap. CMBS do not, on the other hand, with both payment dates being on the 25th of each month.
+
+  resetDates:
+    range: ResetDates
+    description: The reset dates schedule, i.e. the dates on which the new observed index value is applied for each period
+      and the interest rate hence begins to accrue.
+
+  discountingMethod:
+    range: DiscountingMethod
+    description: The parameters specifying any discounting conventions that may apply. This element must only be included
+      if discounting applies.
+
+  compoundingMethod:
+    range: CompoundingMethodEnum
+    description: If one or more calculation period contributes to a single payment amount this element specifies whether compounding
+      is applicable and, if so, what compounding method is to be used. This element must only be included when more than one
+      calculation period contributes to a single payment amount.
+
+  cashflowRepresentation:
+    range: CashflowRepresentation
+    description: The cashflow representation of the swap stream.
+
+  stubPeriod:
+    range: StubPeriod
+    description: The stub calculation period amount parameters. This element must only be included if there is an initial
+      or final stub calculation period. Even then, it must only be included if either the stub references a different floating
+      rate tenor to the regular calculation periods, or if the stub is calculated as a linear interpolation of two different
+      floating rate tenors, or if a specific stub rate or stub amount has been negotiated.
+
+  bondReference:
+    range: BondReference
+    description: Reference to a bond underlier to represent an asset swap or Condition Precedent Bond.
+
+  floatingAmount:
+    range: string
+    description: Floating Amount Calculation
+
+  spreadCalculationMethod:
+    range: SpreadCalculationMethodEnum
+    description: 'Method by which spread is calculated. For example on an asset swap: ''ParPar'' or ''Proceeds'' may be the
+      method indicated.'
+
+  totalRatio:
+    range: decimal
+    description: Specifies the total actual dividend payout ratio associated with the equity underlier. A ratio of 90% should
+      be expressed at 0.90.
+    required: true
+
+  cashRatio:
+    range: decimal
+    description: Specifies the cash actual dividend payout ratio associated with the equity underlier. A ratio of 90% should
+      be expressed at 0.90.
+
+  nonCashRatio:
+    range: decimal
+    description: Specifies the non cash actual dividend payout ratio associated with the equity underlier. A ratio of 90%
+      should be expressed at 0.90.
+
+  interestShortfallReimbursement:
+    range: boolean
+    description: 'An additional Fixed Payment Event. Corresponds to the payment by or on behalf of the Issuer of an actual
+      interest amount in respect to the reference obligation that is greater than the expected interest amount. ISDA 2003
+      Term: Interest Shortfall Reimbursement.'
+    close_mappings:
+      - fpml_5_10:AdditionalFixedPayments.interestShortfallReimbursement
+
+  principalShortfallReimbursement:
+    range: boolean
+    description: 'An additional Fixed Payment Event. Corresponds to the payment by or on behalf of the Issuer of an actual
+      principal amount in respect to the reference obligation that is greater than the expected principal amount. ISDA 2003
+      Term: Principal Shortfall Reimbursement.'
+    close_mappings:
+      - fpml_5_10:AdditionalFixedPayments.principalShortfallReimbursement
+
+  writedownReimbursement:
+    range: boolean
+    description: 'An Additional Fixed Payment. Corresponds to the payment by or on behalf of the issuer of an amount in respect
+      to the reference obligation in reduction of the prior writedowns. ISDA 2003 Term: Writedown Reimbursement.'
+    close_mappings:
+      - fpml_5_10:AdditionalFixedPayments.writedownReimbursement
+
+  basketName:
+    range: string
+    description: The name of the basket expressed as a free format string. FpML does not define usage rules for this element.
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:BasketReferenceInformation.basketName
+
+  basketId:
+    range: string
+    description: A CDS basket identifier.
+    multivalued: true
+    annotations:
+      metadata_scheme: true
+    close_mappings:
+      - fpml_5_10:BasketReferenceInformation.basketId
+
+  referencePool:
+    range: ReferencePool
+    description: This element contains all the reference pool items to define the reference entity and reference obligation(s)
+      in the basket.
+    required: true
+    close_mappings:
+      - fpml_5_10:BasketReferenceInformation.referencePool
+
+  nthToDefault:
+    range: integer
+    description: N th reference obligation to default triggers payout.
+    close_mappings:
+      - fpml_5_10:BasketReferenceInformation.nthToDefault
+
+  mthToDefault:
+    range: integer
+    description: M th reference obligation to default to allow representation of N th to M th defaults.
+    close_mappings:
+      - fpml_5_10:BasketReferenceInformation.mthToDefault
+
+  interestShortfall:
+    range: InterestShortFall
+    description: 'A floating rate payment event. With respect to any Reference Obligation Payment Date, either (a) the non-payment
+      of an Expected Interest Amount or (b) the payment of an Actual Interest Amount that is less than the Expected Interest
+      Amount. ISDA 2003 Term: Interest Shortfall.'
+
+  floatingAmountProvisions:
+    range: FloatingAmountProvisions
+    description: Specifies the floating amount provisions associated with the floatingAmountEvents.
+
+  additionalFixedPayments:
+    range: AdditionalFixedPayments
+    description: Specifies the events that will give rise to the payment additional fixed payments.
+
+  wacCapInterestProvision:
+    range: boolean
+    description: As specified by the ISDA Supplement for use with trades on mortgage-backed securities, 'WAC Cap' means a
+      weighted average coupon or weighted average rate cap provision (however defined in the Underlying Instruments) of the
+      Underlying Instruments that limits, increases or decreases the interest rate or interest entitlement, as set out in
+      the Underlying Instruments on the Effective Date without regard to any subsequent amendment The presence of the element
+      with value set to 'true' signifies that the provision is applicable. From a usage standpoint, this provision is typically
+      applicable in the case of CMBS and not applicable in case of RMBS trades.
+
+  stepUpProvision:
+    range: boolean
+    description: As specified by the ISDA Standard Terms Supplement for use with trades on mortgage-backed securities. The
+      presence of the element with value set to 'true' signifies that the provision is applicable. If applicable, the applicable
+      step-up terms are specified as part of that ISDA Standard Terms Supplement. From a usage standpoint, this provision
+      is typically applicable in the case of RMBS and not applicable in case of CMBS trades.
+
+  interestShortfallCap:
+    range: InterestShortfallCapEnum
+    description: 'Specifies the nature of the interest Shortfall cap (i.e. Fixed Cap or Variable Cap) in the case where it
+      is applicable. ISDA 2003 Term: Interest Shortfall Cap.'
+    required: true
+
+  compounding:
+    range: boolean
+    required: true
+
+  rateSource:
+    range: FloatingRateIndexEnum
+    description: The rate source in the case of a variable cap.
+    annotations:
+      metadata_scheme: true
+
+  floatingAmountEvents:
+    range: FloatingAmountEvents
+    description: This element contains the ISDA terms relating to the floating rate payment events and the implied additional
+      fixed payments, applicable to the credit derivatives transactions on mortgage-backed securities with pay-as-you-go or
+      physical settlement.
+
+  referenceEntity:
+    range: LegalEntity
+    description: 'The corporate or sovereign entity which is subject to the swap transaction and any successor that assumes
+      all or substantially all of its contractual and other obligations. Reference Entities cannot be senior or subordinated.
+      It is the obligations of the Reference Entities that can be senior or subordinated. ISDA 2014 Credit definitions article
+      II section 2.1: `Reference Entity` means the entity specified as such in the related Confirmation.'
+    required: true
+
+  referenceObligation:
+    range: ReferenceObligation
+    description: 'The Reference Obligation is a financial instrument that is either issued or guaranteed by the reference
+      entity. It serves to clarify the precise reference entity protection is being offered upon, and its legal position with
+      regard to other related firms (parents/subsidiaries). Furthermore the Reference Obligation is ALWAYS deliverable and
+      establishes the Pari Passu ranking (as the deliverable bonds must rank equal to the reference obligation). ISDA 2003
+      Term: Reference Obligation.'
+    multivalued: true
+    inlined_as_list: true
+
+  noReferenceObligation:
+    range: boolean
+    description: Used to indicate that there is no Reference Obligation associated with this Credit Default Swap and that
+      there will never be one.
+
+  unknownReferenceObligation:
+    range: boolean
+    description: Used to indicate that the Reference obligation associated with the Credit Default Swap is currently not known.
+      This is not valid for Legal Confirmation purposes, but is valid for earlier stages in the trade life cycle (e.g. Broker
+      Confirmation).
+
+  allGuarantees:
+    range: boolean
+    description: 'Indicates whether an obligation of the Reference Entity, guaranteed by the Reference Entity on behalf of
+      a non-Affiliate, is to be considered an Obligation for the purpose of the transaction. It will be considered an obligation
+      if allGuarantees is applicable (true) and not if allGuarantees is inapplicable (false). ISDA 2003 Term: All Guarantees.'
+
+  referencePrice:
+    range: Price
+    description: 'Used to determine (a) for physically settled trades, the Physical Settlement Amount, which equals the Floating
+      Rate Payer Calculation Amount times the Reference Price and (b) for cash settled trades, the Cash Settlement Amount,
+      which equals the greater of (i) the difference between the Reference Price and the Final Price and (ii) zero. ISDA 2003
+      Term: Reference Price.'
+
+  referencePolicy:
+    range: boolean
+    description: Applicable to the transactions on mortgage-backed security, which can make use of a reference policy. Presence
+      of the element with value set to 'true' indicates that the reference policy is applicable; absence implies that it is
+      not.
+
+  securedList:
+    range: boolean
+    description: 'With respect to any day, the list of Syndicated Secured Obligations of the Designated Priority of the Reference
+      Entity published by Markit Group Limited or any successor thereto appointed by the Specified Dealers (the ''Secured
+      List Publisher'') on or most recently before such day, which list is currently available at [http://www.markit.com].
+      ISDA 2003 Term: Relevant Secured List.'
+
+  loan:
+    range: Loan
+    description: Identifies the underlying asset when it is a loan.
+
+  primaryObligor:
+    range: LegalEntity
+    description: 'The entity primarily responsible for repaying debt to a creditor as a result of borrowing or issuing bonds.
+      ISDA 2003 Term: Primary Obligor.'
+
+  primaryObligorReference:
+    range: LegalEntity
+    description: A pointer style reference to a reference entity defined elsewhere in the document. Used when the reference
+      entity is the primary obligor.
+    annotations:
+      metadata_reference: true
+
+  guarantor:
+    range: LegalEntity
+    description: 'The party that guarantees by way of a contractual arrangement to pay the debts of an obligor if the obligor
+      is unable to make the required payments itself. ISDA 2003 Term: Guarantor.'
+
+  guarantorReference:
+    range: string
+    description: A pointer style reference to a reference entity defined elsewhere in the document. Used when the reference
+      entity is the guarantor.
+
+  standardReferenceObligation:
+    range: boolean
+    description: 'Indicates if the reference obligation is a Standard Reference Obligation. ISDA 2014 Term: Standard Reference
+      Obligation.'
+
+  entityType:
+    range: EntityTypeEnum
+    description: Defines the reference entity types corresponding to a list of types in the ISDA First to Default documentation.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  referencePoolItem:
+    range: ReferencePoolItem
+    description: This type contains all the constituent weight and reference information.
+    required: true
+    multivalued: true
+    inlined_as_list: true
+
+  constituentWeight:
+    range: ConstituentWeight
+    description: Describes the weight of each of the constituents within the basket. If not provided, it is assumed to be
+      equal weighted.
+
+  referencePair:
+    range: ReferencePair
+    required: true
+
+  protectionTermsReference:
+    range: ProtectionTerms
+    description: Reference to the documentation terms applicable to this item.
+    annotations:
+      metadata_reference: true
+
+  cashSettlementTermsReference:
+    range: CashSettlementTerms
+    description: Reference to the cash settlement terms applicable to this item.
+    annotations:
+      metadata_reference: true
+
+  physicalSettlementTermsReference:
+    range: PhysicalSettlementTerms
+    description: Reference to the physical settlement terms applicable to this item.
+    annotations:
+      metadata_reference: true
+
+  matrixSource:
+    range: SettledEntityMatrixSourceEnum
+    description: Relevant settled entity matrix source.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  attachmentPoint:
+    range: decimal
+    description: Lower bound percentage of the loss that the Tranche can endure, expressed as a decimal. An attachment point
+      of 5% would be represented as 0.05. The difference between Attachment and Exhaustion points is called the width of the
+      Tranche.
+    required: true
+
+  exhaustionPoint:
+    range: decimal
+    description: Upper bound percentage of the loss that the Tranche can endure, expressed as a decimal. An exhaustion point
+      of 5% would be represented as 0.05. The difference between Attachment and Exhaustion points is call the width of the
+      Tranche.
+    required: true
+
+  incurredRecoveryApplicable:
+    range: boolean
+    description: 'Outstanding Swap Notional Amount is defined at any time on any day, as the greater of: (a) Zero; If Incurred
+      Recovery Amount Applicable: (b) The Original Swap Notional Amount minus the sum of all Incurred Loss Amounts and all
+      Incurred Recovery Amounts (if any) determined under this Confirmation at or prior to such time.Incurred Recovery Amount
+      not populated: (b) The Original Swap Notional Amount minus the sum of all Incurred Loss Amounts determined under this
+      Confirmation at or prior to such time.'
+
+  currencyReference:
+    range: string
+    description: Reference to a currency specified elsewhere in the document
+    annotations:
+      metadata_reference: true
+
+  dateReference:
+    range: DividendDateReferenceEnum
+    description: Specification of the dividend date using an enumeration, with values such as the pay date, the ex-date or
+      the record date.
+    required: true
+
+  paymentDateOffset:
+    range: Offset
+    description: Only to be used when SharePayment has been specified in the dividendDateReference element. The number of
+      Currency Business Days following the day on which the Issuer of the Shares pays the relevant dividend to holders of
+      record of the Shares.
+
+  dividendDateReference:
+    range: DividendDateReference
+
+  dividendDate:
+    range: AdjustableOrRelativeDate
+    annotations:
+      metadata_reference: true
+
+  dividendPayoutRatio:
+    range: DividendPayoutRatio
+    description: Specifies the dividend payout ratio associated with each underlier. In FpML 5.10 the payout is positioned
+      at the underlier level, although there is an intent to reconsider this approach and position it at the leg level. This
+      is approach adopted by the CDM.
+    multivalued: true
+    inlined_as_list: true
+
+  dividendReinvestment:
+    range: boolean
+    description: Boolean element that defines whether the dividend will be reinvested or not.
+
+  dividendEntitlement:
+    range: DividendEntitlementEnum
+    description: Defines the date on which the receiver of the equity return is entitled to the dividend.
+
+  dividendAmountType:
+    range: DividendAmountTypeEnum
+    description: Specifies whether the dividend is paid with respect to the Dividend Period.
+
+  performance:
+    range: string
+    description: Performance calculation, in accordance with Part 1 Section 12 of the 2018 ISDA CDM Equity Confirmation for
+      Security Equity Swap, Para 75. 'Equity Performance'. Cumulative performance is used as a notional multiplier factor
+      on both legs of an Equity Swap.
+
+  firstOrSecondPeriod:
+    range: DividendPeriodEnum
+    description: '2002 ISDA Equity Derivatives Definitions: Dividend Period as either the First Period or the Second Period.
+      | '
+
+  extraordinaryDividendsParty:
+    range: AncillaryRoleEnum
+    description: Specifies the party which determines if dividends are extraordinary in relation to normal levels.
+
+  excessDividendAmount:
+    range: DividendAmountTypeEnum
+    description: Determination of Gross Cash Dividend per Share.
+
+  dividendCurrency:
+    range: DividendCurrency
+    description: Specifies the currency in which the dividend will be denominated, e.g. the dividend currency, or a specified
+      currency. This class is not specified as such in FpML, which makes use of the CurrencyAndDeterminationMethod.model to
+      specify such terms.
+
+  nonCashDividendTreatment:
+    range: NonCashDividendTreatmentEnum
+    description: Specifies the treatment of Non-Cash Dividends.
+
+  dividendComposition:
+    range: DividendCompositionEnum
+    description: Specifies how the composition of Dividends is to be determined.
+
+  specialDividends:
+    range: boolean
+    description: Specifies the method according to which special dividends are determined.
+
+  materialDividend:
+    range: boolean
+    description: If present and true, then material non cash dividends are applicable.
+
+  dividendPeriod:
+    range: DividendPeriod
+    description: One to many time bounded dividend payment periods, each with a dividend payment date per period.
+    multivalued: true
+    inlined_as_list: true
+
+  dividendPaymentDate:
+    range: DividendPaymentDate
+    description: Specifies when the dividend will be paid to the receiver of the equity return. Has the meaning as defined
+      in the ISDA 2002 Equity Derivatives Definitions. Is not applicable in the case of a dividend reinvestment election.
+    required: true
+
+  dividendValuationDate:
+    range: AdjustableOrRelativeDate
+    description: Specifies the dividend valuation dates of the swap.
+
+  returnType:
+    range: ReturnTypeEnum
+    description: The type of return associated with the equity swap.
+    required: true
+
+  conversionFactor:
+    range: decimal
+    description: Defines the conversion applied if the quantity unit on contract is different from unit on referenced underlier.
+
+  valuationTerms:
+    range: ValuationTerms
+    description: Contains all non-date valuation information.
+    required: true
+
+  annualizationFactor:
+    range: integer
+    description: This specifies the numerator of an annualization factor. Frequently this number is equal to the number of
+      observations of prices in a year e.g. 252.
+
+  dividendApplicability:
+    range: DividendApplicability
+    description: The parameters which define whether dividends are applicable
+
+  equityUnderlierProvisions:
+    range: EquityUnderlierProvisions
+    description: Contains Equity Underlyer provisions regarding jurisdiction and fallbacks.
+
+  sharePriceDividendAdjustment:
+    range: boolean
+    description: Indicates whether the price of shares is adjusted for dividends or not.
+
+  expectedN:
+    range: integer
+    description: Expected number of trading days.
+    required: true
+
+  initialLevel:
+    range: decimal
+    description: Contract will strike off this initial level. Providing just the initialLevel without initialLevelSource,
+      infers that this is AgreedInitialPrice - a specified Initial Index Level.
+
+  initialLevelSource:
+    range: DeterminationMethodEnum
+    description: In this context, this is AgreedInitialPrice - a specified Initial Index Level.
+
+  meanAdjustment:
+    range: boolean
+    description: Specifies whether Mean Adjustment is applicable or not in the calculation of the Realized Volatility, Variance
+      or Correlation
+
+  varianceStrikePrice:
+    range: Price
+    description: Variance Strike Price in accordance with the ISDA 2011 Equity Derivatives Definitions.
+
+  volatilityStrikePrice:
+    range: Price
+    description: Volatility Strike Price in accordance with the ISDA 2011 Equity Derivatives Definitions.
+
+  varianceCapFloor:
+    range: VarianceCapFloor
+    description: Contains possible barriers for variance products, both variance-based and underlier price based
+
+  volatilityCapFloor:
+    range: VolatilityCapFloor
+    description: Contains containing volatility-based barriers
+
+  vegaNotionalAmount:
+    range: NonNegativeQuantitySchedule
+    description: Vega Notional represents the approximate gain/loss at maturity for a 1% difference between RVol (realised
+      vol) and KVol (strike vol). It does not necessarily represent the Vega Risk of the trade.
+
+  exchangeTradedContractNearest:
+    range: Observable
+    description: Specification of the exchange traded contract nearest.
+    any_of:
+      - range: Asset
+      - range: Basket
+      - range: Index
+
+  correlationStrikePrice:
+    range: Price
+    description: Correlation Strike Price in accordance with the ISDA 2011 Equity Derivatives Definitions.
+    required: true
+
+  boundedCorrelation:
+    range: NumberRange
+    description: Describes correlation bounds, which form a cap and a floor on the realized correlation.
+
+  numberOfDataSeries:
+    range: integer
+    description: Number of data series, normal market practice is that correlation data sets are drawn from geographic market
+      areas, such as America, Europe and Asia Pacific, each of these geographic areas will have its own data series to avoid
+      contagion.
+
+  futuresPriceValuation:
+    range: boolean
+    description: The official settlement price as announced by the related exchange is applicable, in accordance with the
+      ISDA 2002 definitions.
+
+  optionsPriceValuation:
+    range: boolean
+    description: The official settlement price as announced by the related exchange is applicable, in accordance with the
+      ISDA 2002 definitions
+
+  numberOfValuationDates:
+    range: integer
+    description: The number of valuation dates between valuation start date and valuation end date.
+
+  dividendValuationDates:
+    range: AdjustableRelativeOrPeriodicDates
+    description: Specifies the dividend valuation dates of the swap.
+
+  fPVFinalPriceElectionFallback:
+    range: FPVFinalPriceElectionFallbackEnum
+    description: Specifies the fallback provisions for Hedging Party in the determination of the Final Price.
+
+  multipleExchangeIndexAnnexFallback:
+    range: boolean
+    description: For an index option transaction, a flag to indicate whether a relevant Multiple Exchange Index Annex is applicable
+      to the transaction. This annex defines additional provisions which are applicable where an index is comprised of component
+      securities that are traded on multiple exchanges.
+
+  componentSecurityIndexAnnexFallback:
+    range: boolean
+    description: For an index option transaction, a flag to indicate whether a relevant Component Security Index Annex is
+      applicable to the transaction.
+
+  localJurisdiction:
+    range: string
+    description: The ISO 3166 standard code for the country within which the postal address is located.
+    annotations:
+      metadata_scheme: true
+
+  relevantJurisdiction:
+    range: string
+    description: The ISO 3166 standard code for the country within which the postal address is located.
+    annotations:
+      metadata_scheme: true
+
+  varianceCap:
+    range: boolean
+    description: If present and true, then variance cap is applicable.
+    required: true
+
+  unadjustedVarianceCap:
+    range: decimal
+    description: For use when varianceCap is applicable. Contains the scaling factor of the Variance Cap that can differ on
+      a trade-by-trade basis in the European market. For example, a Variance Cap of 2.5^2 x Variance Strike Price has an unadjustedVarianceCap
+      of 2.5.
+
+  boundedVariance:
+    range: BoundedVariance
+    description: Conditions which bound variance. The contract specifies one or more boundary levels. These levels are expressed
+      as prices for confirmation purposes Underlyer price must be equal to or higher than Lower Barrier is known as Up Conditional
+      Swap Underlyer price must be equal to or lower than Upper Barrier is known as Down Conditional Swap Underlyer price
+      must be equal to or higher than Lower Barrier and must be equal to or lower than Upper Barrier is known as Barrier Conditional
+      Swap.
+
+  realisedVarianceMethod:
+    range: RealisedVarianceMethodEnum
+    description: The contract specifies which price must satisfy the boundary condition.
+    required: true
+    close_mappings:
+      - fpml_5_10:BoundedVariance.realisedVarianceMethod
+
+  daysInRangeAdjustment:
+    range: boolean
+    description: The contract specifies whether the notional should be scaled by the Number of Days in Range divided by the
+      Expected N. The number of Days in Ranges refers to the number of returns that contribute to the realized volatility.
+    required: true
+    close_mappings:
+      - fpml_5_10:BoundedVariance.daysInRangeAdjustment
+
+  upperBarrier:
+    range: decimal
+    description: All observations above this price level will be excluded from the variance calculation.
+    close_mappings:
+      - fpml_5_10:BoundedVariance.upperBarrier
+
+  lowerBarrier:
+    range: decimal
+    description: All observations below this price level will be excluded from the variance calculation.
+    close_mappings:
+      - fpml_5_10:BoundedVariance.lowerBarrier
+
+  totalVolatilityCap:
+    range: decimal
+    description: Volatility Cap Amount in accordance with the ISDA 2011 Equity Derivatives Definitions. This means the Volatility
+      Cap Amount election is a number.
+
+  volatilityCapFactor:
+    range: decimal
+    description: Volatility Cap Amount in accordance with the ISDA 2011 Equity Derivatives Definitions. The Calculated VolCapAmt
+      can be optionally provided.
+
+  minimumBoundaryPercent:
+    range: decimal
+    description: Minimum Boundary as a percentage of the Strike Price.
+    close_mappings:
+      - fpml_5_10:BoundedCorrelation.minimumBoundaryPercent
+
+  maximumBoundaryPercent:
+    range: decimal
+    description: Maximum Boundary as a percentage of the Strike Price.
+    close_mappings:
+      - fpml_5_10:BoundedCorrelation.maximumBoundaryPercent
+
+  bond:
+    range: Security
+    description: Reference to a bond underlier.
+    required: true
+    close_mappings:
+      - fpml_5_10:BondReference.bond
+
+  conditionPrecedentBond:
+    range: boolean
+    description: To indicate whether the Condition Precedent Bond is applicable. The swap contract is only valid if the bond
+      is issued and if there is any dispute over the terms of fixed stream then the bond terms would be used.
+    required: true
+    close_mappings:
+      - fpml_5_10:BondReference.conditionPrecedentBond
+
+  discrepancyClause:
+    range: boolean
+    description: To indicate whether the Discrepancy Clause is applicable.
+    close_mappings:
+      - fpml_5_10:BondReference.discrepancyClause
+
+  couponRate:
+    range: FixedRateSpecification
+    description: Specifies the coupon rate (expressed in percentage) of a fixed income security or convertible bond.
+    close_mappings:
+      - fpml_5_10:BondReference.couponRate
+
+  cashflowsMatchParameters:
+    range: boolean
+    description: A true/false flag to indicate whether the cashflows match the parametric definition of the stream, i.e. whether
+      the cashflows could be regenerated from the parameters without loss of information.
+    required: true
+    close_mappings:
+      - fpml_5_10:CashflowRepresentation.cashflowsMatchParameters
+
+  paymentCalculationPeriod:
+    range: PaymentCalculationPeriod
+    description: The adjusted payment date and associated calculation period parameters required to calculate the actual or
+      projected payment amount. A list of payment calculation period elements may be ordered in the document by ascending
+      adjusted payment date. An FpML document containing an unordered list of payment calculation periods is still regarded
+      as a conformant document.
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:CashflowRepresentation.paymentCalculationPeriod
+
+  discountingType:
+    range: DiscountingTypeEnum
+    description: The discounting method that is applicable.
+    required: true
+
+  discountRate:
+    range: decimal
+    description: A discount rate, expressed as a decimal, to be used in the calculation of a discounted amount. A discount
+      amount of 5% would be represented as 0.05.
+
+  discountRateDayCountFraction:
+    range: DayCountFractionEnum
+    description: A discount day count fraction to be used in the calculation of a discounted amount.
+    annotations:
+      metadata_scheme: true
+
+  rateObservation:
+    range: RateObservation
+    description: The details of a particular rate observation, including the fixing date and observed rate. A list of rate
+      observation elements may be ordered in the document by ascending adjusted fixing date. An FpML document containing an
+      unordered list of rate observations is still regarded as a conformant document.
+    multivalued: true
+    inlined_as_list: true
+
+  floatingRateMultiplier:
+    range: decimal
+    description: A rate multiplier to apply to the floating rate. The multiplier can be a positive or negative decimal. This
+      element should only be included if the multiplier is not equal to 1 (one).
+
+  capRate:
+    range: Strike
+    description: The cap rate, if any, which applies to the floating rate for the calculation period. The cap rate (strike)
+      is only required where the floating rate on a swap stream is capped at a certain strike level. The cap rate is assumed
+      to be exclusive of any spread and is a per annum rate, expressed as a decimal. A cap rate of 5% would be represented
+      as 0.05.
+    multivalued: true
+    inlined_as_list: true
+
+  floorRate:
+    range: Strike
+    description: The floor rate, if any, which applies to the floating rate for the calculation period. The floor rate (strike)
+      is only required where the floating rate on a swap stream is floored at a certain strike level. The floor rate is assumed
+      to be exclusive of any spread and is a per annum rate, expressed as a decimal. The floor rate of 5% would be represented
+      as 0.05.
+    multivalued: true
+    inlined_as_list: true
+
+  inflationLag:
+    range: Offset
+    description: An off-setting period from the payment date which determines the reference period for which the inflation
+      index is observed.
+    required: true
+
+  indexSource:
+    range: string
+    description: The reference source such as Reuters or Bloomberg. FpML specifies indexSource to be of type rateSourcePageScheme,
+      but without specifying actual values.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  mainPublication:
+    range: string
+    description: The current main publication source such as relevant web site or a government body. FpML specifies mainPublication
+      to be of type mainPublicationSource, but without specifying actual values.
+    required: true
+    annotations:
+      metadata_scheme: true
+
+  initialIndexLevel:
+    range: decimal
+    description: Initial known index level for the first calculation period.
+
+  fallbackBondApplicable:
+    range: boolean
+    description: The applicability of a fallback bond as defined in the 2006 ISDA Inflation Derivatives Definitions, sections
+      1.3 and 1.8.
+    required: true
+
+  calculationStyle:
+    range: InflationCalculationStyleEnum
+    description: Indicates the style of how the inflation index calculates the payment (e.g. YearOnYear, ZeroCoupon).
+
+  finalPrincipalExchangeCalculation:
+    range: FinalPrincipalExchangeCalculationEnum
+    description: To be specified only for products that embed a redemption payment.
+
+  rateOption:
+    range: InterestRateIndex
+    any_of:
+      - range: FloatingRateIndex
+      - range: InflationIndex
+
+  spreadSchedule:
+    range: SpreadSchedule
+    description: The ISDA Spread or a Spread schedule expressed as explicit spreads and dates. In the case of a schedule,
+      the step dates may be subject to adjustment in accordance with any adjustments specified in calculationPeriodDatesAdjustments.
+      The spread is a per annum rate, expressed as a decimal. For purposes of determining a calculation period amount, if
+      positive the spread will be added to the floating rate and if negative the spread will be subtracted from the floating
+      rate. A positive 10 basis point (0.1%) spread would be represented as 0.001.
+
+  capRateSchedule:
+    range: StrikeSchedule
+    description: The cap rate or cap rate schedule, if any, which applies to the floating rate. The cap rate (strike) is only
+      required where the floating rate on a swap stream is capped at a certain level. A cap rate schedule is expressed as
+      explicit cap rates and dates and the step dates may be subject to adjustment in accordance with any adjustments specified
+      in calculationPeriodDatesAdjustments. The cap rate is assumed to be exclusive of any spread and is a per annum rate,
+      expressed as a decimal. A cap rate of 5% would be represented as 0.05.
+
+  floorRateSchedule:
+    range: StrikeSchedule
+    description: The floor rate or floor rate schedule, if any, which applies to the floating rate. The floor rate (strike)
+      is only required where the floating rate on a swap stream is floored at a certain strike level. A floor rate schedule
+      is expressed as explicit floor rates and dates and the step dates may be subject to adjustment in accordance with any
+      adjustments specified in calculationPeriodDatesAdjustments. The floor rate is assumed to be exclusive of any spread
+      and is a per annum rate, expressed as a decimal. A floor rate of 5% would be represented as 0.05.
+
+  floatingRateMultiplierSchedule:
+    range: RateSchedule
+    description: A rate multiplier or multiplier schedule to apply to the floating rate. A multiplier schedule is expressed
+      as explicit multipliers and dates. In the case of a schedule, the step dates may be subject to adjustment in accordance
+      with any adjustments specified in the calculationPeriodDatesAdjustments. The multiplier can be a positive or negative
+      decimal. This element should only be included if the multiplier is not equal to 1 (one) for the term of the stream.
+
+  rateTreatment:
+    range: RateTreatmentEnum
+    description: The specification of any rate conversion which needs to be applied to the observed rate before being used
+      in any calculations. The two common conversions are for securities quoted on a bank discount basis which will need to
+      be converted to either a Money Market Yield or Bond Equivalent Yield. See the Annex to the 2000 ISDA Definitions, Section
+      7.3. Certain General Definitions Relating to Floating Rate Options, paragraphs (g) and (h) for definitions of these
+      terms.
+
+  fallbackRate:
+    range: FallbackRateParameters
+    description: Definition of any fallback rate that may be applicable.
+
+  initialRate:
+    range: Price
+    description: The initial floating rate reset agreed between the principal parties involved in the trade. This is assumed
+      to be the first required reset rate for the first regular calculation period. It should only be included when the rate
+      is not equal to the rate published on the source implied by the floating rate index. An initial rate of 5% would be
+      represented as 0.05.
+
+  finalRateRounding:
+    range: Rounding
+    description: The rounding convention to apply to the final rate used in determination of a calculation period amount.
+
+  negativeInterestRateTreatment:
+    range: NegativeInterestRateTreatmentEnum
+    description: The specification of any provisions for calculating payment obligations when a floating rate is negative
+      (either due to a quoted negative floating rate or by operation of a spread that is subtracted from the floating rate).
+
+  rateSchedule:
+    range: RateSchedule
+    description: The fixed rate or fixed rate schedule expressed as explicit fixed rates and dates. In the case of a schedule,
+      the step dates may be subject to adjustment in accordance with any adjustments specified in calculationPeriodDatesAdjustments.
+
+  calculationPeriodNumberOfDays:
+    range: integer
+    description: The number of days from the adjusted calculation period start date to the adjusted value date, calculated
+      in accordance with the applicable day count fraction.
+    required: true
+
+  valueDate:
+    range: date
+    description: Adjusted value date of the future value amount.
+    required: true
+
+  spreadScheduleType:
+    range: SpreadScheduleTypeEnum
+    description: An element which purpose is to identify a long or short spread value.
+    annotations:
+      metadata_scheme: true
+
+  floatingRate:
+    range: StubFloatingRate
+    description: The rates to be applied to the initial or final stub may be the linear interpolation of two different rates.
+      While the majority of the time, the rate indices will be the same as that specified in the stream and only the tenor
+      itself will be different, it is possible to specift two different rates. For example, a 2 month stub period may use
+      the linear interpolation of a 1 month and 3 month rate. The different rates would be specified in this component. Note
+      that a maximum of two rates can be specified. If a stub period uses the same floating rate index, including tenor, as
+      the regular calculation periods then this should not be specified again within this component, i.e. the stub calculation
+      period amount component may not need to be specified even if there is an initial or final stub period. If a stub period
+      uses a different floating rate index compared to the regular calculation periods then this should be specified within
+      this component. If specified here, they are likely to have id attributes, allowing them to be referenced from within
+      the cashflows component.
+    multivalued: true
+    inlined_as_list: true
+
+  stubRate:
+    range: decimal
+    description: An actual rate to apply for the initial or final stub period may have been agreed between the principal parties
+      (in a similar way to how an initial rate may have been agreed for the first regular period). If an actual stub rate
+      has been agreed then it would be included in this component. It will be a per annum rate, expressed as a decimal. A
+      stub rate of 5% would be represented as 0.05.
+
+  stubAmount:
+    range: Money
+    description: An actual amount to apply for the initial or final stub period may have been agreed between the two parties.
+      If an actual stub amount has been agreed then it would be included in this component.
+
+  calculationPeriod:
+    range: CalculationPeriodBase
+    description: The calculation period for which the floating calculation was performed.
+    required: true
+
+  calculationPeriodNotionalAmount:
+    range: Money
+    description: The notional in effect during the calculation period.
+    required: true
+
+  fixedRate:
+    range: decimal
+    description: The value of the fixed rate that was used.
+    required: true
+
+  yearFraction:
+    range: decimal
+    description: The fraction of a year that this calculation represents, according to the day count fraction method.
+    required: true
+
+  calculatedAmount:
+    range: decimal
+    description: The amount of the cash flow that was computed, including any spreads and other processing.
+    required: true
+
+classes:
+  CommodityPayout:
+    description: Payout based on the averaged price of a referenced underlier. (e.g. Commodities). Can represent both average
+      (average of many) & bullet (average of 1) pricing
+    is_a: PayoutBase
+    annotations:
+      metadata_key: true
+    close_mappings:
+      - fpml_5_10:CommodityPayout
+    rules:
+      - description: When there is an OptionPayout the quantity can be expressed as part of the payoutQuantity, or as part
+          of the underlier in the case of a Swaption.  For all other payouts that extend PayoutBase the payoutQuantity is
+          a mandatory attribute.
+        postconditions:
+          slot_conditions:
+            priceQuantity:
+              required: true
+        preconditions: {}
+      - description: The calculation periods are either specified parametrically via CalculationPeriodDates or non-parametrically
+          via SchedulePeriod.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                schedule:
+                  required: true
+            - slot_conditions:
+                calculationPeriodDates:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Quantity — priceQuantity exists'
+      - 'Rosetta condition: CalculationPeriod — required choice schedule, calculationPeriodDates'
+      - 'Rosetta condition: CommodityUnderlier — if underlier -> Observable exists then ObservableIsCommodity(underlier ->
+        Observable) else if underlier -> Product -> TransferableProduct -> economicTerms -> payout only-element -> OptionPayout
+        exists then ObservableIsCommodity( underlier -> Product -> TransferableProduct -> economicTerms -> payout only-element
+        -> OptionPayout -> underlier -> Observable ) // Commodity Option else if underlier -> Product -> TransferableProduct
+        -> economicTerms -> payout only-element -> SettlementPayout exists then ObservableIsCommodity( underlier -> Product
+        -> TransferableProduct -> economicTerms -> payout only-element -> SettlementPayout -> underlier -> Observable ) //
+        Commodity Future else False'
+      - 'Rosetta condition: DeliveryCapacity — if delivery -> deliveryCapacity exists then schedule -> schedulePeriod -> deliveryPeriod
+        -> deliveryCapacity is absent and delivery -> periods -> profile -> block -> deliveryCapacity is absent and schedule
+        -> schedulePeriod -> deliveryPeriod -> profile -> block -> deliveryCapacity is absent else if schedule -> schedulePeriod
+        -> deliveryPeriod -> deliveryCapacity exists then delivery -> deliveryCapacity is absent and delivery -> periods ->
+        profile -> block -> deliveryCapacity is absent and schedule -> schedulePeriod -> deliveryPeriod -> profile -> block
+        -> deliveryCapacity is absent else if delivery -> periods -> profile -> block -> deliveryCapacity exists then schedule
+        -> schedulePeriod -> deliveryPeriod -> deliveryCapacity is absent and schedule -> schedulePeriod -> deliveryPeriod
+        -> profile -> block -> deliveryCapacity is absent else if schedule -> schedulePeriod -> deliveryPeriod -> profile
+        -> block -> deliveryCapacity exists then delivery -> deliveryCapacity is absent and schedule -> schedulePeriod ->
+        deliveryPeriod -> deliveryCapacity is absent and delivery -> periods -> profile -> block -> deliveryCapacity is absent'
+      - 'Rosetta condition: PriceTimeIntervalQuantity — if schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity
+        exists then delivery -> periods -> profile -> block -> priceTimeIntervalQuantity is absent and schedule -> schedulePeriod
+        -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity is absent else if delivery -> periods -> profile
+        -> block -> priceTimeIntervalQuantity exists then schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity
+        is absent and schedule -> schedulePeriod -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity is absent
+        else if schedule -> schedulePeriod -> deliveryPeriod -> profile -> block -> priceTimeIntervalQuantity exists then
+        schedule -> schedulePeriod -> deliveryPeriod -> priceTimeIntervalQuantity is absent and delivery -> periods -> profile
+        -> block -> priceTimeIntervalQuantity is absent'
+    slots:
+      - averagingFeature
+      - commodityPriceReturnTerms
+      - pricingDates
+      - schedule
+      - calculationPeriodDates
+      - paymentDates
+      - underlier
+      - fxFeature
+      - delivery
+    slot_usage:
+      schedule:
+        range: CalculationSchedule
+        description: Allows the full representation of a payout by defining a set of schedule periods. It supports standard
+          schedule customization by expressing all the dates, quantities, and pricing data in a non-parametric way.
+        multivalued: false
+      underlier:
+        description: Identifies the underlying product that is referenced for pricing of the applicable leg in a swap. Referenced
+          in the '2018 ISDA CDM Equity Confirmation for Security Equity Swap' as Security.
+    in_subset:
+      - cdm_product_asset
+
+  AssetDeliveryInformation:
+    description: Contains the information relative to the delivery of the asset.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryInformation
+    slots:
+      - periods
+      - location
+      - deliveryCapacity
+      - commodityGrade
+    slot_usage:
+      location:
+        range: LocationIdentifier
+        description: Defines the location of the delivery of the commodity.
+        multivalued: true
+    in_subset:
+      - cdm_product_asset
+
+  AssetDeliveryPeriods:
+    description: Defines the periods of delivery, including the delivery profile.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryPeriods
+    slots:
+      - profile
+      - startDate
+      - endDate
+    slot_usage:
+      startDate:
+        description: Delivery start date
+        required: false
+      endDate:
+        description: Delivery end date
+        required: false
+    in_subset:
+      - cdm_product_asset
+
+  CalculationScheduleDeliveryPeriods:
+    description: Period and time profile over which the delivery takes place.
+    is_a: AssetDeliveryPeriods
+    close_mappings:
+      - fpml_5_10:CalculationScheduleDeliveryPeriods
+    slots:
+      - deliveryCapacity
+      - priceTimeIntervalQuantity
+    in_subset:
+      - cdm_product_asset
+
+  AssetDeliveryProfile:
+    description: Defines the delivery profile of the asset, including the load type and the delivery intervals.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfile
+    slots:
+      - loadType
+      - block
+      - bankHolidaysTreatment
+    in_subset:
+      - cdm_product_asset
+
+  AssetDeliveryProfileBlock:
+    description: Defines a delivery profile block, including start and end time, days of the week, duration, delivery capacity
+      and price time interval quantity.
+    close_mappings:
+      - fpml_5_10:AssetDeliveryProfileBlock
+    slots:
+      - startTime
+      - endTime
+      - dayOfWeek
+      - deliveryCapacity
+      - priceTimeIntervalQuantity
+    slot_usage:
+      dayOfWeek:
+        description: The days of the week of the delivery.
+        multivalued: true
+    in_subset:
+      - cdm_product_asset
+
+  CreditDefaultPayout:
+    description: ' The credit default payout specification provides the details necessary for determining when a credit payout
+      will be triggered as well as the parameters for calculating the payout and the settlement terms. The associated globalKey
+      denotes the ability to associate a hash value to the CreditDefaultPayout instantiations for the purpose of model cross-referencing,
+      in support of functionality such as the event effect and the lineage.'
+    is_a: PayoutBase
+    rules:
+      - description: When there is an OptionPayout the quantity can be expressed as part of the payoutQuantity, or as part
+          of the underlier in the case of a Swaption.  For all other payouts that extend PayoutBase the payoutQuantity is
+          a mandatory attribute.
+        postconditions:
+          slot_conditions:
+            priceQuantity:
+              required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: FpML_cd_12 — if generalTerms -> referenceInformation -> referencePrice exists then generalTerms
+        -> referenceInformation -> referencePrice -> value >= 0'
+      - 'Rosetta condition: Quantity — priceQuantity exists'
+    slots:
+      - generalTerms
+      - protectionTerms
+      - transactedPrice
+    in_subset:
+      - cdm_product_asset
+
+  GeneralTerms:
+    description: ' A class specifying a set of non-monetary terms for the Credit Derivative Transaction, including the buyer
+      and seller and selected items from the ISDA 2014 Credit Definition article II, such as the reference obligation and
+      related terms. The CDM GeneralTerms class corresponds to the FpML GeneralTerms complex type, except that the effectiveDate
+      and scheduledTerminationDate have been positioned as part of the InterestRatePayout class in the CDM instead of in GeneralTerms.'
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                referenceInformation:
+                  required: true
+            - slot_conditions:
+                indexReferenceInformation:
+                  required: true
+            - slot_conditions:
+                basketReferenceInformation:
+                  required: true
+        preconditions: {}
+      - description: FpML validation rule cd-42 - If basketReferenceInformation does not exist, then substitution must not
+          exist.
+        preconditions:
+          slot_conditions:
+            basketReferenceInformation:
+              required: false
+        postconditions:
+          slot_conditions:
+            substitution:
+              required: false
+    comments:
+      - 'Rosetta condition: GeneralTermsChoice — required choice referenceInformation, indexReferenceInformation, basketReferenceInformation'
+      - 'Rosetta condition: FpML_cd_41 — if indexReferenceInformation -> tranche is absent then modifiedEquityDelivery is
+        absent'
+      - 'Rosetta condition: FpML_cd_42 — if basketReferenceInformation is absent then substitution is absent'
+      - 'Rosetta condition: BasketReferenceInformationNameOrId — if basketReferenceInformation exists then basketReferenceInformation
+        -> basketName exists or basketReferenceInformation -> basketId exists'
+    slots:
+      - referenceInformation
+      - indexReferenceInformation
+      - basketReferenceInformation
+      - additionalTerm
+      - substitution
+      - modifiedEquityDelivery
+    slot_usage:
+      referenceInformation:
+        description: This attribute contains all the terms relevant to defining the reference entity and reference obligation(s).
+        required: false
+      substitution:
+        range: boolean
+        description: Value of this attribute set to 'true' indicates that substitution is applicable.
+    in_subset:
+      - cdm_product_asset
+
+  InterestRatePayout:
+    description: ' A class to specify all of the terms necessary to define and calculate a cash flow based on a fixed, a floating
+      or an inflation index rate. The interest rate payout can be applied to interest rate swaps and FRA (which both have
+      two associated interest rate payouts), credit default swaps (to represent the fee leg when subject to periodic payments)
+      and equity swaps (to represent the funding leg). The associated globalKey denotes the ability to associate a hash value
+      to the InterestRatePayout instantiations for the purpose of model cross-referencing, in support of functionality such
+      as the event effect and the lineage.'
+    is_a: PayoutBase
+    rules:
+      - description: When there is an OptionPayout the quantity can be expressed as part of the payoutQuantity, or as part
+          of the underlier in the case of a Swaption.  For all other payouts that extend PayoutBase the payoutQuantity is
+          a mandatory attribute.
+        postconditions:
+          slot_conditions:
+            priceQuantity:
+              required: true
+        preconditions: {}
+      - description: The paymentDates attributes is applicable to interest rate payouts with periodic payments, while the
+          paymentDate reflects the FpML FRA implementation where one specific date is specified.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                paymentDates:
+                  required: true
+            - slot_conditions:
+                paymentDate:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Quantity — priceQuantity exists'
+      - 'Rosetta condition: InterestRatePayoutChoice — optional choice paymentDates, paymentDate'
+      - 'Rosetta condition: FutureValueNotional — if rateSpecification -> FixedRateSpecification is absent then priceQuantity
+        -> futureValueNotional is absent'
+      - 'Rosetta condition: TerminationDate — if priceQuantity -> futureValueNotional exists then priceQuantity -> futureValueNotional
+        -> valueDate = calculationPeriodDates -> terminationDate -> adjustableDate -> adjustedDate'
+      - 'Rosetta condition: RateSpecification — if rateSpecification is absent then priceQuantity -> priceSchedule exists'
+      - 'Rosetta condition: FpML_ird_6 — if paymentDates -> firstPaymentDate exists and calculationPeriodDates -> effectiveDate
+        exists then paymentDates -> firstPaymentDate > calculationPeriodDates -> effectiveDate -> adjustableDate -> unadjustedDate'
+      - 'Rosetta condition: FpML_ird_23 — if stubPeriod -> initialStub exists then calculationPeriodDates -> firstRegularPeriodStartDate
+        exists'
+      - 'Rosetta condition: FpML_ird_24 — if stubPeriod -> finalStub exists then calculationPeriodDates -> lastRegularPeriodEndDate
+        exists'
+      - 'Rosetta condition: InitialStubFinalStub — if stubPeriod exists then stubPeriod -> initialStub exists or stubPeriod
+        -> finalStub exists'
+      - 'Rosetta condition: CashSettlementTerms — if settlementTerms -> settlementCurrency exists and (settlementTerms ->
+        settlementCurrency <> priceQuantity -> quantitySchedule -> unit -> currency or settlementTerms -> settlementCurrency
+        <> priceQuantity -> quantityMultiplier -> fxLinkedNotionalSchedule -> varyingNotionalCurrency) then (settlementTerms
+        -> cashSettlementTerms -> valuationMethod exists and settlementTerms -> cashSettlementTerms -> valuationDate exists)
+        or priceQuantity -> quantityMultiplier -> fxLinkedNotionalSchedule -> fxSpotRateSource exists'
+      - 'Rosetta condition: FpML_ird_7_1 — if paymentDates -> paymentFrequency -> period = calculationPeriodDates -> calculationPeriodFrequency
+        -> period and paymentDates -> paymentFrequency -> periodMultiplier = calculationPeriodDates -> calculationPeriodFrequency
+        -> periodMultiplier then (compoundingMethod is absent or compoundingMethod = CompoundingMethodEnum -> None)'
+      - 'Rosetta condition: FpML_ird_7_2 — if (paymentDates -> paymentFrequency -> period exists and calculationPeriodDates
+        -> calculationPeriodFrequency -> period exists and paymentDates -> paymentFrequency -> period <> calculationPeriodDates
+        -> calculationPeriodFrequency -> period) or (paymentDates -> paymentFrequency -> periodMultiplier exists and calculationPeriodDates
+        -> calculationPeriodFrequency -> periodMultiplier exists and paymentDates -> paymentFrequency -> periodMultiplier
+        <> calculationPeriodDates -> calculationPeriodFrequency -> periodMultiplier) then compoundingMethod exists'
+      - 'Rosetta condition: FpML_ird_9 — if compoundingMethod exists and compoundingMethod <> CompoundingMethodEnum -> None
+        then resetDates exists'
+      - 'Rosetta condition: FpML_ird_29 — if compoundingMethod exists and compoundingMethod <> CompoundingMethodEnum -> None
+        then rateSpecification -> FixedRateSpecification is absent'
+      - 'Rosetta condition: CalculationPeriodDatesFirstCompoundingPeriodEndDate — if compoundingMethod is absent or compoundingMethod
+        = CompoundingMethodEnum -> None then calculationPeriodDates -> firstCompoundingPeriodEndDate is absent'
+      - 'Rosetta func: FixedAmount — 2006 ISDA Definition Article 5 Section 5.1. Calculation of a Fixed Amount: The Fixed
+        Amount payable by a party on a Payment Date will be: (a) if an amount is specified for the Swap Transaction as the
+        Fixed Amount payable by that party for that Payment Date or for the related Calculation Period, that amount; or (b)
+        if an amount is not specified for the Swap Transaction as the Fixed Amount payable by that party for that Payment
+        Date or for the related Calculation Period, an amount calculated on a formula basis for that Payment Date or for the
+        related Calculation Period as follows: Fixed Amount = Calculation Amount × Fixed Rate × Day Count Fraction.'
+      - 'Rosetta func: FloatingAmount — 2006 ISDA Definition Article 6 Section 6.1. Calculation of a Floating Amount: Subject
+        to the provisions of Section 6.4 (Negative Interest Rates), the Floating Amount payable by a party on a Payment Date
+        will be: (a) if Compounding is not specified for the Swap Transaction or that party, an amount calculated on a formula
+        basis for that Payment Date or for the related Calculation Period as follows: Floating Amount = Calculation Amount
+        × Floating Rate + Spread × Floating Rate Day Count Fraction (b) if ''Compounding'' is specified to be applicable to
+        the Swap Transaction or that party and ''Flat Compounding'' is not specified, an amount equal to the sum of the Compounding
+        Period Amounts for each of the Compounding Periods in the related Calculation Period; or (c) if ''Flat Compounding''
+        is specified to be applicable to the Swap Transaction or that party, an amount equal to the sum of the Basic Compounding
+        Period Amounts for each of the Compounding Periods in the related Calculation Period plus the sum of the Additional
+        Compounding Period Amounts for each such Compounding Period.'
+      - 'Rosetta func: ExtractFixedLeg — Extract interest rate payout containing fix rate specification.'
+      - 'Rosetta func: FixedAmountCalculation — Calculates the fixed amount for a calculation period by looking up the notional
+        and the fixed rate and multiplying by the year fraction.'
+      - 'Rosetta func: GetFixedRate — Look up the fixed rate for a calculation period.'
+      - 'Rosetta func: FloatingAmountCalculation — Calculate a floating amount for a calculation period by determining the
+        raw floating rate, applying any rate treatments, looking up the calculation period notional, then performing the multiplication
+        of the notional, rate, and year fraction.  Floating amount calculations are described in the 2021 ISDA Definitions
+        in Section 6 and 7.'
+      - 'Rosetta func: ApplyFloatingRateSetting — Calculate a floating amount for a calculation period by determining the
+        raw floating rate, applying any rate treatments, looking up the calculation period notional, then performing the multiplication
+        of the notional, rate, and year fraction.  Floating amount calculations are described in the 2021 ISDA Definitions
+        in Section 6 and 7.'
+      - 'Rosetta func: CalculateFloatingCashFlow'
+      - 'Rosetta func: GetNotionalAmount — Look up the notional amount in effect for a calculation period.'
+      - 'Rosetta func: CalculateYearFraction — Calculate the year fraction for a single calculation period, by invoking the
+        base year fraction logic'
+    annotations:
+      rosetta_functions: '[{"name":"FixedAmount","description":"2006 ISDA Definition Article 5 Section 5.1. Calculation of
+        a Fixed Amount: The Fixed Amount payable by a party on a Payment Date will be: (a) if an amount is specified for the
+        Swap Transaction as the Fixed Amount payable by that party for that Payment Date or for the related Calculation Period,
+        that amount; or (b) if an amount is not specified for the Swap Transaction as the Fixed Amount payable by that party
+        for that Payment Date or for the related Calculation Period, an amount calculated on a formula basis for that Payment
+        Date or for the related Calculation Period as follows: Fixed Amount = Calculation Amount \u00d7 Fixed Rate \u00d7
+        Day Count Fraction.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"},{"name":"date","type":"date","cardinality":"0..1"},{"name":"calculationPeriodData","type":"CalculationPeriodData","cardinality":"0..1"}],"output":{"name":"fixedAmount","type":"number","cardinality":"1..1"}},{"name":"FloatingAmount","description":"2006
+        ISDA Definition Article 6 Section 6.1. Calculation of a Floating Amount: Subject to the provisions of Section 6.4
+        (Negative Interest Rates), the Floating Amount payable by a party on a Payment Date will be: (a) if Compounding is
+        not specified for the Swap Transaction or that party, an amount calculated on a formula basis for that Payment Date
+        or for the related Calculation Period as follows: Floating Amount = Calculation Amount \u00d7 Floating Rate + Spread
+        \u00d7 Floating Rate Day Count Fraction (b) if ''Compounding'' is specified to be applicable to the Swap Transaction
+        or that party and ''Flat Compounding'' is not specified, an amount equal to the sum of the Compounding Period Amounts
+        for each of the Compounding Periods in the related Calculation Period; or (c) if ''Flat Compounding'' is specified
+        to be applicable to the Swap Transaction or that party, an amount equal to the sum of the Basic Compounding Period
+        Amounts for each of the Compounding Periods in the related Calculation Period plus the sum of the Additional Compounding
+        Period Amounts for each such Compounding Period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"rate","type":"number","cardinality":"0..1"},{"name":"notional","type":"number","cardinality":"0..1"},{"name":"date","type":"date","cardinality":"0..1"},{"name":"calculationPeriodData","type":"CalculationPeriodData","cardinality":"0..1"}],"output":{"name":"floatingAmount","type":"number","cardinality":"1..1"}},{"name":"ExtractFixedLeg","description":"Extract
+        interest rate payout containing fix rate specification.","inputs":[{"name":"interestRatePayouts","type":"InterestRatePayout","cardinality":"0..*"}],"output":{"name":"fixedRatePayout","type":"InterestRatePayout","cardinality":"0..1"}},{"name":"FixedAmountCalculation","description":"Calculates
+        the fixed amount for a calculation period by looking up the notional and the fixed rate and multiplying by the year
+        fraction.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"}],"output":{"name":"fixedAmountDetails","type":"FixedAmountCalculationDetails","cardinality":"1..1"}},{"name":"GetFixedRate","description":"Look
+        up the fixed rate for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"fixedRate","type":"number","cardinality":"0..1"}},{"name":"FloatingAmountCalculation","description":"Calculate
+        a floating amount for a calculation period by determining the raw floating rate, applying any rate treatments, looking
+        up the calculation period notional, then performing the multiplication of the notional, rate, and year fraction.  Floating
+        amount calculations are described in the 2021 ISDA Definitions in Section 6 and 7.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"},{"name":"suppliedNotional","type":"number","cardinality":"0..1"},{"name":"suppliedRate","type":"number","cardinality":"0..1"}],"output":{"name":"result","type":"FloatingAmountCalculationDetails","cardinality":"1..1"}},{"name":"ApplyFloatingRateSetting","description":"Calculate
+        a floating amount for a calculation period by determining the raw floating rate, applying any rate treatments, looking
+        up the calculation period notional, then performing the multiplication of the notional, rate, and year fraction.  Floating
+        amount calculations are described in the 2021 ISDA Definitions in Section 6 and 7.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"isInitialPeriod","type":"boolean","cardinality":"1..1"},{"name":"suppliedNotional","type":"number","cardinality":"0..1"},{"name":"suppliedRate","type":"number","cardinality":"0..1"},{"name":"floatingRateSetting","type":"FloatingRateSettingDetails","cardinality":"0..1"}],"output":{"name":"result","type":"FloatingAmountCalculationDetails","cardinality":"1..1"}},{"name":"CalculateFloatingCashFlow","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"},{"name":"currency","type":"string","cardinality":"0..1"},{"name":"floatingRateSetting","type":"FloatingRateSettingDetails","cardinality":"0..1"},{"name":"processedRateDetails","type":"FloatingRateProcessingDetails","cardinality":"1..1"}],"output":{"name":"result","type":"FloatingAmountCalculationDetails","cardinality":"1..1"}},{"name":"GetNotionalAmount","description":"Look
+        up the notional amount in effect for a calculation period.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"notional","type":"Money","cardinality":"1..1"}},{"name":"CalculateYearFraction","description":"Calculate
+        the year fraction for a single calculation period, by invoking the base year fraction logic","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"dcf","type":"DayCountFractionEnum","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"}],"output":{"name":"yearFrac","type":"number","cardinality":"1..1"}}]'
+    slots:
+      - rateSpecification
+      - dayCountFraction
+      - calculationPeriodDates
+      - paymentDates
+      - paymentDate
+      - paymentDelay
+      - resetDates
+      - discountingMethod
+      - compoundingMethod
+      - cashflowRepresentation
+      - stubPeriod
+      - bondReference
+      - fixedAmount
+      - floatingAmount
+      - spreadCalculationMethod
+    slot_usage:
+      dayCountFraction:
+        description: The day count fraction. The cardinality has been relaxed when compared with the FpML interest rate swap
+          for the purpose of accommodating standardized credit default swaps which DCF is not explicitly stated as part of
+          the economic terms. The data rule InterestRatePayout_dayCountFraction requires that the DCF be stated for interest
+          rate products.
+        required: false
+      calculationPeriodDates:
+        description: The parameters used to generate the calculation period dates schedule, including the specification of
+          any initial or final stub calculation periods.
+      paymentDates:
+        description: The payment date schedule, as defined by the parameters that are needed to specify it, either in a parametric
+          way or by reference to another schedule of dates (e.g. the reset dates).
+        required: false
+      paymentDate:
+        range: AdjustableDate
+        description: The payment date, where only one date is specified, as for the FRA product.
+      fixedAmount:
+        range: string
+        description: Fixed Amount Calculation
+    in_subset:
+      - cdm_product_asset
+
+  DividendPayoutRatio:
+    description: A class describing the dividend payout ratio associated with an equity underlier. In certain cases the actual
+      ratio is not known on trade inception, and only general conditions are then specified.
+    rules:
+      - description: The dividend payout ratio should be comprised between 0 and 100%, meaning 0 and 1.
+        postconditions:
+          slot_conditions:
+            totalRatio:
+              minimum_value: 0
+              maximum_value: 1
+        preconditions: {}
+      - description: The cash dividend payout ratio should be comprised between 0 and 100%, meaning 0 and 1.
+        preconditions:
+          slot_conditions:
+            cashRatio:
+              required: true
+        postconditions:
+          slot_conditions:
+            cashRatio:
+              minimum_value: 0
+              maximum_value: 1
+      - description: The non cash dividend payout ratio should be comprised between 0 and 100%, meaning 0 and 1.
+        preconditions:
+          slot_conditions:
+            nonCashRatio:
+              required: true
+        postconditions:
+          slot_conditions:
+            nonCashRatio:
+              minimum_value: 0
+              maximum_value: 1
+    comments:
+      - 'Rosetta condition: DividendPayoutRatioTotal — totalRatio >= 0 and totalRatio <= 1'
+      - 'Rosetta condition: DividendPayoutRatioCash — if cashRatio exists then cashRatio >= 0 and totalRatio <= 1'
+      - 'Rosetta condition: DividendPayoutRatioNonCash — if nonCashRatio exists then nonCashRatio >= 0 and totalRatio <= 1'
+    slots:
+      - totalRatio
+      - cashRatio
+      - nonCashRatio
+      - basketConstituent
+    slot_usage:
+      basketConstituent:
+        description: In the case of a basket underlier, specifies to which component of the basket this particular set of
+          dividend payout ratios correspond.
+        required: false
+        multivalued: false
+    in_subset:
+      - cdm_product_asset
+
+  AdditionalFixedPayments:
+    description: A class to specify the events that will give rise to the payment additional fixed payments.
+    close_mappings:
+      - fpml_5_10:AdditionalFixedPayments
+    slots:
+      - interestShortfallReimbursement
+      - principalShortfallReimbursement
+      - writedownReimbursement
+    in_subset:
+      - cdm_product_asset
+
+  BasketReferenceInformation:
+    description: CDS Basket Reference Information.
+    close_mappings:
+      - fpml_5_10:BasketReferenceInformation
+    rules:
+      - description: Choice rule to represent an FpML choice construct. This choice rule is complemented by the data rule
+          BasketReferenceInformation_nthToDefault to represent the FpML construct where there is a choice between a tranche
+          element and a [required nthToDefault, optional mthToDefault] branch.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                nthToDefault:
+                  required: true
+            - slot_conditions:
+                tranche:
+                  required: true
+        preconditions: {}
+      - description: As part of the branch of the choice node, FpML requires the nthToDefault element to be present, while
+          the mthToDefault one is optional.
+        preconditions:
+          slot_conditions:
+            mthToDefault:
+              required: true
+        postconditions:
+          slot_conditions:
+            nthToDefault:
+              required: true
+      - description: 'FpML validation rule cd-39 - Context: BasketReferenceInformation (complex type). If nthToDefault exists,
+          and if mthToDefault exists, then nthToDefault must be less than mthToDefault.'
+        preconditions:
+          slot_conditions:
+            nthToDefault:
+              required: true
+            mthToDefault:
+              required: true
+        comments:
+          - 'Rosetta comparison: nthToDefault < mthToDefault'
+    comments:
+      - 'Rosetta condition: BasketReferenceInformationChoice — required choice nthToDefault, tranche'
+      - 'Rosetta condition: NthToDefault — if mthToDefault exists then nthToDefault exists'
+      - 'Rosetta condition: MthToDefault — if (nthToDefault exists and mthToDefault exists) then nthToDefault < mthToDefault'
+    slots:
+      - basketName
+      - basketId
+      - referencePool
+      - nthToDefault
+      - mthToDefault
+      - tranche
+    slot_usage:
+      tranche:
+        range: Tranche
+        description: This element contains CDS tranche terms.
+    in_subset:
+      - cdm_product_asset
+
+  FloatingAmountEvents:
+    description: A class to specify the ISDA terms relating to the floating rate payment events and the implied additional
+      fixed payments, applicable to the credit derivatives transactions on mortgage-backed securities with pay-as-you-go or
+      physical settlement.
+    slots:
+      - failureToPayPrincipal
+      - interestShortfall
+      - writedown
+      - impliedWritedown
+      - floatingAmountProvisions
+      - additionalFixedPayments
+    slot_usage:
+      failureToPayPrincipal:
+        description: 'A floating rate payment event. Corresponds to the failure by the Reference Entity to pay an expected
+          principal amount or the payment of an actual principal amount that is less than the expected principal amount. ISDA
+          2003 Term: Failure to Pay Principal.'
+      writedown:
+        description: 'A floating rate payment event. Results from the fact that the underlier writes down its outstanding
+          principal amount. ISDA 2003 Term: Writedown.'
+      impliedWritedown:
+        description: A floating rate payment event. Results from the fact that losses occur to the underlying instruments
+          that do not result in reductions of the outstanding principal of the reference obligation.
+    in_subset:
+      - cdm_product_asset
+
+  FloatingAmountProvisions:
+    slots:
+      - wacCapInterestProvision
+      - stepUpProvision
+    in_subset:
+      - cdm_product_asset
+
+  InterestShortFall:
+    description: A class to specify the interest shortfall floating rate payment event.
+    slots:
+      - interestShortfallCap
+      - compounding
+      - rateSource
+    in_subset:
+      - cdm_product_asset
+
+  ProtectionTerms:
+    description: A class to specify the terms for calculating a payout to protect the buyer of the swap in the case of a qualified
+      credit event. These terms include the applicable credit events, the reference obligation, and in the case of a CDS on
+      mortgage-backed securities, the floatingAmountEvents.
+    annotations:
+      metadata_key: true
+    slots:
+      - creditEvents
+      - obligations
+      - floatingAmountEvents
+    slot_usage:
+      creditEvents:
+        description: Specifies the applicable Credit Events that would trigger a settlement, as specified in the related Confirmation
+          and defined in the ISDA 2014 Credit Definition article IV section 4.1.
+      obligations:
+        range: Obligations
+        description: The underlying obligations of the reference entity on which you are buying or selling protection. The
+          credit events Failure to Pay, Obligation Acceleration, Obligation Default, Restructuring, Repudiation/Moratorium
+          are defined with respect to these obligations.
+        required: false
+    in_subset:
+      - cdm_product_asset
+
+  ReferenceInformation:
+    description: A class specifying the Credit Default Swap Reference Information.
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                referenceObligation:
+                  required: true
+            - slot_conditions:
+                noReferenceObligation:
+                  required: true
+            - slot_conditions:
+                unknownReferenceObligation:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ReferenceInformationChoice — required choice referenceObligation, noReferenceObligation , unknownReferenceObligation'
+    slots:
+      - referenceEntity
+      - referenceObligation
+      - noReferenceObligation
+      - unknownReferenceObligation
+      - allGuarantees
+      - referencePrice
+      - referencePolicy
+      - securedList
+    in_subset:
+      - cdm_product_asset
+
+  ReferenceObligation:
+    description: A class to specify the reference obligation that is associated with a credit derivative instrument.
+    rules:
+      - description: Represents the choice in a CDS contract.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                security:
+                  required: true
+            - slot_conditions:
+                loan:
+                  required: true
+        preconditions: {}
+      - description: Represents the choice in a CDS contract..
+        postconditions:
+          any_of:
+            - slot_conditions:
+                primaryObligor:
+                  required: true
+            - slot_conditions:
+                primaryObligorReference:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: AssetChoice — required choice security, loan'
+      - 'Rosetta condition: MustBeDebtSecurity — if security exists then security -> securityType = Debt'
+      - 'Rosetta condition: LegalEntityChoice — optional choice primaryObligor, primaryObligorReference'
+    slots:
+      - security
+      - loan
+      - primaryObligor
+      - primaryObligorReference
+      - guarantor
+      - guarantorReference
+      - standardReferenceObligation
+    slot_usage:
+      security:
+        description: Identifies the underlying asset when it is a security, such as a bond or convertible bond. The security
+          data type requires one or more productIdentifiers, specificaiton of the security type (e.g. debt), and includes
+          optional attributes to specify a debt class, such as asset-backed, as well as seniority.
+        required: false
+    in_subset:
+      - cdm_product_asset
+
+  ReferencePair:
+    rules:
+      - description: Choice rule to represent an FpML choice construct.
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                referenceObligation:
+                  required: true
+            - slot_conditions:
+                noReferenceObligation:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ReferenceChoice — required choice referenceObligation, noReferenceObligation'
+    slots:
+      - referenceEntity
+      - referenceObligation
+      - noReferenceObligation
+      - entityType
+    slot_usage:
+      referenceEntity:
+        description: 'The corporate or sovereign entity on which you are buying or selling protection and any successor that
+          assumes all or substantially all of its contractual and other obligations. It is vital to use the correct legal
+          name of the entity and to be careful not to choose a subsidiary if you really want to trade protection on a parent
+          company. Please note, Reference Entities cannot be senior or subordinated. It is the obligations of the Reference
+          Entities that can be senior or subordinated. ISDA 2003 Term: Reference Entity.'
+      referenceObligation:
+        multivalued: false
+    in_subset:
+      - cdm_product_asset
+
+  ReferencePool:
+    description: This type contains all the reference pool items to define the reference entity and reference obligation(s)
+      in the basket.
+    comments:
+      - 'Rosetta condition: FpML_cd_44_openUnits — if referencePoolItem -> constituentWeight -> openUnits exists then referencePoolItem
+        -> constituentWeight -> basketPercentage is absent'
+      - 'Rosetta condition: FpML_cd_44_basketPercentage — if referencePoolItem -> constituentWeight -> basketPercentage exists
+        then referencePoolItem -> constituentWeight -> openUnits is absent'
+    slots:
+      - referencePoolItem
+    in_subset:
+      - cdm_product_asset
+
+  ReferencePoolItem:
+    description: This type contains all the constituent weight and reference information.
+    rules:
+      - description: A choice rule between a reference to the cash or physical settlement terms.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                cashSettlementTermsReference:
+                  required: true
+            - slot_conditions:
+                physicalSettlementTermsReference:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: SettlementChoice — optional choice cashSettlementTermsReference, physicalSettlementTermsReference'
+    slots:
+      - constituentWeight
+      - referencePair
+      - protectionTermsReference
+      - cashSettlementTermsReference
+      - physicalSettlementTermsReference
+    in_subset:
+      - cdm_product_asset
+
+  SettledEntityMatrix:
+    description: A class to specify the Relevant Settled Entity Matrix.
+    slots:
+      - matrixSource
+      - publicationDate
+    slot_usage:
+      publicationDate:
+        range: date
+        description: Specifies the publication date of the applicable version of the matrix. When this element is omitted,
+          the Standard Terms Supplement defines rules for which version of the matrix is applicable.
+    in_subset:
+      - cdm_product_asset
+
+  Tranche:
+    description: The class to represent a CDS Tranche.
+    rules:
+      - description: FpML definition associated with the attachmentPoint element specifies that a schema facet to constraint
+          the value between 0 to 1 will be introduced in FpML 4.3.
+        postconditions:
+          slot_conditions:
+            attachmentPoint:
+              minimum_value: 0.0
+              maximum_value: 1.0
+        preconditions: {}
+      - description: FpML definition associated with the exhaustionPoint element specifies that a schema facet to constraint
+          the value between 0 to 1 will be introduced in FpML 4.3.
+        postconditions:
+          slot_conditions:
+            exhaustionPoint:
+              minimum_value: 0.0
+              maximum_value: 1.0
+        preconditions: {}
+      - description: 'FpML validation rule cd-40 - Context: Tranche (complex type) attachmentPoint must be less or equal to
+          exhaustionPoint.'
+        comments:
+          - 'Rosetta comparison: attachmentPoint <= exhaustionPoint'
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: AttachmentPoint — attachmentPoint >= 0.0 and attachmentPoint <= 1.0'
+      - 'Rosetta condition: ExhaustionPoint — exhaustionPoint >= 0.0 and exhaustionPoint <= 1.0'
+      - 'Rosetta condition: AttachmentPointLessThanExhaustionPoint — attachmentPoint <= exhaustionPoint'
+    slots:
+      - attachmentPoint
+      - exhaustionPoint
+      - incurredRecoveryApplicable
+    in_subset:
+      - cdm_product_asset
+
+  DividendCurrency:
+    description: A class to specify the currency in which the dividends will be denominated, i.e. either in the dividend currency
+      or in a currency specified as part of the contract.
+    slots:
+      - currency
+      - determinationMethod
+      - currencyReference
+    slot_usage:
+      currency:
+        description: The currency in which the dividend is denominated. The list of valid currencies is not presently positioned
+          as an enumeration as part of the CDM because that scope is limited to the values specified by ISDA and FpML. As
+          a result, implementers have to make reference to the relevant standard, such as the ISO 4217 standard for currency
+          codes.
+      determinationMethod:
+        description: Specifies the method according to which the dividend is determined, e.g. the dividend currency.
+        required: false
+    in_subset:
+      - cdm_product_asset
+
+  DividendDateReference:
+    description: A class to specify the dividend date by reference to another date, with the ability to apply and offset.
+      This class doesn't exist in FpML and is meant to simplify the choice constraint associated with the DividendPaymentDate
+      class.
+    comments:
+      - 'Rosetta condition: PaymentDateOffset — if paymentDateOffset exists then dateReference = DividendDateReferenceEnum
+        -> SharePayment'
+    slots:
+      - dateReference
+      - paymentDateOffset
+    in_subset:
+      - cdm_product_asset
+
+  DividendPaymentDate:
+    description: A class describing the date on which the dividend will be paid/received. This class is also used to specify
+      the date on which the FX rate will be determined, when applicable.
+    slots:
+      - dividendDateReference
+      - dividendDate
+    in_subset:
+      - cdm_product_asset
+
+  DividendReturnTerms:
+    description: A class describing the conditions governing the payment of dividends to the receiver of the equity return,
+      with the exception of the dividend payout ratio, which is defined for each of the underlying components.
+    comments:
+      - 'Rosetta condition: DividendPeriod — if firstOrSecondPeriod exists then dividendPeriod -> startDate is absent and
+        dividendPeriod -> endDate is absent'
+      - 'Rosetta condition: ExtraordinaryDividendsParty — if extraordinaryDividendsParty exists then extraordinaryDividendsParty
+        = AncillaryRoleEnum -> ExtraordinaryDividendsParty'
+    slots:
+      - dividendPayoutRatio
+      - dividendReinvestment
+      - dividendEntitlement
+      - dividendAmountType
+      - performance
+      - firstOrSecondPeriod
+      - extraordinaryDividendsParty
+      - excessDividendAmount
+      - dividendCurrency
+      - nonCashDividendTreatment
+      - dividendComposition
+      - specialDividends
+      - materialDividend
+      - dividendPeriod
+    in_subset:
+      - cdm_product_asset
+
+  DividendPeriod:
+    description: Time bounded dividend payment periods, each with a dividend payment date per period.
+    slots:
+      - startDate
+      - endDate
+      - dateAdjustments
+      - basketConstituent
+      - dividendPaymentDate
+      - dividendValuationDate
+    slot_usage:
+      startDate:
+        range: DividendPaymentDate
+        description: Dividend period start date.
+        required: false
+      endDate:
+        range: DividendPaymentDate
+        description: Dividend period end date.
+        required: false
+      dateAdjustments:
+        description: Date adjustments for all unadjusted dates in this dividend period.
+        required: true
+      basketConstituent:
+        description: For basket underliers, reference to the basket component which is paying dividends in the specified period.
+        required: false
+        multivalued: false
+    in_subset:
+      - cdm_product_asset
+
+  PriceReturnTerms:
+    slots:
+      - returnType
+      - conversionFactor
+      - performance
+    in_subset:
+      - cdm_product_asset
+
+  ReturnTermsBase:
+    description: Contains all common elements in variance, volatility and correlation return Terms.
+    rules:
+      - description: At least one of initialLevel and initialLevelSource must be present, or both
+        preconditions:
+          slot_conditions:
+            initialLevel:
+              required: false
+        postconditions:
+          slot_conditions:
+            initialLevelSource:
+              required: true
+      - description: The number of expected trading dates must be positive
+        postconditions:
+          slot_conditions:
+            expectedN:
+              minimum_value: 0
+              comments:
+                - 'Rosetta: strictly greater than'
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: InitialLevelOrInitialLevelSource — if initialLevel is absent then initialLevelSource exists and
+        if initialLevelSource is absent then initialLevel exists'
+      - 'Rosetta condition: PositiveExpectedN — expectedN > 0'
+    slots:
+      - valuationTerms
+      - annualizationFactor
+      - dividendApplicability
+      - equityUnderlierProvisions
+      - sharePriceDividendAdjustment
+      - expectedN
+      - initialLevel
+      - initialLevelSource
+      - meanAdjustment
+      - performance
+    in_subset:
+      - cdm_product_asset
+
+  VarianceReturnTerms:
+    is_a: ReturnTermsBase
+    rules:
+      - description: The strike price must be present, but it can be expressed in either variance or volatility terms
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                volatilityStrikePrice:
+                  required: true
+            - slot_conditions:
+                varianceStrikePrice:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Positive_VegaNotionalAmount — if vegaNotionalAmount -> value exists then vegaNotionalAmount ->
+        value > 0'
+      - 'Rosetta condition: UnderlierMustBeListedDerivative — if exchangeTradedContractNearest exists then exchangeTradedContractNearest
+        -> Asset -> Instrument -> ListedDerivative exists'
+      - 'Rosetta condition: ReferenceContract — if valuationTerms -> futuresPriceValuation = True then exchangeTradedContractNearest
+        exists'
+      - 'Rosetta condition: StrikePriceMustExist — required choice volatilityStrikePrice, varianceStrikePrice'
+      - 'Rosetta condition: NonNegativeStrikePrice — if volatilityStrikePrice -> value exists then volatilityStrikePrice ->
+        value >= 0 and if varianceStrikePrice -> value exists then varianceStrikePrice -> value >= 0'
+    slots:
+      - varianceStrikePrice
+      - volatilityStrikePrice
+      - varianceCapFloor
+      - volatilityCapFloor
+      - vegaNotionalAmount
+      - exchangeTradedContractNearest
+    in_subset:
+      - cdm_product_asset
+
+  VolatilityReturnTerms:
+    is_a: ReturnTermsBase
+    slots:
+      - volatilityStrikePrice
+      - volatilityCapFloor
+      - exchangeTradedContractNearest
+    slot_usage:
+      volatilityStrikePrice:
+        required: true
+      volatilityCapFloor:
+        description: Contains volatility-based barriers
+      exchangeTradedContractNearest:
+        range: ListedDerivative
+    in_subset:
+      - cdm_product_asset
+
+  CorrelationReturnTerms:
+    is_a: ReturnTermsBase
+    rules:
+      - description: The number of data series must be positive
+        preconditions:
+          slot_conditions:
+            numberOfDataSeries:
+              required: true
+        postconditions:
+          slot_conditions:
+            numberOfDataSeries:
+              minimum_value: 0
+              comments:
+                - 'Rosetta: strictly greater than'
+    comments:
+      - 'Rosetta condition: PositiveNumberOfDataSeries — if numberOfDataSeries exists then numberOfDataSeries > 0'
+      - 'Rosetta condition: CorrelationValue — correlationStrikePrice -> value > -1 and correlationStrikePrice -> value <
+        1'
+    slots:
+      - correlationStrikePrice
+      - boundedCorrelation
+      - numberOfDataSeries
+    in_subset:
+      - cdm_product_asset
+
+  ValuationTerms:
+    rules:
+      - description: The number of valuation dates must be positive.
+        preconditions:
+          slot_conditions:
+            numberOfValuationDates:
+              required: true
+        postconditions:
+          slot_conditions:
+            numberOfValuationDates:
+              minimum_value: 0
+              comments:
+                - 'Rosetta: strictly greater than'
+    comments:
+      - 'Rosetta condition: PositiveNumberOfValuationDates — if numberOfValuationDates exists then numberOfValuationDates
+        > 0'
+    slots:
+      - futuresPriceValuation
+      - optionsPriceValuation
+      - numberOfValuationDates
+      - dividendValuationDates
+      - fPVFinalPriceElectionFallback
+      - multipleExchangeIndexAnnexFallback
+      - componentSecurityIndexAnnexFallback
+    in_subset:
+      - cdm_product_asset
+
+  EquityUnderlierProvisions:
+    rules:
+      - description: If multipleExchangeIndexAnnexFallback is present then componentSecurityIndexAnnexFallback must be absent
+          and vice versa.
+        postconditions:
+          any_of:
+            - slot_conditions:
+                multipleExchangeIndexAnnexFallback:
+                  required: true
+            - slot_conditions:
+                componentSecurityIndexAnnexFallback:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: ComponentSecurityOrMultipleExchange — optional choice multipleExchangeIndexAnnexFallback, componentSecurityIndexAnnexFallback'
+    slots:
+      - multipleExchangeIndexAnnexFallback
+      - componentSecurityIndexAnnexFallback
+      - localJurisdiction
+      - relevantJurisdiction
+    slot_usage:
+      multipleExchangeIndexAnnexFallback:
+        description: For an index option or swap transaction, a flag to indicate whether a relevant Multiple Exchange Index
+          Annex is applicable to the transaction. This annex defines additional provisions which are applicable where an index
+          is comprised of component securities that are traded on multiple exchanges.
+      componentSecurityIndexAnnexFallback:
+        description: For an index option or swap transaction, a flag to indicate whether a relevant Component Security Index
+          Annex is applicable to the transaction.
+    in_subset:
+      - cdm_product_asset
+
+  VarianceCapFloor:
+    rules:
+      - description: Unadjusted variance cap must be positive
+        preconditions:
+          slot_conditions:
+            unadjustedVarianceCap:
+              required: true
+        postconditions:
+          slot_conditions:
+            unadjustedVarianceCap:
+              minimum_value: 0
+              comments:
+                - 'Rosetta: strictly greater than'
+      - description: Caps/floors can and must be specified if varianceCap is set to true. If false, barriers cannot be established
+        preconditions:
+          slot_conditions:
+            varianceCap:
+              equals_string: 'True'
+        postconditions:
+          any_of:
+            - slot_conditions:
+                unadjustedVarianceCap:
+                  required: true
+            - slot_conditions:
+                boundedVariance:
+                  required: true
+    comments:
+      - 'Rosetta condition: PositiveUnadjustedVarianceCap — if unadjustedVarianceCap exists then unadjustedVarianceCap > 0'
+      - 'Rosetta condition: CapFloorApplicability — if varianceCap = True then unadjustedVarianceCap exists or boundedVariance
+        exists // If CapFloor is applicable at least one cap expression must exist else unadjustedVarianceCap is absent and
+        boundedVariance is absent // If CapFloor is not applicable, then there cannot be any volatility caps'
+    slots:
+      - varianceCap
+      - unadjustedVarianceCap
+      - boundedVariance
+    in_subset:
+      - cdm_product_asset
+
+  BoundedVariance:
+    close_mappings:
+      - fpml_5_10:BoundedVariance
+    rules:
+      - description: Barriers cannot be set to negative values
+        preconditions:
+          slot_conditions:
+            upperBarrier:
+              required: true
+        postconditions:
+          slot_conditions:
+            upperBarrier:
+              minimum_value: 0
+    comments:
+      - 'Rosetta condition: NonNegativeBarriers — if upperBarrier exists then upperBarrier >= 0 and if lowerBarrier exists
+        then lowerBarrier >= 0'
+    slots:
+      - realisedVarianceMethod
+      - daysInRangeAdjustment
+      - upperBarrier
+      - lowerBarrier
+    in_subset:
+      - cdm_product_asset
+
+  VolatilityCapFloor:
+    description: Contains volatility-based barriers. Volatility Cap needs to be specified in accordance with the ISDA 2011
+      Equity Derivatives Definitions.
+    rules:
+      - description: Caps/floors can and must be specified if applicable is set to true. If false, barriers cannot be established
+        preconditions:
+          slot_conditions:
+            applicable:
+              equals_string: 'True'
+        postconditions:
+          any_of:
+            - slot_conditions:
+                totalVolatilityCap:
+                  required: true
+            - slot_conditions:
+                volatilityCapFactor:
+                  required: true
+      - description: Barriers must be set to positive values
+        preconditions:
+          slot_conditions:
+            totalVolatilityCap:
+              required: true
+        postconditions:
+          slot_conditions:
+            totalVolatilityCap:
+              minimum_value: 0
+    comments:
+      - 'Rosetta condition: CapFloorApplicability — if applicable = True then totalVolatilityCap exists or volatilityCapFactor
+        exists // If CapFloor is applicable at least one cap expression must exist else totalVolatilityCap is absent and volatilityCapFactor
+        is absent // If CapFloor is not applicable, then there cannot be any volatility caps'
+      - 'Rosetta condition: PositiveCaps — if totalVolatilityCap exists then totalVolatilityCap >= 0 and if volatilityCapFactor
+        exists then volatilityCapFactor >= 0'
+    slots:
+      - applicable
+      - totalVolatilityCap
+      - volatilityCapFactor
+    slot_usage:
+      applicable:
+        description: Indicates whether the volatility cap is applicable in accordance with the ISDA 2011 Equity Derivatives
+          Definitions. Setting the element 'applicable' to 'False' - means No Volatility Cap and no 'totalVolatilityCap' or
+          'volatilityCapFactor' should be provided. Setting the element 'applicable' to 'True' - means Volatility Cap election,
+          then 'totalVolatilityCap' or 'volatilityCapFactor' should be provided, otherwise it defaults to volatilityCapFactor=2.5.
+    in_subset:
+      - cdm_product_asset
+
+  BoundedCorrelation:
+    description: Describes correlation bounds, which form a cap and a floor on the realized correlation.
+    close_mappings:
+      - fpml_5_10:BoundedCorrelation
+    slots:
+      - minimumBoundaryPercent
+      - maximumBoundaryPercent
+    in_subset:
+      - cdm_product_asset
+
+  BondReference:
+    description: Reference to a bond underlier to represent an asset swap or Condition Precedent Bond.
+    close_mappings:
+      - fpml_5_10:BondReference
+    comments:
+      - 'Rosetta condition: BondUnderlier — bond -> securityType = Debt'
+    slots:
+      - bond
+      - conditionPrecedentBond
+      - discrepancyClause
+      - couponRate
+    in_subset:
+      - cdm_product_asset
+
+  CashflowRepresentation:
+    description: 'A data defining:  the cashflow representation of a swap trade.'
+    close_mappings:
+      - fpml_5_10:CashflowRepresentation
+    slots:
+      - cashflowsMatchParameters
+      - paymentCalculationPeriod
+    in_subset:
+      - cdm_product_asset
+
+  DiscountingMethod:
+    description: 'A data defining:  discounting information. The 2000 ISDA definitions, section 8.4. discounting (related
+      to the calculation of a discounted fixed amount or floating amount) apply. This type must only be included if discounting
+      applies.'
+    rules:
+      - description: In FpML discountingRate and discountRateDayCountFraction are part of an optional node, with discountingRate
+          as the required element as part of that node.
+        preconditions:
+          slot_conditions:
+            discountRateDayCountFraction:
+              required: true
+        postconditions:
+          slot_conditions:
+            discountRate:
+              required: true
+    comments:
+      - 'Rosetta condition: DiscountRate — if discountRateDayCountFraction exists then discountRate exists'
+    slots:
+      - discountingType
+      - discountRate
+      - discountRateDayCountFraction
+    in_subset:
+      - cdm_product_asset
+
+  FloatingRateDefinition:
+    description: 'A data defining:  parameters associated with a floating rate reset. This data forms:  part of the cashflows
+      representation of a stream.'
+    rules:
+      - description: FpML specifies that the floatingRateMultiplier should only be included if different from 1.
+        preconditions:
+          slot_conditions:
+            floatingRateMultiplier:
+              required: true
+        postconditions:
+          slot_conditions:
+            floatingRateMultiplier:
+              none_of:
+                - equals_string_in:
+                    - '1'
+    comments:
+      - 'Rosetta condition: FloatingRateMultiplier — if floatingRateMultiplier exists then floatingRateMultiplier <> 1'
+    slots:
+      - calculatedRate
+      - rateObservation
+      - floatingRateMultiplier
+      - spread
+      - capRate
+      - floorRate
+    slot_usage:
+      calculatedRate:
+        description: The final calculated rate for a calculation period after any required averaging of rates A calculated
+          rate of 5% would be represented as 0.05.
+      spread:
+        description: The ISDA Spread, if any, which applies for the calculation period. The spread is a per annum rate, expressed
+          as a decimal. For purposes of determining a calculation period amount, if positive the spread will be added to the
+          floating rate and if negative the spread will be subtracted from the floating rate. A positive 10 basis point (0.1%)
+          spread would be represented as 0.001.
+        required: false
+    in_subset:
+      - cdm_product_asset
+
+  InflationRateSpecification:
+    description: 'A data to:  specify the inflation rate.'
+    is_a: FloatingRateSpecification
+    comments:
+      - 'Rosetta condition: InflationIndex — rateOption -> InflationIndex exists'
+    slots:
+      - inflationLag
+      - indexSource
+      - mainPublication
+      - interpolationMethod
+      - initialIndexLevel
+      - fallbackBondApplicable
+      - calculationMethod
+      - calculationStyle
+      - finalPrincipalExchangeCalculation
+    slot_usage:
+      interpolationMethod:
+        description: The method used when calculating the Inflation Index Level from multiple points. The most common is Linear.
+        required: true
+      calculationMethod:
+        range: InflationCalculationMethodEnum
+        description: Indicates how to use the inflation index to calculate the payment (e.g. Ratio, Return, Spread). Added
+          for Inflation Asset Swap
+        required: false
+    in_subset:
+      - cdm_product_asset
+
+  FloatingRateBase:
+    description: A class defining a floating interest rate through the specification of the floating rate index, the tenor,
+      the multiplier schedule, the spread, the qualification of whether a specific rate treatment and/or a cap or floor apply.
+    annotations:
+      metadata_key: true
+    slots:
+      - rateOption
+      - spreadSchedule
+      - capRateSchedule
+      - floorRateSchedule
+    in_subset:
+      - cdm_product_asset
+
+  FloatingRate:
+    is_a: FloatingRateBase
+    slots:
+      - floatingRateMultiplierSchedule
+      - rateTreatment
+      - calculationParameters
+      - fallbackRate
+    in_subset:
+      - cdm_product_asset
+
+  FloatingRateSpecification:
+    description: 'A class to specify the floating interest rate by extending the floating rate definition with a set of attributes
+      that specify such rate: the initial value specified as part of the trade, the rounding convention, the averaging method
+      and the negative interest rate treatment.'
+    is_a: FloatingRate
+    slots:
+      - initialRate
+      - finalRateRounding
+      - averagingMethod
+      - negativeInterestRateTreatment
+    slot_usage:
+      averagingMethod:
+        range: AveragingWeightingMethodEnum
+        description: If averaging is applicable, this component specifies whether a weighted or unweighted average method
+          of calculation is to be used. The component must only be included when averaging applies.
+    in_subset:
+      - cdm_product_asset
+
+  FixedRateSpecification:
+    description: Type defining the specification for a fixed rate.
+    annotations:
+      metadata_key: true
+    slots:
+      - rateSchedule
+    in_subset:
+      - cdm_product_asset
+
+  FutureValueAmount:
+    description: A class defining a currency and a future value date.
+    rules:
+      - description: FpML specifies calculationPeriodNumberOfDays as a positiveInteger.
+        postconditions:
+          slot_conditions:
+            calculationPeriodNumberOfDays:
+              minimum_value: 0
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: PositiveCalculationPeriodNumberOfDays — calculationPeriodNumberOfDays >= 0'
+    slots:
+      - quantity
+      - currency
+      - calculationPeriodNumberOfDays
+      - valueDate
+    slot_usage:
+      quantity:
+        range: NonNegativeQuantitySchedule
+      currency:
+        description: The currency in which the an amount is denominated. The list of valid currencies is not presently positioned
+          as an enumeration as part of the CDM because that scope is limited to the values specified by ISDA and FpML. As
+          a result, implementers have to make reference to the relevant standard, such as the ISO 4217 standard for currency
+          codes.
+        required: true
+    in_subset:
+      - cdm_product_asset
+
+  SpreadSchedule:
+    description: Adds an optional spread type element to the Schedule to identify a long or short spread value.
+    is_a: RateSchedule
+    slots:
+      - spreadScheduleType
+    in_subset:
+      - cdm_product_asset
+
+  StubFloatingRate:
+    description: A class defining a floating rate.
+    slots:
+      - floatingRateIndex
+      - indexTenor
+      - floatingRateMultiplierSchedule
+      - spreadSchedule
+      - rateTreatment
+      - capRateSchedule
+      - floorRateSchedule
+    slot_usage:
+      floatingRateIndex:
+        description: The floating rate index.
+      indexTenor:
+        description: The ISDA Designated Maturity, i.e. the tenor of the floating rate.
+      floatingRateMultiplierSchedule:
+        range: Schedule
+      spreadSchedule:
+        multivalued: true
+      capRateSchedule:
+        multivalued: true
+      floorRateSchedule:
+        multivalued: true
+    in_subset:
+      - cdm_product_asset
+
+  StubValue:
+    description: A type defining how a stub calculation period amount is calculated. A single floating rate tenor different
+      to that used for the regular part of the calculation periods schedule may be specified, or two floating rate tenors
+      many be specified. If two floating rate tenors are specified then Linear Interpolation (in accordance with the 2000
+      ISDA Definitions, Section 8.3 Interpolation) is assumed to apply. Alternatively, an actual known stub rate or stub amount
+      may be specified.
+    slots:
+      - floatingRate
+      - stubRate
+      - stubAmount
+    in_subset:
+      - cdm_product_asset
+
+  FixedAmountCalculationDetails:
+    description: Type for reporting the detailed results of calculating a cash flow for a calculation period.  This is enhanced
+      relative to the FpML-based cashflows structure to allow more information to be returned about daily compounded rates.
+    comments:
+      - 'Rosetta func: FixedAmountCalculation — Calculates the fixed amount for a calculation period by looking up the notional
+        and the fixed rate and multiplying by the year fraction.'
+    annotations:
+      rosetta_functions: '[{"name":"FixedAmountCalculation","description":"Calculates the fixed amount for a calculation period
+        by looking up the notional and the fixed rate and multiplying by the year fraction.","inputs":[{"name":"interestRatePayout","type":"InterestRatePayout","cardinality":"1..1"},{"name":"calculationPeriod","type":"CalculationPeriodBase","cardinality":"1..1"},{"name":"notional","type":"number","cardinality":"0..1"}],"output":{"name":"fixedAmountDetails","type":"FixedAmountCalculationDetails","cardinality":"1..1"}}]'
+    slots:
+      - calculationPeriod
+      - calculationPeriodNotionalAmount
+      - fixedRate
+      - yearFraction
+      - calculatedAmount
+    in_subset:
+      - cdm_product_asset
+
+  RateSpecification:
+    abstract: true
+    description: ' A data type to specify the fixed interest rate, floating interest rate or inflation rate.'
+    comments:
+      - Generated from Rosetta 'choice' construct — represents a union/one-of type.
+    union_of:
+      - FixedRateSpecification
+      - FloatingRateSpecification
+      - InflationRateSpecification
+    in_subset:
+      - cdm_product_asset

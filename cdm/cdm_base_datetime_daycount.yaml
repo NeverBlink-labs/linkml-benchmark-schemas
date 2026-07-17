@@ -1,0 +1,132 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base_datetime_daycount
+name: cdm_base_datetime_daycount
+description: 'Day count concepts:  Day count fraction, day count basis, year fraction'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+
+comments:
+  - 'Rosetta func: YearFraction — The fraction of a year represented by a date range | inputs(dayCountFractionEnum: DayCountFractionEnum
+    (1..1), startDate: date (1..1), endDate: date (1..1), terminationDate: date (0..1), periodsInYear: int (0..1)) | output(result:
+    number (1..1))'
+  - 'Rosetta func: YearFractionForOneDay — Return the year fraction represented by a single day, i.e 1 / dayCountBasis, where
+    daycountBasis represents the denominator of the day count fraction. This perhaps should take into account leap years,
+    though the ISDA compounding formulas do not cover ACT basis at the moment. | inputs(dcf: DayCountFractionEnum (1..1))
+    | output(yearFrac: number (1..1))'
+  - 'Rosetta func: DayCountBasis — Return the day count basis (the denominator of the day count fraction) for the day count
+    fraction. | inputs(dcf: DayCountFractionEnum (1..1)) | output(basis: int (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"YearFraction","description":"The fraction of a year represented by a date range","inputs":[{"name":"dayCountFractionEnum","type":"DayCountFractionEnum","cardinality":"1..1"},{"name":"startDate","type":"date","cardinality":"1..1"},{"name":"endDate","type":"date","cardinality":"1..1"},{"name":"terminationDate","type":"date","cardinality":"0..1"},{"name":"periodsInYear","type":"int","cardinality":"0..1"}],"output":{"name":"result","type":"number","cardinality":"1..1"},"code_implementation":true},{"name":"YearFractionForOneDay","description":"Return
+    the year fraction represented by a single day, i.e 1 / dayCountBasis, where daycountBasis represents the denominator of
+    the day count fraction. This perhaps should take into account leap years, though the ISDA compounding formulas do not
+    cover ACT basis at the moment.","inputs":[{"name":"dcf","type":"DayCountFractionEnum","cardinality":"1..1"}],"output":{"name":"yearFrac","type":"number","cardinality":"1..1"}},{"name":"DayCountBasis","description":"Return
+    the day count basis (the denominator of the day count fraction) for the day count fraction.","inputs":[{"name":"dcf","type":"DayCountFractionEnum","cardinality":"1..1"}],"output":{"name":"basis","type":"int","cardinality":"1..1"},"code_implementation":true}]'
+
+subsets:
+  cdm_base_datetime_daycount:
+    description: Classes defined in the cdm_base_datetime_daycount module.
+
+enums:
+  DayCountFractionEnum:
+    description: The enumerated values to specify the day count fraction.
+    permissible_values:
+      ACT_360:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (v), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (e) or Annex to the 2000 ISDA Definitions (June 2000 Version), Section
+          4.16. Day Count Fraction, paragraph (d).
+        aliases:
+          - ACT/360
+      ACT_365L:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (ix), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (i).
+        aliases:
+          - ACT/365L
+      ACT_364:
+        description: Per CFTC definitions.
+        aliases:
+          - ACT/364
+      ACT_365_FIXED:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (iv), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (d) or Annex to the 2000 ISDA Definitions (June 2000 Version), Section
+          4.16. Day Count Fraction, paragraph (c).
+        aliases:
+          - ACT/365.FIXED
+      ACT_ACT_AFB:
+        description: The Fixed/Floating Amount will be calculated in accordance with the 'BASE EXACT/EXACT' day count fraction,
+          as defined in the 'Definitions Communes plusieurs Additifs Techniques' published by the Association Francaise des
+          Banques in September 1994.
+        aliases:
+          - ACT/ACT.AFB
+      ACT_ACT_ICMA:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (iii), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (c). This day count fraction code is applicable for transactions booked
+          under the 2021 ISDA Definitions and the 2006 ISDA Definitions. Transactions under the 2000 ISDA Definitions should
+          use the ACT/ACT.ISMA code instead.
+        aliases:
+          - ACT/ACT.ICMA
+      ACT_ACT_ISDA:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (ii), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (b) or Annex to the 2000 ISDA Definitions (June 2000 Version), Section
+          4.16. Day Count Fraction, paragraph (b). Note that going from FpML 2.0 Recommendation to the FpML 3.0 Trial Recommendation
+          the code in FpML 2.0 'ACT/365.ISDA' became 'ACT/ACT.ISDA'.
+        aliases:
+          - ACT/ACT.ISDA
+      ACT_ACT_ISMA:
+        description: The Fixed/Floating Amount will be calculated in accordance with Rule 251 of the statutes, by-laws, rules
+          and recommendations of the International Securities Market Association, as published in April 1999, as applied to
+          straight and convertible bonds issued after December 31, 1998, as though the Fixed/Floating Amount were the interest
+          coupon on such a bond. This day count fraction code is applicable for transactions booked under the 2000 ISDA Definitions.
+          Transactions under the 2021 ISDA Definitions and the 2006 ISDA Definitions should use the ACT/ACT.ICMA code instead.
+        aliases:
+          - ACT/ACT.ISMA
+      CAL_252:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (x). Supercedes BUS/252, the number
+          of Business Days in the Calculation Period or Compounding Period in respect of which payment is being made divided
+          by 252.
+        aliases:
+          - CAL/252
+      _1_1:
+        description: Per 2006 ISDA Definitions, Section 4.16. Day Count Fraction, paragraph (a) or Annex to the 2000 ISDA
+          Definitions (June 2000 Version), Section 4.16. Day Count Fraction, paragraph (a).
+        aliases:
+          - 1/1
+      _30E_360:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (vii), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (g) or Annex to the 2000 ISDA Definitions (June 2000 Version), Section
+          4.16. Day Count Fraction, paragraph (f). Note that the algorithm defined for this day count fraction has changed
+          between the 2000 ISDA Definitions and 2006 ISDA Definitions. See Introduction to the 2006 ISDA Definitions for further
+          information relating to this change.
+        aliases:
+          - 30E/360
+      _30E_360_ISDA:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (viii), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (h). Note the algorithm for this day count fraction under the 2006 ISDA
+          Definitions is designed to yield the same results in practice as the version of the 30E/360 day count fraction defined
+          in the 2000 ISDA Definitions. See Introduction to the 2006 ISDA Definitions for further information relating to
+          this change.
+        aliases:
+          - 30E/360.ISDA
+      _30_360:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (vi), per 2006 ISDA Definitions,
+          Section 4.16. Day Count Fraction, paragraph (f) or Annex to the 2000 ISDA Definitions (June 2000 Version), Section
+          4.16. Day Count Fraction, paragraph (e).
+        aliases:
+          - 30/360
+      RBA_BOND_BASIS:
+        description: Per 2021 ISDA Definitions, Section 4.6.1 Day Count Fraction, paragraph (xi), the calculation mechanics
+          are driven deterministically by the Calculation Period Frequency (i.e. 0.25 if it is three months, 0.5 if it is
+          6 months, 1 if it is a year), except that if the first Calculation Period or the final Calculation Period is less
+          than the Calculation Period Frequency, Actual/Actual (ISDA) shall apply to that Calculation Period
+        aliases:
+          - RBA Bond Basis

@@ -1,0 +1,281 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base_staticdata_codelist
+name: cdm_base_staticdata_codelist
+description: LinkML schema for cdm.base.staticdata.codelist
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+  fpml_5_10: https://www.fpml.org/spec/fpml-5-10#
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_staticdata_asset_common
+  - ./cdm_base_math
+
+comments:
+  - 'Rosetta func: LoadCodeList — Loads a code list JSON resource into memory in the form of cdm.base.staticdata.codelist.CodeList
+    Rune object | inputs(domain: string (1..1)) | output(codelist: CodeList (0..1))'
+  - 'Rosetta func: ValidateFpMLCodingSchemeDomain — Validates an FpMLCodingScheme code against the resource code list defined
+    by the domain. It leverages LoadCodeList internally. | inputs(code: FpMLCodingScheme (1..1), domain: string (1..1)) |
+    output(isValid: boolean (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"LoadCodeList","description":"Loads a code list JSON resource into memory in the form of cdm.base.staticdata.codelist.CodeList
+    Rune object","inputs":[{"name":"domain","type":"string","cardinality":"1..1"}],"output":{"name":"codelist","type":"CodeList","cardinality":"0..1"},"code_implementation":true},{"name":"ValidateFpMLCodingSchemeDomain","description":"Validates
+    an FpMLCodingScheme code against the resource code list defined by the domain. It leverages LoadCodeList internally.","inputs":[{"name":"code","type":"FpMLCodingScheme","cardinality":"1..1"},{"name":"domain","type":"string","cardinality":"1..1"}],"output":{"name":"isValid","type":"boolean","cardinality":"1..1"}}]'
+
+subsets:
+  cdm_base_staticdata_codelist:
+    description: Classes defined in the cdm_base_staticdata_codelist module.
+
+types:
+  FpMLCodingScheme:
+    uri: xsd:string
+    base: str
+
+  BusinessCenter:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'business-center'
+    see_also:
+      - http://www.fpml.org/coding-scheme/business-center
+
+  FloatingRateIndexType:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'floating-rate-index'
+    see_also:
+      - http://www.fpml.org/coding-scheme/floating-rate-index
+
+  CommodityBusinessCalendar:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'commodity-business-calendar'
+    see_also:
+      - http://www.fpml.org/coding-scheme/commodity-business-calendar
+
+  InflationRateIndex:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'inflation-index-description'
+    see_also:
+      - http://www.fpml.org/coding-scheme/inflation-index-description
+
+  CreditEventType:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'credit-event-type'
+    see_also:
+      - http://www.fpml.org/coding-scheme/credit-event-type
+
+  MasterAgreementType:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'master-agreement-type'
+    see_also:
+      - http://www.fpml.org/coding-scheme/master-agreement-type
+
+  MasterConfirmationAnnexType:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'master-confirmation-annex-type'
+    see_also:
+      - http://www.fpml.org/coding-scheme/master-confirmation-annex-type
+
+  MasterConfirmationType:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'master-confirmation-type'
+    see_also:
+      - http://www.fpml.org/coding-scheme/master-confirmation-type
+
+  CommodityReferencePrice:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'commodity-reference-price'
+    see_also:
+      - http://www.fpml.org/coding-scheme/commodity-reference-price
+
+  CreditRatingAgency:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'credit-rating-agency'
+    see_also:
+      - http://www.fpml.org/coding-scheme/credit-rating-agency
+
+  InformationProvider:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'information-provider'
+    see_also:
+      - http://www.fpml.org/coding-scheme/information-provider
+
+  InterpolationMethod:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'interpolation-method'
+    see_also:
+      - http://www.fpml.org/coding-scheme/interpolation-method
+
+  SettlementRateOptionType:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'settlement-rate-option'
+    see_also:
+      - http://www.fpml.org/coding-scheme/settlement-rate-option
+
+  DeterminationMethod:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'determination-method'
+    see_also:
+      - http://www.fpml.org/coding-scheme/determination-method
+
+  CreditSeniority:
+    uri: xsd:string
+    base: str
+    description: FpML coding scheme constrained to domain 'credit-seniority'
+    see_also:
+      - http://www.fpml.org/coding-scheme/credit-seniority
+
+slots:
+  identification:
+    range: CodeListIdentification
+    description: Identification information about the code list
+    required: true
+    close_mappings:
+      - fpml_5_10:CodeList.identification
+
+  codes:
+    range: CodeValue
+    description: Code values
+    multivalued: true
+    inlined_as_list: true
+    close_mappings:
+      - fpml_5_10:CodeList.codes
+
+  publicationDate:
+    range: string
+    description: The most recent date the code list was published, e.g. 2021-10-05
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.publicationDate
+
+  shortName:
+    range: string
+    description: A short name (without whitespace) for the code list, e.g. businessCenterScheme
+    required: true
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.shortName
+
+  version:
+    range: string
+    description: The the most recent version of the codelist, eg. 9-1
+    required: true
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.version
+
+  codeShortId:
+    range: string
+    description: The name of the code list, e.g. business-center
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.codeShortId
+
+  canonicalUri:
+    range: string
+    description: Canonical URI which uniquely identifies all versions (collectively) of the referenced code list. Must be
+      an absolute URI. Must not be used as a de facto location URI.
+    required: true
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.canonicalUri
+
+  canonicalVersionUri:
+    range: string
+    description: Canonical URI which uniquely identifies a specific version of the referenced code list. Must be an absolute
+      URI. Must not be used as a de facto location URI.
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.canonicalVersionUri
+
+  locationUri:
+    range: string
+    description: Suggested retrieval location for this version, in genericode format. An application must signal an error
+      to the user if a document retrieved using a LocationUri is not in genericode format.
+    close_mappings:
+      - fpml_5_10:CodeListIdentification.locationUri
+
+  effectiveDate:
+    range: date
+    description: When the code became/becomes effective
+    close_mappings:
+      - fpml_5_10:CodeValue.effectiveDate
+
+  deprecatedDate:
+    range: date
+    description: When the code ceased to be valid for new uses
+    close_mappings:
+      - fpml_5_10:CodeValue.deprecatedDate
+
+classes:
+  CodeList:
+    description: A type hold a list of codes for business data validation
+    close_mappings:
+      - fpml_5_10:CodeList
+    comments:
+      - 'Rosetta func: LoadCodeList — Loads a code list JSON resource into memory in the form of cdm.base.staticdata.codelist.CodeList
+        Rune object'
+    annotations:
+      rosetta_functions: '[{"name":"LoadCodeList","description":"Loads a code list JSON resource into memory in the form of
+        cdm.base.staticdata.codelist.CodeList Rune object","inputs":[{"name":"domain","type":"string","cardinality":"1..1"}],"output":{"name":"codelist","type":"CodeList","cardinality":"0..1"},"code_implementation":true}]'
+    slots:
+      - identification
+      - codes
+    in_subset:
+      - cdm_base_staticdata_codelist
+
+  CodeListIdentification:
+    description: A type to identify the version of a codelist
+    close_mappings:
+      - fpml_5_10:CodeListIdentification
+    slots:
+      - description
+      - publicationDate
+      - shortName
+      - version
+      - codeShortId
+      - canonicalUri
+      - canonicalVersionUri
+      - locationUri
+    slot_usage:
+      description:
+        description: A description  of the code list, e.g. A list of codes identifying business centers
+    in_subset:
+      - cdm_base_staticdata_codelist
+
+  CodeValue:
+    description: A type to hold the value of the code in a codelist
+    close_mappings:
+      - fpml_5_10:CodeValue
+    slots:
+      - value
+      - description
+      - source
+      - effectiveDate
+      - deprecatedDate
+    slot_usage:
+      value:
+        range: string
+        description: The value of the code, e.g. USNY
+        required: true
+      description:
+        description: A description of the meaning of the code, e.g. New York City, USA
+      source:
+        range: string
+        description: Where the code was defined,e.g. ISDA, FpML, Bloomberg
+        required: false
+    in_subset:
+      - cdm_base_staticdata_codelist

@@ -1,0 +1,401 @@
+id: https://w3id.org/nmdc/external_identifiers
+name: external_identifiers
+title: NMDC External Identifiers
+description: >-
+  External identifiers
+
+license: https://creativecommons.org/publicdomain/zero/1.0/
+
+imports:
+  - attribute_values
+
+prefixes:
+  bioproject: 'https://bioregistry.io/bioproject:'
+  biosample: 'https://bioregistry.io/biosample:'
+  emsl.project: 'https://bioregistry.io/emsl.project:'
+  gnps.task: 'https://bioregistry.io/gnps.task:'
+  gold: "https://bioregistry.io/gold:"
+  insdc.sra: "https://bioregistry.io/insdc.sra:"
+  jgi.analysis: "https://data.jgi.doe.gov/search?q="
+  jgi.proposal: 'https://bioregistry.io/jgi.proposal:'
+  linkml: "https://w3id.org/linkml/"
+  mgnify.analysis: "https://bioregistry.io/mgnify.analysis:" # https://www.ebi.ac.uk/metagenomics/analyses/MGYA00002270
+  mgnify.proj: 'https://bioregistry.io/mgnify.proj:'
+  nmdc: "https://w3id.org/nmdc/"
+  skos: "http://www.w3.org/2004/02/skos/core#"
+
+default_prefix: nmdc
+default_range: string
+
+slots:
+
+  img_identifiers:
+    title: IMG Identifiers
+    is_a: external_database_identifiers
+    description: >-
+      A list of identifiers that relate the biosample to records in the IMG database.
+    todos:
+      - add is_a or mixin modeling, like other external_database_identifiers
+      - what class would IMG records belong to?! Are they Studies, Biosamples, or something else?
+    pattern: '^img\.taxon:[a-zA-Z0-9_][a-zA-Z0-9_\/\.]*$' # DOI-like pattern. Could be more conservative if we leave this out of the external_database_identifiers hierarchy
+
+  ## mixins
+
+  igsn_identifiers:
+    mixin: true
+    is_a: external_database_identifiers
+
+  gold_identifiers:
+    mixin: true
+    see_also:
+      - https://gold.jgi.doe.gov/
+    is_a: external_database_identifiers
+
+  emsl_identifiers:
+    mixin: true
+    is_a: external_database_identifiers
+
+  mgnify_identifiers:
+    mixin: true
+    see_also:
+      - https://www.ebi.ac.uk/metagenomics/
+    is_a: external_database_identifiers
+
+  insdc_identifiers:
+    mixin: true
+    aliases:
+      - EBI identifiers
+      - NCBI identifiers
+      - DDBJ identifiers
+    description: >-
+      Any identifier covered by the International Nucleotide Sequence Database Collaboration
+    comments:
+      - note that we deliberately abstract over which of the partner databases accepted the initial submission
+      - "the first letter of the accession indicates which partner accepted the initial submission: E for ENA, D for DDBJ, or S or N for NCBI."
+    see_also:
+      - https://www.insdc.org/
+      - https://ena-docs.readthedocs.io/en/latest/submit/general-guide/accessions.html
+    is_a: external_database_identifiers
+
+  neon_identifiers:
+    mixin: true
+    description: identifiers for entities according to NEON
+    is_a: external_database_identifiers
+
+  jgi_portal_identifiers:
+    mixin: true
+    description: identifiers for entities according to JGI Portal
+    see_also:
+      - https://data.jgi.doe.gov/
+    is_a: external_database_identifiers
+
+  gnps_identifiers:
+    mixin: true
+    is_a: external_database_identifiers
+ 
+  ## studies
+
+  study_identifiers:
+    abstract: true
+    is_a: external_database_identifiers
+
+  jgi_portal_study_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - jgi_portal_identifiers
+    id_prefixes:
+      - jgi.proposal
+    pattern: '^jgi\.proposal:\d+$'
+    examples:
+      - value: jgi.proposal:507130
+    comments:
+      - Could this could be considered a related identifier?
+      - Curie suffix is the Site Award Number from an OSTI award page
+      - Site Award Number 507130 == award doi doi:10.46936/10.25585/60000017 -- GOLD study identifier gold:Gs0154044
+      - bioregistry.io/jgi.proposal:507130 ==https://genome.jgi.doe.gov/portal/BioDefcarcycling/BioDefcarcycling.info.html
+    title: JGI Portal Study identifiers
+    description: >-
+      Identifiers that link a NMDC study to a website hosting raw and analyzed data for a JGI proposal. 
+      The suffix of the curie can used to query the GOLD API and is interoperable with an award DOI from OSTI and a GOLD study identifier.
+
+  neon_study_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - neon_identifiers
+
+  insdc_sra_ena_study_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - insdc_identifiers
+    aliases:
+      - EBI ENA study identifiers
+      - NCBI SRA identifiers
+      - DDBJ SRA identifiers
+    pattern: "^insdc\\.sra:(E|D|S)RP[0-9]{6,}$"
+    description: identifiers for corresponding project in INSDC SRA / ENA
+    examples:
+      - value: insdc.sra:SRP121659
+        description: Avena fatua rhizosphere microbial communities - H1_Rhizo_Litter_2 metatranscriptome
+    see_also:
+      - https://github.com/bioregistry/bioregistry/issues/109
+      - https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=studies
+      - https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=studies
+
+  insdc_bioproject_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - insdc_identifiers
+    aliases:
+      - NCBI bioproject identifiers
+      - DDBJ bioproject identifiers
+    pattern: "^bioproject:PRJ[DEN][A-Z][0-9]+$"
+    description: identifiers for corresponding project in INSDC Bioproject
+    comments:
+      - these are distinct IDs from INSDC SRA/ENA project identifiers, but are usually(?) one to one
+    examples:
+      - value: bioproject:PRJNA366857
+        description: Avena fatua rhizosphere microbial communities - H1_Rhizo_Litter_2 metatranscriptome
+    see_also:
+      - https://www.ncbi.nlm.nih.gov/bioproject/
+      - https://www.ddbj.nig.ac.jp/bioproject/index-e.html
+
+  gold_study_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - gold_identifiers
+    pattern: "^gold:Gs[0-9]+$"
+    description: identifiers for corresponding project(s) in GOLD
+    comments:
+      - uses the prefix GS (but possibly in a different case)
+    examples:
+      - value: gold:Gs0110115
+    see_also:
+      - https://gold.jgi.doe.gov/studies
+    title: GOLD Study Identifiers
+
+  mgnify_project_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - mgnify_identifiers
+    pattern: "^mgnify\\.proj:[A-Z]+[0-9]+$"
+    description: identifiers for corresponding project in MGnify
+    examples:
+      - value: mgnify.proj:MGYS00005757
+
+  gnps_task_identifiers:
+    is_a: study_identifiers
+    mixins:
+      - gnps_identifiers
+    title: GNPS task identifiers
+    description: identifiers that link a NMDC study to a web-based report about metabolomics analysis progress and results
+    comments:
+      - this could be considered a related identifier, as the metabolomics progress and results aren't a study per se
+      - this identifier was registered with bioregistry but not identifiers.org
+    see_also:
+      - https://microbiomedata.github.io/nmdc-schema/MetabolomicsAnalysis/
+    examples:
+      - value: gnps.task:4b848c342a4f4abc871bdf8a09a60807
+    pattern: "^gnps\\.task:[a-f0-9]+$"
+
+
+  emsl_project_identifiers:
+    title: EMSL Project Identifiers
+    is_a: study_identifiers
+    mixins:
+      - emsl_identifiers
+    description: Identifiers that link a NMDC study to the EMSL user facility website hosting the project description of an EMSL user project
+    see_also:
+      - https://github.com/microbiomedata/nmdc-schema/issues/927#issuecomment-1802136437
+    pattern: "^emsl\\.project:[0-9]{5}$"
+    examples:
+      - value: emsl.project:60141
+    notes:
+      - these identifiers are all currently 5 digits long but that could change in the future
+    todos:
+      - elaborate on description
+
+  ## samples
+
+  biosample_identifiers:
+    abstract: true
+    is_a: external_database_identifiers
+
+  neon_biosample_identifiers:
+    is_a: biosample_identifiers
+    mixins:
+      - neon_identifiers
+
+  gold_biosample_identifiers:
+    is_a: biosample_identifiers
+    mixins:
+      - gold_identifiers
+    pattern: "^gold:Gb[0-9]+$"
+    description: identifiers for corresponding sample in GOLD
+    examples:
+      - value: gold:Gb0312930
+    range: uriorcurie
+
+  gold_organism_identifiers:
+    is_a: external_database_identifiers
+    mixins:
+      - gold_identifiers
+    pattern: "^gold:Go[0-9]+$"
+    description: identifiers for corresponding organism in GOLD
+    examples:
+      - value: gold:Go0000058
+        description: GOLD organism_v2 Campylobacter concisus 13826 (queried 2026-04-14)
+    range: uriorcurie
+    multivalued: true
+    see_also:
+      - https://github.com/microbiomedata/nmdc-schema/issues/2973
+
+
+
+  insdc_biosample_identifiers:
+    is_a: biosample_identifiers
+    mixins:
+      - insdc_identifiers
+    aliases:
+      - EBI biosample identifiers
+      - NCBI biosample identifiers
+      - DDBJ biosample identifiers
+    pattern: "^biosample:SAM[NED]([A-Z])?[0-9]+$"
+    description: identifiers for corresponding sample in INSDC
+    examples:
+      - value: biosample:SAMEA5989477
+      - value: biosample:SAMD00212331
+        description: I13_N_5-10 sample from Soil fungal diversity along elevational gradients
+    see_also:
+      - https://github.com/bioregistry/bioregistry/issues/108
+      - https://www.ebi.ac.uk/biosamples/
+      - https://www.ncbi.nlm.nih.gov/biosample
+      - https://www.ddbj.nig.ac.jp/biosample/index-e.html
+
+  insdc_secondary_sample_identifiers:
+    is_a: biosample_identifiers
+    mixins:
+      - insdc_identifiers
+    pattern: "^biosample:(E|D|S)RS[0-9]{6,}$"
+    description: secondary identifiers for corresponding sample in INSDC
+    comments:
+      - "ENA redirects these to primary IDs, e.g. https://www.ebi.ac.uk/ena/browser/view/DRS166340 -> SAMD00212331"
+      - MGnify uses these as their primary sample IDs
+    examples:
+      - value: insdc.sra:DRS166340
+        description: I13_N_5-10 sample from Soil fungal diversity along elevational gradients
+
+  emsl_biosample_identifiers:
+    title: EMSL Biosample Identifiers
+    description: >-
+      A list of identifiers for the biosample from the EMSL database.  This is
+      used to link the biosample, as modeled by NMDC, to the biosample in the planned EMSL NEXUS database.
+    is_a: biosample_identifiers
+    mixins:
+      - emsl_identifiers
+    todos:
+      - removed "planned" once NEXUS is online
+      - determine real expansion for emsl prefix
+
+  igsn_biosample_identifiers:
+    title: IGSN Biosample Identifiers
+    description: >-
+      A list of identifiers for the biosample from the IGSN database.
+    is_a: biosample_identifiers
+    mixins:
+      - igsn_identifiers
+    pattern: "^igsn:[A-Za-z]{2,4}[A-Za-z0-9.-]{1,71}$"
+
+  ## DataGeneration
+
+  omics_processing_identifiers:
+    abstract: true
+    is_a: external_database_identifiers
+
+  gold_sequencing_project_identifiers:
+    is_a: omics_processing_identifiers
+    mixins:
+      - gold_identifiers
+    pattern: "^gold:Gp[0-9]+$"
+    description: identifiers for corresponding sequencing project in GOLD
+    examples:
+      - value: gold:Gp0108335
+
+  insdc_experiment_identifiers:
+    description: INSDC identifiers for the unique sequencing result for a specific sample
+    see_also:
+      - https://www.ncbi.nlm.nih.gov/sra/docs/submitmeta/#sra-metadata-experiment
+    is_a: external_database_identifiers
+    pattern: "^insdc\\.sra:(E|D|S)RX[0-9]{6,}$"
+    mixins:
+      - insdc_identifiers
+
+  insdc_run_identifiers:
+    description: Identifiers for the manifest of data file(s) that are derived from sequencing a library described by the associated INSDC experiment.
+    see_also:
+      - https://www.ncbi.nlm.nih.gov/sra/docs/submitmeta/#linking-metadata-and-data-run
+    is_a: external_database_identifiers
+    pattern: "^insdc\\.run:(E|D|S)RR[0-9]{6,}$"
+    mixins:
+      - insdc_identifiers
+
+  ## analysis run
+
+  analysis_identifiers:
+    abstract: true
+    is_a: external_database_identifiers
+
+  gold_analysis_project_identifiers:
+    is_a: analysis_identifiers
+    mixins:
+      - gold_identifiers
+    pattern: "^gold:Ga[0-9]+$"
+    description: identifiers for corresponding analysis projects in GOLD
+    examples:
+      - value: gold:Ga0526289
+
+  jgi_portal_analysis_project_identifiers:
+    is_a: analysis_identifiers
+    mixins:
+      - jgi_portal_identifiers
+    id_prefixes:
+      - jgi.analysis
+    pattern: '^jgi\.analysis:[0-9]+$'
+    description: identifiers for corresponding analysis projects in JGI Portal
+    examples:
+      - value: jgi.analysis:1414320
+        description: Metagenome - Draft Assembly YELL_051-M-20210705-comp-DNA1
+
+  insdc_analysis_identifiers:
+    is_a: analysis_identifiers
+    comments:
+      - in INSDC this is a run but it corresponds to a GOLD analysis
+    pattern: "^insdc\\.sra:(E|D|S)RR[0-9]{6,}$"
+    mixins:
+      - insdc_identifiers
+    examples:
+      - value: insdc.sra:DRR218479
+        description: Illumina MiSeq paired end sequencing of SAMD00212331
+      - value: insdc.sra:ERR436051
+
+  mgnify_analysis_identifiers:
+    is_a: analysis_identifiers
+    notes:
+      - 'removed pattern: "^mgnify:MGYA[0-9]+$" ## TODO https://github.com/bioregistry/bioregistry/issues/109'
+    mixins:
+      - mgnify_identifiers
+    examples:
+      - value: mgnify.analysis:MGYA00002270
+        description: combined analyses (taxonomic, functional) of sample ERS438107
+
+  ## assemblies
+
+  assembly_identifiers:
+    abstract: true
+
+  insdc_assembly_identifiers:
+    is_a: assembly_identifiers
+    pattern: "^insdc\\.sra:[A-Z]+[0-9]+(\\.[0-9]+)?$"
+    mixins:
+      - insdc_identifiers
+
+

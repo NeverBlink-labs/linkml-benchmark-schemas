@@ -1,0 +1,641 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_observable_event
+name: cdm_observable_event
+description: 'Observable event concepts: extraordinary event, trigger event, disruption event etc.'
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+  - ./cdm_base_datetime
+  - ./cdm_base_math
+  - ./cdm_base_staticdata_codelist
+  - ./cdm_base_staticdata_party
+  - ./cdm_observable_asset
+  - ./cdm_observable_common
+  - ./cdm_legaldocumentation_csa
+  - ./cdm_event_common
+  - ./cdm_base_staticdata_asset_credit
+
+comments:
+  - 'Rosetta func: Create_AssetPayoutTradeStateWithObservations — Attaches a set of Observations to a Security Finance Transaction.
+    | inputs(billingInstruction: BillingRecordInstruction (1..1)) | output(tradeState: TradeState (1..1))'
+  - 'Rosetta func: Create_AssetReset — Defines how to resolve the reset value for an equity payout. | inputs(assetPayout:
+    AssetPayout (1..1), observation: Observation (1..*), resetDate: date (1..1)) | output(reset: Reset (1..1))'
+  - 'Rosetta func: ResolveObservationAverage — Specifies the interface that should be used by implementors to resolve a single
+    observation when provided many, applying the averaging method, if one is provided. | inputs(observations: Observation
+    (1..*)) | output(resetValue: Price (1..1))'
+  - 'Rosetta func: ResolveObservation — Specifies the interface that should be used by implementors to resolve a single observation
+    when provided many, applying the averaging method, if one is provided. | inputs(identifiers: ObservationIdentifier (1..*),
+    averagingMethod: AveragingCalculationMethod (0..1)) | output(observation: Observation (1..1))'
+annotations:
+  rosetta_functions: '[{"name":"Create_AssetPayoutTradeStateWithObservations","description":"Attaches a set of Observations
+    to a Security Finance Transaction.","inputs":[{"name":"billingInstruction","type":"BillingRecordInstruction","cardinality":"1..1"}],"output":{"name":"tradeState","type":"TradeState","cardinality":"1..1"}},{"name":"Create_AssetReset","description":"Defines
+    how to resolve the reset value for an equity payout.","inputs":[{"name":"assetPayout","type":"AssetPayout","cardinality":"1..1"},{"name":"observation","type":"Observation","cardinality":"1..*"},{"name":"resetDate","type":"date","cardinality":"1..1"}],"output":{"name":"reset","type":"Reset","cardinality":"1..1"}},{"name":"ResolveObservationAverage","description":"Specifies
+    the interface that should be used by implementors to resolve a single observation when provided many, applying the averaging
+    method, if one is provided.","inputs":[{"name":"observations","type":"Observation","cardinality":"1..*"}],"output":{"name":"resetValue","type":"Price","cardinality":"1..1"}},{"name":"ResolveObservation","description":"Specifies
+    the interface that should be used by implementors to resolve a single observation when provided many, applying the averaging
+    method, if one is provided.","inputs":[{"name":"identifiers","type":"ObservationIdentifier","cardinality":"1..*"},{"name":"averagingMethod","type":"AveragingCalculationMethod","cardinality":"0..1"}],"output":{"name":"observation","type":"Observation","cardinality":"1..1"},"code_implementation":true}]'
+
+subsets:
+  cdm_observable_event:
+    description: Classes defined in the cdm_observable_event module.
+
+enums:
+  IndexEventConsequenceEnum:
+    description: The enumerated values to specify the consequences of Index Events.
+    permissible_values:
+      CalculationAgentAdjustment:
+        description: Calculation Agent Adjustment.
+      NegotiatedCloseOut:
+        description: Negotiated Close Out.
+      CancellationAndPayment:
+        description: Cancellation and Payment.
+      RelatedExchange:
+        description: Related Exchange.
+
+  MarketDisruptionEnum:
+    description: The enumerated values to specify the handling of an averaging date market disruption for an equity derivative
+      transaction.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/market-disruption
+    permissible_values:
+      ModifiedPostponement:
+        description: As defined in section 6.7 paragraph (c) sub-paragraph (iii) of the ISDA 2002 Equity Derivative definitions.
+        meaning: http://www.fpml.org/coding-scheme/market-disruption-1-0#ModifiedPostponement
+      Omission:
+        description: As defined in section 6.7 paragraph (c) sub-paragraph (i) of the ISDA 2002 Equity Derivative definitions.
+        meaning: http://www.fpml.org/coding-scheme/market-disruption-1-0#Omission
+      Postponement:
+        description: As defined in section 6.7 paragraph (c) sub-paragraph (ii) of the ISDA 2002 Equity Derivative definitions.
+        meaning: http://www.fpml.org/coding-scheme/market-disruption-1-0#Postponement
+
+  TriggerTypeEnum:
+    description: The enumerated values to specify whether an option will trigger or expire depending upon whether the spot
+      rate is above or below the barrier rate.
+    permissible_values:
+      EqualOrLess:
+        description: The underlier price must be equal to or less than the Trigger level.
+      EqualOrGreater:
+        description: The underlier price must be equal to or greater than the Trigger level.
+      Equal:
+        description: The underlier price must be equal to the Trigger level.
+      Less:
+        description: The underlier price must be less than the Trigger level.
+      Greater:
+        description: The underlier price must be greater than the Trigger level.
+
+  TriggerTimeTypeEnum:
+    description: The enumerated values to specify the time of day which would be considered for valuing the knock event.
+    permissible_values:
+      Closing:
+        description: The close of trading on a day would be considered for valuation.
+      Anytime:
+        description: At any time during the Knock Determination period (continuous barrier).
+
+  ShareExtraordinaryEventEnum:
+    description: The enumerated values to specify the consequences of extraordinary events relating to the underlying.
+    permissible_values:
+      AlternativeObligation:
+        description: The trade continues such that the underlying now consists of the New Shares and/or the Other Consideration,
+          if any, and the proceeds of any redemption, if any, that the holder of the underlying Shares would have been entitled
+          to.
+      CancellationAndPayment:
+        description: The trade is cancelled and a cancellation fee will be paid by one party to the other.
+      OptionsExchange:
+        description: The trade will be adjusted by the Calculation Agent in accordance with the adjustments made by any exchange
+          on which options on the underlying are listed.
+      CalculationAgent:
+        description: The Calculation Agent will determine what adjustment is required to offset any change to the economics
+          of the trade. If the Calculation Agent cannot achieve this, the trade goes to Cancellation and Payment with the
+          Calculation Agent deciding on the value of the cancellation fee. Adjustments may not be made to account solely for
+          changes in volatility, expected dividends, stock loan rate or liquidity.
+      ModifiedCalculationAgent:
+        description: The Calculation Agent will determine what adjustment is required to offset any change to the economics
+          of the trade. If the Calculation Agent cannot achieve this, the trade goes to Cancellation and Payment with the
+          Calculation Agent deciding on the value of the cancellation fee. Adjustments to account for changes in volatility,
+          expected dividends, stock loan rate or liquidity are allowed.
+      PartialCancellationAndPayment:
+        description: Applies to Basket Transactions. The portion of the Basket made up by the affected Share will be cancelled
+          and a cancellation fee will be paid from one party to the other. The remainder of the trade continues.
+      Component:
+        description: If this is a Share-for-Combined merger event (Shares are replaced with New Shares and Other Consideration),
+          then different treatment can be applied to each component if the parties have specified this.
+
+  RestructuringEnum:
+    description: The enumerated values to specify the form of the restructuring credit event that is applicable to the credit
+      default swap.
+    exact_mappings:
+      - http://www.fpml.org/coding-scheme/restructuring
+    permissible_values:
+      ModModR:
+        description: 'Restructuring (Section 4.7) and Modified Restructuring Maturity Limitation and Conditionally Transferable
+          Obligation (2014 Definitions: Section 3.31, 2003 Definitions: 2.32) apply.'
+        meaning: http://www.fpml.org/coding-scheme/restructuring-1-1#ModModR
+      ModR:
+        description: 'Restructuring (Section 4.7) and Restructuring Maturity Limitation and Fully Transferable Obligation
+          (2014 Definitions: Section 3.31, 2003 Definitions: 2.32) apply.'
+        meaning: http://www.fpml.org/coding-scheme/restructuring-1-1#ModR
+      R:
+        description: Restructuring as defined in the applicable ISDA Credit Derivatives Definitions. (2003 or 2014).
+        meaning: http://www.fpml.org/coding-scheme/restructuring-1-1#R
+
+slots:
+  level:
+    range: PriceSchedule
+    description: The trigger level.
+    multivalued: true
+    inlined_as_list: true
+
+  creditEvents:
+    range: CreditEvents
+
+  creditEventsReference:
+    range: CreditEvents
+    annotations:
+      metadata_reference: true
+
+  triggerType:
+    range: TriggerTypeEnum
+    description: The Triggering condition.
+
+  triggerTimeType:
+    range: TriggerTimeTypeEnum
+    description: The valuation time type of knock condition.
+
+  schedule:
+    range: AveragingSchedule
+    description: A derivative schedule.
+    multivalued: true
+    inlined_as_list: true
+
+  triggerDates:
+    range: DateList
+    description: The trigger Dates.
+
+  trigger:
+    range: Trigger
+    description: The trigger level
+    required: true
+
+  featurePayment:
+    range: FeaturePayment
+    description: The feature payment, i.e. the payment made following trigger occurrence.
+
+  bankruptcy:
+    range: boolean
+    description: 'A credit event. The reference entity has been dissolved or has become insolvent. It also covers events that
+      may be a precursor to insolvency such as instigation of bankruptcy or insolvency proceedings. Sovereign trades are not
+      subject to Bankruptcy as ''technically'' a Sovereign cannot become bankrupt. ISDA 2003 Term: Bankruptcy.'
+
+  failureToPayPrincipal:
+    range: boolean
+    description: 'A credit event. Corresponds to the failure by the Reference Entity to pay an expected principal amount or
+      the payment of an actual principal amount that is less than the expected principal amount. ISDA 2003 Term: Failure to
+      Pay Principal.'
+
+  failureToPayInterest:
+    range: boolean
+    description: 'A credit event. Corresponds to the failure by the Reference Entity to pay an expected interest amount or
+      the payment of an actual interest amount that is less than the expected interest amount. ISDA 2003 Term: Failure to
+      Pay Interest.'
+
+  obligationDefault:
+    range: boolean
+    description: 'A credit event. One or more of the obligations have become capable of being declared due and payable before
+      they would otherwise have been due and payable as a result of, or on the basis of, the occurrence of a default, event
+      of default or other similar condition or event other than failure to pay. ISDA 2003 Term: Obligation Default.'
+
+  obligationAcceleration:
+    range: boolean
+    description: 'A credit event. One or more of the obligations have been declared due and payable before they would otherwise
+      have been due and payable as a result of, or on the basis of, the occurrence of a default, event of default or other
+      similar condition or event other than failure to pay (preferred by the market over Obligation Default, because more
+      definitive and encompasses the definition of Obligation Default - this is more favorable to the Seller). Subject to
+      the default requirement amount. ISDA 2003 Term: Obligation Acceleration.'
+
+  repudiationMoratorium:
+    range: boolean
+    description: 'A credit event. The reference entity, or a governmental authority, either refuses to recognise or challenges
+      the validity of one or more obligations of the reference entity, or imposes a moratorium thereby postponing payments
+      on one or more of the obligations of the reference entity. Subject to the default requirement amount. ISDA 2003 Term:
+      Repudiation/Moratorium.'
+
+  restructuring:
+    range: Restructuring
+    description: 'A credit event. A restructuring is an event that materially impacts the reference entity''s obligations,
+      such as an interest rate reduction, principal reduction, deferral of interest or principal, change in priority ranking,
+      or change in currency or composition of payment. ISDA 2003 Term: Restructuring.'
+
+  governmentalIntervention:
+    range: boolean
+    description: 'A credit event. A governmental intervention is an event resulting from an action by a governmental authority
+      that materially impacts the reference entity''s obligations, such as an interest rate reduction, principal reduction,
+      deferral of interest or principal, change in priority ranking, or change in currency or composition of payment. ISDA
+      2014 Term: Governmental Intervention.'
+
+  distressedRatingsDowngrade:
+    range: boolean
+    description: A credit event. Results from the fact that the rating of the reference obligation is down-graded to a distressed
+      rating level. From a usage standpoint, this credit event is typically not applicable in case of RMBS trades.
+
+  maturityExtension:
+    range: boolean
+    description: A credit event. Results from the fact that the underlier fails to make principal payments as expected.
+
+  writedown:
+    range: boolean
+    description: A credit event. Results from the fact that the underlier writes down its outstanding principal amount.
+
+  impliedWritedown:
+    range: boolean
+    description: A credit event. Results from the fact that losses occur to the underlying instruments that do not result
+      in reductions of the outstanding principal of the reference obligation.
+
+  defaultRequirement:
+    range: Money
+    description: 'In relation to certain credit events, serves as a threshold for Obligation Acceleration, Obligation Default,
+      Repudiation/Moratorium and Restructuring. Market standard is USD 10,000,000 (JPY 1,000,000,000 for all Japanese Yen
+      trades). This is applied on an aggregate or total basis across all Obligations of the Reference Entity. Used to prevent
+      technical/operational errors from triggering credit events. ISDA 2003 Term: Default Requirement.'
+
+  creditEventNotice:
+    range: CreditEventNotice
+    description: 'A specified condition to settlement. An irrevocable written or verbal notice that describes a credit event
+      that has occurred. The notice is sent from the notifying party (either the buyer or the seller) to the counterparty.
+      It provides information relevant to determining that a credit event has occurred. This is typically accompanied by Publicly
+      Available Information. ISDA 2003 Term: Credit Event Notice.'
+
+  notifyingParty:
+    range: CounterpartyRoleEnum
+    description: 'The notifying party is the party that notifies the other party when a credit event has occurred by means
+      of a credit event notice. If more than one party is referenced as being the notifying party then either party may notify
+      the other of a credit event occurring. ISDA 2003 Term: Notifying Party.'
+    required: true
+    multivalued: true
+
+  gracePeriodExtension:
+    range: GracePeriodExtension
+    description: 'If this element is specified, indicates whether or not a grace period extension is applicable. ISDA 2003
+      Term: Grace Period Extension Applicable.'
+
+  paymentRequirement:
+    range: Money
+    description: 'Specifies a threshold for the failure to pay credit event. Market standard is USD 1,000,000 (JPY 100,000,000
+      for Japanese Yen trades) or its equivalent in the relevant obligation currency. This is applied on an aggregate basis
+      across all Obligations of the Reference Entity. Intended to prevent technical/operational errors from triggering credit
+      events. ISDA 2003 Term: Payment Requirement'
+
+  gracePeriod:
+    range: Offset
+    description: 'The number of calendar or business days after any due date that the reference entity has to fulfil its obligations
+      before a failure to pay credit event is deemed to have occurred. ISDA 2003 Term: Grace Period.'
+
+  standardPublicSources:
+    range: boolean
+    description: If this element is specified and set to 'true', indicates that ISDA defined Standard Public Sources are applicable.
+
+  publicSource:
+    range: string
+    description: 'A public information source, e.g. a particular newspaper or electronic news service, that may publish relevant
+      information used in the determination of whether or not a credit event has occurred. ISDA 2003 Term: Public Source.'
+    multivalued: true
+
+  specifiedNumber:
+    range: integer
+    description: 'The minimum number of the specified public information sources that must publish information that reasonably
+      confirms that a credit event has occurred. The market convention is two. ISDA 2003 Term: Specified Number.'
+
+  restructuringType:
+    range: RestructuringEnum
+    description: Specifies the type of restructuring that is applicable.
+    annotations:
+      metadata_scheme: true
+
+  multipleHolderObligation:
+    range: boolean
+    description: 'In relation to a restructuring credit event, unless multiple holder obligation is not specified restructurings
+      are limited to multiple holder obligations. A multiple holder obligation means an obligation that is held by more than
+      three holders that are not affiliates of each other and where at least two thirds of the holders must agree to the event
+      that constitutes the restructuring credit event. ISDA 2003 Term: Multiple Holder Obligation.'
+
+  multipleCreditEventNotices:
+    range: boolean
+    description: 'Presence of this element and value set to ''true'' indicates that Section 3.9 of the 2003 Credit Derivatives
+      Definitions shall apply. Absence of this element indicates that Section 3.9 shall not apply. NOTE: Not allowed under
+      ISDA Credit 1999.'
+
+  levelPercentage:
+    range: decimal
+    description: The trigger level percentage.
+
+  paymentDate:
+    range: AdjustableOrRelativeDate
+    description: The feature payment date.
+
+  observedValue:
+    range: Price
+    description: Specifies the observed value as a number.
+    required: true
+
+  observationIdentifier:
+    range: ObservationIdentifier
+    description: Represents the observation was made i.e. how to uniquely identify the observed value among the population
+      of all available market data.
+    required: true
+
+  observationDate:
+    range: date
+    description: Specifies the date value to use when resolving the market data.
+    required: true
+
+  observationTime:
+    range: TimeZone
+    description: Represents the time and time-zone.
+
+  determinationMethodology:
+    range: DeterminationMethodology
+    description: Specifies the method according to which an amount or a date is determined.
+
+  averagingMethod:
+    range: AveragingCalculationMethodEnum
+    description: Specifies enumerations for the type of averaging calculation.
+
+classes:
+  Trigger:
+    description: Trigger point at which feature is effective.
+    rules:
+      - description: ' Choice rule to represent an FpML choice construct.'
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                level:
+                  required: true
+            - slot_conditions:
+                creditEvents:
+                  required: true
+            - slot_conditions:
+                creditEventsReference:
+                  required: true
+        preconditions: {}
+    comments:
+      - 'Rosetta condition: Choice1 — required choice level, creditEvents , creditEventsReference'
+    slots:
+      - level
+      - creditEvents
+      - creditEventsReference
+      - triggerType
+      - triggerTimeType
+    in_subset:
+      - cdm_observable_event
+
+  TriggerEvent:
+    description: Observation point for trigger.
+    slots:
+      - schedule
+      - triggerDates
+      - trigger
+      - featurePayment
+    in_subset:
+      - cdm_observable_event
+
+  CreditEvents:
+    description: A class to specify the applicable Credit Events that would trigger a settlement, as specified in the related
+      Confirmation and defined in the ISDA 2014 Credit Definition article IV section 4.1.
+    annotations:
+      metadata_key: true
+    slots:
+      - bankruptcy
+      - failureToPay
+      - failureToPayPrincipal
+      - failureToPayInterest
+      - obligationDefault
+      - obligationAcceleration
+      - repudiationMoratorium
+      - restructuring
+      - governmentalIntervention
+      - distressedRatingsDowngrade
+      - maturityExtension
+      - writedown
+      - impliedWritedown
+      - defaultRequirement
+      - creditEventNotice
+    slot_usage:
+      failureToPay:
+        range: FailureToPay
+        description: 'A credit event. This credit event triggers, after the expiration of any applicable grace period, if
+          the reference entity fails to make due payments in an aggregate amount of not less than the payment requirement
+          on one or more obligations (e.g. a missed coupon payment). ISDA 2003 Term: Failure to Pay.'
+    in_subset:
+      - cdm_observable_event
+
+  CreditEventNotice:
+    slots:
+      - notifyingParty
+      - businessCenter
+      - publiclyAvailableInformation
+    slot_usage:
+      businessCenter:
+        description: Inclusion of this business center element implies that Greenwich Mean Time in Section 3.3 of the 2003
+          ISDA Credit Derivatives Definitions is replaced by the local time of the city indicated by the businessCenter element
+          value.
+        multivalued: false
+      publiclyAvailableInformation:
+        range: PubliclyAvailableInformation
+        description: 'A specified condition to settlement. Publicly available information means information that reasonably
+          confirms any of the facts relevant to determining that a credit event or potential repudiation/moratorium, as applicable,
+          has occurred. The ISDA defined list (2003) is the market standard and is considered comprehensive, and a minimum
+          of two differing public sources must have published the relevant information, to declare a Credit Event. ISDA 2003
+          Term: Notice of Publicly Available Information Applicable.'
+        multivalued: false
+    in_subset:
+      - cdm_observable_event
+
+  FailureToPay:
+    slots:
+      - applicable
+      - gracePeriodExtension
+      - paymentRequirement
+    slot_usage:
+      applicable:
+        description: Indicates whether the failure to pay provision is applicable.
+    in_subset:
+      - cdm_observable_event
+
+  GracePeriodExtension:
+    slots:
+      - applicable
+      - gracePeriod
+    slot_usage:
+      applicable:
+        description: Indicates whether the grace period extension provision is applicable.
+    in_subset:
+      - cdm_observable_event
+
+  PubliclyAvailableInformation:
+    rules:
+      - description: ' FpML validation rule cd-36 - Context: PubliclyAvailableInformation (complex type). Either standardPublicSources
+          or at least one publicSource element must exist.'
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                standardPublicSources:
+                  required: true
+            - slot_conditions:
+                publicSource:
+                  required: true
+        preconditions: {}
+      - description: ' FpML specifies specifiedNumber as a positiveInteger.'
+        preconditions:
+          slot_conditions:
+            specifiedNumber:
+              required: true
+        postconditions:
+          slot_conditions:
+            specifiedNumber:
+              minimum_value: 0
+    comments:
+      - 'Rosetta condition: SourceChoice — required choice standardPublicSources, publicSource'
+      - 'Rosetta condition: PositiveSpecifiedNumber — if specifiedNumber exists then specifiedNumber >= 0'
+    slots:
+      - standardPublicSources
+      - publicSource
+      - specifiedNumber
+    in_subset:
+      - cdm_observable_event
+
+  Restructuring:
+    slots:
+      - applicable
+      - restructuringType
+      - multipleHolderObligation
+      - multipleCreditEventNotices
+    slot_usage:
+      applicable:
+        description: Indicates whether the restructuring provision is applicable.
+    in_subset:
+      - cdm_observable_event
+
+  FeaturePayment:
+    description: Payment made following trigger occurrence.
+    annotations:
+      metadata_key: true
+    rules:
+      - description: ' Choice rule to represent an FpML choice construct.'
+        postconditions:
+          exactly_one_of:
+            - slot_conditions:
+                levelPercentage:
+                  required: true
+            - slot_conditions:
+                amount:
+                  required: true
+        preconditions: {}
+      - description: ' The amount attribute is specified in FpML as non-negative decimal.'
+        preconditions:
+          slot_conditions:
+            amount:
+              required: true
+        postconditions:
+          slot_conditions:
+            amount:
+              minimum_value: 0.0
+    comments:
+      - 'Rosetta condition: FeaturePaymentChoice — required choice levelPercentage, amount'
+      - 'Rosetta condition: Amount — if amount exists then amount >= 0.0'
+    slots:
+      - payerReceiver
+      - levelPercentage
+      - amount
+      - time
+      - currency
+      - paymentDate
+    slot_usage:
+      payerReceiver:
+        range: PartyReferencePayerReceiver
+        description: This attribute doesn't exist as part of the FpML construct, which makes use of the PayerReceiver.model
+          group.
+        required: true
+      amount:
+        range: decimal
+        description: The monetary quantity in currency units.
+        required: false
+      time:
+        range: TimeTypeEnum
+        description: The feature payment time.
+        required: false
+      currency:
+        description: The currency in which an amount is denominated.
+    in_subset:
+      - cdm_observable_event
+
+  Observation:
+    description: Defines a single, numerical value that was observed in the marketplace. Observations of market data are made
+      independently to business events or trade life-cycle events, so data instances of Observation can be created independently
+      of any other model type, hence it is annotated as a root type. Observations will be broadly reused in many situations,
+      so references to Observation are supported via the 'key' annotation.
+    tree_root: true
+    annotations:
+      metadata_key: true
+      rosetta_functions: '[{"name":"Create_AssetReset","description":"Defines how to resolve the reset value for an equity
+        payout.","inputs":[{"name":"assetPayout","type":"AssetPayout","cardinality":"1..1"},{"name":"observation","type":"Observation","cardinality":"1..*"},{"name":"resetDate","type":"date","cardinality":"1..1"}],"output":{"name":"reset","type":"Reset","cardinality":"1..1"}},{"name":"ResolveObservationAverage","description":"Specifies
+        the interface that should be used by implementors to resolve a single observation when provided many, applying the
+        averaging method, if one is provided.","inputs":[{"name":"observations","type":"Observation","cardinality":"1..*"}],"output":{"name":"resetValue","type":"Price","cardinality":"1..1"}},{"name":"ResolveObservation","description":"Specifies
+        the interface that should be used by implementors to resolve a single observation when provided many, applying the
+        averaging method, if one is provided.","inputs":[{"name":"identifiers","type":"ObservationIdentifier","cardinality":"1..*"},{"name":"averagingMethod","type":"AveragingCalculationMethod","cardinality":"0..1"}],"output":{"name":"observation","type":"Observation","cardinality":"1..1"},"code_implementation":true}]'
+    comments:
+      - 'Rosetta func: Create_AssetReset — Defines how to resolve the reset value for an equity payout.'
+      - 'Rosetta func: ResolveObservationAverage — Specifies the interface that should be used by implementors to resolve
+        a single observation when provided many, applying the averaging method, if one is provided.'
+      - 'Rosetta func: ResolveObservation — Specifies the interface that should be used by implementors to resolve a single
+        observation when provided many, applying the averaging method, if one is provided.'
+    slots:
+      - observedValue
+      - observationIdentifier
+    in_subset:
+      - cdm_observable_event
+
+  ObservationIdentifier:
+    description: Defines the parameters needed to uniquely identify a piece of data among the population of all available
+      market data.
+    comments:
+      - 'Rosetta func: ResolveObservation — Specifies the interface that should be used by implementors to resolve a single
+        observation when provided many, applying the averaging method, if one is provided.'
+    annotations:
+      rosetta_functions: '[{"name":"ResolveObservation","description":"Specifies the interface that should be used by implementors
+        to resolve a single observation when provided many, applying the averaging method, if one is provided.","inputs":[{"name":"identifiers","type":"ObservationIdentifier","cardinality":"1..*"},{"name":"averagingMethod","type":"AveragingCalculationMethod","cardinality":"0..1"}],"output":{"name":"observation","type":"Observation","cardinality":"1..1"},"code_implementation":true}]'
+    slots:
+      - observable
+      - observationDate
+      - observationTime
+      - informationSource
+      - determinationMethodology
+    slot_usage:
+      observable:
+        description: Represents the asset or rate to which the observation relates.
+        required: true
+      informationSource:
+        description: Represents where the market data published and should be observed.
+    in_subset:
+      - cdm_observable_event
+
+  DeterminationMethodology:
+    description: Specifies the method according to which an amount or a date is determined.
+    slots:
+      - determinationMethod
+      - averagingMethod
+    slot_usage:
+      determinationMethod:
+        description: Represents a more granular dimention of observation. Typically relevent for resolving a unique equity
+          price, which can be expressed as trade-weighted or volume-weighted averages.
+        required: false
+    in_subset:
+      - cdm_observable_event

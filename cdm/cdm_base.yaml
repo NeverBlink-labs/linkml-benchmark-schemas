@@ -1,0 +1,50 @@
+id: https://w3id.org/lmodel/common-domain-model/cdm_base
+name: cdm_base
+description: LinkML schema for cdm.base
+license: Apache-2.0
+see_also:
+  - https://cdm.finos.org/
+
+prefixes:
+  common_domain_model: https://w3id.org/lmodel/common-domain-model/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  fpml: http://www.fpml.org/coding-scheme/
+default_prefix: common_domain_model
+default_range: string
+
+imports:
+  - linkml:types
+
+comments:
+  - 'Standard body: ISDA'
+  - 'Standard body: ICMA — ICMA promotes well-functioning cross-border capital markets, which are essential to fund sustainable
+    economic growth. It is a not-for-profit membership association with offices in Zurich, London, Paris, Brussels and Hong
+    Kong, serving over 600 member firms in 65 jurisdictions. Among its members are private and official sector issuers, banks,
+    broker-dealers, asset managers, pension funds, insurance companies, market infrastructure providers, central banks and
+    law firms. It provides industry-driven standards and recommendations, prioritising  four core fixed income market areas:
+    primary, secondary, repo and collateral and sustainable finance. ICMA works with regulatory and governmental authorities,
+    helping to ensure that financial regulation supports stable and efficient capital markets.  www.icmagroup.org'
+  - 'Standard body: ISO'
+  - 'Standard body: AcadiaSoft'
+  - 'Corpus: GMRA — The Global Master Repurchase Agreement (GMRA) is a model legal agreement designed for parties transacting
+    repos and is published by the International Capital Market Association (ICMA).'
+  - 'Corpus: ERCCBestPractice — The ERCC Guide to Best Practice in the European Repo Market is published by ICMAs European
+    Repo and Collateral Council (ERCC). Its purpose is to help foster a fair and efficient European repo market by recommending
+    practices which market experience suggests can help avoid uncertainty or disagreement about transactions, and consequent
+    delay or disruption to repo trading and settlement. With the same purpose in mind, the Guide also codifies market conventions,
+    where this has been thought to be helpful, usually in response to queries from market participants.'
+  - 'Corpus: FpML_Coding_Scheme'
+  - 'Corpus: ISO_4217_Currency_Scheme'
+  - 'Corpus: ISO20022'
+  - 'Corpus: AM_1_0 — AcadiaSoft'
+  - 'Corpus: Taxonomy_v1 — For OTCD trade reporting, the ISDA OTC Derivatives Taxonomy (“Taxonomy v1.0”) was used for cross-jurisdictional
+    reporting for Credit, Rates, Equities, Commodities and FX from 2012.'
+  - 'Corpus: Taxonomy_v2 — For OTCD trade reporting, the ISDA OTC Derivatives Taxonomy (“Taxonomy v2.0”) was used for cross-jurisdictional
+    reporting for Credit, Rates, Equities, Commodities and FX from 2018.'
+  - 'Segment type: schemeLocation'
+  - 'Segment type: namingConvention'
+
+subsets:
+  cdm_base:
+    description: Classes defined in the cdm_base module.

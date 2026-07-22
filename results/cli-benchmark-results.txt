@@ -1,0 +1,264 @@
+Benchmarking json-schema on brigde2ai_model_card
+Benchmark 1: nativeImage
+  Time (mean ± σ):       5.0 ms ±   0.2 ms    [User: 2.8 ms, System: 2.3 ms]
+  Range (min … max):     4.6 ms …   5.6 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     626.8 ms ±   9.6 ms    [User: 590.8 ms, System: 35.0 ms]
+  Range (min … max):   613.4 ms … 642.4 ms    50 runs
+ 
+Summary
+  nativeImage ran
+  124.50 ± 5.61 times faster than python
+Benchmarking shacl on brigde2ai_model_card
+Benchmark 1: nativeImage
+  Time (mean ± σ):       5.1 ms ±   0.2 ms    [User: 2.6 ms, System: 2.5 ms]
+  Range (min … max):     4.7 ms …   5.7 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     643.4 ms ±   9.9 ms    [User: 605.3 ms, System: 37.6 ms]
+  Range (min … max):   629.7 ms … 662.3 ms    50 runs
+ 
+Summary
+  nativeImage ran
+  126.81 ± 5.80 times faster than python
+Benchmarking json-schema on cdm
+Benchmark 1: nativeImage
+  Time (mean ± σ):     354.8 ms ±   6.2 ms    [User: 334.3 ms, System: 20.4 ms]
+  Range (min … max):   343.9 ms … 366.9 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      2.534 s ±  0.052 s    [User: 2.471 s, System: 0.062 s]
+  Range (min … max):    2.468 s …  2.651 s    50 runs
+ 
+Summary
+  nativeImage ran
+    7.14 ± 0.19 times faster than python
+Benchmarking shacl on cdm
+Benchmark 1: nativeImage
+  Time (mean ± σ):     786.9 ms ±  16.8 ms    [User: 764.8 ms, System: 21.9 ms]
+  Range (min … max):   766.1 ms … 810.3 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      3.336 s ±  0.057 s    [User: 3.254 s, System: 0.081 s]
+  Range (min … max):    3.240 s …  3.437 s    50 runs
+ 
+Summary
+  nativeImage ran
+    4.24 ± 0.12 times faster than python
+Benchmarking json-schema on chem-dcat-ap
+Benchmark 1: nativeImage
+  Time (mean ± σ):      17.0 ms ±   0.3 ms    [User: 12.8 ms, System: 4.1 ms]
+  Range (min … max):    16.3 ms …  18.2 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     786.0 ms ±  17.1 ms    [User: 748.7 ms, System: 36.9 ms]
+  Range (min … max):   766.4 ms … 820.0 ms    50 runs
+ 
+Summary
+  nativeImage ran
+   46.35 ± 1.37 times faster than python
+Benchmarking shacl on chem-dcat-ap
+Benchmark 1: nativeImage
+  Time (mean ± σ):      83.6 ms ±   1.7 ms    [User: 79.5 ms, System: 4.1 ms]
+  Range (min … max):    81.8 ms …  89.4 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     864.3 ms ±  14.3 ms    [User: 825.0 ms, System: 38.9 ms]
+  Range (min … max):   845.9 ms … 894.2 ms    50 runs
+ 
+Summary
+  nativeImage ran
+   10.34 ± 0.27 times faster than python
+Benchmarking json-schema on crdch
+Benchmark 1: nativeImage
+  Time (mean ± σ):     164.7 ms ±   1.8 ms    [User: 148.3 ms, System: 16.3 ms]
+  Range (min … max):   159.5 ms … 168.4 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      1.163 s ±  0.018 s    [User: 1.111 s, System: 0.052 s]
+  Range (min … max):    1.134 s …  1.201 s    50 runs
+ 
+Summary
+  nativeImage ran
+    7.06 ± 0.14 times faster than python
+Benchmarking shacl on crdch
+Benchmark 1: nativeImage
+  Time (mean ± σ):     164.0 ms ±   2.6 ms    [User: 147.7 ms, System: 16.2 ms]
+  Range (min … max):   158.7 ms … 170.5 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      1.203 s ±  0.016 s    [User: 1.152 s, System: 0.050 s]
+  Range (min … max):    1.176 s …  1.220 s    50 runs
+ 
+Summary
+  nativeImage ran
+    7.34 ± 0.15 times faster than python
+Benchmarking json-schema on d3fend
+Benchmark 1: nativeImage
+  Time (mean ± σ):     284.7 ms ±   4.8 ms    [User: 252.1 ms, System: 32.5 ms]
+  Range (min … max):   277.2 ms … 295.2 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      4.451 s ±  0.092 s    [User: 4.385 s, System: 0.064 s]
+  Range (min … max):    4.344 s …  4.660 s    50 runs
+ 
+Summary
+  nativeImage ran
+   15.63 ± 0.42 times faster than python
+Benchmarking shacl on d3fend
+Benchmark 1: nativeImage
+  Time (mean ± σ):     239.9 ms ±   3.8 ms    [User: 212.2 ms, System: 27.6 ms]
+  Range (min … max):   231.6 ms … 248.8 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      5.782 s ±  0.070 s    [User: 5.702 s, System: 0.079 s]
+  Range (min … max):    5.661 s …  5.932 s    50 runs
+ 
+Summary
+  nativeImage ran
+   24.10 ± 0.48 times faster than python
+Benchmarking json-schema on fluxnova-bpm
+Benchmark 1: nativeImage
+  Time (mean ± σ):      24.7 ms ±   0.4 ms    [User: 18.0 ms, System: 6.7 ms]
+  Range (min … max):    23.7 ms …  26.5 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      1.291 s ±  0.027 s    [User: 1.250 s, System: 0.041 s]
+  Range (min … max):    1.255 s …  1.352 s    50 runs
+ 
+Summary
+  nativeImage ran
+   52.28 ± 1.43 times faster than python
+Benchmarking shacl on fluxnova-bpm
+Benchmark 1: nativeImage
+  Time (mean ± σ):     504.8 ms ±   7.9 ms    [User: 488.4 ms, System: 16.2 ms]
+  Range (min … max):   494.9 ms … 519.6 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      1.700 s ±  0.031 s    [User: 1.651 s, System: 0.049 s]
+  Range (min … max):    1.654 s …  1.763 s    50 runs
+ 
+Summary
+  nativeImage ran
+    3.37 ± 0.08 times faster than python
+Benchmarking json-schema on include
+Benchmark 1: nativeImage
+  Time (mean ± σ):       5.1 ms ±   0.2 ms    [User: 2.7 ms, System: 2.4 ms]
+  Range (min … max):     4.7 ms …   5.6 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     621.8 ms ±   9.9 ms    [User: 586.6 ms, System: 34.9 ms]
+  Range (min … max):   607.6 ms … 643.4 ms    50 runs
+ 
+Summary
+  nativeImage ran
+  121.16 ± 5.69 times faster than python
+Benchmarking shacl on include
+Benchmark 1: nativeImage
+  Time (mean ± σ):       5.2 ms ±   0.2 ms    [User: 2.9 ms, System: 2.4 ms]
+  Range (min … max):     4.8 ms …   5.6 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     647.2 ms ±  10.0 ms    [User: 610.5 ms, System: 36.4 ms]
+  Range (min … max):   632.2 ms … 666.7 ms    50 runs
+ 
+Summary
+  nativeImage ran
+  124.17 ± 4.77 times faster than python
+Benchmarking json-schema on iso27001
+Benchmark 1: nativeImage
+  Time (mean ± σ):      15.2 ms ±   0.4 ms    [User: 10.3 ms, System: 4.9 ms]
+  Range (min … max):    14.3 ms …  16.9 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     765.2 ms ±  11.9 ms    [User: 726.7 ms, System: 38.1 ms]
+  Range (min … max):   749.0 ms … 785.9 ms    50 runs
+ 
+Summary
+  nativeImage ran
+   50.44 ± 1.67 times faster than python
+Benchmarking shacl on iso27001
+Benchmark 1: nativeImage
+  Time (mean ± σ):      15.7 ms ±   0.4 ms    [User: 10.7 ms, System: 5.0 ms]
+  Range (min … max):    14.8 ms …  16.6 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     857.5 ms ±  15.6 ms    [User: 816.7 ms, System: 40.4 ms]
+  Range (min … max):   837.7 ms … 888.9 ms    50 runs
+ 
+Summary
+  nativeImage ran
+   54.51 ± 1.79 times faster than python
+Benchmarking json-schema on nmdc_microbiome
+Benchmark 1: nativeImage
+  Time (mean ± σ):      49.5 ms ±   0.6 ms    [User: 38.8 ms, System: 10.7 ms]
+  Range (min … max):    48.4 ms …  52.5 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      1.178 s ±  0.020 s    [User: 1.134 s, System: 0.043 s]
+  Range (min … max):    1.147 s …  1.211 s    50 runs
+ 
+Summary
+  nativeImage ran
+   23.79 ± 0.51 times faster than python
+Benchmarking shacl on nmdc_microbiome
+Benchmark 1: nativeImage
+  Time (mean ± σ):     289.9 ms ±   4.6 ms    [User: 274.5 ms, System: 15.3 ms]
+  Range (min … max):   281.8 ms … 297.3 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      1.444 s ±  0.024 s    [User: 1.393 s, System: 0.050 s]
+  Range (min … max):    1.404 s …  1.484 s    50 runs
+ 
+Summary
+  nativeImage ran
+    4.98 ± 0.11 times faster than python
+Benchmarking json-schema on sssom
+Benchmark 1: nativeImage
+  Time (mean ± σ):       4.9 ms ±   0.2 ms    [User: 2.5 ms, System: 2.4 ms]
+  Range (min … max):     4.5 ms …   5.4 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     608.7 ms ±   9.2 ms    [User: 573.0 ms, System: 35.3 ms]
+  Range (min … max):   597.1 ms … 630.2 ms    50 runs
+ 
+Summary
+  nativeImage ran
+  123.84 ± 5.69 times faster than python
+Benchmarking shacl on sssom
+Benchmark 1: nativeImage
+  Time (mean ± σ):       4.9 ms ±   0.2 ms    [User: 2.5 ms, System: 2.4 ms]
+  Range (min … max):     4.6 ms …   5.3 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     621.5 ms ±   8.5 ms    [User: 586.2 ms, System: 34.9 ms]
+  Range (min … max):   609.8 ms … 633.9 ms    50 runs
+ 
+Summary
+  nativeImage ran
+  126.21 ± 4.91 times faster than python
+Benchmarking json-schema on tc57cim
+Benchmark 1: nativeImage
+  Time (mean ± σ):     239.7 ms ±  10.3 ms    [User: 199.4 ms, System: 40.2 ms]
+  Range (min … max):   227.0 ms … 255.7 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):      8.420 s ±  0.162 s    [User: 8.306 s, System: 0.112 s]
+  Range (min … max):    8.147 s …  8.874 s    50 runs
+ 
+Summary
+  nativeImage ran
+   35.13 ± 1.65 times faster than python
+Benchmarking shacl on tc57cim
+Benchmark 1: nativeImage
+  Time (mean ± σ):     229.3 ms ±   6.3 ms    [User: 197.5 ms, System: 31.7 ms]
+  Range (min … max):   219.0 ms … 240.6 ms    50 runs
+ 
+Benchmark 2: python
+  Time (mean ± σ):     14.920 s ±  0.262 s    [User: 14.689 s, System: 0.229 s]
+  Range (min … max):   14.478 s … 15.325 s    50 runs
+ 
+Summary
+  nativeImage ran
+   65.07 ± 2.12 times faster than python

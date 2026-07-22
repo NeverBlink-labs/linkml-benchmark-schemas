@@ -1,0 +1,3173 @@
+./mill benchmark.runJmh -rf json -rff jvm-benchmark-result.json WarmBench
+376] benchmark.compile compiling 1 Scala source to out/benchmark/compile.dest/classes ...
+376] done compiling
+380] benchmark.generateBenchmarkSources
+380] Processing 12 classes from /home/andriy/Projects/com/github/plokhotnyuk/linkml-scala/out/benchmark/compile.dest/classes with "reflection" generator
+380] Writing out Java source to /home/andriy/Projects/com/github/plokhotnyuk/linkml-scala/out/benchmark/generateBenchmarkSources.dest/jmh_sources and resources to /home/andriy/Projects/com/github/plokhotnyuk/linkml-scala/out/benchmark/generateBenchmarkSources.dest/jmh_resources
+382] benchmark.runJmh
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = ai-atlas-nexus)
+
+# Run progress: 0.00% complete, ETA 00:30:00
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 226.128 ops/s
+# Warmup Iteration   2: 322.744 ops/s
+# Warmup Iteration   3: 357.632 ops/s
+# Warmup Iteration   4: 363.337 ops/s
+# Warmup Iteration   5: 362.180 ops/s
+Iteration   1: 364.328 ops/s
+Iteration   2: 362.689 ops/s
+Iteration   3: 364.356 ops/s
+Iteration   4: 363.390 ops/s
+Iteration   5: 364.466 ops/s
+Iteration   6: 363.671 ops/s
+Iteration   7: 364.864 ops/s
+Iteration   8: 363.653 ops/s
+Iteration   9: 364.782 ops/s
+Iteration  10: 363.760 ops/s
+
+# Run progress: 0.83% complete, ETA 00:30:50
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 224.277 ops/s
+# Warmup Iteration   2: 317.591 ops/s
+# Warmup Iteration   3: 355.637 ops/s
+# Warmup Iteration   4: 360.836 ops/s
+# Warmup Iteration   5: 359.265 ops/s
+Iteration   1: 361.138 ops/s
+Iteration   2: 360.570 ops/s
+Iteration   3: 361.075 ops/s
+Iteration   4: 360.622 ops/s
+Iteration   5: 362.005 ops/s
+Iteration   6: 361.201 ops/s
+Iteration   7: 361.938 ops/s
+Iteration   8: 360.951 ops/s
+Iteration   9: 363.138 ops/s
+Iteration  10: 359.666 ops/s
+
+# Run progress: 1.67% complete, ETA 00:30:36
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 221.491 ops/s
+# Warmup Iteration   2: 315.961 ops/s
+# Warmup Iteration   3: 352.333 ops/s
+# Warmup Iteration   4: 357.560 ops/s
+# Warmup Iteration   5: 356.486 ops/s
+Iteration   1: 358.978 ops/s
+Iteration   2: 358.096 ops/s
+Iteration   3: 359.044 ops/s
+Iteration   4: 357.875 ops/s
+Iteration   5: 359.039 ops/s
+Iteration   6: 358.144 ops/s
+Iteration   7: 353.244 ops/s
+Iteration   8: 353.315 ops/s
+Iteration   9: 352.454 ops/s
+Iteration  10: 353.470 ops/s
+
+# Run progress: 2.50% complete, ETA 00:30:21
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 222.142 ops/s
+# Warmup Iteration   2: 308.666 ops/s
+# Warmup Iteration   3: 340.726 ops/s
+# Warmup Iteration   4: 345.634 ops/s
+# Warmup Iteration   5: 344.544 ops/s
+Iteration   1: 344.810 ops/s
+Iteration   2: 344.991 ops/s
+Iteration   3: 346.067 ops/s
+Iteration   4: 346.314 ops/s
+Iteration   5: 345.375 ops/s
+Iteration   6: 346.830 ops/s
+Iteration   7: 346.194 ops/s
+Iteration   8: 346.973 ops/s
+Iteration   9: 346.088 ops/s
+Iteration  10: 347.425 ops/s
+
+# Run progress: 3.33% complete, ETA 00:30:05
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 223.153 ops/s
+# Warmup Iteration   2: 318.797 ops/s
+# Warmup Iteration   3: 356.156 ops/s
+# Warmup Iteration   4: 361.130 ops/s
+# Warmup Iteration   5: 360.738 ops/s
+Iteration   1: 362.344 ops/s
+Iteration   2: 361.050 ops/s
+Iteration   3: 362.209 ops/s
+Iteration   4: 361.507 ops/s
+Iteration   5: 362.738 ops/s
+Iteration   6: 361.656 ops/s
+Iteration   7: 362.827 ops/s
+Iteration   8: 362.279 ops/s
+Iteration   9: 363.236 ops/s
+Iteration  10: 362.671 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  357.990 ±(99.9%) 3.303 ops/s [Average]
+  (min, avg, max) = (344.810, 357.990, 364.864), stdev = 6.672
+  CI (99.9%): [354.687, 361.293] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = brigde2ai_model_card)
+
+# Run progress: 4.17% complete, ETA 00:29:50
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1913.259 ops/s
+# Warmup Iteration   2: 2898.054 ops/s
+# Warmup Iteration   3: 2964.101 ops/s
+# Warmup Iteration   4: 3045.564 ops/s
+# Warmup Iteration   5: 3050.093 ops/s
+Iteration   1: 3033.931 ops/s
+Iteration   2: 3028.674 ops/s
+Iteration   3: 3042.102 ops/s
+Iteration   4: 3041.194 ops/s
+Iteration   5: 3032.958 ops/s
+Iteration   6: 3033.663 ops/s
+Iteration   7: 3048.525 ops/s
+Iteration   8: 3032.072 ops/s
+Iteration   9: 3050.476 ops/s
+Iteration  10: 3048.154 ops/s
+
+# Run progress: 5.00% complete, ETA 00:29:34
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1968.173 ops/s
+# Warmup Iteration   2: 2868.712 ops/s
+# Warmup Iteration   3: 2912.745 ops/s
+# Warmup Iteration   4: 3018.906 ops/s
+# Warmup Iteration   5: 3009.469 ops/s
+Iteration   1: 2984.972 ops/s
+Iteration   2: 3134.780 ops/s
+Iteration   3: 3158.829 ops/s
+Iteration   4: 3151.341 ops/s
+Iteration   5: 3163.063 ops/s
+Iteration   6: 3162.780 ops/s
+Iteration   7: 3152.942 ops/s
+Iteration   8: 3164.694 ops/s
+Iteration   9: 3174.466 ops/s
+Iteration  10: 3167.842 ops/s
+
+# Run progress: 5.83% complete, ETA 00:29:18
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1900.088 ops/s
+# Warmup Iteration   2: 2879.652 ops/s
+# Warmup Iteration   3: 2994.054 ops/s
+# Warmup Iteration   4: 3046.398 ops/s
+# Warmup Iteration   5: 3041.673 ops/s
+Iteration   1: 3033.446 ops/s
+Iteration   2: 3025.881 ops/s
+Iteration   3: 3028.647 ops/s
+Iteration   4: 3007.606 ops/s
+Iteration   5: 3019.099 ops/s
+Iteration   6: 3028.550 ops/s
+Iteration   7: 3030.599 ops/s
+Iteration   8: 3016.802 ops/s
+Iteration   9: 3036.762 ops/s
+Iteration  10: 3040.741 ops/s
+
+# Run progress: 6.67% complete, ETA 00:29:02
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1995.058 ops/s
+# Warmup Iteration   2: 3054.106 ops/s
+# Warmup Iteration   3: 3123.502 ops/s
+# Warmup Iteration   4: 3203.425 ops/s
+# Warmup Iteration   5: 3201.798 ops/s
+Iteration   1: 3210.268 ops/s
+Iteration   2: 3212.887 ops/s
+Iteration   3: 3200.192 ops/s
+Iteration   4: 3214.459 ops/s
+Iteration   5: 3201.288 ops/s
+Iteration   6: 3182.682 ops/s
+Iteration   7: 3163.178 ops/s
+Iteration   8: 3150.903 ops/s
+Iteration   9: 3161.341 ops/s
+Iteration  10: 3157.089 ops/s
+
+# Run progress: 7.50% complete, ETA 00:28:46
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1908.738 ops/s
+# Warmup Iteration   2: 2879.302 ops/s
+# Warmup Iteration   3: 2939.435 ops/s
+# Warmup Iteration   4: 3005.447 ops/s
+# Warmup Iteration   5: 2993.462 ops/s
+Iteration   1: 3002.195 ops/s
+Iteration   2: 3076.085 ops/s
+Iteration   3: 3168.215 ops/s
+Iteration   4: 3165.881 ops/s
+Iteration   5: 3177.150 ops/s
+Iteration   6: 3001.089 ops/s
+Iteration   7: 3005.183 ops/s
+Iteration   8: 2995.495 ops/s
+Iteration   9: 3009.329 ops/s
+Iteration  10: 3010.001 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  3090.810 ±(99.9%) 37.636 ops/s [Average]
+  (min, avg, max) = (2984.972, 3090.810, 3214.459), stdev = 76.027
+  CI (99.9%): [3053.174, 3128.446] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = cdm)
+
+# Run progress: 8.33% complete, ETA 00:28:31
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2.603 ops/s
+# Warmup Iteration   2: 3.103 ops/s
+# Warmup Iteration   3: 3.138 ops/s
+# Warmup Iteration   4: 3.157 ops/s
+# Warmup Iteration   5: 3.162 ops/s
+Iteration   1: 3.167 ops/s
+Iteration   2: 3.173 ops/s
+Iteration   3: 3.173 ops/s
+Iteration   4: 3.174 ops/s
+Iteration   5: 3.172 ops/s
+Iteration   6: 3.176 ops/s
+Iteration   7: 3.175 ops/s
+Iteration   8: 3.176 ops/s
+Iteration   9: 3.178 ops/s
+Iteration  10: 3.173 ops/s
+
+# Run progress: 9.17% complete, ETA 00:28:54
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2.707 ops/s
+# Warmup Iteration   2: 3.156 ops/s
+# Warmup Iteration   3: 3.328 ops/s
+# Warmup Iteration   4: 3.376 ops/s
+# Warmup Iteration   5: 3.283 ops/s
+Iteration   1: 3.277 ops/s
+Iteration   2: 3.285 ops/s
+Iteration   3: 3.212 ops/s
+Iteration   4: 3.187 ops/s
+Iteration   5: 3.179 ops/s
+Iteration   6: 3.174 ops/s
+Iteration   7: 3.169 ops/s
+Iteration   8: 3.170 ops/s
+Iteration   9: 3.164 ops/s
+Iteration  10: 3.170 ops/s
+
+# Run progress: 10.00% complete, ETA 00:29:07
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2.689 ops/s
+# Warmup Iteration   2: 3.117 ops/s
+# Warmup Iteration   3: 3.256 ops/s
+# Warmup Iteration   4: 3.308 ops/s
+# Warmup Iteration   5: 3.311 ops/s
+Iteration   1: 3.310 ops/s
+Iteration   2: 3.329 ops/s
+Iteration   3: 3.344 ops/s
+Iteration   4: 3.340 ops/s
+Iteration   5: 3.344 ops/s
+Iteration   6: 3.344 ops/s
+Iteration   7: 3.349 ops/s
+Iteration   8: 3.345 ops/s
+Iteration   9: 3.346 ops/s
+Iteration  10: 3.345 ops/s
+
+# Run progress: 10.83% complete, ETA 00:29:11
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2.721 ops/s
+# Warmup Iteration   2: 3.189 ops/s
+# Warmup Iteration   3: 3.307 ops/s
+# Warmup Iteration   4: 3.369 ops/s
+# Warmup Iteration   5: 3.367 ops/s
+Iteration   1: 3.367 ops/s
+Iteration   2: 3.368 ops/s
+Iteration   3: 3.379 ops/s
+Iteration   4: 3.375 ops/s
+Iteration   5: 3.376 ops/s
+Iteration   6: 3.372 ops/s
+Iteration   7: 3.381 ops/s
+Iteration   8: 3.376 ops/s
+Iteration   9: 3.377 ops/s
+Iteration  10: 3.372 ops/s
+
+# Run progress: 11.67% complete, ETA 00:29:10
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2.624 ops/s
+# Warmup Iteration   2: 3.052 ops/s
+# Warmup Iteration   3: 3.196 ops/s
+# Warmup Iteration   4: 3.358 ops/s
+# Warmup Iteration   5: 3.363 ops/s
+Iteration   1: 3.360 ops/s
+Iteration   2: 3.365 ops/s
+Iteration   3: 3.368 ops/s
+Iteration   4: 3.364 ops/s
+Iteration   5: 3.369 ops/s
+Iteration   6: 3.369 ops/s
+Iteration   7: 3.369 ops/s
+Iteration   8: 3.373 ops/s
+Iteration   9: 3.370 ops/s
+Iteration  10: 3.373 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  3.291 ±(99.9%) 0.044 ops/s [Average]
+  (min, avg, max) = (3.164, 3.291, 3.381), stdev = 0.090
+  CI (99.9%): [3.246, 3.335] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = chem-dcat-ap)
+
+# Run progress: 12.50% complete, ETA 00:29:09
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 108.413 ops/s
+# Warmup Iteration   2: 152.876 ops/s
+# Warmup Iteration   3: 153.577 ops/s
+# Warmup Iteration   4: 153.725 ops/s
+# Warmup Iteration   5: 156.369 ops/s
+Iteration   1: 156.442 ops/s
+Iteration   2: 155.623 ops/s
+Iteration   3: 156.450 ops/s
+Iteration   4: 155.998 ops/s
+Iteration   5: 156.514 ops/s
+Iteration   6: 157.483 ops/s
+Iteration   7: 156.965 ops/s
+Iteration   8: 157.002 ops/s
+Iteration   9: 157.242 ops/s
+Iteration  10: 157.360 ops/s
+
+# Run progress: 13.33% complete, ETA 00:28:45
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 107.379 ops/s
+# Warmup Iteration   2: 149.665 ops/s
+# Warmup Iteration   3: 151.549 ops/s
+# Warmup Iteration   4: 153.183 ops/s
+# Warmup Iteration   5: 155.077 ops/s
+Iteration   1: 155.766 ops/s
+Iteration   2: 154.851 ops/s
+Iteration   3: 156.078 ops/s
+Iteration   4: 155.852 ops/s
+Iteration   5: 156.297 ops/s
+Iteration   6: 156.678 ops/s
+Iteration   7: 157.026 ops/s
+Iteration   8: 156.698 ops/s
+Iteration   9: 157.002 ops/s
+Iteration  10: 156.823 ops/s
+
+# Run progress: 14.17% complete, ETA 00:28:22
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 110.344 ops/s
+# Warmup Iteration   2: 161.788 ops/s
+# Warmup Iteration   3: 163.122 ops/s
+# Warmup Iteration   4: 165.392 ops/s
+# Warmup Iteration   5: 167.124 ops/s
+Iteration   1: 167.411 ops/s
+Iteration   2: 165.958 ops/s
+Iteration   3: 166.356 ops/s
+Iteration   4: 165.783 ops/s
+Iteration   5: 168.346 ops/s
+Iteration   6: 168.215 ops/s
+Iteration   7: 167.595 ops/s
+Iteration   8: 168.239 ops/s
+Iteration   9: 168.216 ops/s
+Iteration  10: 167.622 ops/s
+
+# Run progress: 15.00% complete, ETA 00:28:01
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 107.731 ops/s
+# Warmup Iteration   2: 160.445 ops/s
+# Warmup Iteration   3: 162.109 ops/s
+# Warmup Iteration   4: 164.409 ops/s
+# Warmup Iteration   5: 166.167 ops/s
+Iteration   1: 166.400 ops/s
+Iteration   2: 165.621 ops/s
+Iteration   3: 167.057 ops/s
+Iteration   4: 166.299 ops/s
+Iteration   5: 167.306 ops/s
+Iteration   6: 167.374 ops/s
+Iteration   7: 166.765 ops/s
+Iteration   8: 167.449 ops/s
+Iteration   9: 167.205 ops/s
+Iteration  10: 166.905 ops/s
+
+# Run progress: 15.83% complete, ETA 00:27:39
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 107.313 ops/s
+# Warmup Iteration   2: 154.283 ops/s
+# Warmup Iteration   3: 153.293 ops/s
+# Warmup Iteration   4: 153.862 ops/s
+# Warmup Iteration   5: 155.472 ops/s
+Iteration   1: 155.599 ops/s
+Iteration   2: 154.602 ops/s
+Iteration   3: 154.232 ops/s
+Iteration   4: 155.432 ops/s
+Iteration   5: 155.205 ops/s
+Iteration   6: 155.403 ops/s
+Iteration   7: 155.308 ops/s
+Iteration   8: 155.139 ops/s
+Iteration   9: 155.894 ops/s
+Iteration  10: 156.021 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  160.502 ±(99.9%) 2.728 ops/s [Average]
+  (min, avg, max) = (154.232, 160.502, 168.346), stdev = 5.511
+  CI (99.9%): [157.774, 163.230] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = crdch)
+
+# Run progress: 16.67% complete, ETA 00:27:19
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 327.474 ops/s
+# Warmup Iteration   2: 466.527 ops/s
+# Warmup Iteration   3: 494.517 ops/s
+# Warmup Iteration   4: 495.667 ops/s
+# Warmup Iteration   5: 492.398 ops/s
+Iteration   1: 475.528 ops/s
+Iteration   2: 473.632 ops/s
+Iteration   3: 467.581 ops/s
+Iteration   4: 467.552 ops/s
+Iteration   5: 463.861 ops/s
+Iteration   6: 461.998 ops/s
+Iteration   7: 460.075 ops/s
+Iteration   8: 471.021 ops/s
+Iteration   9: 472.012 ops/s
+Iteration  10: 470.289 ops/s
+
+# Run progress: 17.50% complete, ETA 00:26:59
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 308.993 ops/s
+# Warmup Iteration   2: 432.847 ops/s
+# Warmup Iteration   3: 450.827 ops/s
+# Warmup Iteration   4: 448.111 ops/s
+# Warmup Iteration   5: 452.299 ops/s
+Iteration   1: 452.157 ops/s
+Iteration   2: 446.844 ops/s
+Iteration   3: 452.708 ops/s
+Iteration   4: 454.944 ops/s
+Iteration   5: 447.787 ops/s
+Iteration   6: 458.100 ops/s
+Iteration   7: 464.628 ops/s
+Iteration   8: 453.854 ops/s
+Iteration   9: 460.499 ops/s
+Iteration  10: 467.015 ops/s
+
+# Run progress: 18.33% complete, ETA 00:26:40
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 316.401 ops/s
+# Warmup Iteration   2: 427.092 ops/s
+# Warmup Iteration   3: 451.617 ops/s
+# Warmup Iteration   4: 460.187 ops/s
+# Warmup Iteration   5: 456.085 ops/s
+Iteration   1: 452.187 ops/s
+Iteration   2: 453.693 ops/s
+Iteration   3: 457.881 ops/s
+Iteration   4: 458.719 ops/s
+Iteration   5: 452.680 ops/s
+Iteration   6: 461.817 ops/s
+Iteration   7: 493.232 ops/s
+Iteration   8: 496.245 ops/s
+Iteration   9: 492.902 ops/s
+Iteration  10: 491.466 ops/s
+
+# Run progress: 19.17% complete, ETA 00:26:21
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 317.367 ops/s
+# Warmup Iteration   2: 430.649 ops/s
+# Warmup Iteration   3: 446.297 ops/s
+# Warmup Iteration   4: 478.850 ops/s
+# Warmup Iteration   5: 479.252 ops/s
+Iteration   1: 475.318 ops/s
+Iteration   2: 478.582 ops/s
+Iteration   3: 478.283 ops/s
+Iteration   4: 476.551 ops/s
+Iteration   5: 486.166 ops/s
+Iteration   6: 487.513 ops/s
+Iteration   7: 477.938 ops/s
+Iteration   8: 490.892 ops/s
+Iteration   9: 490.767 ops/s
+Iteration  10: 484.050 ops/s
+
+# Run progress: 20.00% complete, ETA 00:26:02
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 322.350 ops/s
+# Warmup Iteration   2: 446.964 ops/s
+# Warmup Iteration   3: 465.601 ops/s
+# Warmup Iteration   4: 462.566 ops/s
+# Warmup Iteration   5: 458.011 ops/s
+Iteration   1: 457.927 ops/s
+Iteration   2: 490.133 ops/s
+Iteration   3: 489.197 ops/s
+Iteration   4: 484.492 ops/s
+Iteration   5: 489.885 ops/s
+Iteration   6: 497.421 ops/s
+Iteration   7: 490.234 ops/s
+Iteration   8: 492.977 ops/s
+Iteration   9: 493.490 ops/s
+Iteration  10: 477.191 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  472.838 ±(99.9%) 7.560 ops/s [Average]
+  (min, avg, max) = (446.844, 472.838, 497.421), stdev = 15.272
+  CI (99.9%): [465.278, 480.398] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = d3fend)
+
+# Run progress: 20.83% complete, ETA 00:25:44
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.585 ops/s
+# Warmup Iteration   2: 15.054 ops/s
+# Warmup Iteration   3: 15.840 ops/s
+# Warmup Iteration   4: 16.127 ops/s
+# Warmup Iteration   5: 15.971 ops/s
+Iteration   1: 16.060 ops/s
+Iteration   2: 16.021 ops/s
+Iteration   3: 16.101 ops/s
+Iteration   4: 16.156 ops/s
+Iteration   5: 16.233 ops/s
+Iteration   6: 16.198 ops/s
+Iteration   7: 16.207 ops/s
+Iteration   8: 16.259 ops/s
+Iteration   9: 16.282 ops/s
+Iteration  10: 16.213 ops/s
+
+# Run progress: 21.67% complete, ETA 00:25:28
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 12.266 ops/s
+# Warmup Iteration   2: 16.147 ops/s
+# Warmup Iteration   3: 17.146 ops/s
+# Warmup Iteration   4: 17.238 ops/s
+# Warmup Iteration   5: 17.188 ops/s
+Iteration   1: 17.398 ops/s
+Iteration   2: 17.330 ops/s
+Iteration   3: 17.372 ops/s
+Iteration   4: 17.362 ops/s
+Iteration   5: 17.339 ops/s
+Iteration   6: 17.329 ops/s
+Iteration   7: 17.365 ops/s
+Iteration   8: 17.342 ops/s
+Iteration   9: 17.281 ops/s
+Iteration  10: 17.348 ops/s
+
+# Run progress: 22.50% complete, ETA 00:25:12
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 12.287 ops/s
+# Warmup Iteration   2: 16.061 ops/s
+# Warmup Iteration   3: 16.957 ops/s
+# Warmup Iteration   4: 17.103 ops/s
+# Warmup Iteration   5: 17.036 ops/s
+Iteration   1: 17.113 ops/s
+Iteration   2: 17.210 ops/s
+Iteration   3: 17.166 ops/s
+Iteration   4: 17.309 ops/s
+Iteration   5: 17.223 ops/s
+Iteration   6: 17.273 ops/s
+Iteration   7: 17.303 ops/s
+Iteration   8: 17.314 ops/s
+Iteration   9: 17.302 ops/s
+Iteration  10: 17.168 ops/s
+
+# Run progress: 23.33% complete, ETA 00:24:56
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.409 ops/s
+# Warmup Iteration   2: 14.938 ops/s
+# Warmup Iteration   3: 15.629 ops/s
+# Warmup Iteration   4: 15.946 ops/s
+# Warmup Iteration   5: 15.950 ops/s
+Iteration   1: 15.916 ops/s
+Iteration   2: 15.934 ops/s
+Iteration   3: 15.949 ops/s
+Iteration   4: 15.879 ops/s
+Iteration   5: 15.972 ops/s
+Iteration   6: 15.979 ops/s
+Iteration   7: 16.035 ops/s
+Iteration   8: 15.958 ops/s
+Iteration   9: 15.944 ops/s
+Iteration  10: 15.888 ops/s
+
+# Run progress: 24.17% complete, ETA 00:24:39
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.372 ops/s
+# Warmup Iteration   2: 15.528 ops/s
+# Warmup Iteration   3: 16.736 ops/s
+# Warmup Iteration   4: 16.904 ops/s
+# Warmup Iteration   5: 16.888 ops/s
+Iteration   1: 16.821 ops/s
+Iteration   2: 16.977 ops/s
+Iteration   3: 16.938 ops/s
+Iteration   4: 16.988 ops/s
+Iteration   5: 16.891 ops/s
+Iteration   6: 16.961 ops/s
+Iteration   7: 16.850 ops/s
+Iteration   8: 16.874 ops/s
+Iteration   9: 16.851 ops/s
+Iteration  10: 16.917 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  16.722 ±(99.9%) 0.284 ops/s [Average]
+  (min, avg, max) = (15.879, 16.722, 17.398), stdev = 0.574
+  CI (99.9%): [16.438, 17.006] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = fluxnova-bpm)
+
+# Run progress: 25.00% complete, ETA 00:24:22
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 238.654 ops/s
+# Warmup Iteration   2: 301.254 ops/s
+# Warmup Iteration   3: 325.395 ops/s
+# Warmup Iteration   4: 328.184 ops/s
+# Warmup Iteration   5: 328.809 ops/s
+Iteration   1: 353.065 ops/s
+Iteration   2: 358.340 ops/s
+Iteration   3: 358.881 ops/s
+Iteration   4: 358.906 ops/s
+Iteration   5: 357.716 ops/s
+Iteration   6: 358.548 ops/s
+Iteration   7: 358.796 ops/s
+Iteration   8: 359.065 ops/s
+Iteration   9: 358.978 ops/s
+Iteration  10: 358.257 ops/s
+
+# Run progress: 25.83% complete, ETA 00:24:04
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 234.401 ops/s
+# Warmup Iteration   2: 299.444 ops/s
+# Warmup Iteration   3: 307.190 ops/s
+# Warmup Iteration   4: 309.708 ops/s
+# Warmup Iteration   5: 310.130 ops/s
+Iteration   1: 327.277 ops/s
+Iteration   2: 335.270 ops/s
+Iteration   3: 336.168 ops/s
+Iteration   4: 336.095 ops/s
+Iteration   5: 336.591 ops/s
+Iteration   6: 335.789 ops/s
+Iteration   7: 337.839 ops/s
+Iteration   8: 337.104 ops/s
+Iteration   9: 337.326 ops/s
+Iteration  10: 336.512 ops/s
+
+# Run progress: 26.67% complete, ETA 00:23:46
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 236.119 ops/s
+# Warmup Iteration   2: 300.071 ops/s
+# Warmup Iteration   3: 316.895 ops/s
+# Warmup Iteration   4: 313.930 ops/s
+# Warmup Iteration   5: 314.032 ops/s
+Iteration   1: 345.810 ops/s
+Iteration   2: 356.184 ops/s
+Iteration   3: 356.931 ops/s
+Iteration   4: 357.170 ops/s
+Iteration   5: 355.316 ops/s
+Iteration   6: 356.841 ops/s
+Iteration   7: 357.297 ops/s
+Iteration   8: 357.538 ops/s
+Iteration   9: 357.514 ops/s
+Iteration  10: 356.211 ops/s
+
+# Run progress: 27.50% complete, ETA 00:23:28
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 231.834 ops/s
+# Warmup Iteration   2: 292.888 ops/s
+# Warmup Iteration   3: 314.715 ops/s
+# Warmup Iteration   4: 317.585 ops/s
+# Warmup Iteration   5: 309.950 ops/s
+Iteration   1: 341.372 ops/s
+Iteration   2: 341.633 ops/s
+Iteration   3: 342.486 ops/s
+Iteration   4: 342.626 ops/s
+Iteration   5: 354.377 ops/s
+Iteration   6: 355.389 ops/s
+Iteration   7: 355.614 ops/s
+Iteration   8: 355.882 ops/s
+Iteration   9: 355.626 ops/s
+Iteration  10: 354.707 ops/s
+
+# Run progress: 28.33% complete, ETA 00:23:10
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 241.241 ops/s
+# Warmup Iteration   2: 308.282 ops/s
+# Warmup Iteration   3: 325.236 ops/s
+# Warmup Iteration   4: 327.594 ops/s
+# Warmup Iteration   5: 328.058 ops/s
+Iteration   1: 354.863 ops/s
+Iteration   2: 357.786 ops/s
+Iteration   3: 358.595 ops/s
+Iteration   4: 358.315 ops/s
+Iteration   5: 356.517 ops/s
+Iteration   6: 357.605 ops/s
+Iteration   7: 357.779 ops/s
+Iteration   8: 358.433 ops/s
+Iteration   9: 358.162 ops/s
+Iteration  10: 357.084 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  351.364 ±(99.9%) 4.570 ops/s [Average]
+  (min, avg, max) = (327.277, 351.364, 359.065), stdev = 9.232
+  CI (99.9%): [346.793, 355.934] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = include)
+
+# Run progress: 29.17% complete, ETA 00:22:53
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2406.273 ops/s
+# Warmup Iteration   2: 3655.231 ops/s
+# Warmup Iteration   3: 4046.999 ops/s
+# Warmup Iteration   4: 4093.107 ops/s
+# Warmup Iteration   5: 4070.490 ops/s
+Iteration   1: 4096.972 ops/s
+Iteration   2: 4077.355 ops/s
+Iteration   3: 4082.342 ops/s
+Iteration   4: 4072.009 ops/s
+Iteration   5: 4046.171 ops/s
+Iteration   6: 4046.878 ops/s
+Iteration   7: 4053.987 ops/s
+Iteration   8: 4093.051 ops/s
+Iteration   9: 4088.495 ops/s
+Iteration  10: 4096.670 ops/s
+
+# Run progress: 30.00% complete, ETA 00:22:35
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2361.337 ops/s
+# Warmup Iteration   2: 3642.540 ops/s
+# Warmup Iteration   3: 3849.737 ops/s
+# Warmup Iteration   4: 4061.428 ops/s
+# Warmup Iteration   5: 4061.001 ops/s
+Iteration   1: 4037.697 ops/s
+Iteration   2: 3996.282 ops/s
+Iteration   3: 4004.636 ops/s
+Iteration   4: 4011.307 ops/s
+Iteration   5: 4004.175 ops/s
+Iteration   6: 4005.295 ops/s
+Iteration   7: 4028.049 ops/s
+Iteration   8: 4029.047 ops/s
+Iteration   9: 4042.694 ops/s
+Iteration  10: 4036.578 ops/s
+
+# Run progress: 30.83% complete, ETA 00:22:18
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2416.087 ops/s
+# Warmup Iteration   2: 3674.158 ops/s
+# Warmup Iteration   3: 3842.574 ops/s
+# Warmup Iteration   4: 3874.724 ops/s
+# Warmup Iteration   5: 3850.561 ops/s
+Iteration   1: 3868.924 ops/s
+Iteration   2: 4062.837 ops/s
+Iteration   3: 4089.225 ops/s
+Iteration   4: 4070.533 ops/s
+Iteration   5: 4073.520 ops/s
+Iteration   6: 4048.141 ops/s
+Iteration   7: 4039.445 ops/s
+Iteration   8: 4037.917 ops/s
+Iteration   9: 4040.015 ops/s
+Iteration  10: 4036.510 ops/s
+
+# Run progress: 31.67% complete, ETA 00:22:00
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2404.026 ops/s
+# Warmup Iteration   2: 3857.858 ops/s
+# Warmup Iteration   3: 4067.921 ops/s
+# Warmup Iteration   4: 4102.074 ops/s
+# Warmup Iteration   5: 4093.764 ops/s
+Iteration   1: 4092.163 ops/s
+Iteration   2: 4076.867 ops/s
+Iteration   3: 4042.876 ops/s
+Iteration   4: 4051.640 ops/s
+Iteration   5: 4033.267 ops/s
+Iteration   6: 4054.664 ops/s
+Iteration   7: 4074.670 ops/s
+Iteration   8: 4064.058 ops/s
+Iteration   9: 4068.583 ops/s
+Iteration  10: 4072.651 ops/s
+
+# Run progress: 32.50% complete, ETA 00:21:43
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2438.347 ops/s
+# Warmup Iteration   2: 3900.697 ops/s
+# Warmup Iteration   3: 4039.082 ops/s
+# Warmup Iteration   4: 4121.496 ops/s
+# Warmup Iteration   5: 4085.296 ops/s
+Iteration   1: 4079.457 ops/s
+Iteration   2: 4063.289 ops/s
+Iteration   3: 4048.518 ops/s
+Iteration   4: 4070.476 ops/s
+Iteration   5: 4056.966 ops/s
+Iteration   6: 4060.090 ops/s
+Iteration   7: 4073.251 ops/s
+Iteration   8: 4071.911 ops/s
+Iteration   9: 4071.830 ops/s
+Iteration  10: 4079.889 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  4052.478 ±(99.9%) 18.184 ops/s [Average]
+  (min, avg, max) = (3868.924, 4052.478, 4096.972), stdev = 36.732
+  CI (99.9%): [4034.294, 4070.661] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = iso27001)
+
+# Run progress: 33.33% complete, ETA 00:21:26
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 423.939 ops/s
+# Warmup Iteration   2: 531.389 ops/s
+# Warmup Iteration   3: 825.472 ops/s
+# Warmup Iteration   4: 829.339 ops/s
+# Warmup Iteration   5: 838.192 ops/s
+Iteration   1: 837.765 ops/s
+Iteration   2: 839.478 ops/s
+Iteration   3: 861.956 ops/s
+Iteration   4: 879.021 ops/s
+Iteration   5: 896.064 ops/s
+Iteration   6: 892.249 ops/s
+Iteration   7: 893.055 ops/s
+Iteration   8: 892.717 ops/s
+Iteration   9: 887.756 ops/s
+Iteration  10: 885.515 ops/s
+
+# Run progress: 34.17% complete, ETA 00:21:09
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 430.103 ops/s
+# Warmup Iteration   2: 541.082 ops/s
+# Warmup Iteration   3: 827.546 ops/s
+# Warmup Iteration   4: 841.176 ops/s
+# Warmup Iteration   5: 839.323 ops/s
+Iteration   1: 845.960 ops/s
+Iteration   2: 846.947 ops/s
+Iteration   3: 836.840 ops/s
+Iteration   4: 847.836 ops/s
+Iteration   5: 861.456 ops/s
+Iteration   6: 860.306 ops/s
+Iteration   7: 857.124 ops/s
+Iteration   8: 859.345 ops/s
+Iteration   9: 862.944 ops/s
+Iteration  10: 861.886 ops/s
+
+# Run progress: 35.00% complete, ETA 00:20:52
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 432.073 ops/s
+# Warmup Iteration   2: 542.245 ops/s
+# Warmup Iteration   3: 836.615 ops/s
+# Warmup Iteration   4: 837.833 ops/s
+# Warmup Iteration   5: 838.543 ops/s
+Iteration   1: 847.484 ops/s
+Iteration   2: 842.928 ops/s
+Iteration   3: 837.149 ops/s
+Iteration   4: 850.273 ops/s
+Iteration   5: 859.547 ops/s
+Iteration   6: 859.815 ops/s
+Iteration   7: 855.655 ops/s
+Iteration   8: 859.145 ops/s
+Iteration   9: 861.719 ops/s
+Iteration  10: 861.459 ops/s
+
+# Run progress: 35.83% complete, ETA 00:20:35
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 436.216 ops/s
+# Warmup Iteration   2: 553.342 ops/s
+# Warmup Iteration   3: 842.250 ops/s
+# Warmup Iteration   4: 841.888 ops/s
+# Warmup Iteration   5: 840.486 ops/s
+Iteration   1: 845.866 ops/s
+Iteration   2: 849.956 ops/s
+Iteration   3: 840.814 ops/s
+Iteration   4: 853.545 ops/s
+Iteration   5: 861.636 ops/s
+Iteration   6: 862.701 ops/s
+Iteration   7: 860.345 ops/s
+Iteration   8: 864.466 ops/s
+Iteration   9: 866.111 ops/s
+Iteration  10: 912.487 ops/s
+
+# Run progress: 36.67% complete, ETA 00:20:18
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 485.061 ops/s
+# Warmup Iteration   2: 754.770 ops/s
+# Warmup Iteration   3: 888.221 ops/s
+# Warmup Iteration   4: 884.713 ops/s
+# Warmup Iteration   5: 888.571 ops/s
+Iteration   1: 895.894 ops/s
+Iteration   2: 875.233 ops/s
+Iteration   3: 907.672 ops/s
+Iteration   4: 905.360 ops/s
+Iteration   5: 907.914 ops/s
+Iteration   6: 909.820 ops/s
+Iteration   7: 905.823 ops/s
+Iteration   8: 912.188 ops/s
+Iteration   9: 913.142 ops/s
+Iteration  10: 912.805 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  870.103 ±(99.9%) 12.015 ops/s [Average]
+  (min, avg, max) = (836.840, 870.103, 913.142), stdev = 24.271
+  CI (99.9%): [858.089, 882.118] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = nmdc_microbiome)
+
+# Run progress: 37.50% complete, ETA 00:20:01
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 41.914 ops/s
+# Warmup Iteration   2: 55.659 ops/s
+# Warmup Iteration   3: 59.732 ops/s
+# Warmup Iteration   4: 60.613 ops/s
+# Warmup Iteration   5: 60.666 ops/s
+Iteration   1: 62.473 ops/s
+Iteration   2: 63.818 ops/s
+Iteration   3: 64.015 ops/s
+Iteration   4: 63.959 ops/s
+Iteration   5: 64.108 ops/s
+Iteration   6: 63.891 ops/s
+Iteration   7: 64.115 ops/s
+Iteration   8: 64.240 ops/s
+Iteration   9: 64.144 ops/s
+Iteration  10: 63.956 ops/s
+
+# Run progress: 38.33% complete, ETA 00:19:45
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 41.268 ops/s
+# Warmup Iteration   2: 54.164 ops/s
+# Warmup Iteration   3: 59.797 ops/s
+# Warmup Iteration   4: 58.615 ops/s
+# Warmup Iteration   5: 58.251 ops/s
+Iteration   1: 59.031 ops/s
+Iteration   2: 60.164 ops/s
+Iteration   3: 60.184 ops/s
+Iteration   4: 59.894 ops/s
+Iteration   5: 59.857 ops/s
+Iteration   6: 59.435 ops/s
+Iteration   7: 63.936 ops/s
+Iteration   8: 64.076 ops/s
+Iteration   9: 64.042 ops/s
+Iteration  10: 64.039 ops/s
+
+# Run progress: 39.17% complete, ETA 00:19:28
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 42.309 ops/s
+# Warmup Iteration   2: 56.468 ops/s
+# Warmup Iteration   3: 59.438 ops/s
+# Warmup Iteration   4: 60.567 ops/s
+# Warmup Iteration   5: 60.567 ops/s
+Iteration   1: 62.398 ops/s
+Iteration   2: 63.495 ops/s
+Iteration   3: 63.938 ops/s
+Iteration   4: 63.707 ops/s
+Iteration   5: 63.919 ops/s
+Iteration   6: 63.721 ops/s
+Iteration   7: 64.042 ops/s
+Iteration   8: 63.991 ops/s
+Iteration   9: 63.999 ops/s
+Iteration  10: 63.829 ops/s
+
+# Run progress: 40.00% complete, ETA 00:19:12
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 42.161 ops/s
+# Warmup Iteration   2: 56.307 ops/s
+# Warmup Iteration   3: 59.544 ops/s
+# Warmup Iteration   4: 60.527 ops/s
+# Warmup Iteration   5: 60.496 ops/s
+Iteration   1: 62.452 ops/s
+Iteration   2: 63.774 ops/s
+Iteration   3: 63.962 ops/s
+Iteration   4: 63.908 ops/s
+Iteration   5: 64.105 ops/s
+Iteration   6: 63.865 ops/s
+Iteration   7: 64.143 ops/s
+Iteration   8: 64.196 ops/s
+Iteration   9: 64.163 ops/s
+Iteration  10: 63.873 ops/s
+
+# Run progress: 40.83% complete, ETA 00:18:55
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 41.755 ops/s
+# Warmup Iteration   2: 55.888 ops/s
+# Warmup Iteration   3: 59.989 ops/s
+# Warmup Iteration   4: 60.561 ops/s
+# Warmup Iteration   5: 60.827 ops/s
+Iteration   1: 62.695 ops/s
+Iteration   2: 62.545 ops/s
+Iteration   3: 64.107 ops/s
+Iteration   4: 63.879 ops/s
+Iteration   5: 64.265 ops/s
+Iteration   6: 63.976 ops/s
+Iteration   7: 64.117 ops/s
+Iteration   8: 64.249 ops/s
+Iteration   9: 64.188 ops/s
+Iteration  10: 63.969 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  63.337 ±(99.9%) 0.704 ops/s [Average]
+  (min, avg, max) = (59.031, 63.337, 64.265), stdev = 1.421
+  CI (99.9%): [62.633, 64.041] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = sssom)
+
+# Run progress: 41.67% complete, ETA 00:18:39
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2463.782 ops/s
+# Warmup Iteration   2: 4663.210 ops/s
+# Warmup Iteration   3: 4898.881 ops/s
+# Warmup Iteration   4: 4871.347 ops/s
+# Warmup Iteration   5: 4876.180 ops/s
+Iteration   1: 5112.855 ops/s
+Iteration   2: 5122.522 ops/s
+Iteration   3: 5132.282 ops/s
+Iteration   4: 5135.456 ops/s
+Iteration   5: 5137.710 ops/s
+Iteration   6: 5131.057 ops/s
+Iteration   7: 5149.698 ops/s
+Iteration   8: 5190.185 ops/s
+Iteration   9: 5286.879 ops/s
+Iteration  10: 5282.393 ops/s
+
+# Run progress: 42.50% complete, ETA 00:18:22
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2982.629 ops/s
+# Warmup Iteration   2: 4608.080 ops/s
+# Warmup Iteration   3: 4857.760 ops/s
+# Warmup Iteration   4: 5096.659 ops/s
+# Warmup Iteration   5: 5102.110 ops/s
+Iteration   1: 5123.188 ops/s
+Iteration   2: 5064.746 ops/s
+Iteration   3: 5064.782 ops/s
+Iteration   4: 5031.379 ops/s
+Iteration   5: 5088.378 ops/s
+Iteration   6: 5122.475 ops/s
+Iteration   7: 5127.525 ops/s
+Iteration   8: 5165.455 ops/s
+Iteration   9: 5289.820 ops/s
+Iteration  10: 5282.847 ops/s
+
+# Run progress: 43.33% complete, ETA 00:18:06
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 3000.065 ops/s
+# Warmup Iteration   2: 4607.585 ops/s
+# Warmup Iteration   3: 4849.147 ops/s
+# Warmup Iteration   4: 4840.300 ops/s
+# Warmup Iteration   5: 4834.640 ops/s
+Iteration   1: 4830.845 ops/s
+Iteration   2: 4822.637 ops/s
+Iteration   3: 4853.799 ops/s
+Iteration   4: 4825.704 ops/s
+Iteration   5: 4849.619 ops/s
+Iteration   6: 4835.986 ops/s
+Iteration   7: 4851.133 ops/s
+Iteration   8: 4848.505 ops/s
+Iteration   9: 4974.294 ops/s
+Iteration  10: 4995.918 ops/s
+
+# Run progress: 44.17% complete, ETA 00:17:49
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2933.342 ops/s
+# Warmup Iteration   2: 4905.098 ops/s
+# Warmup Iteration   3: 5139.703 ops/s
+# Warmup Iteration   4: 4889.209 ops/s
+# Warmup Iteration   5: 4875.992 ops/s
+Iteration   1: 4892.560 ops/s
+Iteration   2: 4862.626 ops/s
+Iteration   3: 4877.317 ops/s
+Iteration   4: 4863.606 ops/s
+Iteration   5: 4883.590 ops/s
+Iteration   6: 4852.916 ops/s
+Iteration   7: 4885.683 ops/s
+Iteration   8: 4887.587 ops/s
+Iteration   9: 4997.070 ops/s
+Iteration  10: 5013.990 ops/s
+
+# Run progress: 45.00% complete, ETA 00:17:33
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2443.218 ops/s
+# Warmup Iteration   2: 4466.580 ops/s
+# Warmup Iteration   3: 4872.206 ops/s
+# Warmup Iteration   4: 4859.921 ops/s
+# Warmup Iteration   5: 4871.401 ops/s
+Iteration   1: 4861.353 ops/s
+Iteration   2: 4871.412 ops/s
+Iteration   3: 4853.549 ops/s
+Iteration   4: 4890.069 ops/s
+Iteration   5: 4869.124 ops/s
+Iteration   6: 4865.459 ops/s
+Iteration   7: 4890.248 ops/s
+Iteration   8: 4888.010 ops/s
+Iteration   9: 4982.504 ops/s
+Iteration  10: 5010.464 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  4994.584 ±(99.9%) 71.971 ops/s [Average]
+  (min, avg, max) = (4822.637, 4994.584, 5289.820), stdev = 145.385
+  CI (99.9%): [4922.613, 5066.555] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.jsonSchema
+# Parameters: (model = tc57cim)
+
+# Run progress: 45.83% complete, ETA 00:17:16
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9.551 ops/s
+# Warmup Iteration   2: 15.507 ops/s
+# Warmup Iteration   3: 18.271 ops/s
+# Warmup Iteration   4: 18.379 ops/s
+# Warmup Iteration   5: 18.934 ops/s
+Iteration   1: 18.751 ops/s
+Iteration   2: 18.800 ops/s
+Iteration   3: 18.788 ops/s
+Iteration   4: 19.015 ops/s
+Iteration   5: 18.764 ops/s
+Iteration   6: 18.704 ops/s
+Iteration   7: 18.663 ops/s
+Iteration   8: 18.697 ops/s
+Iteration   9: 18.939 ops/s
+Iteration  10: 18.918 ops/s
+
+# Run progress: 46.67% complete, ETA 00:17:01
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9.750 ops/s
+# Warmup Iteration   2: 15.598 ops/s
+# Warmup Iteration   3: 18.058 ops/s
+# Warmup Iteration   4: 18.678 ops/s
+# Warmup Iteration   5: 18.918 ops/s
+Iteration   1: 18.518 ops/s
+Iteration   2: 18.444 ops/s
+Iteration   3: 18.266 ops/s
+Iteration   4: 18.562 ops/s
+Iteration   5: 18.727 ops/s
+Iteration   6: 18.767 ops/s
+Iteration   7: 18.724 ops/s
+Iteration   8: 18.679 ops/s
+Iteration   9: 18.585 ops/s
+Iteration  10: 18.772 ops/s
+
+# Run progress: 47.50% complete, ETA 00:16:45
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10.570 ops/s
+# Warmup Iteration   2: 16.757 ops/s
+# Warmup Iteration   3: 18.643 ops/s
+# Warmup Iteration   4: 18.734 ops/s
+# Warmup Iteration   5: 18.890 ops/s
+Iteration   1: 18.717 ops/s
+Iteration   2: 18.780 ops/s
+Iteration   3: 18.807 ops/s
+Iteration   4: 18.986 ops/s
+Iteration   5: 18.895 ops/s
+Iteration   6: 18.830 ops/s
+Iteration   7: 18.837 ops/s
+Iteration   8: 18.770 ops/s
+Iteration   9: 18.916 ops/s
+Iteration  10: 18.901 ops/s
+
+# Run progress: 48.33% complete, ETA 00:16:29
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9.766 ops/s
+# Warmup Iteration   2: 15.542 ops/s
+# Warmup Iteration   3: 18.569 ops/s
+# Warmup Iteration   4: 18.674 ops/s
+# Warmup Iteration   5: 18.940 ops/s
+Iteration   1: 18.619 ops/s
+Iteration   2: 18.736 ops/s
+Iteration   3: 18.678 ops/s
+Iteration   4: 18.771 ops/s
+Iteration   5: 18.912 ops/s
+Iteration   6: 18.868 ops/s
+Iteration   7: 18.736 ops/s
+Iteration   8: 18.569 ops/s
+Iteration   9: 18.461 ops/s
+Iteration  10: 18.643 ops/s
+
+# Run progress: 49.17% complete, ETA 00:16:13
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10.227 ops/s
+# Warmup Iteration   2: 16.735 ops/s
+# Warmup Iteration   3: 18.701 ops/s
+# Warmup Iteration   4: 18.777 ops/s
+# Warmup Iteration   5: 18.910 ops/s
+Iteration   1: 18.707 ops/s
+Iteration   2: 18.771 ops/s
+Iteration   3: 18.440 ops/s
+Iteration   4: 18.471 ops/s
+Iteration   5: 18.732 ops/s
+Iteration   6: 18.512 ops/s
+Iteration   7: 18.562 ops/s
+Iteration   8: 18.515 ops/s
+Iteration   9: 18.419 ops/s
+Iteration  10: 18.598 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.jsonSchema":
+  18.705 ±(99.9%) 0.080 ops/s [Average]
+  (min, avg, max) = (18.266, 18.705, 19.015), stdev = 0.163
+  CI (99.9%): [18.624, 18.785] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = ai-atlas-nexus)
+
+# Run progress: 50.00% complete, ETA 00:15:57
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 19.505 ops/s
+# Warmup Iteration   2: 23.670 ops/s
+# Warmup Iteration   3: 24.079 ops/s
+# Warmup Iteration   4: 24.151 ops/s
+# Warmup Iteration   5: 24.242 ops/s
+Iteration   1: 24.027 ops/s
+Iteration   2: 22.902 ops/s
+Iteration   3: 22.923 ops/s
+Iteration   4: 22.873 ops/s
+Iteration   5: 22.802 ops/s
+Iteration   6: 23.336 ops/s
+Iteration   7: 24.097 ops/s
+Iteration   8: 24.097 ops/s
+Iteration   9: 24.495 ops/s
+Iteration  10: 24.456 ops/s
+
+# Run progress: 50.83% complete, ETA 00:15:41
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 19.324 ops/s
+# Warmup Iteration   2: 23.507 ops/s
+# Warmup Iteration   3: 23.900 ops/s
+# Warmup Iteration   4: 24.060 ops/s
+# Warmup Iteration   5: 24.092 ops/s
+Iteration   1: 24.082 ops/s
+Iteration   2: 24.113 ops/s
+Iteration   3: 24.118 ops/s
+Iteration   4: 24.114 ops/s
+Iteration   5: 24.127 ops/s
+Iteration   6: 24.113 ops/s
+Iteration   7: 24.147 ops/s
+Iteration   8: 24.154 ops/s
+Iteration   9: 24.286 ops/s
+Iteration  10: 24.297 ops/s
+
+# Run progress: 51.67% complete, ETA 00:15:25
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 19.426 ops/s
+# Warmup Iteration   2: 23.668 ops/s
+# Warmup Iteration   3: 24.128 ops/s
+# Warmup Iteration   4: 24.211 ops/s
+# Warmup Iteration   5: 24.281 ops/s
+Iteration   1: 24.243 ops/s
+Iteration   2: 24.285 ops/s
+Iteration   3: 24.290 ops/s
+Iteration   4: 24.289 ops/s
+Iteration   5: 24.242 ops/s
+Iteration   6: 24.287 ops/s
+Iteration   7: 24.305 ops/s
+Iteration   8: 24.333 ops/s
+Iteration   9: 24.466 ops/s
+Iteration  10: 24.475 ops/s
+
+# Run progress: 52.50% complete, ETA 00:15:09
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 18.861 ops/s
+# Warmup Iteration   2: 22.281 ops/s
+# Warmup Iteration   3: 22.543 ops/s
+# Warmup Iteration   4: 22.666 ops/s
+# Warmup Iteration   5: 22.587 ops/s
+Iteration   1: 22.607 ops/s
+Iteration   2: 22.616 ops/s
+Iteration   3: 24.108 ops/s
+Iteration   4: 24.084 ops/s
+Iteration   5: 24.127 ops/s
+Iteration   6: 24.142 ops/s
+Iteration   7: 24.151 ops/s
+Iteration   8: 24.076 ops/s
+Iteration   9: 24.315 ops/s
+Iteration  10: 24.310 ops/s
+
+# Run progress: 53.33% complete, ETA 00:14:53
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 18.902 ops/s
+# Warmup Iteration   2: 22.465 ops/s
+# Warmup Iteration   3: 22.711 ops/s
+# Warmup Iteration   4: 22.743 ops/s
+# Warmup Iteration   5: 22.778 ops/s
+Iteration   1: 22.756 ops/s
+Iteration   2: 22.725 ops/s
+Iteration   3: 22.763 ops/s
+Iteration   4: 22.757 ops/s
+Iteration   5: 22.702 ops/s
+Iteration   6: 22.749 ops/s
+Iteration   7: 22.731 ops/s
+Iteration   8: 22.709 ops/s
+Iteration   9: 22.738 ops/s
+Iteration  10: 22.870 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  23.736 ±(99.9%) 0.344 ops/s [Average]
+  (min, avg, max) = (22.607, 23.736, 24.495), stdev = 0.695
+  CI (99.9%): [23.392, 24.080] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = brigde2ai_model_card)
+
+# Run progress: 54.17% complete, ETA 00:14:37
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1516.159 ops/s
+# Warmup Iteration   2: 2163.087 ops/s
+# Warmup Iteration   3: 2195.860 ops/s
+# Warmup Iteration   4: 2235.802 ops/s
+# Warmup Iteration   5: 2252.756 ops/s
+Iteration   1: 2272.793 ops/s
+Iteration   2: 2264.383 ops/s
+Iteration   3: 2267.497 ops/s
+Iteration   4: 2259.305 ops/s
+Iteration   5: 2261.975 ops/s
+Iteration   6: 2256.690 ops/s
+Iteration   7: 2257.710 ops/s
+Iteration   8: 2292.254 ops/s
+Iteration   9: 2356.635 ops/s
+Iteration  10: 2349.750 ops/s
+
+# Run progress: 55.00% complete, ETA 00:14:21
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1496.829 ops/s
+# Warmup Iteration   2: 2186.993 ops/s
+# Warmup Iteration   3: 2261.851 ops/s
+# Warmup Iteration   4: 2416.416 ops/s
+# Warmup Iteration   5: 2448.764 ops/s
+Iteration   1: 2444.505 ops/s
+Iteration   2: 2316.741 ops/s
+Iteration   3: 2359.253 ops/s
+Iteration   4: 2429.011 ops/s
+Iteration   5: 2427.612 ops/s
+Iteration   6: 2429.057 ops/s
+Iteration   7: 2417.057 ops/s
+Iteration   8: 2411.607 ops/s
+Iteration   9: 2303.805 ops/s
+Iteration  10: 2313.464 ops/s
+
+# Run progress: 55.83% complete, ETA 00:14:04
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1560.116 ops/s
+# Warmup Iteration   2: 2199.580 ops/s
+# Warmup Iteration   3: 2238.903 ops/s
+# Warmup Iteration   4: 2284.212 ops/s
+# Warmup Iteration   5: 2306.849 ops/s
+Iteration   1: 2311.598 ops/s
+Iteration   2: 2310.366 ops/s
+Iteration   3: 2310.682 ops/s
+Iteration   4: 2304.232 ops/s
+Iteration   5: 2386.540 ops/s
+Iteration   6: 2312.392 ops/s
+Iteration   7: 2297.505 ops/s
+Iteration   8: 2296.319 ops/s
+Iteration   9: 2298.100 ops/s
+Iteration  10: 2288.735 ops/s
+
+# Run progress: 56.67% complete, ETA 00:13:48
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1614.020 ops/s
+# Warmup Iteration   2: 2324.347 ops/s
+# Warmup Iteration   3: 2383.663 ops/s
+# Warmup Iteration   4: 2457.302 ops/s
+# Warmup Iteration   5: 2464.428 ops/s
+Iteration   1: 2460.901 ops/s
+Iteration   2: 2460.934 ops/s
+Iteration   3: 2450.434 ops/s
+Iteration   4: 2431.379 ops/s
+Iteration   5: 2383.354 ops/s
+Iteration   6: 2426.626 ops/s
+Iteration   7: 2424.718 ops/s
+Iteration   8: 2419.567 ops/s
+Iteration   9: 2417.055 ops/s
+Iteration  10: 2455.172 ops/s
+
+# Run progress: 57.50% complete, ETA 00:13:32
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1587.436 ops/s
+# Warmup Iteration   2: 2367.587 ops/s
+# Warmup Iteration   3: 2407.704 ops/s
+# Warmup Iteration   4: 2444.001 ops/s
+# Warmup Iteration   5: 2452.154 ops/s
+Iteration   1: 2457.527 ops/s
+Iteration   2: 2457.125 ops/s
+Iteration   3: 2457.416 ops/s
+Iteration   4: 2442.070 ops/s
+Iteration   5: 2444.678 ops/s
+Iteration   6: 2420.970 ops/s
+Iteration   7: 2434.009 ops/s
+Iteration   8: 2422.228 ops/s
+Iteration   9: 2417.571 ops/s
+Iteration  10: 2424.918 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  2370.325 ±(99.9%) 35.482 ops/s [Average]
+  (min, avg, max) = (2256.690, 2370.325, 2460.934), stdev = 71.675
+  CI (99.9%): [2334.843, 2405.806] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = cdm)
+
+# Run progress: 58.33% complete, ETA 00:13:16
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.169 ops/s
+# Warmup Iteration   2: 1.272 ops/s
+# Warmup Iteration   3: 1.321 ops/s
+# Warmup Iteration   4: 1.324 ops/s
+# Warmup Iteration   5: 1.325 ops/s
+Iteration   1: 1.328 ops/s
+Iteration   2: 1.330 ops/s
+Iteration   3: 1.330 ops/s
+Iteration   4: 1.330 ops/s
+Iteration   5: 1.329 ops/s
+Iteration   6: 1.330 ops/s
+Iteration   7: 1.329 ops/s
+Iteration   8: 1.329 ops/s
+Iteration   9: 1.330 ops/s
+Iteration  10: 1.329 ops/s
+
+# Run progress: 59.17% complete, ETA 00:13:05
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.186 ops/s
+# Warmup Iteration   2: 1.291 ops/s
+# Warmup Iteration   3: 1.340 ops/s
+# Warmup Iteration   4: 1.343 ops/s
+# Warmup Iteration   5: 1.345 ops/s
+Iteration   1: 1.346 ops/s
+Iteration   2: 1.339 ops/s
+Iteration   3: 1.348 ops/s
+Iteration   4: 1.346 ops/s
+Iteration   5: 1.347 ops/s
+Iteration   6: 1.347 ops/s
+Iteration   7: 1.347 ops/s
+Iteration   8: 1.349 ops/s
+Iteration   9: 1.349 ops/s
+Iteration  10: 1.350 ops/s
+
+# Run progress: 60.00% complete, ETA 00:12:54
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.192 ops/s
+# Warmup Iteration   2: 1.332 ops/s
+# Warmup Iteration   3: 1.337 ops/s
+# Warmup Iteration   4: 1.340 ops/s
+# Warmup Iteration   5: 1.341 ops/s
+Iteration   1: 1.343 ops/s
+Iteration   2: 1.355 ops/s
+Iteration   3: 1.356 ops/s
+Iteration   4: 1.356 ops/s
+Iteration   5: 1.356 ops/s
+Iteration   6: 1.356 ops/s
+Iteration   7: 1.356 ops/s
+Iteration   8: 1.345 ops/s
+Iteration   9: 1.344 ops/s
+Iteration  10: 1.344 ops/s
+
+# Run progress: 60.83% complete, ETA 00:12:42
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.141 ops/s
+# Warmup Iteration   2: 1.241 ops/s
+# Warmup Iteration   3: 1.266 ops/s
+# Warmup Iteration   4: 1.265 ops/s
+# Warmup Iteration   5: 1.266 ops/s
+Iteration   1: 1.265 ops/s
+Iteration   2: 1.267 ops/s
+Iteration   3: 1.267 ops/s
+Iteration   4: 1.269 ops/s
+Iteration   5: 1.270 ops/s
+Iteration   6: 1.270 ops/s
+Iteration   7: 1.271 ops/s
+Iteration   8: 1.271 ops/s
+Iteration   9: 1.272 ops/s
+Iteration  10: 1.270 ops/s
+
+# Run progress: 61.67% complete, ETA 00:12:31
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.196 ops/s
+# Warmup Iteration   2: 1.278 ops/s
+# Warmup Iteration   3: 1.350 ops/s
+# Warmup Iteration   4: 1.353 ops/s
+# Warmup Iteration   5: 1.355 ops/s
+Iteration   1: 1.355 ops/s
+Iteration   2: 1.359 ops/s
+Iteration   3: 1.360 ops/s
+Iteration   4: 1.358 ops/s
+Iteration   5: 1.361 ops/s
+Iteration   6: 1.361 ops/s
+Iteration   7: 1.361 ops/s
+Iteration   8: 1.360 ops/s
+Iteration   9: 1.362 ops/s
+Iteration  10: 1.360 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  1.331 ±(99.9%) 0.016 ops/s [Average]
+  (min, avg, max) = (1.265, 1.331, 1.362), stdev = 0.033
+  CI (99.9%): [1.315, 1.348] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = chem-dcat-ap)
+
+# Run progress: 62.50% complete, ETA 00:12:19
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.572 ops/s
+# Warmup Iteration   2: 13.820 ops/s
+# Warmup Iteration   3: 14.004 ops/s
+# Warmup Iteration   4: 13.993 ops/s
+# Warmup Iteration   5: 14.025 ops/s
+Iteration   1: 14.054 ops/s
+Iteration   2: 14.067 ops/s
+Iteration   3: 14.089 ops/s
+Iteration   4: 14.075 ops/s
+Iteration   5: 14.100 ops/s
+Iteration   6: 14.107 ops/s
+Iteration   7: 14.106 ops/s
+Iteration   8: 14.099 ops/s
+Iteration   9: 14.090 ops/s
+Iteration  10: 14.115 ops/s
+
+# Run progress: 63.33% complete, ETA 00:12:02
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.537 ops/s
+# Warmup Iteration   2: 13.826 ops/s
+# Warmup Iteration   3: 14.080 ops/s
+# Warmup Iteration   4: 14.071 ops/s
+# Warmup Iteration   5: 14.086 ops/s
+Iteration   1: 14.095 ops/s
+Iteration   2: 14.137 ops/s
+Iteration   3: 14.146 ops/s
+Iteration   4: 14.129 ops/s
+Iteration   5: 14.134 ops/s
+Iteration   6: 14.135 ops/s
+Iteration   7: 14.155 ops/s
+Iteration   8: 14.135 ops/s
+Iteration   9: 14.155 ops/s
+Iteration  10: 14.121 ops/s
+
+# Run progress: 64.17% complete, ETA 00:11:46
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.545 ops/s
+# Warmup Iteration   2: 13.772 ops/s
+# Warmup Iteration   3: 14.000 ops/s
+# Warmup Iteration   4: 13.856 ops/s
+# Warmup Iteration   5: 14.017 ops/s
+Iteration   1: 14.023 ops/s
+Iteration   2: 14.067 ops/s
+Iteration   3: 14.071 ops/s
+Iteration   4: 14.124 ops/s
+Iteration   5: 14.153 ops/s
+Iteration   6: 14.162 ops/s
+Iteration   7: 14.147 ops/s
+Iteration   8: 14.173 ops/s
+Iteration   9: 14.150 ops/s
+Iteration  10: 14.135 ops/s
+
+# Run progress: 65.00% complete, ETA 00:11:29
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.209 ops/s
+# Warmup Iteration   2: 13.140 ops/s
+# Warmup Iteration   3: 13.273 ops/s
+# Warmup Iteration   4: 13.234 ops/s
+# Warmup Iteration   5: 13.270 ops/s
+Iteration   1: 13.284 ops/s
+Iteration   2: 13.276 ops/s
+Iteration   3: 13.303 ops/s
+Iteration   4: 13.301 ops/s
+Iteration   5: 13.265 ops/s
+Iteration   6: 13.286 ops/s
+Iteration   7: 13.284 ops/s
+Iteration   8: 13.308 ops/s
+Iteration   9: 13.291 ops/s
+Iteration  10: 13.290 ops/s
+
+# Run progress: 65.83% complete, ETA 00:11:13
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10.922 ops/s
+# Warmup Iteration   2: 12.897 ops/s
+# Warmup Iteration   3: 13.017 ops/s
+# Warmup Iteration   4: 13.021 ops/s
+# Warmup Iteration   5: 13.072 ops/s
+Iteration   1: 13.076 ops/s
+Iteration   2: 13.090 ops/s
+Iteration   3: 13.783 ops/s
+Iteration   4: 13.808 ops/s
+Iteration   5: 13.770 ops/s
+Iteration   6: 13.787 ops/s
+Iteration   7: 13.784 ops/s
+Iteration   8: 13.821 ops/s
+Iteration   9: 13.794 ops/s
+Iteration  10: 13.794 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  13.857 ±(99.9%) 0.180 ops/s [Average]
+  (min, avg, max) = (13.076, 13.857, 14.173), stdev = 0.364
+  CI (99.9%): [13.677, 14.037] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = crdch)
+
+# Run progress: 66.67% complete, ETA 00:10:56
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 442.756 ops/s
+# Warmup Iteration   2: 561.947 ops/s
+# Warmup Iteration   3: 578.620 ops/s
+# Warmup Iteration   4: 571.907 ops/s
+# Warmup Iteration   5: 567.374 ops/s
+Iteration   1: 568.306 ops/s
+Iteration   2: 564.696 ops/s
+Iteration   3: 565.117 ops/s
+Iteration   4: 568.756 ops/s
+Iteration   5: 565.704 ops/s
+Iteration   6: 566.722 ops/s
+Iteration   7: 570.229 ops/s
+Iteration   8: 569.714 ops/s
+Iteration   9: 568.823 ops/s
+Iteration  10: 571.972 ops/s
+
+# Run progress: 67.50% complete, ETA 00:10:39
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 431.390 ops/s
+# Warmup Iteration   2: 544.081 ops/s
+# Warmup Iteration   3: 567.744 ops/s
+# Warmup Iteration   4: 568.679 ops/s
+# Warmup Iteration   5: 567.944 ops/s
+Iteration   1: 569.353 ops/s
+Iteration   2: 568.723 ops/s
+Iteration   3: 568.879 ops/s
+Iteration   4: 570.797 ops/s
+Iteration   5: 570.019 ops/s
+Iteration   6: 574.351 ops/s
+Iteration   7: 574.414 ops/s
+Iteration   8: 572.739 ops/s
+Iteration   9: 575.549 ops/s
+Iteration  10: 573.567 ops/s
+
+# Run progress: 68.33% complete, ETA 00:10:23
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 445.141 ops/s
+# Warmup Iteration   2: 579.915 ops/s
+# Warmup Iteration   3: 604.560 ops/s
+# Warmup Iteration   4: 600.818 ops/s
+# Warmup Iteration   5: 601.200 ops/s
+Iteration   1: 606.787 ops/s
+Iteration   2: 605.552 ops/s
+Iteration   3: 603.992 ops/s
+Iteration   4: 603.704 ops/s
+Iteration   5: 605.330 ops/s
+Iteration   6: 604.438 ops/s
+Iteration   7: 606.956 ops/s
+Iteration   8: 604.828 ops/s
+Iteration   9: 597.868 ops/s
+Iteration  10: 603.623 ops/s
+
+# Run progress: 69.17% complete, ETA 00:10:06
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 432.991 ops/s
+# Warmup Iteration   2: 560.738 ops/s
+# Warmup Iteration   3: 571.890 ops/s
+# Warmup Iteration   4: 556.815 ops/s
+# Warmup Iteration   5: 552.739 ops/s
+Iteration   1: 555.707 ops/s
+Iteration   2: 583.669 ops/s
+Iteration   3: 583.088 ops/s
+Iteration   4: 582.726 ops/s
+Iteration   5: 579.905 ops/s
+Iteration   6: 586.025 ops/s
+Iteration   7: 591.597 ops/s
+Iteration   8: 593.221 ops/s
+Iteration   9: 593.337 ops/s
+Iteration  10: 588.831 ops/s
+
+# Run progress: 70.00% complete, ETA 00:09:49
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 437.037 ops/s
+# Warmup Iteration   2: 566.159 ops/s
+# Warmup Iteration   3: 593.830 ops/s
+# Warmup Iteration   4: 590.621 ops/s
+# Warmup Iteration   5: 587.659 ops/s
+Iteration   1: 584.535 ops/s
+Iteration   2: 588.658 ops/s
+Iteration   3: 588.782 ops/s
+Iteration   4: 586.970 ops/s
+Iteration   5: 588.775 ops/s
+Iteration   6: 591.355 ops/s
+Iteration   7: 591.824 ops/s
+Iteration   8: 593.938 ops/s
+Iteration   9: 592.119 ops/s
+Iteration  10: 591.863 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  583.569 ±(99.9%) 7.007 ops/s [Average]
+  (min, avg, max) = (555.707, 583.569, 606.956), stdev = 14.154
+  CI (99.9%): [576.562, 590.576] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = d3fend)
+
+# Run progress: 70.83% complete, ETA 00:09:33
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 25.837 ops/s
+# Warmup Iteration   2: 36.768 ops/s
+# Warmup Iteration   3: 39.218 ops/s
+# Warmup Iteration   4: 39.505 ops/s
+# Warmup Iteration   5: 38.882 ops/s
+Iteration   1: 39.069 ops/s
+Iteration   2: 38.895 ops/s
+Iteration   3: 39.169 ops/s
+Iteration   4: 39.033 ops/s
+Iteration   5: 38.803 ops/s
+Iteration   6: 38.790 ops/s
+Iteration   7: 38.743 ops/s
+Iteration   8: 38.930 ops/s
+Iteration   9: 38.963 ops/s
+Iteration  10: 38.917 ops/s
+
+# Run progress: 71.67% complete, ETA 00:09:16
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 27.312 ops/s
+# Warmup Iteration   2: 37.819 ops/s
+# Warmup Iteration   3: 39.353 ops/s
+# Warmup Iteration   4: 39.768 ops/s
+# Warmup Iteration   5: 39.718 ops/s
+Iteration   1: 39.571 ops/s
+Iteration   2: 39.741 ops/s
+Iteration   3: 37.856 ops/s
+Iteration   4: 37.762 ops/s
+Iteration   5: 37.580 ops/s
+Iteration   6: 37.703 ops/s
+Iteration   7: 37.569 ops/s
+Iteration   8: 37.539 ops/s
+Iteration   9: 39.494 ops/s
+Iteration  10: 39.684 ops/s
+
+# Run progress: 72.50% complete, ETA 00:09:00
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 25.870 ops/s
+# Warmup Iteration   2: 36.938 ops/s
+# Warmup Iteration   3: 39.229 ops/s
+# Warmup Iteration   4: 39.755 ops/s
+# Warmup Iteration   5: 39.746 ops/s
+Iteration   1: 39.602 ops/s
+Iteration   2: 39.743 ops/s
+Iteration   3: 39.933 ops/s
+Iteration   4: 39.667 ops/s
+Iteration   5: 39.674 ops/s
+Iteration   6: 39.715 ops/s
+Iteration   7: 39.768 ops/s
+Iteration   8: 39.791 ops/s
+Iteration   9: 39.894 ops/s
+Iteration  10: 40.030 ops/s
+
+# Run progress: 73.33% complete, ETA 00:08:43
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 26.966 ops/s
+# Warmup Iteration   2: 37.955 ops/s
+# Warmup Iteration   3: 39.434 ops/s
+# Warmup Iteration   4: 39.986 ops/s
+# Warmup Iteration   5: 39.778 ops/s
+Iteration   1: 39.791 ops/s
+Iteration   2: 39.788 ops/s
+Iteration   3: 40.084 ops/s
+Iteration   4: 39.950 ops/s
+Iteration   5: 40.009 ops/s
+Iteration   6: 39.971 ops/s
+Iteration   7: 39.891 ops/s
+Iteration   8: 40.117 ops/s
+Iteration   9: 39.957 ops/s
+Iteration  10: 39.905 ops/s
+
+# Run progress: 74.17% complete, ETA 00:08:27
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 26.909 ops/s
+# Warmup Iteration   2: 37.184 ops/s
+# Warmup Iteration   3: 38.693 ops/s
+# Warmup Iteration   4: 41.290 ops/s
+# Warmup Iteration   5: 41.205 ops/s
+Iteration   1: 41.374 ops/s
+Iteration   2: 41.362 ops/s
+Iteration   3: 41.492 ops/s
+Iteration   4: 41.439 ops/s
+Iteration   5: 41.443 ops/s
+Iteration   6: 41.402 ops/s
+Iteration   7: 41.522 ops/s
+Iteration   8: 41.545 ops/s
+Iteration   9: 41.563 ops/s
+Iteration  10: 41.594 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  39.717 ±(99.9%) 0.563 ops/s [Average]
+  (min, avg, max) = (37.539, 39.717, 41.594), stdev = 1.138
+  CI (99.9%): [39.153, 40.280] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = fluxnova-bpm)
+
+# Run progress: 75.00% complete, ETA 00:08:10
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.919 ops/s
+# Warmup Iteration   2: 2.240 ops/s
+# Warmup Iteration   3: 2.300 ops/s
+# Warmup Iteration   4: 2.313 ops/s
+# Warmup Iteration   5: 2.308 ops/s
+Iteration   1: 2.310 ops/s
+Iteration   2: 2.316 ops/s
+Iteration   3: 2.316 ops/s
+Iteration   4: 1.998 ops/s
+Iteration   5: 1.765 ops/s
+Iteration   6: 1.769 ops/s
+Iteration   7: 1.767 ops/s
+Iteration   8: 1.770 ops/s
+Iteration   9: 1.765 ops/s
+Iteration  10: 1.768 ops/s
+
+# Run progress: 75.83% complete, ETA 00:07:55
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.852 ops/s
+# Warmup Iteration   2: 2.169 ops/s
+# Warmup Iteration   3: 2.235 ops/s
+# Warmup Iteration   4: 2.319 ops/s
+# Warmup Iteration   5: 2.313 ops/s
+Iteration   1: 2.334 ops/s
+Iteration   2: 2.335 ops/s
+Iteration   3: 2.337 ops/s
+Iteration   4: 2.366 ops/s
+Iteration   5: 2.767 ops/s
+Iteration   6: 2.766 ops/s
+Iteration   7: 2.775 ops/s
+Iteration   8: 2.772 ops/s
+Iteration   9: 2.759 ops/s
+Iteration  10: 2.760 ops/s
+
+# Run progress: 76.67% complete, ETA 00:07:39
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.861 ops/s
+# Warmup Iteration   2: 2.251 ops/s
+# Warmup Iteration   3: 2.328 ops/s
+# Warmup Iteration   4: 2.336 ops/s
+# Warmup Iteration   5: 2.338 ops/s
+Iteration   1: 2.334 ops/s
+Iteration   2: 2.330 ops/s
+Iteration   3: 2.336 ops/s
+Iteration   4: 2.370 ops/s
+Iteration   5: 2.766 ops/s
+Iteration   6: 2.767 ops/s
+Iteration   7: 2.771 ops/s
+Iteration   8: 2.766 ops/s
+Iteration   9: 2.768 ops/s
+Iteration  10: 2.768 ops/s
+
+# Run progress: 77.50% complete, ETA 00:07:23
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.869 ops/s
+# Warmup Iteration   2: 2.184 ops/s
+# Warmup Iteration   3: 2.214 ops/s
+# Warmup Iteration   4: 2.230 ops/s
+# Warmup Iteration   5: 2.228 ops/s
+Iteration   1: 2.223 ops/s
+Iteration   2: 2.227 ops/s
+Iteration   3: 2.233 ops/s
+Iteration   4: 2.262 ops/s
+Iteration   5: 2.596 ops/s
+Iteration   6: 2.603 ops/s
+Iteration   7: 2.604 ops/s
+Iteration   8: 2.600 ops/s
+Iteration   9: 2.604 ops/s
+Iteration  10: 2.602 ops/s
+
+# Run progress: 78.33% complete, ETA 00:07:07
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1.841 ops/s
+# Warmup Iteration   2: 2.153 ops/s
+# Warmup Iteration   3: 2.181 ops/s
+# Warmup Iteration   4: 2.187 ops/s
+# Warmup Iteration   5: 2.185 ops/s
+Iteration   1: 2.188 ops/s
+Iteration   2: 2.192 ops/s
+Iteration   3: 2.188 ops/s
+Iteration   4: 2.220 ops/s
+Iteration   5: 2.623 ops/s
+Iteration   6: 2.623 ops/s
+Iteration   7: 2.622 ops/s
+Iteration   8: 2.616 ops/s
+Iteration   9: 2.616 ops/s
+Iteration  10: 2.623 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  2.411 ±(99.9%) 0.159 ops/s [Average]
+  (min, avg, max) = (1.765, 2.411, 2.775), stdev = 0.320
+  CI (99.9%): [2.253, 2.570] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = include)
+
+# Run progress: 79.17% complete, ETA 00:06:52
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1647.577 ops/s
+# Warmup Iteration   2: 2068.523 ops/s
+# Warmup Iteration   3: 2526.613 ops/s
+# Warmup Iteration   4: 2637.176 ops/s
+# Warmup Iteration   5: 2652.734 ops/s
+Iteration   1: 2658.522 ops/s
+Iteration   2: 2652.227 ops/s
+Iteration   3: 2659.880 ops/s
+Iteration   4: 2662.432 ops/s
+Iteration   5: 2656.718 ops/s
+Iteration   6: 2656.756 ops/s
+Iteration   7: 2659.085 ops/s
+Iteration   8: 2665.549 ops/s
+Iteration   9: 2664.285 ops/s
+Iteration  10: 2658.977 ops/s
+
+# Run progress: 80.00% complete, ETA 00:06:35
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1811.899 ops/s
+# Warmup Iteration   2: 2568.058 ops/s
+# Warmup Iteration   3: 2594.609 ops/s
+# Warmup Iteration   4: 2667.523 ops/s
+# Warmup Iteration   5: 2672.109 ops/s
+Iteration   1: 2674.715 ops/s
+Iteration   2: 2864.940 ops/s
+Iteration   3: 2851.103 ops/s
+Iteration   4: 2863.004 ops/s
+Iteration   5: 2846.732 ops/s
+Iteration   6: 2865.471 ops/s
+Iteration   7: 2845.328 ops/s
+Iteration   8: 2785.852 ops/s
+Iteration   9: 2681.089 ops/s
+Iteration  10: 2685.000 ops/s
+
+# Run progress: 80.83% complete, ETA 00:06:18
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1608.617 ops/s
+# Warmup Iteration   2: 2038.903 ops/s
+# Warmup Iteration   3: 2609.673 ops/s
+# Warmup Iteration   4: 2665.398 ops/s
+# Warmup Iteration   5: 2665.929 ops/s
+Iteration   1: 2669.471 ops/s
+Iteration   2: 2612.161 ops/s
+Iteration   3: 2670.858 ops/s
+Iteration   4: 2672.497 ops/s
+Iteration   5: 2690.799 ops/s
+Iteration   6: 2659.662 ops/s
+Iteration   7: 2655.971 ops/s
+Iteration   8: 2659.146 ops/s
+Iteration   9: 2642.112 ops/s
+Iteration  10: 2638.136 ops/s
+
+# Run progress: 81.67% complete, ETA 00:06:02
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1617.763 ops/s
+# Warmup Iteration   2: 2072.115 ops/s
+# Warmup Iteration   3: 2635.008 ops/s
+# Warmup Iteration   4: 2637.663 ops/s
+# Warmup Iteration   5: 2701.715 ops/s
+Iteration   1: 2647.697 ops/s
+Iteration   2: 2698.619 ops/s
+Iteration   3: 2577.073 ops/s
+Iteration   4: 2628.982 ops/s
+Iteration   5: 2567.236 ops/s
+Iteration   6: 2575.928 ops/s
+Iteration   7: 2579.566 ops/s
+Iteration   8: 2578.223 ops/s
+Iteration   9: 2582.882 ops/s
+Iteration  10: 2576.715 ops/s
+
+# Run progress: 82.50% complete, ETA 00:05:45
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1754.476 ops/s
+# Warmup Iteration   2: 2618.906 ops/s
+# Warmup Iteration   3: 2641.114 ops/s
+# Warmup Iteration   4: 2702.821 ops/s
+# Warmup Iteration   5: 2703.787 ops/s
+Iteration   1: 2712.509 ops/s
+Iteration   2: 2714.042 ops/s
+Iteration   3: 2716.881 ops/s
+Iteration   4: 2723.421 ops/s
+Iteration   5: 2714.478 ops/s
+Iteration   6: 2882.140 ops/s
+Iteration   7: 2886.045 ops/s
+Iteration   8: 2899.443 ops/s
+Iteration   9: 2899.765 ops/s
+Iteration  10: 2893.893 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  2703.680 ±(99.9%) 49.731 ops/s [Average]
+  (min, avg, max) = (2567.236, 2703.680, 2899.765), stdev = 100.460
+  CI (99.9%): [2653.949, 2753.412] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = iso27001)
+
+# Run progress: 83.33% complete, ETA 00:05:28
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 413.344 ops/s
+# Warmup Iteration   2: 607.382 ops/s
+# Warmup Iteration   3: 660.263 ops/s
+# Warmup Iteration   4: 662.956 ops/s
+# Warmup Iteration   5: 665.777 ops/s
+Iteration   1: 666.950 ops/s
+Iteration   2: 673.284 ops/s
+Iteration   3: 667.895 ops/s
+Iteration   4: 661.730 ops/s
+Iteration   5: 672.917 ops/s
+Iteration   6: 671.592 ops/s
+Iteration   7: 670.539 ops/s
+Iteration   8: 671.377 ops/s
+Iteration   9: 684.872 ops/s
+Iteration  10: 712.004 ops/s
+
+# Run progress: 84.17% complete, ETA 00:05:12
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 377.020 ops/s
+# Warmup Iteration   2: 463.126 ops/s
+# Warmup Iteration   3: 631.430 ops/s
+# Warmup Iteration   4: 673.665 ops/s
+# Warmup Iteration   5: 661.452 ops/s
+Iteration   1: 660.930 ops/s
+Iteration   2: 668.072 ops/s
+Iteration   3: 662.094 ops/s
+Iteration   4: 655.823 ops/s
+Iteration   5: 666.012 ops/s
+Iteration   6: 663.629 ops/s
+Iteration   7: 665.772 ops/s
+Iteration   8: 668.142 ops/s
+Iteration   9: 668.264 ops/s
+Iteration  10: 669.238 ops/s
+
+# Run progress: 85.00% complete, ETA 00:04:55
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 374.248 ops/s
+# Warmup Iteration   2: 465.035 ops/s
+# Warmup Iteration   3: 613.068 ops/s
+# Warmup Iteration   4: 640.934 ops/s
+# Warmup Iteration   5: 642.703 ops/s
+Iteration   1: 646.048 ops/s
+Iteration   2: 645.908 ops/s
+Iteration   3: 644.886 ops/s
+Iteration   4: 647.626 ops/s
+Iteration   5: 690.131 ops/s
+Iteration   6: 697.636 ops/s
+Iteration   7: 699.238 ops/s
+Iteration   8: 700.720 ops/s
+Iteration   9: 702.175 ops/s
+Iteration  10: 698.536 ops/s
+
+# Run progress: 85.83% complete, ETA 00:04:39
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 419.493 ops/s
+# Warmup Iteration   2: 622.918 ops/s
+# Warmup Iteration   3: 675.351 ops/s
+# Warmup Iteration   4: 670.111 ops/s
+# Warmup Iteration   5: 665.296 ops/s
+Iteration   1: 668.382 ops/s
+Iteration   2: 668.050 ops/s
+Iteration   3: 665.552 ops/s
+Iteration   4: 660.534 ops/s
+Iteration   5: 669.893 ops/s
+Iteration   6: 669.355 ops/s
+Iteration   7: 672.813 ops/s
+Iteration   8: 672.183 ops/s
+Iteration   9: 671.125 ops/s
+Iteration  10: 672.687 ops/s
+
+# Run progress: 86.67% complete, ETA 00:04:22
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 418.157 ops/s
+# Warmup Iteration   2: 616.797 ops/s
+# Warmup Iteration   3: 660.527 ops/s
+# Warmup Iteration   4: 661.721 ops/s
+# Warmup Iteration   5: 662.210 ops/s
+Iteration   1: 670.099 ops/s
+Iteration   2: 667.647 ops/s
+Iteration   3: 667.095 ops/s
+Iteration   4: 663.572 ops/s
+Iteration   5: 672.730 ops/s
+Iteration   6: 672.682 ops/s
+Iteration   7: 672.646 ops/s
+Iteration   8: 675.829 ops/s
+Iteration   9: 675.357 ops/s
+Iteration  10: 676.519 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  671.576 ±(99.9%) 7.008 ops/s [Average]
+  (min, avg, max) = (644.886, 671.576, 712.004), stdev = 14.157
+  CI (99.9%): [664.568, 678.584] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = nmdc_microbiome)
+
+# Run progress: 87.50% complete, ETA 00:04:06
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 3.113 ops/s
+# Warmup Iteration   2: 3.616 ops/s
+# Warmup Iteration   3: 3.654 ops/s
+# Warmup Iteration   4: 3.668 ops/s
+# Warmup Iteration   5: 3.678 ops/s
+Iteration   1: 3.687 ops/s
+Iteration   2: 3.693 ops/s
+Iteration   3: 3.693 ops/s
+Iteration   4: 3.669 ops/s
+Iteration   5: 3.697 ops/s
+Iteration   6: 3.712 ops/s
+Iteration   7: 3.710 ops/s
+Iteration   8: 3.713 ops/s
+Iteration   9: 3.712 ops/s
+Iteration  10: 3.711 ops/s
+
+# Run progress: 88.33% complete, ETA 00:03:49
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 3.255 ops/s
+# Warmup Iteration   2: 3.816 ops/s
+# Warmup Iteration   3: 3.934 ops/s
+# Warmup Iteration   4: 3.936 ops/s
+# Warmup Iteration   5: 3.948 ops/s
+Iteration   1: 3.949 ops/s
+Iteration   2: 3.969 ops/s
+Iteration   3: 3.953 ops/s
+Iteration   4: 3.794 ops/s
+Iteration   5: 3.979 ops/s
+Iteration   6: 3.969 ops/s
+Iteration   7: 3.975 ops/s
+Iteration   8: 3.976 ops/s
+Iteration   9: 3.974 ops/s
+Iteration  10: 3.982 ops/s
+
+# Run progress: 89.17% complete, ETA 00:03:33
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 3.128 ops/s
+# Warmup Iteration   2: 3.571 ops/s
+# Warmup Iteration   3: 3.676 ops/s
+# Warmup Iteration   4: 3.692 ops/s
+# Warmup Iteration   5: 3.702 ops/s
+Iteration   1: 3.710 ops/s
+Iteration   2: 3.709 ops/s
+Iteration   3: 3.713 ops/s
+Iteration   4: 3.803 ops/s
+Iteration   5: 3.825 ops/s
+Iteration   6: 3.748 ops/s
+Iteration   7: 3.718 ops/s
+Iteration   8: 3.708 ops/s
+Iteration   9: 3.708 ops/s
+Iteration  10: 3.710 ops/s
+
+# Run progress: 90.00% complete, ETA 00:03:16
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 3.213 ops/s
+# Warmup Iteration   2: 3.803 ops/s
+# Warmup Iteration   3: 3.861 ops/s
+# Warmup Iteration   4: 3.883 ops/s
+# Warmup Iteration   5: 3.707 ops/s
+Iteration   1: 3.715 ops/s
+Iteration   2: 3.709 ops/s
+Iteration   3: 3.709 ops/s
+Iteration   4: 3.678 ops/s
+Iteration   5: 3.699 ops/s
+Iteration   6: 3.701 ops/s
+Iteration   7: 3.782 ops/s
+Iteration   8: 3.940 ops/s
+Iteration   9: 3.784 ops/s
+Iteration  10: 3.941 ops/s
+
+# Run progress: 90.83% complete, ETA 00:03:00
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2.989 ops/s
+# Warmup Iteration   2: 3.570 ops/s
+# Warmup Iteration   3: 3.630 ops/s
+# Warmup Iteration   4: 3.656 ops/s
+# Warmup Iteration   5: 3.660 ops/s
+Iteration   1: 3.656 ops/s
+Iteration   2: 3.670 ops/s
+Iteration   3: 3.677 ops/s
+Iteration   4: 3.650 ops/s
+Iteration   5: 3.671 ops/s
+Iteration   6: 3.672 ops/s
+Iteration   7: 3.676 ops/s
+Iteration   8: 3.683 ops/s
+Iteration   9: 3.683 ops/s
+Iteration  10: 3.687 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  3.765 ±(99.9%) 0.056 ops/s [Average]
+  (min, avg, max) = (3.650, 3.765, 3.982), stdev = 0.113
+  CI (99.9%): [3.709, 3.821] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = sssom)
+
+# Run progress: 91.67% complete, ETA 00:02:44
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2565.812 ops/s
+# Warmup Iteration   2: 3733.712 ops/s
+# Warmup Iteration   3: 3881.483 ops/s
+# Warmup Iteration   4: 3894.700 ops/s
+# Warmup Iteration   5: 3918.858 ops/s
+Iteration   1: 3912.216 ops/s
+Iteration   2: 3899.753 ops/s
+Iteration   3: 3914.945 ops/s
+Iteration   4: 3915.156 ops/s
+Iteration   5: 3912.110 ops/s
+Iteration   6: 3856.197 ops/s
+Iteration   7: 3889.398 ops/s
+Iteration   8: 3879.417 ops/s
+Iteration   9: 3861.050 ops/s
+Iteration  10: 3867.388 ops/s
+
+# Run progress: 92.50% complete, ETA 00:02:27
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2546.955 ops/s
+# Warmup Iteration   2: 3746.686 ops/s
+# Warmup Iteration   3: 3908.817 ops/s
+# Warmup Iteration   4: 3887.901 ops/s
+# Warmup Iteration   5: 3891.240 ops/s
+Iteration   1: 3901.628 ops/s
+Iteration   2: 3888.380 ops/s
+Iteration   3: 3893.730 ops/s
+Iteration   4: 3895.322 ops/s
+Iteration   5: 3881.220 ops/s
+Iteration   6: 3882.763 ops/s
+Iteration   7: 3839.058 ops/s
+Iteration   8: 3834.933 ops/s
+Iteration   9: 3837.624 ops/s
+Iteration  10: 3842.898 ops/s
+
+# Run progress: 93.33% complete, ETA 00:02:11
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2146.734 ops/s
+# Warmup Iteration   2: 3522.419 ops/s
+# Warmup Iteration   3: 3717.674 ops/s
+# Warmup Iteration   4: 3748.300 ops/s
+# Warmup Iteration   5: 3732.032 ops/s
+Iteration   1: 3733.133 ops/s
+Iteration   2: 3846.363 ops/s
+Iteration   3: 3747.903 ops/s
+Iteration   4: 3951.316 ops/s
+Iteration   5: 3944.568 ops/s
+Iteration   6: 3954.886 ops/s
+Iteration   7: 3956.861 ops/s
+Iteration   8: 3958.968 ops/s
+Iteration   9: 3953.254 ops/s
+Iteration  10: 3943.713 ops/s
+
+# Run progress: 94.17% complete, ETA 00:01:54
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2518.135 ops/s
+# Warmup Iteration   2: 3697.725 ops/s
+# Warmup Iteration   3: 3879.497 ops/s
+# Warmup Iteration   4: 3647.916 ops/s
+# Warmup Iteration   5: 3732.424 ops/s
+Iteration   1: 3675.653 ops/s
+Iteration   2: 3676.871 ops/s
+Iteration   3: 3676.946 ops/s
+Iteration   4: 3672.122 ops/s
+Iteration   5: 3679.470 ops/s
+Iteration   6: 3682.693 ops/s
+Iteration   7: 3670.092 ops/s
+Iteration   8: 3671.869 ops/s
+Iteration   9: 3689.716 ops/s
+Iteration  10: 3672.815 ops/s
+
+# Run progress: 95.00% complete, ETA 00:01:38
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 2475.002 ops/s
+# Warmup Iteration   2: 3575.389 ops/s
+# Warmup Iteration   3: 3706.844 ops/s
+# Warmup Iteration   4: 3752.834 ops/s
+# Warmup Iteration   5: 3742.472 ops/s
+Iteration   1: 3758.528 ops/s
+Iteration   2: 3747.530 ops/s
+Iteration   3: 3751.932 ops/s
+Iteration   4: 3748.354 ops/s
+Iteration   5: 3769.752 ops/s
+Iteration   6: 3752.381 ops/s
+Iteration   7: 3744.701 ops/s
+Iteration   8: 3748.394 ops/s
+Iteration   9: 3749.192 ops/s
+Iteration  10: 3766.722 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  3818.038 ±(99.9%) 48.572 ops/s [Average]
+  (min, avg, max) = (3670.092, 3818.038, 3958.968), stdev = 98.117
+  CI (99.9%): [3769.466, 3866.609] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.2, OpenJDK 64-Bit Server VM, 25.0.2+10-LTS
+# VM invoker: /home/andriy/.cache/coursier/arc/https/github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%252B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz/jdk-25.0.2+10/bin/java
+# VM options: -server -Xnoclassgc -Xms4g -Xmx4g -Xss2m -XX:NewSize=3g -XX:MaxNewSize=3g -XX:InitialCodeCacheSize=512m -XX:ReservedCodeCacheSize=512m -XX:NonNMethodCodeHeapSize=32m -XX:NonProfiledCodeHeapSize=240m -XX:ProfiledCodeHeapSize=240m -XX:TLABSize=4m -XX:-ResizeTLAB -XX:+UseParallelGC -XX:+UseCompactObjectHeaders -XX:-UseAdaptiveSizePolicy -XX:MaxInlineLevel=20 -XX:InlineSmallCode=2500 -XX:+AlwaysPreTouch -XX:-UseDynamicNumberOfGCThreads -XX:-UseDynamicNumberOfCompilerThreads -XX:+UseNUMA -XX:-UseAdaptiveNUMAChunkSizing -XX:+PerfDisableSharedMem -XX:-UsePerfData -XX:+UnlockExperimentalVMOptions -XX:+TrustFinalNonStaticFields
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: eu.neverblink.linkml.benchmark.WarmBench.shacl
+# Parameters: (model = tc57cim)
+
+# Run progress: 95.83% complete, ETA 00:01:21
+# Fork: 1 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10.839 ops/s
+# Warmup Iteration   2: 14.742 ops/s
+# Warmup Iteration   3: 15.797 ops/s
+# Warmup Iteration   4: 15.799 ops/s
+# Warmup Iteration   5: 15.842 ops/s
+Iteration   1: 15.874 ops/s
+Iteration   2: 15.832 ops/s
+Iteration   3: 15.878 ops/s
+Iteration   4: 15.914 ops/s
+Iteration   5: 15.863 ops/s
+Iteration   6: 15.701 ops/s
+Iteration   7: 15.446 ops/s
+Iteration   8: 15.735 ops/s
+Iteration   9: 15.834 ops/s
+Iteration  10: 15.899 ops/s
+
+# Run progress: 96.67% complete, ETA 00:01:05
+# Fork: 2 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.623 ops/s
+# Warmup Iteration   2: 15.986 ops/s
+# Warmup Iteration   3: 17.282 ops/s
+# Warmup Iteration   4: 17.265 ops/s
+# Warmup Iteration   5: 17.219 ops/s
+Iteration   1: 16.941 ops/s
+Iteration   2: 17.277 ops/s
+Iteration   3: 17.246 ops/s
+Iteration   4: 17.236 ops/s
+Iteration   5: 17.269 ops/s
+Iteration   6: 17.343 ops/s
+Iteration   7: 17.196 ops/s
+Iteration   8: 17.256 ops/s
+Iteration   9: 17.245 ops/s
+Iteration  10: 17.232 ops/s
+
+# Run progress: 97.50% complete, ETA 00:00:49
+# Fork: 3 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10.967 ops/s
+# Warmup Iteration   2: 14.916 ops/s
+# Warmup Iteration   3: 16.084 ops/s
+# Warmup Iteration   4: 15.988 ops/s
+# Warmup Iteration   5: 16.040 ops/s
+Iteration   1: 16.017 ops/s
+Iteration   2: 15.981 ops/s
+Iteration   3: 16.017 ops/s
+Iteration   4: 16.021 ops/s
+Iteration   5: 16.058 ops/s
+Iteration   6: 16.029 ops/s
+Iteration   7: 16.020 ops/s
+Iteration   8: 16.073 ops/s
+Iteration   9: 15.996 ops/s
+Iteration  10: 16.033 ops/s
+
+# Run progress: 98.33% complete, ETA 00:00:32
+# Fork: 4 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.482 ops/s
+# Warmup Iteration   2: 15.983 ops/s
+# Warmup Iteration   3: 17.122 ops/s
+# Warmup Iteration   4: 17.045 ops/s
+# Warmup Iteration   5: 17.078 ops/s
+Iteration   1: 17.079 ops/s
+Iteration   2: 17.038 ops/s
+Iteration   3: 17.126 ops/s
+Iteration   4: 17.133 ops/s
+Iteration   5: 17.077 ops/s
+Iteration   6: 17.140 ops/s
+Iteration   7: 17.099 ops/s
+Iteration   8: 17.131 ops/s
+Iteration   9: 17.051 ops/s
+Iteration  10: 17.076 ops/s
+
+# Run progress: 99.17% complete, ETA 00:00:16
+# Fork: 5 of 5
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/home/andriy/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11.573 ops/s
+# Warmup Iteration   2: 16.125 ops/s
+# Warmup Iteration   3: 17.181 ops/s
+# Warmup Iteration   4: 17.240 ops/s
+# Warmup Iteration   5: 17.122 ops/s
+Iteration   1: 17.149 ops/s
+Iteration   2: 17.160 ops/s
+Iteration   3: 17.269 ops/s
+Iteration   4: 17.239 ops/s
+Iteration   5: 17.188 ops/s
+Iteration   6: 17.241 ops/s
+Iteration   7: 17.261 ops/s
+Iteration   8: 17.208 ops/s
+Iteration   9: 17.173 ops/s
+Iteration  10: 17.100 ops/s
+
+
+Result "eu.neverblink.linkml.benchmark.WarmBench.shacl":
+  16.668 ±(99.9%) 0.314 ops/s [Average]
+  (min, avg, max) = (15.446, 16.668, 17.343), stdev = 0.635
+  CI (99.9%): [16.354, 16.982] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:32:44
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                          (model)   Mode  Cnt     Score    Error  Units
+WarmBench.jsonSchema        ai-atlas-nexus  thrpt   50   357.990 ±  3.303  ops/s
+WarmBench.jsonSchema  brigde2ai_model_card  thrpt   50  3090.810 ± 37.636  ops/s
+WarmBench.jsonSchema                   cdm  thrpt   50     3.291 ±  0.044  ops/s
+WarmBench.jsonSchema          chem-dcat-ap  thrpt   50   160.502 ±  2.728  ops/s
+WarmBench.jsonSchema                 crdch  thrpt   50   472.838 ±  7.560  ops/s
+WarmBench.jsonSchema                d3fend  thrpt   50    16.722 ±  0.284  ops/s
+WarmBench.jsonSchema          fluxnova-bpm  thrpt   50   351.364 ±  4.570  ops/s
+WarmBench.jsonSchema               include  thrpt   50  4052.478 ± 18.184  ops/s
+WarmBench.jsonSchema              iso27001  thrpt   50   870.103 ± 12.015  ops/s
+WarmBench.jsonSchema       nmdc_microbiome  thrpt   50    63.337 ±  0.704  ops/s
+WarmBench.jsonSchema                 sssom  thrpt   50  4994.584 ± 71.971  ops/s
+WarmBench.jsonSchema               tc57cim  thrpt   50    18.705 ±  0.080  ops/s
+WarmBench.shacl             ai-atlas-nexus  thrpt   50    23.736 ±  0.344  ops/s
+WarmBench.shacl       brigde2ai_model_card  thrpt   50  2370.325 ± 35.482  ops/s
+WarmBench.shacl                        cdm  thrpt   50     1.331 ±  0.016  ops/s
+WarmBench.shacl               chem-dcat-ap  thrpt   50    13.857 ±  0.180  ops/s
+WarmBench.shacl                      crdch  thrpt   50   583.569 ±  7.007  ops/s
+WarmBench.shacl                     d3fend  thrpt   50    39.717 ±  0.563  ops/s
+WarmBench.shacl               fluxnova-bpm  thrpt   50     2.411 ±  0.159  ops/s
+WarmBench.shacl                    include  thrpt   50  2703.680 ± 49.731  ops/s
+WarmBench.shacl                   iso27001  thrpt   50   671.576 ±  7.008  ops/s
+WarmBench.shacl            nmdc_microbiome  thrpt   50     3.765 ±  0.056  ops/s
+WarmBench.shacl                      sssom  thrpt   50  3818.038 ± 48.572  ops/s
+WarmBench.shacl                    tc57cim  thrpt   50    16.668 ±  0.314  ops/s
+
+Benchmark result is saved to jvm-benchmark-result.json
+382/382, SUCCESS] ./mill benchmark.runJmh -rf json -rff jvm-benchmark-result.json WarmBench 1968s

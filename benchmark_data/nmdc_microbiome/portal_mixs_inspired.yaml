@@ -14,6 +14,10 @@ imports:
 default_prefix: nmdc
 default_range: string
 slots:
+  MIxS Inspired:
+    description: Group of terms that appear in the 'MIxS Inspired' section of
+      the NMDC sample metadata submission portal
+    abstract: true
   collection_date_inc:
     description: Date the incubation was harvested/collected/ended. Only relevant
       for incubation samples.

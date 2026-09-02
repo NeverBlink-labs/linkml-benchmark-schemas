@@ -25,6 +25,7 @@ prefixes:
   schema: "http://schema.org/"
   skos: "http://www.w3.org/2004/02/skos/core#"
   wgs84: "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  pubmed: "https://bioregistry.io/pubmed:"
 
 imports:
   - nmdc_types

@@ -24,8 +24,8 @@ prefixes:
   ror: 'https://bioregistry.io/ror:' # https://ror.org/
   schema: "http://schema.org/"
   skos: "http://www.w3.org/2004/02/skos/core#"
-  wgs84: "http://www.w3.org/2003/01/geo/wgs84_pos#"
-  pubmed: "https://bioregistry.io/pubmed:"
+  wgs84: "http://www.w3.org/2003/01/geo/wgs84_pos#"1
+  pubmed: "http://www.ncbi.nlm.nih.gov/pubmed/"
 
 imports:
   - nmdc_types

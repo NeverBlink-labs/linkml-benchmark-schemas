@@ -19,6 +19,10 @@ default_prefix: nmdc
 default_range: string
 
 slots:
+  JGI-Metagenomics:
+    description: Group of terms that appear in the 'JGI-Metagenomics' section of
+      the NMDC sample metadata submission portal
+    abstract: true
   rna_isolate_meth:
     description: Describe the method/protocol/kit used to extract DNA/RNA.
     title: RNA isolation method

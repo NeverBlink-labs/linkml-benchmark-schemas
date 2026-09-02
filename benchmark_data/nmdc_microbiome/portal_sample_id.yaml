@@ -24,6 +24,10 @@ default_range: string
 enums:
 
 slots:
+  Sample ID:
+    description: Group of terms that appear in the 'Sample ID' section of the
+      NMDC sample metadata submission portal
+    abstract: true
   analysis_type:
     description: Select all the data types associated or available for this biosample
     title: analysis/data type

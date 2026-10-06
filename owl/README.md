@@ -1,14 +1,12 @@
 # OWL ontologies
 
-A collection of real-world OWL and RDFS ontologies under open licenses, used to test converting OWL to LinkML and back. The files are taken as published and converted to gzip-compressed N-Triples, without other changes to their content. Each folder holds one data file, `main.nt.gz`. See the README in each folder for the source, license and download details.
+A collection of real-world OWL ontologies under open licenses, used to test converting OWL to LinkML and back. The files are taken as published and converted to gzip-compressed N-Triples, without other changes to their content. Each folder holds one data file, `main.nt.gz`. See the README in each folder for the source, license and download details. Vocabularies in plain RDFS are in `../rdfs`.
 
 | Folder | Ontology | Domain | Triples | License |
 |---|---|---|---:|---|
 | `sosa` | SOSA (W3C/OGC) | sensors and observations | 345 | W3C Software and Document License |
 | `ssn` | SSN (W3C/OGC), imports SOSA | sensors and observations | 520 | W3C Software and Document License |
 | `prov-o` | PROV-O (W3C) | provenance | 1,146 | W3C Software and Document License |
-| `shacl` | SHACL vocabulary (W3C) | data validation | 1,128 | W3C Software and Document License |
-| `reproschema` | ReproSchema (ReproNim) | research assessments | 351 | Apache 2.0 |
 | `foaf-snippet` | An excerpt of FOAF, from schema-automator's tests | people | 13 | CC BY 1.0 |
 | `foaf` | FOAF 0.99 | people | 631 | CC BY 1.0 |
 | `skos` | SKOS vocabulary (W3C) | knowledge organization | 252 | W3C Software and Document License |
@@ -31,10 +29,8 @@ A collection of real-world OWL and RDFS ontologies under open licenses, used to 
 | `commons-text-datatype` | OMG Commons Text Datatype | text | 38 | MIT |
 | `bfo` | BFO 2020 core | upper ontology (OBO) | 1,015 | CC BY 4.0 |
 | `ro-core` | OBO Relation Ontology core | relations (OBO) | 519 | CC0 1.0 |
-| `schemaorg` | Schema.org 30.1 | general purpose | 17,515 | CC BY-SA 3.0 |
-| `dcterms` | DCMI Metadata Terms | metadata | 700 | CC BY 4.0 |
 | `odrl` | ODRL 2.2 (W3C) | rights and policies | 2,157 | W3C Software and Document License |
 
-The first six come from the test resources of LinkML's [schema-automator](https://github.com/linkml/schema-automator).
+`sosa`, `ssn`, `prov-o` and `foaf-snippet` come from the test resources of LinkML's [schema-automator](https://github.com/linkml/schema-automator), as do `shacl` and `reproschema` in `../rdfs`.
 
-Several import others in the collection, so that importing with the imports mapped to their own schemas can be tested: `ssn` imports `sosa`; `saref4ener` imports `saref`; `dcat3` imports `dcterms`, `skos` and `prov-o`; `fabio` imports `frbr`; and the FIBO and Commons modules import each other, four levels deep from `fibo-agents`.
+Several import others in the collection, so that importing with the imports mapped to their own schemas can be tested: `ssn` imports `sosa`; `saref4ener` imports `saref`; `dcat3` imports `dcterms` (in `../rdfs`), `skos` and `prov-o`; `fabio` imports `frbr`; and the FIBO and Commons modules import each other, four levels deep from `fibo-agents`.

@@ -16,6 +16,7 @@ A collection of real-world OWL and RDFS ontologies under open licenses, used to 
 | `org` | Organization Ontology (W3C) | organizations | 748 | PDDL 1.0 |
 | `time` | OWL-Time (W3C/OGC) | time | 1,296 | CC BY 4.0 |
 | `saref` | SAREF core (ETSI) | smart appliances, IoT | 1,324 | BSD-3-Clause (ETSI) |
+| `saref4ener` | SAREF4ENER (ETSI), imports SAREF core | energy | 2,164 | BSD-3-Clause (ETSI) |
 | `gist` | gist core 14.1.0 (Semantic Arts) | upper ontology for business | 2,317 | CC BY 4.0 |
 | `d3fend` | D3FEND (MITRE) | cybersecurity | 43,643 | MIT |
 | `fabio` | FaBiO (SPAR), imports FRBR | publishing | 3,390 | CC BY 4.0 |
@@ -36,4 +37,4 @@ A collection of real-world OWL and RDFS ontologies under open licenses, used to 
 
 The first six come from the test resources of LinkML's [schema-automator](https://github.com/linkml/schema-automator).
 
-Several import others in the collection, so that importing with the imports mapped to their own schemas can be tested: `ssn` imports `sosa`; `dcat3` imports `dcterms`, `skos` and `prov-o`; `fabio` imports `frbr`; and the FIBO and Commons modules import each other, four levels deep from `fibo-agents`.
+Several import others in the collection, so that importing with the imports mapped to their own schemas can be tested: `ssn` imports `sosa`; `saref4ener` imports `saref`; `dcat3` imports `dcterms`, `skos` and `prov-o`; `fabio` imports `frbr`; and the FIBO and Commons modules import each other, four levels deep from `fibo-agents`.

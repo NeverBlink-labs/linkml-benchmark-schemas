@@ -22,6 +22,7 @@ A collection of real-world OWL ontologies under open licenses, used to test conv
 | `cito` | CiTO (SPAR) | citations | 972 | CC BY 4.0 |
 | `fibo-agents` | FIBO FND Agents (EDM Council) | finance | 28 | MIT |
 | `fibo-annotation-vocabulary` | FIBO FND Annotation Vocabulary (EDM Council) | finance | 65 | MIT |
+| `fibo-legal-capacity` | FIBO FND Legal Capacity (EDM Council) | finance | 414 | MIT |
 | `commons-annotation-vocabulary` | OMG Commons Annotation Vocabulary | metadata | 196 | MIT |
 | `commons-classifiers` | OMG Commons Classifiers | classification | 72 | MIT |
 | `commons-collections` | OMG Commons Collections | collections | 113 | MIT |
@@ -30,7 +31,11 @@ A collection of real-world OWL ontologies under open licenses, used to test conv
 | `bfo` | BFO 2020 core | upper ontology (OBO) | 1,015 | CC BY 4.0 |
 | `ro-core` | OBO Relation Ontology core | relations (OBO) | 519 | CC0 1.0 |
 | `odrl` | ODRL 2.2 (W3C) | rights and policies | 2,157 | W3C Software and Document License |
+| `iata-one-record` | ONE Record 3.3 RC1 (IATA), imports its code lists | air cargo | 8,841 | MIT |
+| `iata-one-record-codes` | ONE Record code lists 1.1.0 (IATA) | air cargo | 7,674 | MIT |
 
 `sosa`, `ssn`, `prov-o` and `foaf-snippet` come from the test resources of LinkML's [schema-automator](https://github.com/linkml/schema-automator), as do `shacl` and `reproschema` in `../rdfs`.
 
-Several import others in the collection, so that importing with the imports mapped to their own schemas can be tested: `ssn` imports `sosa`; `saref4ener` imports `saref`; `dcat3` imports `dcterms` (in `../rdfs`), `skos` and `prov-o`; `fabio` imports `frbr`; and the FIBO and Commons modules import each other, four levels deep from `fibo-agents`.
+Several import others in the collection, so that importing with the imports mapped to their own schemas can be tested: `ssn` imports `sosa`; `saref4ener` imports `saref`; `dcat3` imports `dcterms` (in `../rdfs`), `skos` and `prov-o`; `fabio` imports `frbr`; `iata-one-record` imports `iata-one-record-codes`; and the FIBO and Commons modules import each other, four levels deep from `fibo-agents`.
+
+`fibo-legal-capacity` is the exception: it imports 16 FIBO and Commons modules, and only two of them are in this collection, so most of its imports will not resolve.
